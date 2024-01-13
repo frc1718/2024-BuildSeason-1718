@@ -1,0 +1,71 @@
+{
+  "NTProvider": {
+    "types": {
+      "/FMSInfo": "FMSInfo",
+      "/Pose": "Field2d",
+      "/SmartDashboard/Module 0": "Mechanism2d",
+      "/SmartDashboard/Module 1": "Mechanism2d",
+      "/SmartDashboard/Module 2": "Mechanism2d",
+      "/SmartDashboard/Module 3": "Mechanism2d",
+      "/SmartDashboard/Moduley 0": "Mechanism2d",
+      "/SmartDashboard/Moduley 1": "Mechanism2d",
+      "/SmartDashboard/Moduley 2": "Mechanism2d",
+      "/SmartDashboard/Moduley 3": "Mechanism2d"
+    },
+    "windows": {
+      "/Pose": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/Module 0": {
+        "window": {
+          "visible": true
+        }
+      }
+    }
+  },
+  "NetworkTables": {
+    "Persistent Values": {
+      "open": false
+    },
+    "transitory": {
+      "Drive": {
+        "open": true
+      },
+      "Pose": {
+        "open": true
+      },
+      "SmartDashboard": {
+        "Auton Selector": {
+          "open": true
+        },
+        "Chirp Selector": {
+          "open": true
+        },
+        "Selecter": {
+          "open": true
+        },
+        "Selector": {
+          "open": true
+        },
+        "open": true
+      }
+    }
+  },
+  "NetworkTables Info": {
+    "Connections": {
+      "open": true
+    },
+    "Server": {
+      "Publishers": {
+        "open": true
+      },
+      "Subscribers": {
+        "open": true
+      },
+      "open": true
+    },
+    "visible": true
+  }
+}
