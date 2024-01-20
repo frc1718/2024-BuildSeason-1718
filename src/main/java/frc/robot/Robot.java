@@ -4,14 +4,40 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix6.hardware.CANcoder;
+
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
+
+  //Open Motors
+  //TalonFX m_Kickup = new TalonFX(Constants.kKickupCanID, "Canivore");
+  // TalonFX m_ArmRotateLeft = new TalonFX(Constants.kArmRotateLeftCanID, "Canivore");
+  // TalonFX m_ArmRotateRight = new TalonFX(Constants.kArmRotateRightCanID, "Canivore");
+  // TalonFX m_ArmIntakeSpin = new TalonFX(Constants.kArmIntakeSpinCanID, "Canivore");
+  // TalonFX m_FrontIntakeRotate = new TalonFX(Constants.kFrontIntakeRotateCanID, "Canivore");
+  // TalonFX m_FrontIntakeSpin = new TalonFX(Constants.kFrontIntakeSpinCanID, "Canivore");
+  // TalonFX m_LeftClimb = new TalonFX(Constants.kLeftClimbCanID, "Canivore");
+  // TalonFX m_RightClimb = new TalonFX(Constants.kRightClimbCanID, "Canivore");
+  TalonSRX m_PartPresentLedLights = new TalonSRX(Constants.kPartPresentLEDCanID);
+
+  //Open PWM  Servo
+  Servo m_IntakePivotRelease = new Servo(Constants.kIntakePivotReleasePWM);
+
+  //Open Cancoders
+  CANcoder m_ArmRotate = new CANcoder(Constants.kFrontIntakeCancoderCanID,"Canivore");
+  CANcoder m_FrontIntakeRotate = new CANcoder(Constants.kFrontIntakeCancoderCanID,"Canivore");
+
+
+
   
   @Override
   public void robotInit() {
@@ -20,7 +46,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotPeriodic() {
-    CommandScheduler.getInstance().run(); 
+    CommandScheduler.getInstance().run();
   }
 
   @Override
