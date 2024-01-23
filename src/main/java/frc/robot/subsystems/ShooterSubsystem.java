@@ -4,51 +4,47 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.networktables.NTSendable;
+import edu.wpi.first.networktables.NTSendableBuilder;
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.NoteSensors;
+import frc.robot.Constants;
 
-public class ShooterSubsystem extends SubsystemBase {
-  /** Creates a new ExampleSubsystem. */
+public class ShooterSubsystem extends SubsystemBase implements NTSendable{
+ 
+  //Open sensors
+  AnalogInput m_BeamBreakIntakeAnalog = new AnalogInput(Constants.kBeamBreakIntakeAnalog);
+  AnalogInput m_BeamBreakShooterAnalog = new AnalogInput(Constants.kBeamBreakShooterAnalog); 
+
+  //Open Motors
+  // TalonFX m_ShooterRotateLeft = new TalonFX(Constants.kShooterRotateLeftCanID, "Canivore");
+  // TalonFX m_ShooterRotateRight = new TalonFX(Constants.kShooterRotateRightCanID, "Canivore");
+  // TalonFX m_ShooterIntakeSpin = new TalonFX(Constants.kShooterIntakeSpinCanID, "Canivore");
 
   public ShooterSubsystem() {
   }
 
-  /**
-   * Example command factory method.
-   *
-   * @return a command
-   */
   public Command shoot() {
     // Inline construction of command goes here.
     // Subsystem::RunOnce implicitly requires `this` subsystem.
     return run(
         () -> {
-          /* one-time action goes here */
-          /* Psuedo CODE */
-          // Verify front intake is clear
-          // this.setArmPosition(Constants.kArmHighPos);
-          // this.setShooterSpeed(Constants.shooterHighSpeed);
-          // if (this.getWheelSpeed().and(this.getKickUpSpeed()) > atSpeed){
-          //  this.fire();
-          //}
+
         });
   }
 
-  public Command home() {
+  public Command extra() {
     // Inline construction of command goes here.
     // Subsystem::RunOnce implicitly requires `this` subsystem.
     return runOnce(
         () -> {
-          /* one-time action goes here */
-          /* Psuedo CODE */
-          // Verify front intake is clear
-          // this.setArmPosition(home);
-          // this.setShooterSpeed(idle);
+
         });
   }
 
-  public Command debug(NoteSensors noteSense){
+  public Command debug(ShooterSubsystem noteSense){
     return runOnce(() -> {System.out.print(noteSense.getNotePresentIntakeString());});
   };
   /**
@@ -64,6 +60,40 @@ public class ShooterSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+  }
+public boolean getNotePresentIntake() {  
+    return (m_BeamBreakIntakeAnalog.getVoltage() >= Constants.kBeamBreakCrossover);
+  }
+   
+  public boolean getNotePresentShooter() {  
+    return (m_BeamBreakShooterAnalog.getVoltage() >= Constants.kBeamBreakCrossover);
+  }
+
+  public double getVolt() {
+    return m_BeamBreakIntakeAnalog.getVoltage();
+  }
+
+  public String getNotePresentIntakeString(){
+    String result;
+    if (m_BeamBreakIntakeAnalog.getVoltage() >= Constants.kBeamBreakCrossover){
+       result = "Note Present";
+    }
+    else{
+      result = "Note Not Present";
+    }
+      return result;
+  }
+
+  public void printGetNotePresentShooter() {
+    double printStatement = m_BeamBreakShooterAnalog.getVoltage();
+    System.out.println(printStatement);
+  }
+
+  @Override
+  public void initSendable(NTSendableBuilder builder){
+    builder.setSmartDashboardType("NoteSensors");
+    builder.addDoubleProperty("Current Voltage", () -> {return m_BeamBreakIntakeAnalog.getVoltage();}, null); 
+    builder.addBooleanProperty("Beam Broken", () -> {return (m_BeamBreakIntakeAnalog.getVoltage() > Constants.kBeamBreakCrossover);}, null);
   }
 
   @Override

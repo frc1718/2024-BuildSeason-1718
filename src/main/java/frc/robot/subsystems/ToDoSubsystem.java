@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
     // 12. Should the shooter lower from the amp position when the driver releases the shooter button
     // 13. Can we auto-align on the amp and the climb
     // 14. Brake when shooting first, then shoot on move?
+    // 15. Need to set default commands for each subsystem
 
     // Climb Mode Automation:
     // 1. Operator presses 2 buttons at the same time
@@ -42,7 +43,7 @@ public class ToDoSubsystem extends SubsystemBase {
    *
    * @return a command
    */
-  public Command climberMethodCommand() {
+  public Command neveruseeitherMethodCommand() {
     // Inline construction of command goes here.
     // Subsystem::RunOnce implicitly requires `this` subsystem.
     return runOnce(
@@ -56,7 +57,7 @@ public class ToDoSubsystem extends SubsystemBase {
    *
    * @return value of some boolean subsystem state, such as a digital sensor.
    */
-  public boolean climberCondition() {
+  public boolean neveruseCondition() {
     // Query some boolean state, such as a digital sensor.
     return false;
   }

@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.commands.ShooterBeamBreak;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
@@ -35,7 +36,6 @@ public class RobotContainer {
   File autonFolder = new File(Filesystem.getDeployDirectory() + "/pathplanner/paths");
   Selector chirpSelect = new Selector(chirpFolder, ".chrp");
   Selector autonSelect = new Selector(autonFolder, ".path");
-  NoteSensors noteSensor = new NoteSensors();
 
   // Set driver controller up
   private final CommandXboxController driveController = new CommandXboxController(Constants.kDriverControllerPort); // My driveController
@@ -43,8 +43,8 @@ public class RobotContainer {
   // Set operator controller up
   private final CommandXboxController operatorController = new CommandXboxController(Constants.kOperatorControllerPort);
 
-  
-    /* Setting up bindings for necessary control of the swerve drive platform */
+   
+  /* Setting up bindings for necessary control of the swerve drive platform */
   //private final CommandSwerveDrivetrain drivetrain = TunerConstants.DriveTrain; // My drivetrain
 
   //private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
@@ -53,6 +53,7 @@ public class RobotContainer {
                                                                // driving in open loop
   //private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
   //private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
+ 
   private final Telemetry logger = new Telemetry(MaxSpeed);
 
   //Open the Shooter Subsystem
@@ -63,6 +64,14 @@ public class RobotContainer {
 
   //Open the Climber Subsystem
   private final ClimberSubsystem climber = new ClimberSubsystem();
+
+    // Sets Default Command
+    // Assign default commands
+    // ShooterSubsystem.setDefaultCommand(new TankDrive(() -> -m_joystick.getLeftY(), () -> -m_joystick.getRightY(), m_drivetrain));
+    // 
+    //
+    //
+    //
 
   //============================================================================================================
   private void configureBindings() {
@@ -87,11 +96,14 @@ public class RobotContainer {
     // Schedules Brake Swerve Drivetrain Binds (x-lock wheels) Driver
     //driveController.x().whileTrue(drivetrain.applyRequest(() -> brake));
     
+
+
+
     // Schedules Shoot - Binds Left Top Bumper Driver 
-    driveController.leftBumper().whileTrue(shooter.shoot()).onFalse(shooter.home());
+    driveController.leftBumper().whileTrue(shooter.shoot());
     
     // Schedules Suck - Binds Right Top Bumper Driver
-    driveController.rightBumper().whileTrue(frontIntake.suck()).onFalse(frontIntake.home());   
+    driveController.rightBumper().whileTrue(frontIntake.suck());   
 
     // Schedules Climb - Binds Left Trigger Driver
     driveController.leftTrigger(.5).whileTrue(climber.climb());
@@ -106,8 +118,9 @@ public class RobotContainer {
 
     //DEBUG CODE
     //No idea why, but the debug command won't print the string WITHOUT the '.andThen' following up with a PrintCommand.
-    driveController.y().onTrue(shooter.debug(noteSensor).andThen(new PrintCommand(" WAH")));
-
+    driveController.y().onTrue(new ShooterBeamBreak(shooter));
+    // l1.onTrue(new Place(m_claw, m_wrist, m_elevator));
+    
     //Operator Controller Assignments
     // Y - Amp
     // Right Top + Left Top Bumper Climb Mode - Hold Down Both at Once
@@ -154,7 +167,7 @@ public class RobotContainer {
     //All of the NT publishing we would like to do, that won't be setup in the classes themselves, gets setup here.
     SmartDashboard.putData("Chirp Selector", chirpSelect);
     SmartDashboard.putData("Auton Selector", autonSelect);    
-    SmartDashboard.putData("BeamBreak", noteSensor);
+    SmartDashboard.putData("BeamBreak", shooter);
   }
 
 

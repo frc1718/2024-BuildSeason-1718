@@ -8,14 +8,13 @@ public class Constants {
     public static final int kOperatorControllerPort = 1;
 
     //CanIDs
-    public static final int kArmRotateLeftCanID = 40;
-    public static final int kArmRotateRightCanID = 40;
-    public static final int kArmIntakeSpinCanID = 40;
+    public static final int kShooterRotateLeftCanID = 40;
+    public static final int kShooterRotateRightCanID = 40;
+    public static final int kShooterIntakeSpinCanID = 40;
     public static final int kFrontIntakeRotateCanID = 40;
     public static final int kFrontIntakeSpinCanID = 40;
     public static final int kLeftClimbCanID = 40;
     public static final int kRightClimbCanID = 40;
-    public static final int kKickupCanID = 40;
     public static final int kFrontIntakeCancoderCanID = 40;
     public static final int kArmCancoderCanID = 40;
     public static final int kPartPresentLEDCanID = 40;
