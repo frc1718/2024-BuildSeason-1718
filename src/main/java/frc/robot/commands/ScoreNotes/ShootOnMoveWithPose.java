@@ -2,24 +2,29 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.ScoreNotes;
 
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /** An example command that uses an example subsystem. */
-public class ShooterBeamBreak extends Command {
+public class ShootOnMoveWithPose extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
+  private final IntakeSubsystem m_intakeSubsystem;
   private final ShooterSubsystem m_shooterSubsystem;
+  private boolean m_isFinished = false;
 
   /**
    * Creates a new ExampleCommand.
-   *
-   * @param subsystem The subsystem used by this command.
+   * @param intakeSubsystem
+   * @param shooterSubsystem The subsystem used by this command.
    */
-  public ShooterBeamBreak(ShooterSubsystem subsystem) {
-    m_shooterSubsystem = subsystem;
+  public ShootOnMoveWithPose(IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem) {
+    m_intakeSubsystem = intakeSubsystem;
+    m_shooterSubsystem = shooterSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(m_intakeSubsystem);
     addRequirements(m_shooterSubsystem);
   }
 
@@ -28,20 +33,26 @@ public class ShooterBeamBreak extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_shooterSubsystem.printGetNotePresentShooter();
+    m_intakeSubsystem.suck();
+    m_shooterSubsystem.runShooterIntake(0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    m_intakeSubsystem.stopIntake();
+    m_shooterSubsystem.runShooterIntake(0);
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return m_isFinished;
   }
 }

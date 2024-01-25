@@ -21,42 +21,14 @@ public class IntakeSubsystem extends SubsystemBase {
    *
    * @return a command
    */
-  public Command suck() {
-    return run(
-        () -> {
-          // set.intakeposition()
-          /* set.intakeSpeed(suck) */
-        });
+
+  public void intakeToPosition(double position) {
+    /* set.intakeposition() */
   }
 
-  public Command intakeDown() {
-    return run(
-        () -> {
-          /* set.intakeposition() */
-        });
-  }
-
-  public Command intakeUp() {
-    return run(
-        () -> {
-          /* set.intakeposition() */
-        });
-  }
-
-  public Command spit() {
-    return run(
-        () -> {
-          // set.intakeposition
-          /* set.intakeSpeed(spit) */
-        });
-  }
-
-    public Command home() {
-    return runOnce(
-        () -> {
-          // set.intakeposition
-          /* set.intakeSpeed(stop) */
-        });
+  public void runFrontIntake(double Speed) {
+    // set.intakeposition
+    /* set.intakeSpeed(spit) */
   }
 
   /**

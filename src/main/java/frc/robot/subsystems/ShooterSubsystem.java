@@ -8,7 +8,6 @@ import edu.wpi.first.networktables.NTSendable;
 import edu.wpi.first.networktables.NTSendableBuilder;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -43,10 +42,7 @@ public class ShooterSubsystem extends SubsystemBase implements NTSendable{
 
         });
   }
-
-  public Command debug(ShooterSubsystem noteSense){
-    return runOnce(() -> {System.out.print(noteSense.getNotePresentIntakeString());});
-  };
+  
   /**
    * An example method querying a boolean state of the subsystem (for example, a digital sensor).
    *
@@ -61,27 +57,22 @@ public class ShooterSubsystem extends SubsystemBase implements NTSendable{
   public void periodic() {
     // This method will be called once per scheduler run
   }
-public boolean getNotePresentIntake() {  
-    return (m_BeamBreakIntakeAnalog.getVoltage() >= Constants.kBeamBreakCrossover);
+  
+  // Start of sensor related methods
+  public boolean getNotePresentIntake() {  
+    return (m_BeamBreakIntakeAnalog.getVoltage() >= Constants.kIntakeBeamBreakCrossover);
   }
    
   public boolean getNotePresentShooter() {  
-    return (m_BeamBreakShooterAnalog.getVoltage() >= Constants.kBeamBreakCrossover);
+    return (m_BeamBreakShooterAnalog.getVoltage() >= Constants.kShooterBeamBreakCrossover);
   }
 
-  public double getVolt() {
+  public double getIntakeVolt() {
     return m_BeamBreakIntakeAnalog.getVoltage();
   }
-
-  public String getNotePresentIntakeString(){
-    String result;
-    if (m_BeamBreakIntakeAnalog.getVoltage() >= Constants.kBeamBreakCrossover){
-       result = "Note Present";
-    }
-    else{
-      result = "Note Not Present";
-    }
-      return result;
+  
+  public double getShooterVolt() {
+    return m_BeamBreakShooterAnalog.getVoltage();
   }
 
   public void printGetNotePresentShooter() {
@@ -89,11 +80,28 @@ public boolean getNotePresentIntake() {
     System.out.println(printStatement);
   }
 
+  // Start of motor control methods
+  public void runShooterIntake(double speed) {
+
+  }
+
+  public void runRightShooter(double speed) {
+
+  }
+
+  public void runLeftShooter(double speed) {
+    
+  }
+
+  public void shooterArmToPosition(int position, double power) {
+    
+  }
+
   @Override
   public void initSendable(NTSendableBuilder builder){
     builder.setSmartDashboardType("NoteSensors");
     builder.addDoubleProperty("Current Voltage", () -> {return m_BeamBreakIntakeAnalog.getVoltage();}, null); 
-    builder.addBooleanProperty("Beam Broken", () -> {return (m_BeamBreakIntakeAnalog.getVoltage() > Constants.kBeamBreakCrossover);}, null);
+    builder.addBooleanProperty("Beam Broken", () -> {return (m_BeamBreakIntakeAnalog.getVoltage() > Constants.kIntakeBeamBreakCrossover);}, null);
   }
 
   @Override

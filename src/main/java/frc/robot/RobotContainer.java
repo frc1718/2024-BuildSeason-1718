@@ -22,6 +22,9 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.ShooterBeamBreak;
+import frc.robot.commands.Intake.Spit;
+import frc.robot.commands.Intake.Suck;
+import frc.robot.commands.Climb.ExtendClimber;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
@@ -103,15 +106,15 @@ public class RobotContainer {
     driveController.leftBumper().whileTrue(shooter.shoot());
     
     // Schedules Suck - Binds Right Top Bumper Driver
-    driveController.rightBumper().whileTrue(frontIntake.suck());   
+    driveController.rightBumper().whileTrue(new Suck(frontIntake, shooter));   
 
     // Schedules Climb - Binds Left Trigger Driver
-    driveController.leftTrigger(.5).whileTrue(climber.climb());
+    driveController.leftTrigger(.5).whileTrue(new ExtendClimber(climber));
 
     // Schedules Descend - Binds ********
     
     // Schedules Spit - Binds Right Trigger Driver
-    driveController.rightTrigger(.5).whileTrue(frontIntake.spit()).onFalse(frontIntake.home());
+    driveController.rightTrigger(.5).whileTrue(new Spit(frontIntake, shooter));
     
     // Schedules reset the field - Binds centric heading on back and start button push
     //driveController.back().and(driveController.start()).onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative()));

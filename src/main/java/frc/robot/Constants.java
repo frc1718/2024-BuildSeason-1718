@@ -25,5 +25,25 @@ public class Constants {
     //Analog IO
     public static final int kBeamBreakIntakeAnalog = 0;
     public static final int kBeamBreakShooterAnalog = 1;
-    public static final double kBeamBreakCrossover = 0.8;
+    public static final double kIntakeBeamBreakCrossover = 0.8;
+    public static final double kShooterBeamBreakCrossover = 0.8;
+
+    //Positions
+    /*
+     * FrontIntakePositions (Down, Up, Home)
+     * ArmPositions (Intaking, Traveling, Podium Shoot, Subwoofer Shoot, Amp Score, Trap Score, Ready To Climb)
+     * Climber (Climber Extended, Climber Retracted, Home)
+     */
+
+    //Speeds
+    /* Shooter (Max Speed, Podium Shoot, Subwoofer Shoot, Amp Score)
+     * ShooterIntake (Intaking, Spitting, Max Speed?)
+     * FrontIntake (Intaking, Spitting, Max Speed?)
+     */
+
+    //Swerves
+    /*
+     * Steer (Offsets, Max Speed?, whatever else is in swerve modules)
+     * Drive (Max Speed, whatever else is in swerve modules)
+     */
 }

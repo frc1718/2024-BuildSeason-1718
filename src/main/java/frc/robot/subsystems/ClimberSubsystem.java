@@ -25,26 +25,12 @@ public class ClimberSubsystem extends SubsystemBase {
    *
    * @return a command
    */
-  public Command climb() {
-    // Inline construction of command goes here.
-    // Subsystem::RunOnce implicitly requires `this` subsystem.
-    return run(
-        () -> {
-          /* one-time action goes here */
-          //if climber has been deployed then
-          //  if climber height is less that climb, then climb
-        });
+  public void setDesiredPosition(double DesiredPosition) {
+    
   }
 
-  public Command descend() {
-    // Inline construction of command goes here.
-    // Subsystem::RunOnce implicitly requires `this` subsystem.
-    return run(
-        () -> {
-          /* one-time action goes here */
-          //if climber has been deployed then
-          //  if climber height is less that climb, then climb
-        });
+  public void setPower(double power) {
+    
   }
 
 
