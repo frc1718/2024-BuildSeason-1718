@@ -40,6 +40,8 @@ public class Constants {
     public static final int kShooterAmpPos = 0;
     public static final int kShooterArmHomePos = 0;
     public static final int kShooterArmPreClimbPos = 0;
+    public static final int kShooterArmTolerancePos = 0;
+    public static final int kShooterArmSpitPos = 0;
 
     public static final int kClimberHomePos = 0;
     public static final int kClimberClimbPos = 0;
@@ -48,7 +50,7 @@ public class Constants {
     public static final int kFrontIntakeDownPos = 0;
     public static final int kFrontIntakeUpPos = 0;
     public static final int kFrontIntakeHomePos = 0; 
-    public static final int kShooterArmPosTolerance = 0;
+    public static final int kFrontIntakeTolerancePos = 0;
 
     //Speeds
     /* Shooter (Max Speed, Podium Shoot, Subwoofer Shoot, Amp Score)
@@ -61,6 +63,7 @@ public class Constants {
     public static final int kShooterAmpSpeed = 0;
     public static final int kShooterIdleSpeed = 0;
     public static final int kShooterMaxSpeed = 0;
+    public static final int kShooterStopSpeed = 0;
     
     public static final int kIntakeTrapSpeed = 0;
     public static final int kIntakeSuckSpeed = 0;

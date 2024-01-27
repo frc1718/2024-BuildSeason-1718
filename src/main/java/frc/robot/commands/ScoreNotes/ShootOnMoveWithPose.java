@@ -4,14 +4,14 @@
 
 package frc.robot.commands.ScoreNotes;
 
-import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.FrontIntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /** An example command that uses an example subsystem. */
 public class ShootOnMoveWithPose extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final IntakeSubsystem m_intakeSubsystem;
+  private final FrontIntakeSubsystem m_intakeSubsystem;
   private final ShooterSubsystem m_shooterSubsystem;
   private boolean m_isFinished = false;
 
@@ -20,7 +20,7 @@ public class ShootOnMoveWithPose extends Command {
    * @param intakeSubsystem
    * @param shooterSubsystem The subsystem used by this command.
    */
-  public ShootOnMoveWithPose(IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem) {
+  public ShootOnMoveWithPose(FrontIntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem) {
     m_intakeSubsystem = intakeSubsystem;
     m_shooterSubsystem = shooterSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.

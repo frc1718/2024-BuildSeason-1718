@@ -5,16 +5,18 @@
 package frc.robot.subsystems;
 
 
+import com.ctre.phoenix6.hardware.TalonFX;
+
 import edu.wpi.first.networktables.NTSendableBuilder;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class IntakeSubsystem extends SubsystemBase {
+public class FrontIntakeSubsystem extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
-  public IntakeSubsystem() {}
+  public FrontIntakeSubsystem() {}
 
-  // TalonFX m_FrontIntakeRotate = new TalonFX(Constants.kFrontIntakeRotateCanID, "Canivore");
+  TalonFX m_frontIntakeRotate = new TalonFX(Constants.kFrontIntakeRotateCanID, "Canivore");
   // TalonFX m_FrontIntakeSpin = new TalonFX(Constants.kFrontIntakeSpinCanID, "Canivore");
 
   /**
@@ -23,7 +25,7 @@ public class IntakeSubsystem extends SubsystemBase {
    * @return a command
    */
 
-  public void intakeToPosition(double position) {
+  public void frontIntakeToPosition(double position) {
     /* set.intakeposition() */
   }
 
@@ -31,7 +33,7 @@ public class IntakeSubsystem extends SubsystemBase {
     // set.intakeposition
     /* set.intakeSpeed(spit) */
   }
-
+  
   /**
    * An example method querying a boolean state of the subsystem (for example, a digital sensor).
    *
@@ -42,6 +44,19 @@ public class IntakeSubsystem extends SubsystemBase {
     return false;
   }
   
+  public Boolean frontIntakeInPosition(int desiredPosition) {
+  
+    //Check that the front intake is within the tolerance of the desired position.
+    if (m_frontIntakeRotate.getPosition().getValue() > (desiredPosition-Constants.kFrontIntakeTolerancePos) && (m_frontIntakeRotate.getPosition().getValue() < (desiredPosition+Constants.kFrontIntakeTolerancePos)))
+    {
+      return true; 
+    } else
+    {
+      return false;
+    }
+    
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

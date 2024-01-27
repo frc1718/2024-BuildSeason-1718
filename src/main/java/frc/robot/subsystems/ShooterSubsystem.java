@@ -4,24 +4,27 @@
 
 package frc.robot.subsystems;
 
+
+
+import com.ctre.phoenix6.hardware.TalonFX;
+
 import edu.wpi.first.networktables.NTSendable;
 import edu.wpi.first.networktables.NTSendableBuilder;
-import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class ShooterSubsystem extends SubsystemBase{
+public class ShooterSubsystem extends SubsystemBase implements NTSendable{
  
   //Open sensors
   AnalogInput m_BeamBreakIntakeAnalog = new AnalogInput(Constants.kBeamBreakIntakeAnalog);
   AnalogInput m_BeamBreakShooterAnalog = new AnalogInput(Constants.kBeamBreakShooterAnalog); 
 
   //Open Motors
-  // TalonFX m_ShooterRotateLeft = new TalonFX(Constants.kShooterRotateLeftCanID, "Canivore");
-  // TalonFX m_ShooterRotateRight = new TalonFX(Constants.kShooterRotateRightCanID, "Canivore");
-  // TalonFX m_ShooterIntakeSpin = new TalonFX(Constants.kShooterIntakeSpinCanID, "Canivore");
+  TalonFX m_ShooterRotateLeft = new TalonFX(Constants.kShooterRotateLeftCanID, "Canivore");
+  TalonFX m_ShooterRotateRight = new TalonFX(Constants.kShooterRotateRightCanID, "Canivore");
+  TalonFX m_ShooterIntakeSpin = new TalonFX(Constants.kShooterIntakeSpinCanID, "Canivore");
 
   public ShooterSubsystem() {
   }
@@ -86,20 +89,30 @@ public class ShooterSubsystem extends SubsystemBase{
 
   }
 
-  public void runRightShooter(double speed) {
-
+  public void runShooter(double speed) {
+    //Set both right and left shooter motor speeds here
   }
 
-  public void runLeftShooter(double speed) {
+  public void shooterArmToPosition(int position) {
     
   }
-
-  public void shooterArmToPosition(int position, double power) {
+  public Boolean shooterArmInPosition(int desiredPosition) {
+  
+    if (m_ShooterRotateLeft.getPosition().getValue() > (desiredPosition-Constants.kShooterArmTolerancePos) && (m_ShooterRotateLeft.getPosition().getValue() < (desiredPosition+Constants.kShooterArmTolerancePos)))
+    {
+      return true; 
+    } else
+    {
+      return false;
+    }
     
+  }
+  public int getShooterArmPosition() {
+    return 1;
   }
 
   @Override
-  public void initSendable(SendableBuilder builder){
+  public void initSendable(NTSendableBuilder builder){
     builder.setSmartDashboardType("ShooterSubsystem");
     builder.addDoubleProperty("Current Voltage", () -> {return m_BeamBreakShooterAnalog.getVoltage();}, null); 
     builder.addBooleanProperty("Beam Broken", () -> {return (m_BeamBreakShooterAnalog.getVoltage() > Constants.kShooterBeamBreakCrossover);}, null);

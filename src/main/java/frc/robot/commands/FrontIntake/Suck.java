@@ -45,8 +45,7 @@ public class Suck extends Command {
   public void execute() {
   
   //Check to see if front intake and shooter arm are in position
-  if ((m_shooterSubsystem.getShooterArmPosition() > (Constants.kShooterArmHomePos - Constants.kShooterArmPosTolerance)) && 
-  (m_shooterSubsystem.getShooterArmPosition() < (Constants.kShooterArmHomePos + Constants.kShooterArmPosTolerance))) 
+  if (m_shooterSubsystem.shooterArmInPosition(Constants.kShooterArmHomePos) && m_frontIntakeSubsystem.frontIntakeInPosition(Constants.kFrontIntakeDownPos)) 
     { 
       //If neither beam break is broken
       if (!m_shooterSubsystem.getNotePresentIntake() && !m_shooterSubsystem.getNotePresentShooter())
@@ -54,7 +53,7 @@ public class Suck extends Command {
         m_frontIntakeSubsystem.runFrontIntake(Constants.kFrontIntakeSuckSpeed);
         m_shooterSubsystem.runShooterIntake(Constants.kIntakeSuckSpeed);
       
-        //else if the front beam break is broken and the second isn't stop
+      //else if the front beam break is broken and the second isn't stop
       } else if (m_shooterSubsystem.getNotePresentIntake() && !m_shooterSubsystem.getNotePresentShooter() )
       {
         m_frontIntakeSubsystem.runFrontIntake(Constants.kFrontIntakeStopSpeed);
@@ -66,8 +65,9 @@ public class Suck extends Command {
         m_frontIntakeSubsystem.runFrontIntake(Constants.kFrontIntakeStopSpeed);
         m_shooterSubsystem.runShooterIntake(Constants.kIntakeReverseIndexSpeed);
         
-        // Edge condition, shouldn't ever happen unless something really wacky is happening
-      } else {
+      //else if only the second beam break is broken, shouldn't ever happen unless something really wacky is happening
+      } else
+      {
         m_frontIntakeSubsystem.runFrontIntake(Constants.kFrontIntakeStopSpeed);
         m_shooterSubsystem.runShooterIntake(Constants.kIntakeReverseIndexSpeed);
       }

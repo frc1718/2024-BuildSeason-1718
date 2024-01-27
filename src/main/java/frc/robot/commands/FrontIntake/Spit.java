@@ -2,53 +2,63 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.Intake;
+package frc.robot.commands.FrontIntake;
 
-import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.Constants;
+import frc.robot.subsystems.FrontIntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /** An example command that uses an example subsystem. */
 public class Spit extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final IntakeSubsystem m_intakeSubsystem;
+  private final FrontIntakeSubsystem m_frontIntakeSubsystem;
   private final ShooterSubsystem m_shooterSubsystem;
 
   /**
    * Creates a new ExampleCommand.
    * @param shooterSubsystem
-   * @param intakeSubsystem The subsystem used by this command.
+   * @param frontIntakeSubsystem The subsystem used by this command.
    */
-  public Spit(IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem) {
-    m_intakeSubsystem = intakeSubsystem;
+  
+  public Spit(FrontIntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem) {
+    m_frontIntakeSubsystem = intakeSubsystem;
     m_shooterSubsystem = shooterSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_intakeSubsystem);
+    addRequirements(m_frontIntakeSubsystem);
     addRequirements(m_shooterSubsystem);
   }
-
-
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_intakeSubsystem.runFrontIntake(0);
-    m_intakeSubsystem.intakeToPosition(0);
-    m_shooterSubsystem.runShooterIntake(0);
-    m_shooterSubsystem.shooterArmToPosition(0, 0);
+    //Move intake down, move shooter arm up high enough to eject
+    m_frontIntakeSubsystem.runFrontIntake(Constants.kFrontIntakeStopSpeed);
+    m_frontIntakeSubsystem.frontIntakeToPosition(Constants.kFrontIntakeDownPos);
+    m_shooterSubsystem.runShooterIntake(Constants.kIntakeStopSpeed);
+    m_shooterSubsystem.shooterArmToPosition(Constants.kShooterArmSpitPos);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    if (m_frontIntakeSubsystem.frontIntakeInPosition(Constants.kFrontIntakeDownPos) && m_shooterSubsystem.shooterArmInPosition(Constants.kShooterArmSpitPos))
+    {
+      m_frontIntakeSubsystem.runFrontIntake(-Constants.kFrontIntakeMaxSpeed);
+      m_shooterSubsystem.runShooterIntake(-Constants.kIntakeMaxSpeed);
+      m_shooterSubsystem.runShooter(Constants.kShooterMaxSpeed);
+    }
+  }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_intakeSubsystem.runFrontIntake(0);
-    m_shooterSubsystem.runShooterIntake(0);
-    m_shooterSubsystem.runShooterIntake(0);
-    m_shooterSubsystem.shooterArmToPosition(0, 0);
+    //Stop front intake, stop shooter intake, stop shooter, move front intake to home, move shooter arm to home
+    m_frontIntakeSubsystem.runFrontIntake(Constants.kFrontIntakeStopSpeed);
+    m_shooterSubsystem.runShooterIntake(Constants.kIntakeStopSpeed);
+    m_shooterSubsystem.runShooter(Constants.kShooterStopSpeed);
+    m_frontIntakeSubsystem.frontIntakeToPosition(Constants.kFrontIntakeHomePos);
+    m_shooterSubsystem.shooterArmToPosition(Constants.kShooterArmHomePos);
   }
 
   // Returns true when the command should end.
