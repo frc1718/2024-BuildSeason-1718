@@ -6,12 +6,13 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.networktables.NTSendable;
 import edu.wpi.first.networktables.NTSendableBuilder;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class ShooterSubsystem extends SubsystemBase implements NTSendable{
+public class ShooterSubsystem extends SubsystemBase{
  
   //Open sensors
   AnalogInput m_BeamBreakIntakeAnalog = new AnalogInput(Constants.kBeamBreakIntakeAnalog);
@@ -98,7 +99,7 @@ public class ShooterSubsystem extends SubsystemBase implements NTSendable{
   }
 
   @Override
-  public void initSendable(NTSendableBuilder builder){
+  public void initSendable(SendableBuilder builder){
     builder.setSmartDashboardType("ShooterSubsystem");
     builder.addDoubleProperty("Current Voltage", () -> {return m_BeamBreakShooterAnalog.getVoltage();}, null); 
     builder.addBooleanProperty("Beam Broken", () -> {return (m_BeamBreakShooterAnalog.getVoltage() > Constants.kShooterBeamBreakCrossover);}, null);

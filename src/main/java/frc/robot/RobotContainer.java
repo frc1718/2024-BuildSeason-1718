@@ -10,6 +10,7 @@ import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
 
+import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -22,6 +23,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.BlinkSignalLight;
 import frc.robot.commands.SetSignalLightIntensity;
 import frc.robot.commands.ShooterBeamBreak;
 import frc.robot.commands.Intake.Spit;
@@ -63,7 +65,7 @@ public class RobotContainer {
   private final Telemetry logger = new Telemetry(MaxSpeed);
 
   //Open the Shooter Subsystem
-  private final ShooterSubsystem shooter = new ShooterSubsystem();
+  ShooterSubsystem shooter = new ShooterSubsystem();
 
   //Open the Intake Subsystem
   private final IntakeSubsystem frontIntake = new IntakeSubsystem();
@@ -130,9 +132,9 @@ public class RobotContainer {
     driveController.y().onTrue(new ShooterBeamBreak(shooter));
     // l1.onTrue(new Place(m_claw, m_wrist, m_elevator));
     
-    Trigger Testing = new Trigger(shooter::getNotePresentShooter);
+    Trigger Testing = new Trigger(shooter::getNotePresentShooter).debounce(0.1);
     Testing.onTrue(new SetSignalLightIntensity(LED, 1));
-    Testing.onFalse(new SetSignalLightIntensity(LED, 0));
+    Testing.onFalse(new BlinkSignalLight(LED, 0.5, 0.25));
     //Operator Controller Assignments
     // Y - Amp
     // Right Top + Left Top Bumper Climb Mode - Hold Down Both at Once
@@ -179,7 +181,7 @@ public class RobotContainer {
     //All of the NT publishing we would like to do, that won't be setup in the classes themselves, gets setup here.
     SmartDashboard.putData("Chirp Selector", chirpSelect);
     SmartDashboard.putData("Auton Selector", autonSelect);    
-    SmartDashboard.putData("BeamBreak", shooter);
+    SmartDashboard.putData(shooter);
   }
 
 

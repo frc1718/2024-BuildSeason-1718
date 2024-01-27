@@ -23,10 +23,10 @@ public class Constants {
     public static final int kIntakePivotReleasePWM = 0;
 
     //Analog IO
-    public static final int kBeamBreakIntakeAnalog = 0;
-    public static final int kBeamBreakShooterAnalog = 1;
-    public static final double kIntakeBeamBreakCrossover = 0.4;
-    public static final double kShooterBeamBreakCrossover = 0.4;
+    public static final int kBeamBreakShooterAnalog = 0;
+    public static final int kBeamBreakIntakeAnalog = 1;
+    public static final double kIntakeBeamBreakCrossover = 0.7;
+    public static final double kShooterBeamBreakCrossover = 0.7;
 
     //Positions
     /*
