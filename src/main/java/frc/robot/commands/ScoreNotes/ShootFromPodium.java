@@ -33,7 +33,7 @@ public class ShootFromPodium extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_intakeSubsystem.suck();
+    m_intakeSubsystem.runFrontIntake(0);
     m_shooterSubsystem.runShooterIntake(0);
   }
 
@@ -46,7 +46,7 @@ public class ShootFromPodium extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_intakeSubsystem.stopIntake();
+    m_intakeSubsystem.runFrontIntake(0);
     m_shooterSubsystem.runShooterIntake(0);
   }
 

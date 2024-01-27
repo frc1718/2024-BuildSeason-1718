@@ -33,6 +33,10 @@ public class ClimberSubsystem extends SubsystemBase {
     
   }
 
+  public void IntakePivotRelease() {
+    
+  }
+
 
   /**
    * An example method querying a boolean state of the subsystem (for example, a digital sensor).
