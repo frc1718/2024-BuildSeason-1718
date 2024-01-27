@@ -9,6 +9,7 @@ import java.io.File;
 import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
+import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -41,7 +42,7 @@ public class RobotContainer {
 
   //Attempting to create a selector object.
   File chirpFolder = new File(Filesystem.getDeployDirectory() + "/chirp");
-  File autonFolder = new File(Filesystem.getDeployDirectory() + "/pathplanner/paths");
+  File autonFolder = new File(Filesystem.getDeployDirectory() + "/pathplanner/autos");
   Selector chirpSelect = new Selector(chirpFolder, ".chrp");
   Selector autonSelect = new Selector(autonFolder, ".path");
 
@@ -184,13 +185,24 @@ public class RobotContainer {
     SmartDashboard.putData(shooter);
   }
 
+  private void registerAutonCommands(){
+    //ALL COMMANDS THAT COULD BE USED IN AUTONOMOUS NEED TO BE REGISTERED HERE.
+    //These are currently added as an example.
+    //The PrintCommand should work, but I'm not sure if calling the Suck command like this is correct.
+    //NamedCommands.registerCommand("Print YAY", new PrintCommand("YAY"));
+    //NamedCommands.registerCommand("Auton Suck",new Suck(frontIntake, shooter));
+  }
 
   public RobotContainer() {
     configureBindings();
+    //Not sure if this is the correct placement for registering autonomous commands.
+    registerAutonCommands();
     configureCustomNTValues();
   }
 
   public Command getAutonomousCommand() {
-    return Commands.print("No autonomous command configured");
+    return Commands.print("Selected Autonomous: " + chirpSelect.getCurrentSelectionName()); //Using the CHRP list for debugging.
+    //This should load the selected autonomous file.
+    //return drivetrain.getAutoPath(autonSelect.getCurrentSelectionName());
   }
 }
