@@ -2,56 +2,86 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.Intake;
+package frc.robot.commands.FrontIntake;
 
-import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.FrontIntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants;
 
 /** An example command that uses an example subsystem. */
 public class Suck extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final IntakeSubsystem m_intakeSubsystem;
+  private final FrontIntakeSubsystem m_frontIntakeSubsystem;
   private final ShooterSubsystem m_shooterSubsystem;
   private boolean m_isFinished = false;
 
   /**
    * Creates a new ExampleCommand.
-   * @param intakeSubsystem
+   * @param frontIntakeSubsystem
    * @param shooterSubsystem The subsystem used by this command.
    */
-  public Suck(IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem) {
-    m_intakeSubsystem = intakeSubsystem;
+  public Suck(FrontIntakeSubsystem frontIntakeSubsystem, ShooterSubsystem shooterSubsystem) {
+    m_frontIntakeSubsystem = frontIntakeSubsystem;
     m_shooterSubsystem = shooterSubsystem;
+
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_intakeSubsystem);
+    addRequirements(m_frontIntakeSubsystem);
     addRequirements(m_shooterSubsystem);
+
   }
-
-
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_intakeSubsystem.runFrontIntake(0);
-    m_intakeSubsystem.intakeToPosition(0);
-    m_shooterSubsystem.runShooterIntake(0);
-    m_shooterSubsystem.shooterArmToPosition(0, 0);
+    
+    m_frontIntakeSubsystem.frontIntakeToPosition(Constants.kFrontIntakeDownPos);  
+    m_shooterSubsystem.shooterArmToPosition(Constants.kShooterArmHomePos);
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+  
+  //Check to see if front intake and shooter arm are in position
+  if ((m_shooterSubsystem.getShooterArmPosition() > (Constants.kShooterArmHomePos - Constants.kShooterArmPosTolerance)) && 
+  (m_shooterSubsystem.getShooterArmPosition() < (Constants.kShooterArmHomePos + Constants.kShooterArmPosTolerance))) 
+    { 
+      //If neither beam break is broken
+      if (!m_shooterSubsystem.getNotePresentIntake() && !m_shooterSubsystem.getNotePresentShooter())
+      {
+        m_frontIntakeSubsystem.runFrontIntake(Constants.kFrontIntakeSuckSpeed);
+        m_shooterSubsystem.runShooterIntake(Constants.kIntakeSuckSpeed);
+      
+        //else if the front beam break is broken and the second isn't stop
+      } else if (m_shooterSubsystem.getNotePresentIntake() && !m_shooterSubsystem.getNotePresentShooter() )
+      {
+        m_frontIntakeSubsystem.runFrontIntake(Constants.kFrontIntakeStopSpeed);
+        m_shooterSubsystem.runShooterIntake(Constants.kIntakeStopSpeed);
+      
+      //else if both beam breaks are broken, back up the note at index speed
+      } else if (m_shooterSubsystem.getNotePresentIntake() && m_shooterSubsystem.getNotePresentShooter()) 
+      {
+        m_frontIntakeSubsystem.runFrontIntake(Constants.kFrontIntakeStopSpeed);
+        m_shooterSubsystem.runShooterIntake(Constants.kIntakeReverseIndexSpeed);
+        
+        // Edge condition, shouldn't ever happen unless something really wacky is happening
+      } else {
+        m_frontIntakeSubsystem.runFrontIntake(Constants.kFrontIntakeStopSpeed);
+        m_shooterSubsystem.runShooterIntake(Constants.kIntakeReverseIndexSpeed);
+      }
 
+    }
+  
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_intakeSubsystem.runFrontIntake(0);
+    m_frontIntakeSubsystem.runFrontIntake(0);
+    m_frontIntakeSubsystem.frontIntakeToPosition(0);
     m_shooterSubsystem.runShooterIntake(0);
-    m_shooterSubsystem.runShooterIntake(0);
-    m_shooterSubsystem.shooterArmToPosition(0, 0);
   }
 
   // Returns true when the command should end.
