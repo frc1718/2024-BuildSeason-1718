@@ -19,13 +19,6 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
-  //Open Motors
-  
-
-  TalonSRX m_PartPresentLedLights = new TalonSRX(Constants.kPartPresentLEDCanID);
-
-
-
   //Open Cancoders
   CANcoder m_ArmRotate = new CANcoder(Constants.kFrontIntakeCancoderCanID,"Canivore");
   CANcoder m_FrontIntakeRotate = new CANcoder(Constants.kFrontIntakeCancoderCanID,"Canivore");

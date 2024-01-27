@@ -21,6 +21,8 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.SetSignalLightIntensity;
 import frc.robot.commands.ShooterBeamBreak;
 import frc.robot.commands.Intake.Spit;
 import frc.robot.commands.Intake.Suck;
@@ -29,6 +31,7 @@ import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.LEDSubsystem;
 
 public class RobotContainer {
   private double MaxSpeed = 6; // 6 meters per second desired top speed
@@ -67,6 +70,9 @@ public class RobotContainer {
 
   //Open the Climber Subsystem
   private final ClimberSubsystem climber = new ClimberSubsystem();
+
+  //Open the LED Subsystem
+  private final LEDSubsystem LED = new LEDSubsystem();
 
     // Sets Default Command
     // Assign default commands
@@ -124,6 +130,9 @@ public class RobotContainer {
     driveController.y().onTrue(new ShooterBeamBreak(shooter));
     // l1.onTrue(new Place(m_claw, m_wrist, m_elevator));
     
+    Trigger Testing = new Trigger(shooter::getNotePresentShooter);
+    Testing.onTrue(new SetSignalLightIntensity(LED, 1));
+    Testing.onFalse(new SetSignalLightIntensity(LED, 0));
     //Operator Controller Assignments
     // Y - Amp
     // Right Top + Left Top Bumper Climb Mode - Hold Down Both at Once

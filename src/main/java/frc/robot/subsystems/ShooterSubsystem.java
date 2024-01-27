@@ -99,9 +99,9 @@ public class ShooterSubsystem extends SubsystemBase implements NTSendable{
 
   @Override
   public void initSendable(NTSendableBuilder builder){
-    builder.setSmartDashboardType("NoteSensors");
-    builder.addDoubleProperty("Current Voltage", () -> {return m_BeamBreakIntakeAnalog.getVoltage();}, null); 
-    builder.addBooleanProperty("Beam Broken", () -> {return (m_BeamBreakIntakeAnalog.getVoltage() > Constants.kIntakeBeamBreakCrossover);}, null);
+    builder.setSmartDashboardType("ShooterSubsystem");
+    builder.addDoubleProperty("Current Voltage", () -> {return m_BeamBreakShooterAnalog.getVoltage();}, null); 
+    builder.addBooleanProperty("Beam Broken", () -> {return (m_BeamBreakShooterAnalog.getVoltage() > Constants.kShooterBeamBreakCrossover);}, null);
   }
 
   @Override
