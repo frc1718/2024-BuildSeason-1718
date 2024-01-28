@@ -33,14 +33,8 @@
       "Drive": {
         "open": true
       },
-      "Pose": {
-        "open": true
-      },
       "SmartDashboard": {
         "Auton Selector": {
-          "open": true
-        },
-        "Chirp Selector": {
           "open": true
         },
         "Selecter": {
@@ -57,13 +51,7 @@
     "Connections": {
       "open": true
     },
-    "Server": {
-      "Publishers": {
-        "open": true
-      },
-      "Subscribers": {
-        "open": true
-      },
+    "DartClient_23176790@1": {
       "open": true
     },
     "visible": true

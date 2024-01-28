@@ -44,7 +44,7 @@ public class RobotContainer {
   File chirpFolder = new File(Filesystem.getDeployDirectory() + "/chirp");
   File autonFolder = new File(Filesystem.getDeployDirectory() + "/pathplanner/autos");
   Selector chirpSelect = new Selector(chirpFolder, ".chrp");
-  Selector autonSelect = new Selector(autonFolder, ".path");
+  Selector autonSelect = new Selector(autonFolder, ".auto");
 
   // Set driver controller up
   private final CommandXboxController driveController = new CommandXboxController(Constants.kDriverControllerPort); // My driveController
@@ -188,9 +188,12 @@ public class RobotContainer {
   private void registerAutonCommands(){
     //ALL COMMANDS THAT COULD BE USED IN AUTONOMOUS NEED TO BE REGISTERED HERE.
     //These are currently added as an example.
-    //The PrintCommand should work, but I'm not sure if calling the Suck command like this is correct.
-    //NamedCommands.registerCommand("Print YAY", new PrintCommand("YAY"));
-    //NamedCommands.registerCommand("Auton Suck",new Suck(frontIntake, shooter));
+    //PrintCommand is basic.
+    //If I understand the commands correctly, Auton Light will end almost immediately.
+    //But Auton Blink should never end.
+    NamedCommands.registerCommand("Print YAY", new PrintCommand("YAY"));
+    NamedCommands.registerCommand("Auton Light",new SetSignalLightIntensity(LED, 1.00));
+    NamedCommands.registerCommand("Auton Blink", new BlinkSignalLight(LED, 1.00, 0.5));
   }
 
   public RobotContainer() {
