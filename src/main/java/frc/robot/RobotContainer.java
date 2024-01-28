@@ -25,6 +25,7 @@ import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.BlinkSignalLight;
+import frc.robot.commands.CommandSwerveDrivetrain;
 import frc.robot.commands.SetSignalLightIntensity;
 import frc.robot.commands.ShooterBeamBreak;
 import frc.robot.commands.Intake.Spit;
@@ -54,14 +55,14 @@ public class RobotContainer {
 
    
   /* Setting up bindings for necessary control of the swerve drive platform */
-  //private final CommandSwerveDrivetrain drivetrain = TunerConstants.DriveTrain; // My drivetrain
+  private final CommandSwerveDrivetrain drivetrain = TunerConstants.DriveTrain; // My drivetrain
 
-  //private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
-  //    .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
-  //    .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // I want field-centric
+  private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
+      .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
+      .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // I want field-centric
                                                                // driving in open loop
-  //private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
-  //private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
+  private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
+  private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
  
   private final Telemetry logger = new Telemetry(MaxSpeed);
 
@@ -88,12 +89,12 @@ public class RobotContainer {
   //============================================================================================================
   private void configureBindings() {
     //Schedules drivertain
-    //drivetrain.setDefaultCommand( // Drivetrain will execute this command periodically
-    //    drivetrain.applyRequest(() -> drive.withVelocityX(-driveController.getLeftY() * MaxSpeed) // Drive forward with
+    drivetrain.setDefaultCommand( // Drivetrain will execute this command periodically
+        drivetrain.applyRequest(() -> drive.withVelocityX(-driveController.getLeftY() * MaxSpeed) // Drive forward with
                                                                                            // negative Y (forward)
-    //        .withVelocityY(-driveController.getLeftX() * MaxSpeed) // Drive left with negative X (left)
-    //        .withRotationalRate(-driveController.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
-    //    ));
+            .withVelocityY(-driveController.getLeftX() * MaxSpeed) // Drive left with negative X (left)
+            .withRotationalRate(-driveController.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
+        ));
 
     //Driver Controller Assignments
     // X - X Drive
@@ -103,10 +104,10 @@ public class RobotContainer {
     // Right Trigger - Spit
 
     // Schedules Tilt modules without driving wheels?  Maybe?
-    //driveController.b().whileTrue(drivetrain.applyRequest(() -> point.withModuleDirection(new Rotation2d(-driveController.getLeftY(), -driveController.getLeftX()))));
+    driveController.b().whileTrue(drivetrain.applyRequest(() -> point.withModuleDirection(new Rotation2d(-driveController.getLeftY(), -driveController.getLeftX()))));
     
     // Schedules Brake Swerve Drivetrain Binds (x-lock wheels) Driver
-    //driveController.x().whileTrue(drivetrain.applyRequest(() -> brake));
+    driveController.x().whileTrue(drivetrain.applyRequest(() -> brake));
     
 
 
@@ -126,7 +127,7 @@ public class RobotContainer {
     driveController.rightTrigger(.5).whileTrue(new Spit(frontIntake, shooter));
     
     // Schedules reset the field - Binds centric heading on back and start button push
-    //driveController.back().and(driveController.start()).onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative()));
+    driveController.back().and(driveController.start()).onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative()));
 
     //DEBUG CODE
     //No idea why, but the debug command won't print the string WITHOUT the '.andThen' following up with a PrintCommand.
@@ -171,10 +172,10 @@ public class RobotContainer {
     }).ignoringDisable(true));
 
 
-    //if (Utils.isSimulation()) {
-    //  drivetrain.seedFieldRelative(new Pose2d(new Translation2d(), Rotation2d.fromDegrees(90)));
-    //}
-    //drivetrain.registerTelemetry(logger::telemeterize);
+    if (Utils.isSimulation()) {
+      drivetrain.seedFieldRelative(new Pose2d(new Translation2d(), Rotation2d.fromDegrees(90)));
+    }
+    drivetrain.registerTelemetry(logger::telemeterize);
   }
 
 
