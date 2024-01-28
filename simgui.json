@@ -1,4 +1,11 @@
 {
+  "HALProvider": {
+    "Analog Inputs": {
+      "window": {
+        "visible": true
+      }
+    }
+  },
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
@@ -35,6 +42,9 @@
       },
       "SmartDashboard": {
         "Auton Selector": {
+          "open": true
+        },
+        "LEDSubsystem": {
           "open": true
         },
         "Selecter": {

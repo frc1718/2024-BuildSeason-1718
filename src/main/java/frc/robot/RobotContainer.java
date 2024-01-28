@@ -184,6 +184,7 @@ public class RobotContainer {
     SmartDashboard.putData("Chirp Selector", chirpSelect);
     SmartDashboard.putData("Auton Selector", autonSelect);    
     SmartDashboard.putData(shooter);
+    SmartDashboard.putData(LED);
   }
 
   private void registerAutonCommands(){
@@ -205,8 +206,8 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return Commands.print("Selected Autonomous: " + chirpSelect.getCurrentSelectionName()); //Using the CHRP list for debugging.
+    //return Commands.print("Selected Autonomous: " + chirpSelect.getCurrentSelectionName()); //Using the CHRP list for debugging.
     //This should load the selected autonomous file.
-    //return drivetrain.getAutoPath(autonSelect.getCurrentSelectionName());
+    return drivetrain.getAutoPath(autonSelect.getCurrentSelectionName());
   }
 }
