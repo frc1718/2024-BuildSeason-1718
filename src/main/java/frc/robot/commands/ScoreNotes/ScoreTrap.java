@@ -33,8 +33,8 @@ public class ScoreTrap extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_intakeSubsystem.runFrontIntake(0);
-    m_shooterSubsystem.runShooterIntake(0);
+    m_intakeSubsystem.setFrontIntakeSpeed(0);
+    m_shooterSubsystem.setShooterIntakeSpeed(0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
