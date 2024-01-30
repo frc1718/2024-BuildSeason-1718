@@ -8,39 +8,60 @@
 
 package frc.robot.commands.Climb;
 
+import frc.robot.Constants;
 import frc.robot.subsystems.ClimberSubsystem;
+import frc.robot.subsystems.FrontIntakeSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /** An example command that uses an example subsystem. */
-public class ExtendClimber extends Command {
+public class PreClimb extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final ClimberSubsystem m_climberSubsystem;
+  private final ShooterSubsystem m_shooterSubsystem;
+  private final FrontIntakeSubsystem m_frontIntakeSubsystem;
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ExtendClimber(ClimberSubsystem subsystem) {
-    m_climberSubsystem = subsystem;
+
+  public PreClimb(ClimberSubsystem climberSubsystem, ShooterSubsystem shooterSubsystem, FrontIntakeSubsystem frontIntakeSubsystem) {
+    m_climberSubsystem = climberSubsystem;
+    m_shooterSubsystem = shooterSubsystem;
+    m_frontIntakeSubsystem = frontIntakeSubsystem;
+
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_climberSubsystem);
+    addRequirements(m_shooterSubsystem);
+    addRequirements(m_frontIntakeSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_climberSubsystem.setDesiredPosition(0);
+
+    //In the initialize step, set the desired starting positions and speeds of each system
+    m_climberSubsystem.setClimberDesiredPosition(Constants.kClimberPreClimbPos);
+
+    m_shooterSubsystem.setShooterArmPosition(Constants.kShooterArmPreClimbPos);
+    m_shooterSubsystem.setShooterSpeed(Constants.kShooterStopSpeed);
+    m_shooterSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeStopSpeed);
+    
+    m_frontIntakeSubsystem.setFrontIntakeSpeed(Constants.kFrontIntakeStopSpeed);
+    m_frontIntakeSubsystem.setFrontIntakePosition(Constants.kFrontIntakeDownPos);
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
-
+  public void execute() {
+  }
+  
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-
   }
 
   // Returns true when the command should end.

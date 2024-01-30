@@ -46,6 +46,7 @@ public class Constants {
     public static final int kClimberHomePos = 0;
     public static final int kClimberClimbPos = 0;
     public static final int kClimberPreClimbPos = 0;
+    public static final int kClimberTolerancePos = 0;
     
     public static final int kFrontIntakeDownPos = 0;
     public static final int kFrontIntakeUpPos = 0;
@@ -65,14 +66,14 @@ public class Constants {
     public static final int kShooterMaxSpeed = 0;
     public static final int kShooterStopSpeed = 0;
     
-    public static final int kIntakeTrapSpeed = 0;
-    public static final int kIntakeSuckSpeed = 0;
-    public static final int kIntakeStopSpeed = 0;
-    public static final int kIntakeSpitSpeed = 0;
-    public static final int kIntakeShootSpeed = 0;
-    public static final int kIntakeIndexSpeed = 0;
-    public static final int kIntakeReverseIndexSpeed = 0;
-    public static final int kIntakeMaxSpeed = 0;
+    public static final int kShooterIntakeTrapSpeed = 0;
+    public static final int kShooterIntakeSuckSpeed = 0;
+    public static final int kShooterIntakeStopSpeed = 0;
+    public static final int kShooterIntakeSpitSpeed = 0;
+    public static final int kShooterIntakeShootSpeed = 0;
+    public static final int kShooterIntakeIndexSpeed = 0;
+    public static final int kShooterIntakeReverseIndexSpeed = 0;
+    public static final int kShooterIntakeMaxSpeed = 0;
 
     public static final int kFrontIntakeStopSpeed = 0;
     public static final int kFrontIntakeSuckSpeed = 0;

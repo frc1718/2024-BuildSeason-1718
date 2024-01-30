@@ -4,6 +4,9 @@
 
 package frc.robot.subsystems;
 
+
+import com.ctre.phoenix6.hardware.TalonFX;
+
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -12,10 +15,12 @@ import frc.robot.Constants;
 public class ClimberSubsystem extends SubsystemBase {
   
   //Open hardware
-  // Servo m_IntakePivotRelease = new Servo(Constants.kIntakePivotReleasePWM);
-  // TalonFX m_LeftClimb = new TalonFX(Constants.kLeftClimbCanID, "Canivore");
-  // TalonFX m_RightClimb = new TalonFX(Constants.kRightClimbCanID, "Canivore");
+  Servo m_IntakePivotRelease = new Servo(Constants.kIntakePivotReleasePWM);
+  TalonFX m_LeftClimb = new TalonFX(Constants.kLeftClimbCanID, "Canivore");
+  TalonFX m_RightClimb = new TalonFX(Constants.kRightClimbCanID, "Canivore");
   
+  int integerer = 1;
+
   /** Creates a new ExampleSubsystem. */
   public ClimberSubsystem() {}
 
@@ -25,12 +30,27 @@ public class ClimberSubsystem extends SubsystemBase {
    *
    * @return a command
    */
-  public void setDesiredPosition(double DesiredPosition) {
+  public void setClimberDesiredPosition(int desiredPosition) {
     
   }
 
-  public void setPower(double power) {
+  public int getClimberPosition() {
     
+    return 1;
+  }
+
+  public boolean climbComplete() {
+    return false;
+  }
+
+  public boolean climberInPosition (int desiredPosition) {
+    if (m_LeftClimb.getPosition().getValue() > (desiredPosition-Constants.kClimberTolerancePos) && (m_LeftClimb.getPosition().getValue() < (desiredPosition+Constants.kClimberTolerancePos)))
+    {
+      return true; 
+    } else
+    {
+      return false;
+    }
   }
 
   public void IntakePivotRelease() {

@@ -8,7 +8,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.networktables.NTSendableBuilder;
-import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -25,11 +25,11 @@ public class FrontIntakeSubsystem extends SubsystemBase {
    * @return a command
    */
 
-  public void frontIntakeToPosition(double position) {
+  public void setFrontIntakePosition(int position) {
     /* set.intakeposition() */
   }
 
-  public void runFrontIntake(double Speed) {
+  public void setFrontIntakeSpeed(int Speed) {
     // set.intakeposition
     /* set.intakeSpeed(spit) */
   }

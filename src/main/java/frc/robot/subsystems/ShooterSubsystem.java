@@ -85,15 +85,15 @@ public class ShooterSubsystem extends SubsystemBase implements NTSendable{
   }
 
   // Start of motor control methods
-  public void runShooterIntake(double speed) {
+  public void setShooterIntakeSpeed(double speed) {
 
   }
 
-  public void runShooter(double speed) {
+  public void setShooterSpeed(double speed) {
     //Set both right and left shooter motor speeds here
   }
 
-  public void shooterArmToPosition(int position) {
+  public void setShooterArmPosition(int position) {
     
   }
   public Boolean shooterArmInPosition(int desiredPosition) {
