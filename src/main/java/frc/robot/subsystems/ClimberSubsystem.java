@@ -7,8 +7,6 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.TalonFX;
 
-import edu.wpi.first.wpilibj.Servo;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -51,10 +49,6 @@ public class ClimberSubsystem extends SubsystemBase {
     {
       return false;
     }
-  }
-
-  public void IntakePivotRelease() {
-    
   }
 
 

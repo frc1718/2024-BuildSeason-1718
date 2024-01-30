@@ -29,7 +29,7 @@ public class FrontIntakeSubsystem extends SubsystemBase {
     /* set.intakeposition() */
   }
 
-  public void setFrontIntakeSpeed(int Speed) {
+  public void runFrontIntake(double Speed) {
     // set.intakeposition
     /* set.intakeSpeed(spit) */
   }
@@ -44,7 +44,7 @@ public class FrontIntakeSubsystem extends SubsystemBase {
     return false;
   }
   
-  public Boolean frontIntakeInPosition(int desiredPosition) {
+  public Boolean getFrontIntakeInPosition(int desiredPosition) {
   
     //Check that the front intake is within the tolerance of the desired position.
     if (m_frontIntakeRotate.getPosition().getValue() > (desiredPosition-Constants.kFrontIntakeTolerancePos) && (m_frontIntakeRotate.getPosition().getValue() < (desiredPosition+Constants.kFrontIntakeTolerancePos)))

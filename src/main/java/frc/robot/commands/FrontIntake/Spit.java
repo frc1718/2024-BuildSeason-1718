@@ -33,6 +33,11 @@ public class Spit extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    //Move intake down, move shooter arm up high enough to eject
+    m_frontIntakeSubsystem.setFrontIntakeSpeed(Constants.kFrontIntakeStopSpeed);
+    m_frontIntakeSubsystem.setFrontIntakePosition(Constants.kFrontIntakeDownPos);
+    m_shooterSubsystem.setShooterIntakeSpeed(Constants.kFrontIntakeStopSpeed);
+    m_shooterSubsystem.setShooterArmPosition(Constants.kShooterArmSpitPos);
 
     //Stop front intake, move front intake down, stop intake, stop shooter, move shooter arm up high enough to eject
     m_frontIntakeSubsystem.setFrontIntakeSpeed(Constants.kFrontIntakeStopSpeed);
@@ -46,12 +51,10 @@ public class Spit extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
-    //Check front intake is down and shooter arm is raised to clear the front bumper
-    if (m_frontIntakeSubsystem.frontIntakeInPosition(Constants.kFrontIntakeDownPos) && m_shooterSubsystem.shooterArmInPosition(Constants.kShooterArmSpitPos))
+    if (m_frontIntakeSubsystem.getFrontIntakeInPosition(Constants.kFrontIntakeDownPos) && m_shooterSubsystem.getShooterArmInPosition(Constants.kShooterArmSpitPos))
     {
       m_frontIntakeSubsystem.setFrontIntakeSpeed(-Constants.kFrontIntakeMaxSpeed);
-      m_shooterSubsystem.setShooterIntakeSpeed(-Constants.kShooterIntakeMaxSpeed);
+      m_shooterSubsystem.setShooterIntakeSpeed(-Constants.kFrontIntakeMaxSpeed);
       m_shooterSubsystem.setShooterSpeed(Constants.kShooterMaxSpeed);
     }
 

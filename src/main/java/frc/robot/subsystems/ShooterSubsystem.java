@@ -11,6 +11,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.networktables.NTSendable;
 import edu.wpi.first.networktables.NTSendableBuilder;
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -19,7 +20,10 @@ public class ShooterSubsystem extends SubsystemBase implements NTSendable{
  
   //Open sensors
   AnalogInput m_BeamBreakIntakeAnalog = new AnalogInput(Constants.kBeamBreakIntakeAnalog);
-  AnalogInput m_BeamBreakShooterAnalog = new AnalogInput(Constants.kBeamBreakShooterAnalog); 
+  AnalogInput m_BeamBreakShooterAnalog = new AnalogInput(Constants.kBeamBreakShooterAnalog);
+  
+  //Open Servo
+  Servo intakeHinge = new Servo(Constants.kShooterIntakePivotReleasePWM);
 
   //Open Motors
   TalonFX m_ShooterRotateLeft = new TalonFX(Constants.kShooterRotateLeftCanID, "Canivore");
@@ -96,7 +100,8 @@ public class ShooterSubsystem extends SubsystemBase implements NTSendable{
   public void setShooterArmPosition(int position) {
     
   }
-  public Boolean shooterArmInPosition(int desiredPosition) {
+
+  public Boolean getShooterArmInPosition(int desiredPosition) {
   
     if (m_ShooterRotateLeft.getPosition().getValue() > (desiredPosition-Constants.kShooterArmTolerancePos) && (m_ShooterRotateLeft.getPosition().getValue() < (desiredPosition+Constants.kShooterArmTolerancePos)))
     {
@@ -107,8 +112,31 @@ public class ShooterSubsystem extends SubsystemBase implements NTSendable{
     }
     
   }
+
+  public int getShooterSpeed() {
+    int integer = 0;
+    return integer;
+  }
+
   public int getShooterArmPosition() {
     return 1;
+  }
+
+  public void setShooterIntakePivotPosition(double desiredPosition) {
+
+  }
+
+  public boolean getShooterUpToSpeed(int desiredSpeed) {
+    if ((desiredSpeed - Constants.kShooterSpeedTolerance) >= getShooterSpeed() && getShooterSpeed() <= (desiredSpeed + Constants.kShooterSpeedTolerance)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public int getDesiredShooterIntakeSpeed() {
+    int integer = 0;
+    return integer;
   }
 
   @Override

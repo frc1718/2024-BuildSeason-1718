@@ -6,7 +6,6 @@ package frc.robot.commands;
 
 import frc.robot.subsystems.LEDSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /** An example command that uses an example subsystem. */
 public class SetSignalLightIntensity extends Command {

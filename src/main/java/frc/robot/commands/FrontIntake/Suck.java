@@ -45,7 +45,7 @@ public class Suck extends Command {
   public void execute() {
   
   //Check to see if front intake and shooter arm are in position
-  if (m_shooterSubsystem.shooterArmInPosition(Constants.kShooterArmHomePos) && m_frontIntakeSubsystem.frontIntakeInPosition(Constants.kFrontIntakeDownPos)) 
+  if (m_shooterSubsystem.getShooterArmInPosition(Constants.kShooterArmHomePos) && m_frontIntakeSubsystem.getFrontIntakeInPosition(Constants.kFrontIntakeDownPos)) 
     { 
       //If neither beam break is broken
       if (!m_shooterSubsystem.getNotePresentIntake() && !m_shooterSubsystem.getNotePresentShooter())
