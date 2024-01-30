@@ -35,8 +35,8 @@ public class Suck extends Command {
   @Override
   public void initialize() {
     
-    m_frontIntakeSubsystem.frontIntakeToPosition(Constants.kFrontIntakeDownPos);  
-    m_shooterSubsystem.shooterArmToPosition(Constants.kShooterArmHomePos);
+    m_frontIntakeSubsystem.setFrontIntakePosition(Constants.kFrontIntakeDownPos);  
+    m_shooterSubsystem.setShooterArmPosition(Constants.kShooterArmHomePos);
 
   }
 
@@ -45,31 +45,31 @@ public class Suck extends Command {
   public void execute() {
   
   //Check to see if front intake and shooter arm are in position
-  if (m_shooterSubsystem.shooterArmInPosition(Constants.kShooterArmHomePos) && m_frontIntakeSubsystem.frontIntakeInPosition(Constants.kFrontIntakeDownPos)) 
+  if (m_shooterSubsystem.getShooterArmInPosition(Constants.kShooterArmHomePos) && m_frontIntakeSubsystem.getFrontIntakeInPosition(Constants.kFrontIntakeDownPos)) 
     { 
       //If neither beam break is broken
       if (!m_shooterSubsystem.getNotePresentIntake() && !m_shooterSubsystem.getNotePresentShooter())
       {
-        m_frontIntakeSubsystem.runFrontIntake(Constants.kFrontIntakeSuckSpeed);
-        m_shooterSubsystem.runShooterIntake(Constants.kIntakeSuckSpeed);
+        m_frontIntakeSubsystem.setFrontIntakeSpeed(Constants.kFrontIntakeSuckSpeed);
+        m_shooterSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeSuckSpeed);
       
       //else if the front beam break is broken and the second isn't stop
       } else if (m_shooterSubsystem.getNotePresentIntake() && !m_shooterSubsystem.getNotePresentShooter() )
       {
-        m_frontIntakeSubsystem.runFrontIntake(Constants.kFrontIntakeStopSpeed);
-        m_shooterSubsystem.runShooterIntake(Constants.kIntakeStopSpeed);
+        m_frontIntakeSubsystem.setFrontIntakeSpeed(Constants.kFrontIntakeStopSpeed);
+        m_shooterSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeStopSpeed);
       
       //else if both beam breaks are broken, back up the note at index speed
       } else if (m_shooterSubsystem.getNotePresentIntake() && m_shooterSubsystem.getNotePresentShooter()) 
       {
-        m_frontIntakeSubsystem.runFrontIntake(Constants.kFrontIntakeStopSpeed);
-        m_shooterSubsystem.runShooterIntake(Constants.kIntakeReverseIndexSpeed);
+        m_frontIntakeSubsystem.setFrontIntakeSpeed(Constants.kFrontIntakeStopSpeed);
+        m_shooterSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeReverseIndexSpeed);
         
       //else if only the second beam break is broken, shouldn't ever happen unless something really wacky is happening
       } else
       {
-        m_frontIntakeSubsystem.runFrontIntake(Constants.kFrontIntakeStopSpeed);
-        m_shooterSubsystem.runShooterIntake(Constants.kIntakeReverseIndexSpeed);
+        m_frontIntakeSubsystem.setFrontIntakeSpeed(Constants.kFrontIntakeStopSpeed);
+        m_shooterSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeReverseIndexSpeed);
       }
 
     }
@@ -79,9 +79,9 @@ public class Suck extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_frontIntakeSubsystem.runFrontIntake(0);
-    m_frontIntakeSubsystem.frontIntakeToPosition(0);
-    m_shooterSubsystem.runShooterIntake(0);
+    m_frontIntakeSubsystem.setFrontIntakeSpeed(0);
+    m_frontIntakeSubsystem.setFrontIntakePosition(0);
+    m_shooterSubsystem.setShooterIntakeSpeed(0);
   }
 
   // Returns true when the command should end.

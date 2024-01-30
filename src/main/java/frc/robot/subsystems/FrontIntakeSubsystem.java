@@ -7,8 +7,6 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.TalonFX;
 
-import edu.wpi.first.networktables.NTSendableBuilder;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -25,11 +23,11 @@ public class FrontIntakeSubsystem extends SubsystemBase {
    * @return a command
    */
 
-  public void frontIntakeToPosition(double position) {
+  public void setFrontIntakePosition(double position) {
     /* set.intakeposition() */
   }
 
-  public void runFrontIntake(double Speed) {
+  public void setFrontIntakeSpeed(double Speed) {
     // set.intakeposition
     /* set.intakeSpeed(spit) */
   }
@@ -44,7 +42,7 @@ public class FrontIntakeSubsystem extends SubsystemBase {
     return false;
   }
   
-  public Boolean frontIntakeInPosition(int desiredPosition) {
+  public Boolean getFrontIntakeInPosition(int desiredPosition) {
   
     //Check that the front intake is within the tolerance of the desired position.
     if (m_frontIntakeRotate.getPosition().getValue() > (desiredPosition-Constants.kFrontIntakeTolerancePos) && (m_frontIntakeRotate.getPosition().getValue() < (desiredPosition+Constants.kFrontIntakeTolerancePos)))

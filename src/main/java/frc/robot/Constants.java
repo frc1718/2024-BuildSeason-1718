@@ -20,7 +20,7 @@ public class Constants {
     public static final int kSignalLightCanID = 38;
 
     //PWM
-    public static final int kIntakePivotReleasePWM = 0;
+    public static final int kShooterIntakePivotReleasePWM = 0;
 
     //Analog IO
     public static final int kBeamBreakIntakeAnalog = 0;
@@ -37,11 +37,12 @@ public class Constants {
 
     public static final int kShooterArmSubwooferPos = 0;
     public static final int kShooterArmPodiumPos = 0;
-    public static final int kShooterAmpPos = 0;
+    public static final int kShooterArmAmpPos = 0;
     public static final int kShooterArmHomePos = 0;
     public static final int kShooterArmPreClimbPos = 0;
     public static final int kShooterArmTolerancePos = 0;
     public static final int kShooterArmSpitPos = 0;
+    public static final int kShooterArmTrapPos = 0;
 
     public static final int kClimberHomePos = 0;
     public static final int kClimberClimbPos = 0;
@@ -51,6 +52,8 @@ public class Constants {
     public static final int kFrontIntakeUpPos = 0;
     public static final int kFrontIntakeHomePos = 0; 
     public static final int kFrontIntakeTolerancePos = 0;
+
+    public static final int kShooterIntakePivotReleasedPos = 0;
 
     //Speeds
     /* Shooter (Max Speed, Podium Shoot, Subwoofer Shoot, Amp Score)
@@ -65,20 +68,21 @@ public class Constants {
     public static final int kShooterMaxSpeed = 0;
     public static final int kShooterStopSpeed = 0;
     
-    public static final int kIntakeTrapSpeed = 0;
-    public static final int kIntakeSuckSpeed = 0;
-    public static final int kIntakeStopSpeed = 0;
-    public static final int kIntakeSpitSpeed = 0;
-    public static final int kIntakeShootSpeed = 0;
-    public static final int kIntakeIndexSpeed = 0;
-    public static final int kIntakeReverseIndexSpeed = 0;
-    public static final int kIntakeMaxSpeed = 0;
+    public static final int kShooterIntakeTrapSpeed = 0;
+    public static final int kShooterIntakeSuckSpeed = 0;
+    public static final int kShooterIntakeStopSpeed = 0;
+    public static final int kShooterIntakeSpitSpeed = 0;
+    public static final int kShooterIntakeShootSpeed = 0;
+    public static final int kShooterIntakeIndexSpeed = 0;
+    public static final int kShooterIntakeReverseIndexSpeed = 0;
+    public static final int kShooterIntakeMaxSpeed = 0;
 
     public static final int kFrontIntakeStopSpeed = 0;
     public static final int kFrontIntakeSuckSpeed = 0;
     public static final int kFrontIntakeSpitSpeed = 0;
     public static final int kFrontIntakeMaxSpeed = 0;
 
+    public static final int kShooterSpeedTolerance = 0;
     //Swerves
     /*
      * Steer (Offsets, Max Speed?, whatever else is in swerve modules)

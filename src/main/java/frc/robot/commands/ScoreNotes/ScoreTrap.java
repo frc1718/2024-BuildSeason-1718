@@ -4,6 +4,7 @@
 
 package frc.robot.commands.ScoreNotes;
 
+import frc.robot.Constants;
 import frc.robot.subsystems.FrontIntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -33,21 +34,28 @@ public class ScoreTrap extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_intakeSubsystem.runFrontIntake(0);
-    m_shooterSubsystem.runShooterIntake(0);
+    m_intakeSubsystem.setFrontIntakeSpeed(0);
+    m_shooterSubsystem.setShooterIntakeSpeed(0);
+    m_shooterSubsystem.setShooterArmPosition(Constants.kShooterArmTrapPos);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
+    if (m_shooterSubsystem.getShooterArmInPosition(Constants.kShooterArmTrapPos)) {
+      m_shooterSubsystem.setShooterIntakePivotPosition(Constants.kShooterIntakePivotReleasedPos);
+      m_shooterSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeTrapSpeed);
+    }
+    if (!m_shooterSubsystem.getNotePresentShooter() && m_shooterSubsystem.getShooterArmInPosition(Constants.kShooterArmTrapPos)) {
+      m_isFinished = true;
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_intakeSubsystem.runFrontIntake(0);
-    m_shooterSubsystem.runShooterIntake(0);
+    m_intakeSubsystem.setFrontIntakeSpeed(0);
+    m_shooterSubsystem.setShooterIntakeSpeed(0);
   }
 
   // Returns true when the command should end.
