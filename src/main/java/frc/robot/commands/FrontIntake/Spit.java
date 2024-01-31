@@ -24,6 +24,7 @@ public class Spit extends Command {
   public Spit(FrontIntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem) {
     m_frontIntakeSubsystem = intakeSubsystem;
     m_shooterSubsystem = shooterSubsystem;
+
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_frontIntakeSubsystem);
     addRequirements(m_shooterSubsystem);
@@ -37,6 +38,14 @@ public class Spit extends Command {
     m_frontIntakeSubsystem.setFrontIntakePosition(Constants.kFrontIntakeDownPos);
     m_shooterSubsystem.setShooterIntakeSpeed(Constants.kFrontIntakeStopSpeed);
     m_shooterSubsystem.setShooterArmPosition(Constants.kShooterArmSpitPos);
+
+    //Stop front intake, move front intake down, stop intake, stop shooter, move shooter arm up high enough to eject
+    m_frontIntakeSubsystem.setFrontIntakeSpeed(Constants.kFrontIntakeStopSpeed);
+    m_frontIntakeSubsystem.setFrontIntakePosition(Constants.kFrontIntakeDownPos);
+    m_shooterSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeStopSpeed);
+    m_shooterSubsystem.setShooterSpeed(Constants.kShooterStopSpeed);
+    m_shooterSubsystem.setShooterArmPosition(Constants.kShooterArmSpitPos);
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -48,17 +57,20 @@ public class Spit extends Command {
       m_shooterSubsystem.setShooterIntakeSpeed(-Constants.kFrontIntakeMaxSpeed);
       m_shooterSubsystem.setShooterSpeed(Constants.kShooterMaxSpeed);
     }
+
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+
     //Stop front intake, stop shooter intake, stop shooter, move front intake to home, move shooter arm to home
     m_frontIntakeSubsystem.setFrontIntakeSpeed(Constants.kFrontIntakeStopSpeed);
-    m_shooterSubsystem.setShooterIntakeSpeed(Constants.kFrontIntakeStopSpeed);
+    m_shooterSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeStopSpeed);
     m_shooterSubsystem.setShooterSpeed(Constants.kShooterStopSpeed);
     m_frontIntakeSubsystem.setFrontIntakePosition(Constants.kFrontIntakeHomePos);
     m_shooterSubsystem.setShooterArmPosition(Constants.kShooterArmHomePos);
+
   }
 
   // Returns true when the command should end.

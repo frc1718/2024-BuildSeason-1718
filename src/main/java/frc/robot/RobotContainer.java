@@ -30,7 +30,6 @@ import frc.robot.commands.ScoreNotes.ScoreAmp;
 import frc.robot.commands.ScoreNotes.ShootFromPodium;
 import frc.robot.commands.ScoreNotes.ShootFromSubwoofer;
 import frc.robot.commands.ScoreNotes.ShootOnMoveWithPose;
-import frc.robot.commands.Climb.ExtendClimber;
 import frc.robot.commands.FrontIntake.Spit;
 import frc.robot.commands.FrontIntake.Suck;
 
@@ -131,7 +130,7 @@ public class RobotContainer {
     driveController.rightBumper().whileTrue(new Suck(frontIntake, shooter));   
 
     // Schedules Climb - Binds Left Trigger Driver
-    driveController.leftTrigger(.5).whileTrue(new ExtendClimber(climber));
+    //driveController.leftTrigger(.5).whileTrue(new ExtendClimber(climber));
 
     // Schedules Descend - Binds ********
     

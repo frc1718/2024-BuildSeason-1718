@@ -8,40 +8,66 @@
 
 package frc.robot.commands.Climb;
 
+import frc.robot.Constants;
 import frc.robot.subsystems.ClimberSubsystem;
+import frc.robot.subsystems.FrontIntakeSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /** An example command that uses an example subsystem. */
-public class RetractClimber extends Command {
+public class Climb extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final ClimberSubsystem m_climberSubsystem;
+  private final FrontIntakeSubsystem m_frontIntakeSubsystem;
+  private final ShooterSubsystem m_shooterSubsystem;
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public RetractClimber(ClimberSubsystem subsystem) {
-    m_climberSubsystem = subsystem;
+  public Climb(ClimberSubsystem climberSubsystem, FrontIntakeSubsystem frontIntakeSubsystem, ShooterSubsystem shooterSubsystem) {
+    m_climberSubsystem = climberSubsystem;
+    m_frontIntakeSubsystem = frontIntakeSubsystem;
+    m_shooterSubsystem = shooterSubsystem;
+
     // Use addRequirements() here to declare subsystem dependencies.
+
     addRequirements(m_climberSubsystem);
+    addRequirements(m_frontIntakeSubsystem);
+    addRequirements(m_shooterSubsystem);
+
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_climberSubsystem.setDesiredPosition(0);
-    m_climberSubsystem.setPower(0);
+    m_climberSubsystem.setClimberDesiredPosition(Constants.kClimberClimbPos);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    //need to set a flag to see if we've reached preclimb and check it
+    if (m_climberSubsystem.climberInPosition(Constants.kClimberPreClimbPos)){
+      //preClimbComplete=True;
+    }
+    
+    if (m_climberSubsystem.climbComplete()){
+    //set servo to release position
+    }
+
+
+
+
+
+
+  }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_climberSubsystem.setDesiredPosition(0);
+
   }
 
   // Returns true when the command should end.

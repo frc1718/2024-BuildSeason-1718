@@ -22,11 +22,11 @@ public class FrontIntakeSubsystem extends SubsystemBase {
    * @return a command
    */
 
-  public void setFrontIntakePosition(double position) {
+  public void setFrontIntakePosition(int position) {
     /* set.intakeposition() */
   }
 
-  public void setFrontIntakeSpeed(double Speed) {
+  public void setFrontIntakeSpeed(int speed) {
     // set.intakeposition
     /* set.intakeSpeed(spit) */
   }

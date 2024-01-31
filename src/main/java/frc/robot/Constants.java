@@ -47,6 +47,7 @@ public class Constants {
     public static final int kClimberHomePos = 0;
     public static final int kClimberClimbPos = 0;
     public static final int kClimberPreClimbPos = 0;
+    public static final int kClimberTolerancePos = 0;
     
     public static final int kFrontIntakeDownPos = 0;
     public static final int kFrontIntakeUpPos = 0;
