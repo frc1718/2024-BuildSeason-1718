@@ -24,7 +24,6 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.SetSignalLightIntensity;
 import frc.robot.commands.ShooterBeamBreak;
-import frc.robot.commands.Climb.ExtendClimber;
 import frc.robot.commands.FrontIntake.Spit;
 import frc.robot.commands.FrontIntake.Suck;
 import frc.robot.generated.TunerConstants;
@@ -115,7 +114,7 @@ public class RobotContainer {
     driveController.rightBumper().whileTrue(new Suck(frontIntake, shooter));   
 
     // Schedules Climb - Binds Left Trigger Driver
-    driveController.leftTrigger(.5).whileTrue(new ExtendClimber(climber));
+    //driveController.leftTrigger(.5).whileTrue(new ExtendClimber(climber));
 
     // Schedules Descend - Binds ********
     

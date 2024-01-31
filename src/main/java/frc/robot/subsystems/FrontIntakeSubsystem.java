@@ -29,7 +29,7 @@ public class FrontIntakeSubsystem extends SubsystemBase {
     /* set.intakeposition() */
   }
 
-  public void runFrontIntake(double Speed) {
+  public void setFrontIntakeSpeed(int speed) {
     // set.intakeposition
     /* set.intakeSpeed(spit) */
   }

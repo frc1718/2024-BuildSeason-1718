@@ -7,13 +7,14 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.TalonFX;
 
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class ClimberSubsystem extends SubsystemBase {
   
   //Open hardware
-  Servo m_IntakePivotRelease = new Servo(Constants.kIntakePivotReleasePWM);
+  Servo m_IntakePivotRelease = new Servo(Constants.kShooterIntakePivotReleasePWM);
   TalonFX m_LeftClimb = new TalonFX(Constants.kLeftClimbCanID, "Canivore");
   TalonFX m_RightClimb = new TalonFX(Constants.kRightClimbCanID, "Canivore");
   
