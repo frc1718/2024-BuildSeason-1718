@@ -21,6 +21,8 @@ public class PreClimb extends Command {
   private final ShooterSubsystem m_shooterSubsystem;
   private final FrontIntakeSubsystem m_frontIntakeSubsystem;
 
+  boolean m_isFinished = false;
+
   /**
    * Creates a new ExampleCommand.
    *
@@ -57,6 +59,13 @@ public class PreClimb extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+
+    //Check to see if we made it into the preclimb position
+    if (m_climberSubsystem.getClimberInPosition(Constants.kClimberPreClimbPos) && m_shooterSubsystem.getShooterArmInPosition(Constants.kShooterArmPreClimbPos) && m_frontIntakeSubsystem.getFrontIntakeInPosition(Constants.kFrontIntakeDownPos))
+    {
+      m_isFinished = true;
+    }
+
   }
   
   // Called once the command ends or is interrupted.
@@ -67,6 +76,6 @@ public class PreClimb extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return m_isFinished;
   }
 }
