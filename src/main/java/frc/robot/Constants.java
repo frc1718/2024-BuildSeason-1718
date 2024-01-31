@@ -43,6 +43,8 @@ public class Constants {
     public static final int kShooterArmTolerancePos = 0;
     public static final int kShooterArmSpitPos = 0;
     public static final int kShooterArmTrapPos = 0;
+    public static final int kShooterArmPreAmpPos = 0; //This brings arm up like 1/2 or 3/4 of the way to amp position
+    public static final int kShooterArmPreShootPos = 0; //This is probably like half way between subwoofer and podium position
 
     public static final int kClimberHomePos = 0;
     public static final int kClimberClimbPos = 0;

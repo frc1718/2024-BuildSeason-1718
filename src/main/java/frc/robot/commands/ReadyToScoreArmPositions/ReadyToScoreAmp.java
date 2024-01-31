@@ -2,32 +2,26 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.ScoreNotes;
+package frc.robot.commands.ReadyToScoreArmPositions;
 
 import frc.robot.Constants;
-import frc.robot.subsystems.FrontIntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /** An example command that uses an example subsystem. */
-public class ScoreAmp extends Command {
+public class ReadyToScoreAmp extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final ShooterSubsystem m_shooterSubsystem;
-  private final FrontIntakeSubsystem m_intakeSubsystem;
   private boolean m_isFinished = false;
-  private boolean m_readyToShoot = false;
 
   /**
    * Creates a new ExampleCommand.
-   * 
    * @param shooterSubsystem The subsystem used by this command.
    */
-  public ScoreAmp(FrontIntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem) {
+  public ReadyToScoreAmp(ShooterSubsystem shooterSubsystem) {
     m_shooterSubsystem = shooterSubsystem;
-    m_intakeSubsystem = intakeSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_shooterSubsystem);
-    addRequirements(m_intakeSubsystem);
   }
 
 
@@ -35,20 +29,16 @@ public class ScoreAmp extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_intakeSubsystem.setFrontIntakeSpeed(0);
-    m_shooterSubsystem.setShooterIntakeSpeed(0);
-    m_shooterSubsystem.setShooterArmPosition(Constants.kShooterArmAmpPos);
-    m_shooterSubsystem.setShooterSpeed(Constants.kShooterAmpSpeed);
+    m_shooterSubsystem.setShooterArmPosition(Constants.kShooterArmPreAmpPos);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (m_shooterSubsystem.getShooterUpToSpeed(Constants.kShooterAmpSpeed)) {
-      m_shooterSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeShootSpeed);
-      m_readyToShoot = true;
-    }
-    if (!m_shooterSubsystem.getNotePresentShooter() && m_readyToShoot) {
+    if (m_shooterSubsystem.getNotePresentShooter()) {
+      m_shooterSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeReverseIndexSpeed);
+    } else {
+      m_shooterSubsystem.setShooterSpeed(Constants.kShooterAmpSpeed);
       m_isFinished = true;
     }
   }
@@ -57,8 +47,6 @@ public class ScoreAmp extends Command {
   @Override
   public void end(boolean interrupted) {
     m_shooterSubsystem.setShooterIntakeSpeed(0);
-    m_shooterSubsystem.setShooterSpeed(0);
-    m_shooterSubsystem.setShooterArmPosition(Constants.kShooterArmHomePos);
   }
 
   // Returns true when the command should end.

@@ -20,12 +20,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 import frc.robot.commands.LEDs.BlinkSignalLight;
 import frc.robot.commands.LEDs.SetSignalLightIntensity;
+import frc.robot.commands.ReadyToScoreArmPositions.ReadyToScoreAmp;
+import frc.robot.commands.ReadyToScoreArmPositions.ReadyToShoot;
 import frc.robot.commands.ScoreNotes.ScoreAmp;
 import frc.robot.commands.ScoreNotes.ShootFromPodium;
 import frc.robot.commands.ScoreNotes.ShootFromSubwoofer;
@@ -114,7 +115,7 @@ public class RobotContainer {
 
 
 
-    // Schedules Shoot - Binds Left Top Bumper Driver 
+    // Schedules Shoot - Binds Left Top Bumper Driver/Operator
     driveController.leftBumper().whileTrue(new ShootOnMoveWithPose(frontIntake, shooter));
 
     // Schedules Score Amp - Binds A Button Driver
@@ -149,14 +150,17 @@ public class RobotContainer {
     NoteLocationStatus.onFalse(new SetSignalLightIntensity(LED, 0));
 
     //Operator Controller Assignments
-    // Y - Amp
+    // A - Amp
     // Right Top + Left Top Bumper Climb Mode - Hold Down Both at Once
-    // A - Shoot
+    // Y - Shoot
     //
     
-    // Schedules Shooter to Amp Position - Binds Y Button Operator
-    //operatorController.y().onTrue();
+    // Schedules Ready To Score Amp - Binds A Button Operator
+    operatorController.a().whileTrue(new ReadyToScoreAmp(shooter));
     
+    // Schedules Ready To Shoot - Binds Y Button Operator
+    operatorController.y().whileTrue(new ReadyToShoot(shooter));
+
     // Schedules Shooter to Climb Position and enables climb mode - press both bumpers
     //operatorController.leftBumper().and(operatorController.rightBumper()).onTrue();
 
