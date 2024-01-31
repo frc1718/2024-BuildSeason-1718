@@ -12,7 +12,6 @@ import edu.wpi.first.networktables.NTSendable;
 import edu.wpi.first.networktables.NTSendableBuilder;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Servo;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -30,26 +29,7 @@ public class ShooterSubsystem extends SubsystemBase implements NTSendable{
   TalonFX m_ShooterRotateRight = new TalonFX(Constants.kShooterRotateRightCanID, "Canivore");
   TalonFX m_ShooterIntakeSpin = new TalonFX(Constants.kShooterIntakeSpinCanID, "Canivore");
 
-  public ShooterSubsystem() {
-  }
-
-  public Command shoot() {
-    // Inline construction of command goes here.
-    // Subsystem::RunOnce implicitly requires `this` subsystem.
-    return run(
-        () -> {
-
-        });
-  }
-
-  public Command extra() {
-    // Inline construction of command goes here.
-    // Subsystem::RunOnce implicitly requires `this` subsystem.
-    return runOnce(
-        () -> {
-
-        });
-  }
+  public ShooterSubsystem() {}
   
   /**
    * An example method querying a boolean state of the subsystem (for example, a digital sensor).
@@ -74,45 +54,28 @@ public class ShooterSubsystem extends SubsystemBase implements NTSendable{
   public boolean getNotePresentShooter() {  
     return (m_BeamBreakShooterAnalog.getVoltage() >= Constants.kShooterBeamBreakCrossover);
   }
+  // End of sensor related methods
 
-  public double getIntakeVolt() {
-    return m_BeamBreakIntakeAnalog.getVoltage();
-  }
-  
-  public double getShooterVolt() {
-    return m_BeamBreakShooterAnalog.getVoltage();
-  }
-
-  public void printGetNotePresentShooter() {
-    double printStatement = m_BeamBreakShooterAnalog.getVoltage();
-    System.out.println(printStatement);
-  }
-
-  // Start of motor control methods
+  // Start of motor set methods
   public void setShooterIntakeSpeed(double speed) {
 
   }
 
   public void setShooterSpeed(double speed) {
     //Set both right and left shooter motor speeds here
+    //Don't we only have to set one motor because one will be a follower?
   }
 
   public void setShooterArmPosition(int position) {
     
   }
 
-  public Boolean getShooterArmInPosition(int desiredPosition) {
-  
-    if (m_ShooterRotateLeft.getPosition().getValue() > (desiredPosition-Constants.kShooterArmTolerancePos) && (m_ShooterRotateLeft.getPosition().getValue() < (desiredPosition+Constants.kShooterArmTolerancePos)))
-    {
-      return true; 
-    } else
-    {
-      return false;
-    }
-    
-  }
+  public void setShooterIntakePivotPosition(double desiredPosition) {
 
+  }
+  //End of motor set methods
+
+  //Start of motor get methods
   public int getShooterSpeed() {
     int integer = 0;
     return integer;
@@ -120,10 +83,6 @@ public class ShooterSubsystem extends SubsystemBase implements NTSendable{
 
   public int getShooterArmPosition() {
     return 1;
-  }
-
-  public void setShooterIntakePivotPosition(double desiredPosition) {
-
   }
 
   public boolean getShooterUpToSpeed(int desiredSpeed) {
@@ -134,10 +93,17 @@ public class ShooterSubsystem extends SubsystemBase implements NTSendable{
     }
   }
 
-  public int getDesiredShooterIntakeSpeed() {
-    int integer = 0;
-    return integer;
-  }
+  public Boolean getShooterArmInPosition(int desiredPosition) {
+      if (m_ShooterRotateLeft.getPosition().getValue() > (desiredPosition-Constants.kShooterArmTolerancePos) && (m_ShooterRotateLeft.getPosition().getValue() < (desiredPosition+Constants.kShooterArmTolerancePos)))
+      {
+        return true; 
+      } else
+      {
+        return false;
+      }
+      
+    }
+    //End of motor get methods
 
   @Override
   public void initSendable(NTSendableBuilder builder){

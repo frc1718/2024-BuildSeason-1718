@@ -15,6 +15,7 @@ public class ScoreTrap extends Command {
   private final FrontIntakeSubsystem m_intakeSubsystem;
   private final ShooterSubsystem m_shooterSubsystem;
   private boolean m_isFinished = false;
+  private boolean m_armSetToPosition = false;
 
   /**
    * Creates a new ExampleCommand.
@@ -45,8 +46,9 @@ public class ScoreTrap extends Command {
     if (m_shooterSubsystem.getShooterArmInPosition(Constants.kShooterArmTrapPos)) {
       m_shooterSubsystem.setShooterIntakePivotPosition(Constants.kShooterIntakePivotReleasedPos);
       m_shooterSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeTrapSpeed);
+      m_armSetToPosition = true;
     }
-    if (!m_shooterSubsystem.getNotePresentShooter() && m_shooterSubsystem.getShooterArmInPosition(Constants.kShooterArmTrapPos)) {
+    if (!m_shooterSubsystem.getNotePresentShooter() && m_armSetToPosition) {
       m_isFinished = true;
     }
   }

@@ -13,6 +13,7 @@ import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -22,11 +23,17 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.SetSignalLightIntensity;
-import frc.robot.commands.ShooterBeamBreak;
+
+import frc.robot.commands.LEDs.BlinkSignalLight;
+import frc.robot.commands.LEDs.SetSignalLightIntensity;
+import frc.robot.commands.ScoreNotes.ScoreAmp;
+import frc.robot.commands.ScoreNotes.ShootFromPodium;
+import frc.robot.commands.ScoreNotes.ShootFromSubwoofer;
+import frc.robot.commands.ScoreNotes.ShootOnMoveWithPose;
 import frc.robot.commands.Climb.ExtendClimber;
 import frc.robot.commands.FrontIntake.Spit;
 import frc.robot.commands.FrontIntake.Suck;
+
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
@@ -109,7 +116,16 @@ public class RobotContainer {
 
 
     // Schedules Shoot - Binds Left Top Bumper Driver 
-    driveController.leftBumper().whileTrue(shooter.shoot());
+    driveController.leftBumper().whileTrue(new ShootOnMoveWithPose(frontIntake, shooter));
+
+    // Schedules Score Amp - Binds A Button Driver
+    driveController.a().whileTrue(new ScoreAmp(frontIntake, shooter));
+
+    // Schedules Shoot From Subwoofer - Binds B Button Driver
+    driveController.b().whileTrue(new ShootFromSubwoofer(frontIntake, shooter));
+    
+    // Schedules Shoot From Podium - Binds Y Button Driver
+    driveController.y().whileTrue(new ShootFromPodium(frontIntake, shooter));
     
     // Schedules Suck - Binds Right Top Bumper Driver
     driveController.rightBumper().whileTrue(new Suck(frontIntake, shooter));   
@@ -124,15 +140,15 @@ public class RobotContainer {
     
     // Schedules reset the field - Binds centric heading on back and start button push
     //driveController.back().and(driveController.start()).onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative()));
-
-    //DEBUG CODE
-    //No idea why, but the debug command won't print the string WITHOUT the '.andThen' following up with a PrintCommand.
-    driveController.y().onTrue(new ShooterBeamBreak(shooter));
-    // l1.onTrue(new Place(m_claw, m_wrist, m_elevator));
     
-    Trigger Testing = new Trigger(shooter::getNotePresentShooter);
-    Testing.onTrue(new SetSignalLightIntensity(LED, 1));
-    Testing.onFalse(new SetSignalLightIntensity(LED, 0));
+    Trigger PickupStatus = new Trigger(shooter::getNotePresentIntake);
+    PickupStatus.onTrue(new BlinkSignalLight(LED, 1, 0.5));
+    PickupStatus.onFalse(new SetSignalLightIntensity(LED, 0));
+
+    Trigger NoteLocationStatus = new Trigger(shooter::getNotePresentShooter);
+    NoteLocationStatus.onTrue(new SetSignalLightIntensity(LED, 0.75));
+    NoteLocationStatus.onFalse(new SetSignalLightIntensity(LED, 0));
+
     //Operator Controller Assignments
     // Y - Amp
     // Right Top + Left Top Bumper Climb Mode - Hold Down Both at Once

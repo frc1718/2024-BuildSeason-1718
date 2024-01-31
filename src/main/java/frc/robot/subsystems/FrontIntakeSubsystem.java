@@ -6,7 +6,6 @@ package frc.robot.subsystems;
 
 
 import com.ctre.phoenix6.hardware.TalonFX;
-
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -15,7 +14,7 @@ public class FrontIntakeSubsystem extends SubsystemBase {
   public FrontIntakeSubsystem() {}
 
   TalonFX m_frontIntakeRotate = new TalonFX(Constants.kFrontIntakeRotateCanID, "Canivore");
-  // TalonFX m_FrontIntakeSpin = new TalonFX(Constants.kFrontIntakeSpinCanID, "Canivore");
+  TalonFX m_FrontIntakeSpin = new TalonFX(Constants.kFrontIntakeSpinCanID, "Canivore");
 
   /**
    * Example command factory method.
@@ -37,13 +36,8 @@ public class FrontIntakeSubsystem extends SubsystemBase {
    *
    * @return value of some boolean subsystem state, such as a digital sensor.
    */
-  public boolean shooterCondition() {
-    // Query some boolean state, such as a digital sensor.
-    return false;
-  }
   
   public Boolean getFrontIntakeInPosition(int desiredPosition) {
-  
     //Check that the front intake is within the tolerance of the desired position.
     if (m_frontIntakeRotate.getPosition().getValue() > (desiredPosition-Constants.kFrontIntakeTolerancePos) && (m_frontIntakeRotate.getPosition().getValue() < (desiredPosition+Constants.kFrontIntakeTolerancePos)))
     {

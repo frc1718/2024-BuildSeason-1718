@@ -15,6 +15,7 @@ public class ShootFromPodium extends Command {
   private final FrontIntakeSubsystem m_intakeSubsystem;
   private final ShooterSubsystem m_shooterSubsystem;
   private boolean m_isFinished = false;
+  private boolean m_readyToShoot = false;
 
   /**
    * Creates a new ExampleCommand.
@@ -45,8 +46,9 @@ public class ShootFromPodium extends Command {
   public void execute() {
     if (m_shooterSubsystem.getShooterUpToSpeed(Constants.kShooterPodiumSpeed) && m_shooterSubsystem.getShooterArmInPosition(Constants.kShooterArmPodiumPos)) {
       m_shooterSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeShootSpeed);
+      m_readyToShoot = true;
     }
-    if (m_shooterSubsystem.getDesiredShooterIntakeSpeed() == Constants.kShooterIntakeShootSpeed && m_shooterSubsystem.getNotePresentShooter()) {
+    if (!m_shooterSubsystem.getNotePresentShooter() && m_readyToShoot) {
       m_isFinished = true;
     }
   }

@@ -15,6 +15,7 @@ public class ShootFromSubwoofer extends Command {
   private final FrontIntakeSubsystem m_intakeSubsystem;
   private final ShooterSubsystem m_shooterSubsystem;
   private boolean m_isFinished = false;
+  private boolean m_readyToShoot = false;
 
   /**
    * Creates a new ExampleCommand.
@@ -46,7 +47,7 @@ public class ShootFromSubwoofer extends Command {
     if (m_shooterSubsystem.getShooterUpToSpeed(Constants.kShooterSubwooferSpeed) && m_shooterSubsystem.getShooterArmInPosition(Constants.kShooterArmSubwooferPos)) {
       m_shooterSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeShootSpeed);
     }
-    if (m_shooterSubsystem.getDesiredShooterIntakeSpeed() == Constants.kShooterIntakeShootSpeed && !m_shooterSubsystem.getNotePresentShooter()) {
+    if (!m_shooterSubsystem.getNotePresentShooter() && m_readyToShoot) {
       m_isFinished = true;
     }
   }

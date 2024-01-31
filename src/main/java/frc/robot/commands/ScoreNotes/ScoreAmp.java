@@ -15,13 +15,14 @@ public class ScoreAmp extends Command {
   private final ShooterSubsystem m_shooterSubsystem;
   private final FrontIntakeSubsystem m_intakeSubsystem;
   private boolean m_isFinished = false;
+  private boolean m_readyToShoot = false;
 
   /**
    * Creates a new ExampleCommand.
    * 
    * @param shooterSubsystem The subsystem used by this command.
    */
-  public ScoreAmp(ShooterSubsystem shooterSubsystem, FrontIntakeSubsystem intakeSubsystem) {
+  public ScoreAmp(FrontIntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem) {
     m_shooterSubsystem = shooterSubsystem;
     m_intakeSubsystem = intakeSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
@@ -45,8 +46,9 @@ public class ScoreAmp extends Command {
   public void execute() {
     if (m_shooterSubsystem.getShooterUpToSpeed(Constants.kShooterPodiumSpeed)) {
       m_shooterSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeShootSpeed);
+      m_readyToShoot = true;
     }
-    if (!m_shooterSubsystem.getNotePresentShooter() && m_shooterSubsystem.getDesiredShooterIntakeSpeed() == Constants.kShooterIntakeShootSpeed) {
+    if (!m_shooterSubsystem.getNotePresentShooter() && m_readyToShoot) {
       m_isFinished = true;
     }
   }
