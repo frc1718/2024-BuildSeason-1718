@@ -15,10 +15,10 @@ public class ClimberSubsystem extends SubsystemBase {
   
   //Open hardware
   Servo m_IntakePivotRelease = new Servo(Constants.kShooterIntakePivotReleasePWM);
+  
+  //RightClimb Should be a follower of leftclimb
   TalonFX m_LeftClimb = new TalonFX(Constants.kLeftClimbCanID, "Canivore");
   TalonFX m_RightClimb = new TalonFX(Constants.kRightClimbCanID, "Canivore");
-  
-  int integerer = 1;
 
   /** Creates a new ExampleSubsystem. */
   public ClimberSubsystem() {}
@@ -38,11 +38,7 @@ public class ClimberSubsystem extends SubsystemBase {
     return 1;
   }
 
-  public boolean climbComplete() {
-    return false;
-  }
-
-  public boolean climberInPosition (int desiredPosition) {
+  public boolean getClimberInPosition (int desiredPosition) {
     if (m_LeftClimb.getPosition().getValue() > (desiredPosition-Constants.kClimberTolerancePos) && (m_LeftClimb.getPosition().getValue() < (desiredPosition+Constants.kClimberTolerancePos)))
     {
       return true; 
@@ -50,17 +46,6 @@ public class ClimberSubsystem extends SubsystemBase {
     {
       return false;
     }
-  }
-
-
-  /**
-   * An example method querying a boolean state of the subsystem (for example, a digital sensor).
-   *
-   * @return value of some boolean subsystem state, such as a digital sensor.
-   */
-  public boolean climberCondition() {
-    // Query some boolean state, such as a digital sensor.
-    return false;
   }
 
   @Override

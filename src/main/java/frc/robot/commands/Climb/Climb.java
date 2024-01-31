@@ -21,6 +21,8 @@ public class Climb extends Command {
   private final FrontIntakeSubsystem m_frontIntakeSubsystem;
   private final ShooterSubsystem m_shooterSubsystem;
 
+  boolean m_isFinished = false;
+
   /**
    * Creates a new ExampleCommand.
    *
@@ -37,29 +39,27 @@ public class Climb extends Command {
     addRequirements(m_frontIntakeSubsystem);
     addRequirements(m_shooterSubsystem);
 
+
+
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    //Tell the climber to climb
     m_climberSubsystem.setClimberDesiredPosition(Constants.kClimberClimbPos);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //need to set a flag to see if we've reached preclimb and check it
-    if (m_climberSubsystem.climberInPosition(Constants.kClimberPreClimbPos)){
-      //preClimbComplete=True;
+
+
+    //need to set a flag to see if we've reached climb and check it
+    if (m_climberSubsystem.getClimberInPosition(Constants.kClimberClimbPos)){
+      m_isFinished= true;
     }
     
-    if (m_climberSubsystem.climbComplete()){
-    //set servo to release position
-    }
-
-
-
-
 
 
   }
@@ -73,6 +73,6 @@ public class Climb extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return m_isFinished;
   }
 }
