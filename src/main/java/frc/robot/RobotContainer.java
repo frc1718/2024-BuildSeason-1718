@@ -25,6 +25,8 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 import frc.robot.commands.LEDs.BlinkSignalLight;
 import frc.robot.commands.LEDs.SetSignalLightIntensity;
+import frc.robot.commands.ReadyToScoreArmPositions.ReadyToScoreAmp;
+import frc.robot.commands.ReadyToScoreArmPositions.ReadyToShoot;
 import frc.robot.commands.PreStageShooter.ShooterModeAmp;
 import frc.robot.commands.PreStageShooter.ShooterModePodium;
 import frc.robot.commands.PreStageShooter.ShooterModeShootWithPose;
@@ -111,20 +113,23 @@ public class RobotContainer {
     // Schedules Brake Swerve Drivetrain Binds (x-lock wheels) Driver
     //driveController.x().whileTrue(drivetrain.applyRequest(() -> brake));
     
-    // Making the shoot button situation specific - shoot will always shoot in any more
 
-    //If climb is not enabled, these commands are valid
-    if (!climber.preClimbActuated(false)) {
-      if (shooter.getShooterMode()=="ScoreAmp") {
-        driveController.leftBumper().whileTrue(new ScoreAmp(frontIntake, shooter));
-      } else if (shooter.getShooterMode()=="ScoreSubwoofer") {  
-        driveController.leftBumper().whileTrue(new ShootFromSubwoofer(frontIntake, shooter));
-      } else if (shooter.getShooterMode()=="ScorePodium") {
-        driveController.leftBumper().whileTrue(new ShootFromPodium(frontIntake, shooter));
-      }
-      driveController.rightBumper().whileTrue(new Suck(frontIntake, shooter));
-      driveController.rightTrigger(.5).whileTrue(new Spit(frontIntake, shooter));
-    }
+
+
+    // Schedules Shoot - Binds Left Top Bumper Driver 
+    driveController.leftBumper().whileTrue(new ShootOnMoveWithPose(frontIntake, shooter));
+
+    // Schedules Score Amp - Binds A Button Driver
+    driveController.a().whileTrue(new ScoreAmp(frontIntake, shooter));
+
+    // Schedules Shoot From Subwoofer - Binds B Button Driver
+    driveController.b().whileTrue(new ShootFromSubwoofer(frontIntake, shooter));
+    
+    // Schedules Shoot From Podium - Binds Y Button Driver
+    driveController.y().whileTrue(new ShootFromPodium(frontIntake, shooter));
+    
+    // Schedules Suck - Binds Right Top Bumper Driver
+    driveController.rightBumper().whileTrue(new Suck(frontIntake, shooter));   
 
 
     //If climb is enabled, these commands are valid
@@ -146,20 +151,20 @@ public class RobotContainer {
     NoteLocationStatus.onTrue(new SetSignalLightIntensity(LED, 0.75));
     NoteLocationStatus.onFalse(new SetSignalLightIntensity(LED, 0));
 
-    //======================================================================
-    //=========================Operator Controller Assignments==============
-    //======================================================================
-    // Y - Podium
-    // B - Amp
-    // X - Shoot From Pose
-    // A - Subwoofer
+    //Operator Controller Assignments
+    // Y - Amp
     // Right Top + Left Top Bumper Climb Mode - Hold Down Both at Once
+    // A - Shoot
     //
-    operatorController.y().onTrue(new ShooterModePodium(frontIntake,shooter));
-    operatorController.b().onTrue(new ShooterModeAmp(frontIntake,shooter));
-    operatorController.x().onTrue(new ShooterModeShootWithPose(frontIntake,shooter));
-    operatorController.a().onTrue(new ShooterModeSubwoofer(frontIntake,shooter));
-    operatorController.leftBumper().and(operatorController.rightBumper()).debounce(2).onTrue(new PreClimb(climber,shooter,frontIntake));
+    
+    // Schedules Shooter to Amp Position - Binds Y Button Operator
+    //operatorController.y().onTrue();
+    
+    // Schedules Shooter to Climb Position and enables climb mode - press both bumpers
+    //operatorController.leftBumper().and(operatorController.rightBumper()).onTrue();
+
+    // Schedules Switch to shooter mode/position - Binds A Button Operator
+    //operatorController.a().onTrue();
 
     // Schedules Play music - Binds Dpad Up
     //operatorController.povUp().onTrue();
