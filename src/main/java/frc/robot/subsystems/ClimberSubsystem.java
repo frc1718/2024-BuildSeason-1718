@@ -12,7 +12,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class ClimberSubsystem extends SubsystemBase {
-  
+
+  boolean preClimbActuated = false;
+
   //Open hardware
   Servo m_IntakePivotRelease = new Servo(Constants.kShooterIntakePivotReleasePWM);
   
@@ -23,7 +25,6 @@ public class ClimberSubsystem extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
   public ClimberSubsystem() {}
 
-
   /**
    * Example command factory method.
    *
@@ -33,8 +34,14 @@ public class ClimberSubsystem extends SubsystemBase {
     
   }
 
-  public int getClimberPosition() {
-    
+  public boolean preClimbActuated(boolean preClimb){
+    if ((preClimbActuated!=true) && (preClimb=true )){
+      preClimbActuated=true;
+    }
+  return preClimbActuated;
+  }
+
+  public int getClimberPosition() {   
     return 1;
   }
 

@@ -39,6 +39,8 @@ public class ScoreAmp extends Command {
     m_shooterSubsystem.setShooterIntakeSpeed(0);
     m_shooterSubsystem.setShooterArmPosition(Constants.kShooterArmPodiumPos);
     m_shooterSubsystem.setShooterSpeed(Constants.kShooterPodiumSpeed);
+
+    
   }
 
   // Called every time the scheduler runs while the command is scheduled.

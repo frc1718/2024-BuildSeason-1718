@@ -38,6 +38,8 @@ public class ScoreTrap extends Command {
     m_intakeSubsystem.setFrontIntakeSpeed(0);
     m_shooterSubsystem.setShooterIntakeSpeed(0);
     m_shooterSubsystem.setShooterArmPosition(Constants.kShooterArmTrapPos);
+
+    m_shooterSubsystem.setShooterMode("ScoreTrap");
   }
 
   // Called every time the scheduler runs while the command is scheduled.

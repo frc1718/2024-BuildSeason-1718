@@ -28,6 +28,8 @@ public class ShooterSubsystem extends SubsystemBase implements NTSendable{
   TalonFX m_ShooterRotateLeft = new TalonFX(Constants.kShooterRotateLeftCanID, "Canivore");
   TalonFX m_ShooterRotateRight = new TalonFX(Constants.kShooterRotateRightCanID, "Canivore");
   TalonFX m_ShooterIntakeSpin = new TalonFX(Constants.kShooterIntakeSpinCanID, "Canivore");
+  
+  public String m_shooterMode="";
 
   public ShooterSubsystem() {}
   
@@ -57,6 +59,15 @@ public class ShooterSubsystem extends SubsystemBase implements NTSendable{
   // End of sensor related methods
 
   // Start of motor set methods
+
+  public void setShooterMode(String shooterMode){
+    m_shooterMode=shooterMode;
+  }
+
+  public String getShooterMode(){
+  return m_shooterMode;
+  }
+
   public void setShooterIntakeSpeed(double speed) {
 
   }

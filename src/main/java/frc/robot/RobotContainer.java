@@ -25,10 +25,16 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 import frc.robot.commands.LEDs.BlinkSignalLight;
 import frc.robot.commands.LEDs.SetSignalLightIntensity;
+import frc.robot.commands.PreStageShooter.ShooterModeAmp;
+import frc.robot.commands.PreStageShooter.ShooterModePodium;
+import frc.robot.commands.PreStageShooter.ShooterModeShootWithPose;
+import frc.robot.commands.PreStageShooter.ShooterModeSubwoofer;
 import frc.robot.commands.ScoreNotes.ScoreAmp;
 import frc.robot.commands.ScoreNotes.ShootFromPodium;
 import frc.robot.commands.ScoreNotes.ShootFromSubwoofer;
 import frc.robot.commands.ScoreNotes.ShootOnMoveWithPose;
+import frc.robot.commands.Climb.Climb;
+import frc.robot.commands.Climb.PreClimb;
 import frc.robot.commands.FrontIntake.Spit;
 import frc.robot.commands.FrontIntake.Suck;
 
@@ -55,9 +61,11 @@ public class RobotContainer {
   private final CommandXboxController operatorController = new CommandXboxController(Constants.kOperatorControllerPort);
 
    
+  //Currently disabled to prevent missing motor error messages
   /* Setting up bindings for necessary control of the swerve drive platform */
   //private final CommandSwerveDrivetrain drivetrain = TunerConstants.DriveTrain; // My drivetrain
 
+  //Currently disabled to prevent missing motor error messages
   //private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
   //    .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
   //    .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // I want field-centric
@@ -79,15 +87,10 @@ public class RobotContainer {
   //Open the LED Subsystem
   private final LEDSubsystem LED = new LEDSubsystem();
 
-    // Sets Default Command
-    // Assign default commands
-    // ShooterSubsystem.setDefaultCommand(new TankDrive(() -> -m_joystick.getLeftY(), () -> -m_joystick.getRightY(), m_drivetrain));
-    // 
-    //
-    //
-    //
+  // Sets Default Command
+  // Assign default commands
+  // ShooterSubsystem.setDefaultCommand(new TankDrive(() -> -m_joystick.getLeftY(), () -> -m_joystick.getRightY(), m_drivetrain));
 
-  //============================================================================================================
   private void configureBindings() {
     //Schedules drivertain
     //drivetrain.setDefaultCommand( // Drivetrain will execute this command periodically
@@ -97,48 +100,44 @@ public class RobotContainer {
     //        .withRotationalRate(-driveController.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
     //    ));
 
-    //Driver Controller Assignments
-    // X - X Drive
-    // Left Bumper - Shoot
-    // Left Trigger - Climb:  Not enabled until operator puts robot in climb mode
-    // Right Bumper - Suck
-    // Right Trigger - Spit
+    //=============================================================================
+    //======================Driver Controller Assignments==========================
+    //=============================================================================
 
     // Schedules Tilt modules without driving wheels?  Maybe?
     //driveController.b().whileTrue(drivetrain.applyRequest(() -> point.withModuleDirection(new Rotation2d(-driveController.getLeftY(), -driveController.getLeftX()))));
     
+    // Currently disabled to prevent motor missing errors
     // Schedules Brake Swerve Drivetrain Binds (x-lock wheels) Driver
     //driveController.x().whileTrue(drivetrain.applyRequest(() -> brake));
     
+    // Making the shoot button situation specific - shoot will always shoot in any more
+
+    //If climb is not enabled, these commands are valid
+    if (!climber.preClimbActuated(false)) {
+      if (shooter.getShooterMode()=="ScoreAmp") {
+        driveController.leftBumper().whileTrue(new ScoreAmp(frontIntake, shooter));
+      } else if (shooter.getShooterMode()=="ScoreSubwoofer") {  
+        driveController.leftBumper().whileTrue(new ShootFromSubwoofer(frontIntake, shooter));
+      } else if (shooter.getShooterMode()=="ScorePodium") {
+        driveController.leftBumper().whileTrue(new ShootFromPodium(frontIntake, shooter));
+      }
+      driveController.rightBumper().whileTrue(new Suck(frontIntake, shooter));
+      driveController.rightTrigger(.5).whileTrue(new Spit(frontIntake, shooter));
+    }
 
 
-
-    // Schedules Shoot - Binds Left Top Bumper Driver 
-    driveController.leftBumper().whileTrue(new ShootOnMoveWithPose(frontIntake, shooter));
-
-    // Schedules Score Amp - Binds A Button Driver
-    driveController.a().whileTrue(new ScoreAmp(frontIntake, shooter));
-
-    // Schedules Shoot From Subwoofer - Binds B Button Driver
-    driveController.b().whileTrue(new ShootFromSubwoofer(frontIntake, shooter));
-    
-    // Schedules Shoot From Podium - Binds Y Button Driver
-    driveController.y().whileTrue(new ShootFromPodium(frontIntake, shooter));
-    
-    // Schedules Suck - Binds Right Top Bumper Driver
-    driveController.rightBumper().whileTrue(new Suck(frontIntake, shooter));   
-
-    // Schedules Climb - Binds Left Trigger Driver
-    //driveController.leftTrigger(.5).whileTrue(new ExtendClimber(climber));
-
-    // Schedules Descend - Binds ********
-    
-    // Schedules Spit - Binds Right Trigger Driver
-    driveController.rightTrigger(.5).whileTrue(new Spit(frontIntake, shooter));
-    
+    //If climb is enabled, these commands are valid
+    if (climber.preClimbActuated(false)) {
+      driveController.leftTrigger(.5).whileTrue(new Climb(climber,frontIntake,shooter));
+      // Schedules Descend - Binds ********
+      // At this time, we aren't going to descend because we don't have time.
+    }
+     
     // Schedules reset the field - Binds centric heading on back and start button push
     //driveController.back().and(driveController.start()).onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative()));
     
+    //LED Stuff
     Trigger PickupStatus = new Trigger(shooter::getNotePresentIntake);
     PickupStatus.onTrue(new BlinkSignalLight(LED, 1, 0.5));
     PickupStatus.onFalse(new SetSignalLightIntensity(LED, 0));
@@ -147,20 +146,20 @@ public class RobotContainer {
     NoteLocationStatus.onTrue(new SetSignalLightIntensity(LED, 0.75));
     NoteLocationStatus.onFalse(new SetSignalLightIntensity(LED, 0));
 
-    //Operator Controller Assignments
-    // Y - Amp
+    //======================================================================
+    //=========================Operator Controller Assignments==============
+    //======================================================================
+    // Y - Podium
+    // B - Amp
+    // X - Shoot From Pose
+    // A - Subwoofer
     // Right Top + Left Top Bumper Climb Mode - Hold Down Both at Once
-    // A - Shoot
     //
-    
-    // Schedules Shooter to Amp Position - Binds Y Button Operator
-    //operatorController.y().onTrue();
-    
-    // Schedules Shooter to Climb Position and enables climb mode - press both bumpers
-    //operatorController.leftBumper().and(operatorController.rightBumper()).onTrue();
-
-    // Schedules Switch to shooter mode/position - Binds A Button Operator
-    //operatorController.a().onTrue();
+    operatorController.y().onTrue(new ShooterModePodium(frontIntake,shooter));
+    operatorController.b().onTrue(new ShooterModeAmp(frontIntake,shooter));
+    operatorController.x().onTrue(new ShooterModeShootWithPose(frontIntake,shooter));
+    operatorController.a().onTrue(new ShooterModeSubwoofer(frontIntake,shooter));
+    operatorController.leftBumper().and(operatorController.rightBumper()).debounce(2).onTrue(new PreClimb(climber,shooter,frontIntake));
 
     // Schedules Play music - Binds Dpad Up
     //operatorController.povUp().onTrue();
@@ -180,7 +179,6 @@ public class RobotContainer {
         chirpSelect.incrementSelection();
       }
     }).ignoringDisable(true));
-
 
     //if (Utils.isSimulation()) {
     //  drivetrain.seedFieldRelative(new Pose2d(new Translation2d(), Rotation2d.fromDegrees(90)));

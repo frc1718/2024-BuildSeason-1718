@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.ScoreNotes;
+package frc.robot.commands.PreStageShooter;
 
 import frc.robot.Constants;
 import frc.robot.subsystems.FrontIntakeSubsystem;
@@ -10,24 +10,24 @@ import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /** An example command that uses an example subsystem. */
-public class ShootFromSubwoofer extends Command {
+public class ShooterModePodium extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final FrontIntakeSubsystem m_intakeSubsystem;
   private final ShooterSubsystem m_shooterSubsystem;
+  private final FrontIntakeSubsystem m_intakeSubsystem;
   private boolean m_isFinished = false;
   private boolean m_readyToShoot = false;
 
   /**
    * Creates a new ExampleCommand.
-   * @param intakeSubsystem
+   * 
    * @param shooterSubsystem The subsystem used by this command.
    */
-  public ShootFromSubwoofer(FrontIntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem) {
-    m_intakeSubsystem = intakeSubsystem;
+  public ShooterModePodium(FrontIntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem) {
     m_shooterSubsystem = shooterSubsystem;
+    m_intakeSubsystem = intakeSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_intakeSubsystem);
     addRequirements(m_shooterSubsystem);
+    addRequirements(m_intakeSubsystem);
   }
 
 
@@ -37,17 +37,18 @@ public class ShootFromSubwoofer extends Command {
   public void initialize() {
     m_intakeSubsystem.setFrontIntakeSpeed(0);
     m_shooterSubsystem.setShooterIntakeSpeed(0);
-    m_shooterSubsystem.setShooterArmPosition(Constants.kShooterArmSubwooferPos);
-    m_shooterSubsystem.setShooterSpeed(Constants.kShooterSubwooferSpeed);
+    m_shooterSubsystem.setShooterArmPosition(Constants.kShooterArmPodiumPos);
+    m_shooterSubsystem.setShooterSpeed(Constants.kShooterPodiumSpeed);
 
-    m_shooterSubsystem.setShooterMode("ShootFromSubwoofer");
+    m_shooterSubsystem.setShooterMode("ScorePodium");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (m_shooterSubsystem.getShooterUpToSpeed(Constants.kShooterSubwooferSpeed) && m_shooterSubsystem.getShooterArmInPosition(Constants.kShooterArmSubwooferPos)) {
+    if (m_shooterSubsystem.getShooterUpToSpeed(Constants.kShooterPodiumSpeed)) {
       m_shooterSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeShootSpeed);
+      m_readyToShoot = true;
     }
     if (!m_shooterSubsystem.getNotePresentShooter() && m_readyToShoot) {
       m_isFinished = true;
@@ -57,8 +58,9 @@ public class ShootFromSubwoofer extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_intakeSubsystem.setFrontIntakeSpeed(0);
     m_shooterSubsystem.setShooterIntakeSpeed(0);
+    m_shooterSubsystem.setShooterSpeed(0);
+    m_shooterSubsystem.setShooterArmPosition(0);
   }
 
   // Returns true when the command should end.

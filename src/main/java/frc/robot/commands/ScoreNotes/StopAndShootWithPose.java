@@ -35,6 +35,8 @@ public class StopAndShootWithPose extends Command {
   public void initialize() {
     m_intakeSubsystem.setFrontIntakeSpeed(0);
     m_shooterSubsystem.setShooterIntakeSpeed(0);
+
+    m_shooterSubsystem.setShooterMode("StopAndShootWithPose");
   }
 
   // Called every time the scheduler runs while the command is scheduled.

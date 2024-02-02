@@ -39,8 +39,6 @@ public class Climb extends Command {
     addRequirements(m_frontIntakeSubsystem);
     addRequirements(m_shooterSubsystem);
 
-
-
   }
 
   // Called when the command is initially scheduled.

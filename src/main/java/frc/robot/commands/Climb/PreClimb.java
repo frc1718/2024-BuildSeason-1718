@@ -22,6 +22,7 @@ public class PreClimb extends Command {
   private final FrontIntakeSubsystem m_frontIntakeSubsystem;
 
   boolean m_isFinished = false;
+  boolean preClimbActuated = false;
 
   /**
    * Creates a new ExampleCommand.
@@ -54,7 +55,9 @@ public class PreClimb extends Command {
     m_frontIntakeSubsystem.setFrontIntakeSpeed(Constants.kFrontIntakeStopSpeed);
     m_frontIntakeSubsystem.setFrontIntakePosition(Constants.kFrontIntakeDownPos);
 
+    m_climberSubsystem.preClimbActuated(true);
   }
+
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
