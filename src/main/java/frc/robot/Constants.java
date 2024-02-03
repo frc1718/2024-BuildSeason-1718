@@ -19,7 +19,7 @@ public class Constants {
     public static final int kLeftClimbCanID = 40;
     public static final int kRightClimbCanID = 40;
     public static final int kFrontIntakeCancoderCanID = 40;
-    public static final int kArmCancoderCanID = 40;
+    public static final int kShooterArmCancoderCanID = 40;
     public static final int kSignalLightCanID = 38;
     // End CanIDs
 
@@ -91,7 +91,7 @@ public class Constants {
     public static final int kDriveMaxVelocity = 0;
     // End Swerves
 
-    // Start PID Values
+    // Start Motor Setting Values
     // Start shooter settings
     public static final int kShooterProportional = 0;
     public static final int kShooterIntegral = 0;
@@ -99,6 +99,8 @@ public class Constants {
     public static final int kShooterVelocityFeedFoward = 0;
     public static final int kShooterMaxForwardVoltage = 0;
     public static final int kShooterMaxReverseVoltage = 0;
+    public static final int kShooterSupplyCurrentLimit = 0;
+    public static final int kShooterVoltageClosedLoopRampPeriod = 0;
     // End shooter Settings
 
     // Start ShooterArmRotate settings
@@ -109,6 +111,24 @@ public class Constants {
     public static final int kShooterArmRotateStaticFeedFoward = 0;
     public static final int kShooterArmRotateMaxForwardVoltage = 0;
     public static final int kShooterArmRotateMaxReverseVoltage = 0;
+    public static final int kShooterArmRotateMotionMagicCruiseVelocity = 0;
+    public static final int kShooterArmRotateMotionMagicAcceleration = 0;
+    public static final int kShooterArmRotateMotionMagicJerk = 0;
+    public static final int kShooterArmRotateSupplyCurrentLimit = 0;
+    public static final int kShooterArmRotateVoltageClosedLoopRampPeriod = 0;
     // End ShooterArmRotate settings
 
+    // Start FrontIntakeRotate Settings
+    public static final int kFrontIntakeRotateProportional = 0;
+    public static final int kFrontIntakeRotateIntegral = 0;
+    public static final int kFrontIntakeRotateDerivative = 0;
+    public static final int kFrontIntakeRotateVelocityFeedFoward = 0;
+    public static final int kFrontIntakeRotateStaticFeedFoward = 0;
+    public static final int kFrontIntakeRotateMaxForwardVoltage = 0;
+    public static final int kFrontIntakeRotateMaxReverseVoltage = 0;
+    public static final int kFrontIntakeRotateMotionMagicCruiseVelocity = 0;
+    public static final int kFrontIntakeRotateMotionMagicAcceleration = 0;
+    public static final int kFrontIntakeRotateMotionMagicJerk = 0;
+    public static final int kFrontIntakeSupplyCurrentLimit = 0;
+    public static final int kFrontIntakeVoltageClosedLoopRampPeriod = 0;
 }

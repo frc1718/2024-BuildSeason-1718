@@ -126,7 +126,6 @@ public class RobotContainer {
       driveController.rightTrigger(.5).whileTrue(new Spit(frontIntake, shooter));
     }
 
-
     //If climb is enabled, these commands are valid
     if (climber.preClimbActuated(false)) {
       driveController.leftTrigger(.5).whileTrue(new Climb(climber,frontIntake,shooter));
