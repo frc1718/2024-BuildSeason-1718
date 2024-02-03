@@ -4,23 +4,36 @@
 
 package frc.robot;
 
+import com.ctre.phoenix6.hardware.CANcoder;
+
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
+
+  //Open Cancoders
+  CANcoder m_ArmRotate = new CANcoder(Constants.kFrontIntakeCancoderCanID,"Canivore");
+  CANcoder m_FrontIntakeRotate = new CANcoder(Constants.kFrontIntakeCancoderCanID,"Canivore");
+
+
+
   
   @Override
   public void robotInit() {
     m_robotContainer = new RobotContainer();
+
+    CameraServer.startAutomaticCapture();
   }
 
   @Override
   public void robotPeriodic() {
-    CommandScheduler.getInstance().run(); 
+    CommandScheduler.getInstance().run();
   }
 
   @Override
