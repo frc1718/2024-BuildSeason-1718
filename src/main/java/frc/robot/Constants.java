@@ -3,13 +3,16 @@ package frc.robot;
 public class Constants {
     /* ALL CONSTANTS GO HERE */
     
-    //Controllers
+    // Start Controllers
     public static final int kDriverControllerPort = 0;
     public static final int kOperatorControllerPort = 1;
+    //End Controllers
 
-    //CanIDs
-    public static final int kShooterRotateLeftCanID = 40;
-    public static final int kShooterRotateRightCanID = 40;
+    // Start CanIDs
+    public static final int kShooterArmRotateLeftCanID = 40;
+    public static final int kShooterArmRotateRightCanID = 40;
+    public static final int kSpinLeftShooterCanID = 40;
+    public static final int kSpinRightShooterCanID = 40;
     public static final int kShooterIntakeSpinCanID = 40;
     public static final int kFrontIntakeRotateCanID = 40;
     public static final int kFrontIntakeSpinCanID = 40;
@@ -18,23 +21,20 @@ public class Constants {
     public static final int kFrontIntakeCancoderCanID = 40;
     public static final int kArmCancoderCanID = 40;
     public static final int kSignalLightCanID = 38;
+    // End CanIDs
 
-    //PWM
+    // Start PWM
     public static final int kShooterIntakePivotReleasePWM = 0;
+    //End PWM
 
-    //Analog IO
+    // Start Analog IO
     public static final int kBeamBreakIntakeAnalog = 0;
     public static final int kBeamBreakShooterAnalog = 1;
     public static final double kIntakeBeamBreakCrossover = 0.4;
     public static final double kShooterBeamBreakCrossover = 0.4;
+    // End Analog IO
 
-    //Positions
-    /*
-     * FrontIntakePositions (Down, Up, Home)
-     * ArmPositions (Home, Podium Shoot, Subwoofer Shoot, Amp Score, Trap Score, Ready To Climb)
-     * Climber (Climber Extended, Climber Retracted, Home)
-     */
-
+    // Start Positions
     public static final int kShooterArmSubwooferPos = 0;
     public static final int kShooterArmPodiumPos = 0;
     public static final int kShooterArmAmpPos = 0;
@@ -55,13 +55,9 @@ public class Constants {
     public static final int kFrontIntakeTolerancePos = 0;
 
     public static final int kShooterIntakePivotReleasedPos = 0;
+    // End Positions
 
-    //Speeds
-    /* Shooter (Max Speed, Podium Shoot, Subwoofer Shoot, Amp Score)
-     * ShooterIntake (Intaking, Spitting, Max Speed?)
-     * FrontIntake (Intaking, Spitting, Max Speed?)
-     */
-
+    // Start Speeds
     public static final int kShooterSubwooferSpeed = 0;
     public static final int kShooterPodiumSpeed = 0;
     public static final int kShooterAmpSpeed = 0;
@@ -84,17 +80,35 @@ public class Constants {
     public static final int kFrontIntakeMaxSpeed = 0;
 
     public static final int kShooterSpeedTolerance = 0;
-    //Swerves
-    /*
-     * Steer (Offsets, Max Speed?, whatever else is in swerve modules)
-     * Drive (Max Speed, whatever else is in swerve modules)
-     */
-
+    // End Speeds
+    
+    // Start Swerves
     public static final int kLFSteerOffset = 0;
     public static final int kRFSteerOffset = 0;
     public static final int kLRSteerOffset = 0;
     public static final int kRRSteerOffset = 0;
 
     public static final int kDriveMaxVelocity = 0;
+    // End Swerves
+
+    // Start PID Values
+    // Start shooter settings
+    public static final int kShooterProportional = 0;
+    public static final int kShooterIntegral = 0;
+    public static final int kShooterDerivative = 0;
+    public static final int kShooterVelocityFeedFoward = 0;
+    public static final int kShooterMaxForwardVoltage = 0;
+    public static final int kShooterMaxReverseVoltage = 0;
+    // End shooter Settings
+
+    // Start ShooterArmRotate settings
+    public static final int kShooterArmRotateProportional = 0;
+    public static final int kShooterArmRotateIntegral = 0;
+    public static final int kShooterArmRotateDerivative = 0;
+    public static final int kShooterArmRotateVelocityFeedFoward = 0;
+    public static final int kShooterArmRotateStaticFeedFoward = 0;
+    public static final int kShooterArmRotateMaxForwardVoltage = 0;
+    public static final int kShooterArmRotateMaxReverseVoltage = 0;
+    // End ShooterArmRotate settings
 
 }
