@@ -46,4 +46,6 @@ public class Constants {
      * Steer (Offsets, Max Speed?, whatever else is in swerve modules)
      * Drive (Max Speed, whatever else is in swerve modules)
      */
+
+     public static final String kLimelightName = "limelight";
 }
