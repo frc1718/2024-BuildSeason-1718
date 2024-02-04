@@ -182,7 +182,7 @@ public boolean getShooterReadyToShoot() {
   }
 
   public void setShooterIntakePivotPosition(double desiredPosition) {
-    intakeHinge.set(desiredPosition);
+    //intakeHinge.set(desiredPosition);
   }
   //End of motor set methods
 
