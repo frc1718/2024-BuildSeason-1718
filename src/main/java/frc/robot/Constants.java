@@ -1,5 +1,9 @@
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
+
 public class Constants {
     /* ALL CONSTANTS GO HERE */
     
@@ -46,6 +50,11 @@ public class Constants {
      * Steer (Offsets, Max Speed?, whatever else is in swerve modules)
      * Drive (Max Speed, whatever else is in swerve modules)
      */
-
+    
+     //Name of the limelight camera.
      public static final String kLimelightName = "limelight";
+
+     //Pose of the blue speaker.
+     //Used to be a pose, but only the X and Y are needed.  Changed to a translation to clean up the actual calculation.
+     public static final Translation2d kBlueSpeakerLocation = new Translation2d(0.0, 5.5);
 }

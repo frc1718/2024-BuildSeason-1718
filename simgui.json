@@ -40,6 +40,12 @@
       "Drive": {
         "open": true
       },
+      "Pose": {
+        "double[]##v_/Pose/robotPose": {
+          "open": true
+        },
+        "open": true
+      },
       "SmartDashboard": {
         "Auton Selector": {
           "open": true

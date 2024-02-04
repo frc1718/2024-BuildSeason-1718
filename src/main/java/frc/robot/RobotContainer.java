@@ -63,7 +63,13 @@ public class RobotContainer {
                                                                // driving in open loop
   private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
   private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
- 
+  
+  //Testing an idea: hold a button and always aim at the goal.
+  //Copying a fair amount of this from the FieldCentric drive.
+  private final SwerveRequest.FieldCentricFacingAngle rootyTootyPointAndShooty = new SwerveRequest.FieldCentricFacingAngle()
+      .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1)
+      .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
+
   private final Telemetry logger = new Telemetry(MaxSpeed);
 
   //Open the Shooter Subsystem
@@ -95,7 +101,7 @@ public class RobotContainer {
             .withVelocityY(-driveController.getLeftX() * MaxSpeed) // Drive left with negative X (left)
             .withRotationalRate(-driveController.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
         ));
-
+    
     //Driver Controller Assignments
     // X - X Drive
     // Left Bumper - Shoot
@@ -109,8 +115,16 @@ public class RobotContainer {
     // Schedules Brake Swerve Drivetrain Binds (x-lock wheels) Driver
     driveController.x().whileTrue(drivetrain.applyRequest(() -> brake));
     
+    //I bet there's a much better place to put this assignment, but I don't know where.
+    //These gains are also completely made up.  Not terrible in simulation, but don't trust them.
+    rootyTootyPointAndShooty.HeadingController.setPID(20, 0, 0.05);
 
-
+    //Before this can be used, theres an issue with being 'above' or 'below' the coordinates of the speaker.
+    //I think it's because of the -180 to +180 crossover, but unsure how to fix it currently.
+    driveController.start().whileTrue(drivetrain.applyRequest(() -> rootyTootyPointAndShooty.withVelocityX(-driveController.getLeftY() * MaxSpeed)
+            .withVelocityY(-driveController.getLeftX() * MaxSpeed)
+            .withTargetDirection(Constants.kBlueSpeakerLocation.minus(drivetrain.getState().Pose.getTranslation()).getAngle())
+            ));
 
     // Schedules Shoot - Binds Left Top Bumper Driver 
     driveController.leftBumper().whileTrue(shooter.shoot());
