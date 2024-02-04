@@ -4,9 +4,20 @@
 
 package frc.robot.subsystems;
 
-
-
+import com.ctre.phoenix6.StatusCode;
+import com.ctre.phoenix6.configs.CANcoderConfiguration;
+import com.ctre.phoenix6.configs.MagnetSensorConfigs;
+import com.ctre.phoenix6.configs.MotionMagicConfigs;
+import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.Follower;
+import com.ctre.phoenix6.controls.MotionMagicVoltage;
+import com.ctre.phoenix6.controls.VelocityVoltage;
+import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
+import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
+import com.ctre.phoenix6.signals.SensorDirectionValue;
 
 import edu.wpi.first.networktables.NTSendable;
 import edu.wpi.first.networktables.NTSendableBuilder;
@@ -26,6 +37,7 @@ public class ShooterSubsystem extends SubsystemBase implements NTSendable{
   //Servo intakeHinge = new Servo(Constants.kShooterIntakePivotReleasePWM);
 
   //Open Motors
+
   // TalonFX m_ShooterRotateLeft = new TalonFX(Constants.kShooterRotateLeftCanID, "Canivore");
   // TalonFX m_ShooterRotateRight = new TalonFX(Constants.kShooterRotateRightCanID, "Canivore");
   // TalonFX m_ShooterIntakeSpin = new TalonFX(Constants.kShooterIntakeSpinCanID, "Canivore");
@@ -33,7 +45,89 @@ public class ShooterSubsystem extends SubsystemBase implements NTSendable{
   public String m_shooterMode = "";
   public boolean m_readyToShoot = false;
 
-  public ShooterSubsystem() {}
+  TalonFX m_ShooterArmRotateLeft = new TalonFX(Constants.kShooterArmRotateLeftCanID, "Canivore");
+  TalonFX m_ShooterArmRotateRight = new TalonFX(Constants.kShooterArmRotateRightCanID, "Canivore");
+  TalonFX m_ShooterIntakeSpin = new TalonFX(Constants.kShooterIntakeSpinCanID, "Canivore");
+  TalonFX m_SpinRightShooter = new TalonFX(Constants.kSpinRightShooterCanID, "Canivore");
+  TalonFX m_SpinLeftShooter = new TalonFX(Constants.kSpinLeftShooterCanID, "Canivore"); 
+
+  //Open CanCoder
+  CANcoder ShooterArmCANcoder = new CANcoder(Constants.kShooterArmCancoderCanID);
+  
+  private final VelocityVoltage ShooterVelocity = new VelocityVoltage(0.0, 0.0, true, 0,0, false, false, false);
+  private final MotionMagicVoltage ShooterArmPosition = new MotionMagicVoltage(0.0, true, 0, 0, false, false, false);
+  private final VelocityVoltage ShooterIntakeVelocity = new VelocityVoltage(0, 0, true, 0, 0, false, false, false);
+
+
+
+  public ShooterSubsystem() {
+    //Configuring CANcoder
+    CANcoderConfiguration ShooterArmCANcoderConfig = new CANcoderConfiguration();
+    ShooterArmCANcoderConfig.MagnetSensor.MagnetOffset = 0.0;
+    ShooterArmCANcoderConfig.MagnetSensor.AbsoluteSensorRange = AbsoluteSensorRangeValue.Unsigned_0To1;
+    ShooterArmCANcoderConfig.MagnetSensor.SensorDirection = SensorDirectionValue.Clockwise_Positive;
+
+    TalonFXConfiguration ShooterMotorsConfig = new TalonFXConfiguration();
+
+    ShooterMotorsConfig.Slot0.kP = Constants.kShooterProportional; // An error of 1 rotation per second results in 2V output
+    ShooterMotorsConfig.Slot0.kI = Constants.kShooterIntegral; // An error of 1 rotation per second increases output by 0.5V every second
+    ShooterMotorsConfig.Slot0.kD = Constants.kShooterDerivative; // A change of 1 rotation per second squared results in 0.01 volts output
+    ShooterMotorsConfig.Slot0.kV = Constants.kShooterVelocityFeedFoward; // Falcon 500 is a 500kV motor, 500rpm per V = 8.333 rps per V, 1/8.33 = 0.12 volts / Rotation per second
+    // Peak output of 8 volts
+    ShooterMotorsConfig.Voltage.PeakForwardVoltage = Constants.kShooterMaxForwardVoltage;
+    ShooterMotorsConfig.Voltage.PeakReverseVoltage = Constants.kShooterMaxReverseVoltage;
+
+    ShooterMotorsConfig.CurrentLimits.SupplyCurrentLimit = Constants.kShooterSupplyCurrentLimit;
+    ShooterMotorsConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.kShooterVoltageClosedLoopRampPeriod;
+
+    StatusCode leftShooterStatus = StatusCode.StatusCodeNotInitialized;
+    for(int i = 0; i < 5; ++i) {
+      leftShooterStatus = m_SpinLeftShooter.getConfigurator().apply(ShooterMotorsConfig);
+      if (leftShooterStatus.isOK()) break;
+    }
+    if (!leftShooterStatus.isOK()) {
+      System.out.println("Could not configure device. Error: " + leftShooterStatus.toString());
+    }
+
+    StatusCode rightShooterStatus = StatusCode.StatusCodeNotInitialized;
+    for(int i = 0; i < 5; ++i) {
+      rightShooterStatus = m_SpinRightShooter.getConfigurator().apply(ShooterMotorsConfig);
+      if (rightShooterStatus.isOK()) break;
+    }
+    if (!rightShooterStatus.isOK()) {
+      System.out.println("Could not configure device. Error: " + rightShooterStatus.toString());
+    }
+
+    TalonFXConfiguration ShooterArmRotateConfig = new TalonFXConfiguration();
+    MotionMagicConfigs ShooterArmRotateMotionMagic = ShooterArmRotateConfig.MotionMagic;
+    ShooterArmRotateMotionMagic.MotionMagicCruiseVelocity = Constants.kShooterArmRotateMotionMagicCruiseVelocity; // 5 rotations per second cruise if this is 5
+    ShooterArmRotateMotionMagic.MotionMagicAcceleration = Constants.kShooterArmRotateMotionMagicAcceleration; // Take approximately 0.5 seconds to reach max vel if this is 10
+    // Take approximately 0.2 seconds to reach max accel 
+    ShooterArmRotateMotionMagic.MotionMagicJerk = Constants.kShooterArmRotateMotionMagicJerk;
+
+    ShooterArmRotateConfig.CurrentLimits.SupplyCurrentLimit = Constants.kShooterArmRotateSupplyCurrentLimit;
+    ShooterMotorsConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.kShooterArmRotateVoltageClosedLoopRampPeriod;
+
+    Slot0Configs slot0 = ShooterArmRotateConfig.Slot0;
+    slot0.kP = Constants.kShooterArmRotateProportional;
+    slot0.kI = Constants.kShooterArmRotateIntegral;
+    slot0.kD = Constants.kShooterArmRotateDerivative;
+    slot0.kV = Constants.kShooterArmRotateVelocityFeedFoward;
+    slot0.kS = Constants.kShooterArmRotateStaticFeedFoward; // The value of s is approximately the number of volts needed to get the mechanism moving
+
+    ShooterArmRotateConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RemoteCANcoder;
+    ShooterArmRotateConfig.Feedback.FeedbackRemoteSensorID = ShooterArmCANcoder.getDeviceID();
+
+    StatusCode shooterArmStatus = StatusCode.StatusCodeNotInitialized;
+    for(int i = 0; i < 5; ++i) {
+      shooterArmStatus = m_ShooterArmRotateLeft.getConfigurator().apply(ShooterArmRotateConfig);
+      if (shooterArmStatus.isOK()) break;
+    }
+    if (!shooterArmStatus.isOK()) {
+      System.out.println("Could not configure device. Error: " + shooterArmStatus.toString());
+    }
+    m_ShooterArmRotateRight.setControl(new Follower(Constants.kShooterArmRotateLeftCanID, true));
+  }
   
   @Override
   public void periodic() {
@@ -74,34 +168,32 @@ public boolean getShooterReadyToShoot() {
   }
 
   public void setShooterIntakeSpeed(double speed) {
-    System.out.println("Subsystem: Shooter - setShooterIntakeSpeed");
+
+    m_ShooterIntakeSpin.setControl(ShooterIntakeVelocity.withVelocity(speed));
   }
 
-  public void setShooterSpeed(double speed) {
-    //Set both right and left shooter motor speeds here
-    //Don't we only have to set one motor because one will be a follower?
-    System.out.println("Subsystem: Shooter - setShooterSpeed");
+  public void setShooterSpeed(double shootSpeed) {
+    m_SpinLeftShooter.setControl(ShooterVelocity.withVelocity(shootSpeed));
+    m_SpinRightShooter.setControl(ShooterVelocity.withVelocity((shootSpeed*0.9)));
   }
 
   public void setShooterArmPosition(int position) {
-    System.out.println("Subsystem: Shooter - setShooterArmPosition");
+    m_ShooterArmRotateLeft.setControl(ShooterArmPosition.withPosition(position));
   }
 
   public void setShooterIntakePivotPosition(double desiredPosition) {
-    System.out.println("Subsystem: Shooter - setShooterIntakePivotPosition");
+    intakeHinge.set(desiredPosition);
   }
   //End of motor set methods
 
   //Start of motor get methods
-  public int getShooterSpeed() {
-    int integer = 0;
-    System.out.println("Subsystem: Shooter - getShooterSpeed");
-    return integer;
+
+  public double getShooterSpeed() {
+    return m_SpinLeftShooter.getPosition().getValue();
   }
 
-  public int getShooterArmPosition() {
-    System.out.println("Subsystem: Shooter - GetShooterArmPosition");
-    return 1;
+  public double getShooterArmPosition() {
+    return m_ShooterArmRotateLeft.getPosition().getValue();
   }
 
   public boolean getShooterUpToSpeed(int desiredSpeed) {
@@ -114,6 +206,7 @@ public boolean getShooterReadyToShoot() {
   }
 
   public Boolean getShooterArmInPosition(int desiredPosition) {
+
       System.out.println("Subsystem: Shooter - getShooterArmInPosition");
       /* if (m_ShooterRotateLeft.getPosition().getValue() > (desiredPosition-Constants.kShooterArmTolerancePos) && (m_ShooterRotateLeft.getPosition().getValue() < (desiredPosition+Constants.kShooterArmTolerancePos)))
       {
