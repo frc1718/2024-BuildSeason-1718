@@ -2,15 +2,16 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.PreStageShooter;
+package frc.robot.commands.Operator;
 
 import frc.robot.Constants;
 import frc.robot.subsystems.FrontIntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 
 /** An example command that uses an example subsystem. */
-public class ShooterModePodium extends Command {
+public class ShooterModeSubwoofer extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final ShooterSubsystem m_shooterSubsystem;
   private final FrontIntakeSubsystem m_intakeSubsystem;
@@ -22,7 +23,7 @@ public class ShooterModePodium extends Command {
    * 
    * @param shooterSubsystem The subsystem used by this command.
    */
-  public ShooterModePodium(FrontIntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem) {
+  public ShooterModeSubwoofer(FrontIntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem) {
     m_shooterSubsystem = shooterSubsystem;
     m_intakeSubsystem = intakeSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
@@ -35,12 +36,13 @@ public class ShooterModePodium extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    System.out.println("Command Operator: ShooterModeSubwoofer");
     m_intakeSubsystem.setFrontIntakeSpeed(0);
     m_shooterSubsystem.setShooterIntakeSpeed(0);
-    m_shooterSubsystem.setShooterArmPosition(Constants.kShooterArmPodiumPos);
-    m_shooterSubsystem.setShooterSpeed(Constants.kShooterPodiumSpeed);
+    m_shooterSubsystem.setShooterArmPosition(Constants.kShooterArmSubwooferPos);
+    m_shooterSubsystem.setShooterSpeed(Constants.kShooterSubwooferSpeed);
 
-    m_shooterSubsystem.setShooterMode("ScorePodium");
+    m_shooterSubsystem.setShooterMode("ShootSubwoofer");
   }
 
   // Called every time the scheduler runs while the command is scheduled.

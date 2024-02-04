@@ -7,6 +7,7 @@ package frc.robot.commands.LEDs;
 import frc.robot.subsystems.LEDSubsystem;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 
 /** An example command that uses an example subsystem. */
 public class BlinkSignalLight extends Command {
@@ -34,6 +35,7 @@ public class BlinkSignalLight extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    System.out.println("Command: BlinkSignalLight");
     m_LEDSubsystem.SetLightIntensity(0);
     timey.start();
   }

@@ -2,11 +2,12 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.FrontIntake;
+package frc.robot.commands.Driver;
 
 import frc.robot.subsystems.FrontIntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import frc.robot.Constants;
 
 /** An example command that uses an example subsystem. */
@@ -16,11 +17,6 @@ public class Suck extends Command {
   private final ShooterSubsystem m_shooterSubsystem;
   private boolean m_isFinished = false;
 
-  /**
-   * Creates a new ExampleCommand.
-   * @param frontIntakeSubsystem
-   * @param shooterSubsystem The subsystem used by this command.
-   */
   public Suck(FrontIntakeSubsystem frontIntakeSubsystem, ShooterSubsystem shooterSubsystem) {
     m_frontIntakeSubsystem = frontIntakeSubsystem;
     m_shooterSubsystem = shooterSubsystem;
@@ -34,16 +30,17 @@ public class Suck extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    
-    m_frontIntakeSubsystem.setFrontIntakePosition(Constants.kFrontIntakeDownPos);  
-    m_shooterSubsystem.setShooterArmPosition(Constants.kShooterArmHomePos);
-
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+  System.out.println("Driver Command: Suck");
   
+  //Set required positions
+  m_frontIntakeSubsystem.setFrontIntakePosition(Constants.kFrontIntakeDownPos);  
+  m_shooterSubsystem.setShooterArmPosition(Constants.kShooterArmHomePos);
+
   //Check to see if front intake and shooter arm are in position
   if (m_shooterSubsystem.getShooterArmInPosition(Constants.kShooterArmHomePos) && m_frontIntakeSubsystem.getFrontIntakeInPosition(Constants.kFrontIntakeDownPos)) 
     { 

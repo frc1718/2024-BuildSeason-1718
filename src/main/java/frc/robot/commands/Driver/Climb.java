@@ -6,71 +6,63 @@
   //in case of encoders messing up and we don't want the climber
   //going to positions it physically can't.
 
-package frc.robot.commands.Climb;
+package frc.robot.commands.Driver;
 
 import frc.robot.Constants;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.FrontIntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 
 /** An example command that uses an example subsystem. */
-public class PreClimb extends Command {
+public class Climb extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final ClimberSubsystem m_climberSubsystem;
-  private final ShooterSubsystem m_shooterSubsystem;
   private final FrontIntakeSubsystem m_frontIntakeSubsystem;
+  private final ShooterSubsystem m_shooterSubsystem;
 
   boolean m_isFinished = false;
-  boolean preClimbActuated = false;
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-
-  public PreClimb(ClimberSubsystem climberSubsystem, ShooterSubsystem shooterSubsystem, FrontIntakeSubsystem frontIntakeSubsystem) {
+  public Climb(ClimberSubsystem climberSubsystem, FrontIntakeSubsystem frontIntakeSubsystem, ShooterSubsystem shooterSubsystem) {
     m_climberSubsystem = climberSubsystem;
-    m_shooterSubsystem = shooterSubsystem;
     m_frontIntakeSubsystem = frontIntakeSubsystem;
+    m_shooterSubsystem = shooterSubsystem;
 
     // Use addRequirements() here to declare subsystem dependencies.
+
     addRequirements(m_climberSubsystem);
-    addRequirements(m_shooterSubsystem);
     addRequirements(m_frontIntakeSubsystem);
+    addRequirements(m_shooterSubsystem);
+
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
-    //In the initialize step, set the desired starting positions and speeds of each system
-    m_climberSubsystem.setClimberDesiredPosition(Constants.kClimberPreClimbPos);
-
-    m_shooterSubsystem.setShooterArmPosition(Constants.kShooterArmPreClimbPos);
-    m_shooterSubsystem.setShooterSpeed(Constants.kShooterStopSpeed);
-    m_shooterSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeStopSpeed);
-    
-    m_frontIntakeSubsystem.setFrontIntakeSpeed(Constants.kFrontIntakeStopSpeed);
-    m_frontIntakeSubsystem.setFrontIntakePosition(Constants.kFrontIntakeDownPos);
-
-    m_climberSubsystem.preClimbActuated(true);
   }
-
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    
+    System.out.println("Driver Command: Climb");
 
-    //Check to see if we made it into the preclimb position
-    if (m_climberSubsystem.getClimberInPosition(Constants.kClimberPreClimbPos) && m_shooterSubsystem.getShooterArmInPosition(Constants.kShooterArmPreClimbPos) && m_frontIntakeSubsystem.getFrontIntakeInPosition(Constants.kFrontIntakeDownPos))
-    {
-      m_isFinished = true;
+    //Tell the climber to climb
+    m_climberSubsystem.setClimberDesiredPosition(Constants.kClimberClimbPos);
+
+    //Need to set a flag to see if we've reached climb and check it
+    if (m_climberSubsystem.getClimberInPosition(Constants.kClimberClimbPos)){
+      m_isFinished= true;
     }
-
+    
   }
-  
+
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {

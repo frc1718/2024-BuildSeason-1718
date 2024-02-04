@@ -16,13 +16,6 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
-
-  //Open Cancoders
-  CANcoder m_ArmRotate = new CANcoder(Constants.kFrontIntakeCancoderCanID,"Canivore");
-  CANcoder m_FrontIntakeRotate = new CANcoder(Constants.kFrontIntakeCancoderCanID,"Canivore");
-
-
-
   
   @Override
   public void robotInit() {
