@@ -23,6 +23,7 @@ import edu.wpi.first.networktables.NTSendable;
 import edu.wpi.first.networktables.NTSendableBuilder;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Servo;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -33,9 +34,17 @@ public class ShooterSubsystem extends SubsystemBase implements NTSendable{
   AnalogInput m_BeamBreakShooterAnalog = new AnalogInput(Constants.kBeamBreakShooterAnalog);
   
   //Open Servo
-  Servo intakeHinge = new Servo(Constants.kShooterIntakePivotReleasePWM);
+  //Servo intakeHinge = new Servo(Constants.kShooterIntakePivotReleasePWM);
 
   //Open Motors
+
+  // TalonFX m_ShooterRotateLeft = new TalonFX(Constants.kShooterRotateLeftCanID, "Canivore");
+  // TalonFX m_ShooterRotateRight = new TalonFX(Constants.kShooterRotateRightCanID, "Canivore");
+  // TalonFX m_ShooterIntakeSpin = new TalonFX(Constants.kShooterIntakeSpinCanID, "Canivore");
+  
+  public String m_shooterMode = "";
+  public boolean m_readyToShoot = false;
+
   TalonFX m_ShooterArmRotateLeft = new TalonFX(Constants.kShooterArmRotateLeftCanID, "Canivore");
   TalonFX m_ShooterArmRotateRight = new TalonFX(Constants.kShooterArmRotateRightCanID, "Canivore");
   TalonFX m_ShooterIntakeSpin = new TalonFX(Constants.kShooterIntakeSpinCanID, "Canivore");
@@ -49,7 +58,7 @@ public class ShooterSubsystem extends SubsystemBase implements NTSendable{
   private final MotionMagicVoltage ShooterArmPosition = new MotionMagicVoltage(0.0, true, 0, 0, false, false, false);
   private final VelocityVoltage ShooterIntakeVelocity = new VelocityVoltage(0, 0, true, 0, 0, false, false, false);
 
-  private String m_shooterMode="";
+
 
   public ShooterSubsystem() {
     //Configuring CANcoder
@@ -88,7 +97,6 @@ public class ShooterSubsystem extends SubsystemBase implements NTSendable{
     if (!rightShooterStatus.isOK()) {
       System.out.println("Could not configure device. Error: " + rightShooterStatus.toString());
     }
-  
 
     TalonFXConfiguration ShooterArmRotateConfig = new TalonFXConfiguration();
     MotionMagicConfigs ShooterArmRotateMotionMagic = ShooterArmRotateConfig.MotionMagic;
@@ -121,28 +129,29 @@ public class ShooterSubsystem extends SubsystemBase implements NTSendable{
     m_ShooterArmRotateRight.setControl(new Follower(Constants.kShooterArmRotateLeftCanID, true));
   }
   
-  /**
-   * An example method querying a boolean state of the subsystem (for example, a digital sensor).
-   *
-   * @return value of some boolean subsystem state, such as a digital sensor.
-   */
-  public boolean shooterCondition() {
-    // Query some boolean state, such as a digital sensor.
-    return false;
-  }
-
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
   }
-  
+public void setShooterReadyToShoot(boolean readyToShoot) {
+  m_readyToShoot = readyToShoot;
+}
+
+public boolean getShooterReadyToShoot() {
+  return m_readyToShoot;
+}
+
   // Start of sensor related methods
   public boolean getNotePresentIntake() {  
+    //System.out.println("Subsystem: Shooter - getNotePresentIntake");
     return (m_BeamBreakIntakeAnalog.getVoltage() >= Constants.kIntakeBeamBreakCrossover);
+    
   }
    
   public boolean getNotePresentShooter() {  
+    //System.out.println("Subsystem: Shooter - getNotePresentShooter");
     return (m_BeamBreakShooterAnalog.getVoltage() >= Constants.kShooterBeamBreakCrossover);
+
   }
   // End of sensor related methods
 
@@ -150,13 +159,16 @@ public class ShooterSubsystem extends SubsystemBase implements NTSendable{
 
   public void setShooterMode(String shooterMode){
     m_shooterMode=shooterMode;
+    System.out.println("Subsystem: Shooter - setShooterMode");
   }
 
   public String getShooterMode(){
-  return m_shooterMode;
+    System.out.println("Subsystem: Shooter - getShooterMode");
+    return m_shooterMode;
   }
 
   public void setShooterIntakeSpeed(double speed) {
+
     m_ShooterIntakeSpin.setControl(ShooterIntakeVelocity.withVelocity(speed));
   }
 
@@ -175,6 +187,7 @@ public class ShooterSubsystem extends SubsystemBase implements NTSendable{
   //End of motor set methods
 
   //Start of motor get methods
+
   public double getShooterSpeed() {
     return m_SpinLeftShooter.getPosition().getValue();
   }
@@ -184,6 +197,7 @@ public class ShooterSubsystem extends SubsystemBase implements NTSendable{
   }
 
   public boolean getShooterUpToSpeed(int desiredSpeed) {
+    System.out.println("Subsystem: Shooter - getShooterUpToSpeed");
     if ((desiredSpeed - Constants.kShooterSpeedTolerance) >= getShooterSpeed() && getShooterSpeed() <= (desiredSpeed + Constants.kShooterSpeedTolerance)) {
       return true;
     } else {
@@ -192,17 +206,20 @@ public class ShooterSubsystem extends SubsystemBase implements NTSendable{
   }
 
   public Boolean getShooterArmInPosition(int desiredPosition) {
-      if (m_ShooterArmRotateLeft.getPosition().getValue() > (desiredPosition-Constants.kShooterArmTolerancePos) && (m_ShooterArmRotateLeft.getPosition().getValue() < (desiredPosition+Constants.kShooterArmTolerancePos)))
+
+      System.out.println("Subsystem: Shooter - getShooterArmInPosition");
+      /* if (m_ShooterRotateLeft.getPosition().getValue() > (desiredPosition-Constants.kShooterArmTolerancePos) && (m_ShooterRotateLeft.getPosition().getValue() < (desiredPosition+Constants.kShooterArmTolerancePos)))
       {
         return true; 
       } else
       {
         return false;
-      }
+      } */
+      return false;
       
     }
     //End of motor get methods
-
+  
   @Override
   public void initSendable(NTSendableBuilder builder){
     builder.setSmartDashboardType("ShooterSubsystem");

@@ -2,15 +2,16 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.PreStageShooter;
+package frc.robot.commands.Operator;
 
 import frc.robot.Constants;
 import frc.robot.subsystems.FrontIntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 
 /** An example command that uses an example subsystem. */
-public class ShooterModeAmp extends Command {
+public class ShooterModePodium extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final ShooterSubsystem m_shooterSubsystem;
   private final FrontIntakeSubsystem m_intakeSubsystem;
@@ -22,7 +23,7 @@ public class ShooterModeAmp extends Command {
    * 
    * @param shooterSubsystem The subsystem used by this command.
    */
-  public ShooterModeAmp(FrontIntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem) {
+  public ShooterModePodium(FrontIntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem) {
     m_shooterSubsystem = shooterSubsystem;
     m_intakeSubsystem = intakeSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
@@ -35,25 +36,26 @@ public class ShooterModeAmp extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    System.out.println("Command Operator: ShooterModePodium");
     m_intakeSubsystem.setFrontIntakeSpeed(0);
     m_shooterSubsystem.setShooterIntakeSpeed(0);
-    m_shooterSubsystem.setShooterArmPosition(Constants.kShooterArmAmpPos);
-    m_shooterSubsystem.setShooterSpeed(Constants.kShooterAmpSpeed);
+    m_shooterSubsystem.setShooterArmPosition(Constants.kShooterArmPodiumPos);
+    m_shooterSubsystem.setShooterSpeed(Constants.kShooterPodiumSpeed);
 
-    m_shooterSubsystem.setShooterMode("ScoreAmp");
+    m_shooterSubsystem.setShooterMode("ShootPodium");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (m_shooterSubsystem.getShooterUpToSpeed(Constants.kShooterAmpSpeed)) {
+    if (m_shooterSubsystem.getShooterUpToSpeed(Constants.kShooterPodiumSpeed)) {
       m_shooterSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeShootSpeed);
       m_readyToShoot = true;
+      System.out.println("PreStageShooter Command Execute Loop: shooter up to speed");
     }
-
-    //We need to debounce this with a slight delay to let the note get out of the shooter before moving the arm.
     if (!m_shooterSubsystem.getNotePresentShooter() && m_readyToShoot) {
       m_isFinished = true;
+      //Need to clarify what this is doing with m_readyToShoot
     }
   }
 
@@ -61,8 +63,8 @@ public class ShooterModeAmp extends Command {
   @Override
   public void end(boolean interrupted) {
     m_shooterSubsystem.setShooterIntakeSpeed(0);
-    m_shooterSubsystem.setShooterSpeed(Constants.kShooterIdleSpeed);
-    m_shooterSubsystem.setShooterArmPosition(Constants.kShooterArmHomePos);
+    m_shooterSubsystem.setShooterSpeed(0);
+    m_shooterSubsystem.setShooterArmPosition(0);
   }
 
   // Returns true when the command should end.

@@ -20,24 +20,21 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 import frc.robot.commands.LEDs.BlinkSignalLight;
 import frc.robot.commands.LEDs.SetSignalLightIntensity;
-import frc.robot.commands.PreStageShooter.ShooterModeAmp;
-import frc.robot.commands.PreStageShooter.ShooterModePodium;
-import frc.robot.commands.PreStageShooter.ShooterModeShootWithPose;
-import frc.robot.commands.PreStageShooter.ShooterModeSubwoofer;
-import frc.robot.commands.ScoreNotes.ScoreAmp;
-import frc.robot.commands.ScoreNotes.ShootFromPodium;
-import frc.robot.commands.ScoreNotes.ShootFromSubwoofer;
-import frc.robot.commands.ScoreNotes.ShootOnMoveWithPose;
-import frc.robot.commands.Climb.Climb;
-import frc.robot.commands.Climb.PreClimb;
-import frc.robot.commands.FrontIntake.Spit;
-import frc.robot.commands.FrontIntake.Suck;
-
+import frc.robot.commands.Operator.PreClimb;
+import frc.robot.commands.Operator.ShooterModeAmp;
+import frc.robot.commands.Operator.ShooterModePodium;
+import frc.robot.commands.Operator.ShooterModeShootWithPose;
+import frc.robot.commands.Operator.ShooterModeSubwoofer;
+import frc.robot.commands.Driver.Climb;
+import frc.robot.commands.Driver.Shoot;
+import frc.robot.commands.Driver.Spit;
+import frc.robot.commands.Driver.Suck;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
@@ -73,7 +70,8 @@ public class RobotContainer {
   //private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
   //private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
  
-  private final Telemetry logger = new Telemetry(MaxSpeed);
+  //Drivertrain not currently active
+  // private final Telemetry logger = new Telemetry(MaxSpeed);
 
   //Open the Shooter Subsystem
   private final ShooterSubsystem shooter = new ShooterSubsystem();
@@ -81,7 +79,7 @@ public class RobotContainer {
   //Open the Intake Subsystem
   private final FrontIntakeSubsystem frontIntake = new FrontIntakeSubsystem();
 
-  //Open the Climber Subsystem
+  //Open the Subsystem
   private final ClimberSubsystem climber = new ClimberSubsystem();
 
   //Open the LED Subsystem
@@ -111,23 +109,12 @@ public class RobotContainer {
     // Schedules Brake Swerve Drivetrain Binds (x-lock wheels) Driver
     //driveController.x().whileTrue(drivetrain.applyRequest(() -> brake));
     
-    // Making the shoot button situation specific - shoot will always shoot in any more
-
-    //If climb is not enabled, these commands are valid
-    if (!climber.preClimbActuated(false)) {
-      if (shooter.getShooterMode()=="ScoreAmp") {
-        driveController.leftBumper().whileTrue(new ScoreAmp(frontIntake, shooter));
-      } else if (shooter.getShooterMode()=="ScoreSubwoofer") {  
-        driveController.leftBumper().whileTrue(new ShootFromSubwoofer(frontIntake, shooter));
-      } else if (shooter.getShooterMode()=="ScorePodium") {
-        driveController.leftBumper().whileTrue(new ShootFromPodium(frontIntake, shooter));
-      }
-      driveController.rightBumper().whileTrue(new Suck(frontIntake, shooter));
-      driveController.rightTrigger(.5).whileTrue(new Spit(frontIntake, shooter));
-    }
+    driveController.leftBumper().whileTrue(new Shoot(frontIntake, shooter, climber));
+    driveController.rightBumper().whileTrue(new Suck(frontIntake, shooter));
+    driveController.rightTrigger(.5).whileTrue(new Spit(frontIntake, shooter)); 
 
     //If climb is enabled, these commands are valid
-    if (climber.preClimbActuated(false)) {
+    if (climber.getPreClimbActuated()) {
       driveController.leftTrigger(.5).whileTrue(new Climb(climber,frontIntake,shooter));
       // Schedules Descend - Binds ********
       // At this time, we aren't going to descend because we don't have time.
@@ -136,14 +123,14 @@ public class RobotContainer {
     // Schedules reset the field - Binds centric heading on back and start button push
     //driveController.back().and(driveController.start()).onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative()));
     
-    //LED Stuff
-    Trigger PickupStatus = new Trigger(shooter::getNotePresentIntake);
-    PickupStatus.onTrue(new BlinkSignalLight(LED, 1, 0.5));
-    PickupStatus.onFalse(new SetSignalLightIntensity(LED, 0));
+    //LED Stuff blinks randomly
+    //Trigger PickupStatus = new Trigger(shooter::getNotePresentIntake);
+    //PickupStatus.onTrue(new BlinkSignalLight(LED, 1, 0.5));
+    //PickupStatus.onFalse(new SetSignalLightIntensity(LED, 0));
 
-    Trigger NoteLocationStatus = new Trigger(shooter::getNotePresentShooter);
-    NoteLocationStatus.onTrue(new SetSignalLightIntensity(LED, 0.75));
-    NoteLocationStatus.onFalse(new SetSignalLightIntensity(LED, 0));
+    //Trigger NoteLocationStatus = new Trigger(shooter::getNotePresentShooter);
+    //NoteLocationStatus.onTrue(new SetSignalLightIntensity(LED, 0.75));
+    //NoteLocationStatus.onFalse(new SetSignalLightIntensity(LED, 0));
 
     //======================================================================
     //=========================Operator Controller Assignments==============
