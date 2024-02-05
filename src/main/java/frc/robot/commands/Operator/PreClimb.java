@@ -45,19 +45,21 @@ public class PreClimb extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    System.out.println("==========================");
     System.out.println("Command Operator: PreClimb");
 
     //In the initialize step, set the desired starting positions and speeds of each system
     m_climberSubsystem.setClimberDesiredPosition(Constants.kClimberPreClimbPos);
 
-    m_shooterSubsystem.setShooterArmPosition(Constants.kShooterArmPreClimbPos);
     m_shooterSubsystem.setShooterSpeed(Constants.kShooterStopSpeed);
     m_shooterSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeStopSpeed);
     
     m_frontIntakeSubsystem.setFrontIntakeSpeed(Constants.kFrontIntakeStopSpeed);
     m_frontIntakeSubsystem.setFrontIntakePosition(Constants.kFrontIntakeDownPos);
 
-    m_climberSubsystem.setPreClimbActuated();
+    m_climberSubsystem.setPreClimbActuated(true);
+
+    m_isFinished = false;
 
     
   }
@@ -66,6 +68,15 @@ public class PreClimb extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+
+    //Remove this once the conditional check below is working.  For now, this makes sure the preclimb command finishes.
+    m_isFinished = true;
+
+    //Need to check that front intake is in position before we can move the arm
+    if (m_frontIntakeSubsystem.getFrontIntakeInPosition(Constants.kFrontIntakeDownPos)) {
+      m_shooterSubsystem.setShooterArmPosition(Constants.kShooterArmPreClimbPos);
+      System.out.println("Command Operator PreClimb: Front Intake is clear");
+    }
 
     //Check to see if we made it into the preclimb position
     if (m_climberSubsystem.getClimberInPosition(Constants.kClimberPreClimbPos) && m_shooterSubsystem.getShooterArmInPosition(Constants.kShooterArmPreClimbPos) && m_frontIntakeSubsystem.getFrontIntakeInPosition(Constants.kFrontIntakeDownPos))
@@ -83,6 +94,8 @@ public class PreClimb extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    System.out.println("Command Operator PreClimb: Command Finished");
+    System.out.println("==========================");
     return m_isFinished;
   }
 }

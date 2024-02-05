@@ -14,7 +14,7 @@ import frc.robot.Constants;
 
 public class ClimberSubsystem extends SubsystemBase {
 
-  boolean preClimbActuated = false;
+  boolean m_preClimbActuated = false;
 
   //Open hardware
   //Servo m_IntakePivotRelease = new Servo(Constants.kShooterIntakePivotReleasePWM);
@@ -35,13 +35,13 @@ public class ClimberSubsystem extends SubsystemBase {
     System.out.println("Subsystem: Climber - setClimberDesiredPosition");
   }
 
-  public void setPreClimbActuated(){
-    preClimbActuated=true;
+  public void setPreClimbActuated(boolean preClimbActuated){
+    m_preClimbActuated=preClimbActuated;
   }
 
   public boolean getPreClimbActuated(){
-    System.out.println("Subsystem: Climber - preClimbActuated");
-    return preClimbActuated;
+    System.out.println("Subsystem: Climber - getPreClimbActuated");
+    return m_preClimbActuated;
   }
 
   public int getClimberPosition() {   

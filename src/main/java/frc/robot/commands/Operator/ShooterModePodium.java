@@ -5,16 +5,18 @@
 package frc.robot.commands.Operator;
 
 import frc.robot.Constants;
-import frc.robot.subsystems.FrontIntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
+import frc.robot.subsystems.FrontIntakeSubsystem;
 
 /** An example command that uses an example subsystem. */
 public class ShooterModePodium extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
+ 
   private final ShooterSubsystem m_shooterSubsystem;
-  private final FrontIntakeSubsystem m_intakeSubsystem;
+  private final FrontIntakeSubsystem m_frontIntakeSubsystem;
+
   private boolean m_isFinished = false;
   private boolean m_readyToShoot = false;
 
@@ -23,12 +25,11 @@ public class ShooterModePodium extends Command {
    * 
    * @param shooterSubsystem The subsystem used by this command.
    */
-  public ShooterModePodium(FrontIntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem) {
+  public ShooterModePodium(FrontIntakeSubsystem frontIntakeSubsystem, ShooterSubsystem shooterSubsystem) {
     m_shooterSubsystem = shooterSubsystem;
-    m_intakeSubsystem = intakeSubsystem;
+
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_shooterSubsystem);
-    addRequirements(m_intakeSubsystem);
   }
 
 
@@ -36,40 +37,39 @@ public class ShooterModePodium extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    System.out.println("==========================");
     System.out.println("Command Operator: ShooterModePodium");
-    m_intakeSubsystem.setFrontIntakeSpeed(0);
     m_shooterSubsystem.setShooterIntakeSpeed(0);
     m_shooterSubsystem.setShooterArmPosition(Constants.kShooterArmPodiumPos);
     m_shooterSubsystem.setShooterSpeed(Constants.kShooterPodiumSpeed);
 
     m_shooterSubsystem.setShooterMode("ShootPodium");
+
+    m_isFinished = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+
+    //Command finishes if shooter gets up to speed
     if (m_shooterSubsystem.getShooterUpToSpeed(Constants.kShooterPodiumSpeed)) {
-      m_shooterSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeShootSpeed);
       m_readyToShoot = true;
-      System.out.println("PreStageShooter Command Execute Loop: shooter up to speed");
-    }
-    if (!m_shooterSubsystem.getNotePresentShooter() && m_readyToShoot) {
+      System.out.println("Command Operator ShooterModePodium: shooter up to speed");
       m_isFinished = true;
-      //Need to clarify what this is doing with m_readyToShoot
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_shooterSubsystem.setShooterIntakeSpeed(0);
-    m_shooterSubsystem.setShooterSpeed(0);
-    m_shooterSubsystem.setShooterArmPosition(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    System.out.println("Command Operator ShooterModePodium: Command Finished");
+    System.out.println("==========================");
     return m_isFinished;
   }
 }

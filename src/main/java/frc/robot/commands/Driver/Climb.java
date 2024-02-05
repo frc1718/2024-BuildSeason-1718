@@ -45,19 +45,31 @@ public class Climb extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-  }
+    System.out.println("========================");
+    System.out.println("Driver Command: Climb");
+    
+    m_isFinished = false;
+
+    //Tell the climber to climb
+    if(m_climberSubsystem.getPreClimbActuated()){
+      System.out.println("Driver Command Climb: Preclimb was actuated!");
+      m_climberSubsystem.setClimberDesiredPosition(Constants.kClimberClimbPos);
+    } else {
+      System.out.println("Driver Command Climb: Preclimb wasn't actuated yet!");
+      m_isFinished=true;
+    }
+   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     
-    System.out.println("Driver Command: Climb");
-
-    //Tell the climber to climb
-    m_climberSubsystem.setClimberDesiredPosition(Constants.kClimberClimbPos);
+    //Remove once climber is in place.  Here so the command finishes for debuggin.
+    m_isFinished=true;
 
     //Need to set a flag to see if we've reached climb and check it
     if (m_climberSubsystem.getClimberInPosition(Constants.kClimberClimbPos)){
+      System.out.println("Driver Command: Climb Reached Climb Height");
       m_isFinished= true;
     }
     
@@ -66,11 +78,14 @@ public class Climb extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    System.out.println("================================");
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    System.out.println("Driver Command: Climb completed!");
+    
     return m_isFinished;
   }
 }

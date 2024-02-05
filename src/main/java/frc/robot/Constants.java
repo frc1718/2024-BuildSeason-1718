@@ -53,6 +53,7 @@ public class Constants {
     public static final int kFrontIntakeUpPos = 0;
     public static final int kFrontIntakeHomePos = 0; 
     public static final int kFrontIntakeTolerancePos = 0;
+    public static final int kFrontIntakeClearPos = 0;
 
     public static final int kShooterIntakePivotReleasedPos = 0;
     // End Positions

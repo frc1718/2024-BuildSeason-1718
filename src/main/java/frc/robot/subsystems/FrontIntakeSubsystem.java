@@ -63,14 +63,14 @@ public class FrontIntakeSubsystem extends SubsystemBase {
   public void setFrontIntakePosition(int position) {
     /* set.intakeposition() */
     
-    System.out.println("Subsystem: FrontIntake - setFrontIntakePosition");
+    System.out.println("FrontIntakeSubsystem - setFrontIntakePosition");
     
   }
 
   public void setFrontIntakeSpeed(int speed) {
     // set.intakeposition
     /* set.intakeSpeed(spit) */
-    System.out.println("Subsystem: FrontIntake - setFrontIntakeSpeed");
+    System.out.println("FrontIntakeSubsystem - setFrontIntakeSpeed");
   }
   
   /**
@@ -89,7 +89,7 @@ public class FrontIntakeSubsystem extends SubsystemBase {
       return false;
     }
      */
-    System.out.println("Subsystem: FrontIntake - getFrontIntakeInPosition");
+    System.out.println("FrontIntakeSubsystem - getFrontIntakeInPosition");
     return false;
   }
 

@@ -37,10 +37,6 @@ public class ShooterSubsystem extends SubsystemBase implements NTSendable{
   //Servo intakeHinge = new Servo(Constants.kShooterIntakePivotReleasePWM);
 
   //Open Motors
-
-  // TalonFX m_ShooterRotateLeft = new TalonFX(Constants.kShooterRotateLeftCanID, "Canivore");
-  // TalonFX m_ShooterRotateRight = new TalonFX(Constants.kShooterRotateRightCanID, "Canivore");
-  // TalonFX m_ShooterIntakeSpin = new TalonFX(Constants.kShooterIntakeSpinCanID, "Canivore");
   
   public String m_shooterMode = "";
   public boolean m_readyToShoot = false;
@@ -133,22 +129,29 @@ public class ShooterSubsystem extends SubsystemBase implements NTSendable{
   public void periodic() {
     // This method will be called once per scheduler run
   }
-public void setShooterReadyToShoot(boolean readyToShoot) {
-  m_readyToShoot = readyToShoot;
-}
+  
+  public void setShooterReadyToShoot(boolean readyToShoot) {
+    System.out.println("ShooterSubsystem: readyToShoot");
+    m_readyToShoot = readyToShoot;
+  }
 
-public boolean getShooterReadyToShoot() {
-  return m_readyToShoot;
-}
+  public boolean getShooterReadyToShoot() {
+    System.out.println("ShooterSubsystem: getShooterReadyToShoot");
+    return m_readyToShoot;
+  }
 
   // Start of sensor related methods
   public boolean getNotePresentIntake() {  
-    //System.out.println("Subsystem: Shooter - getNotePresentIntake");
+    //This will print out constantly because it's on a trigger
+    //System.out.println("ShooterSubsystem: getNotePresentIntake");
+
+    //This needs to be both on a debounce AND to have hysterisis programmed in
     return (m_BeamBreakIntakeAnalog.getVoltage() >= Constants.kIntakeBeamBreakCrossover);
     
   }
    
   public boolean getNotePresentShooter() {  
+    //This will print out constantly because it's on a constant trigger
     //System.out.println("Subsystem: Shooter - getNotePresentShooter");
     return (m_BeamBreakShooterAnalog.getVoltage() >= Constants.kShooterBeamBreakCrossover);
 
@@ -159,25 +162,22 @@ public boolean getShooterReadyToShoot() {
 
   public void setShooterMode(String shooterMode){
     m_shooterMode=shooterMode;
-    System.out.println("Subsystem: Shooter - setShooterMode");
-  }
-
-  public String getShooterMode(){
-    System.out.println("Subsystem: Shooter - getShooterMode");
-    return m_shooterMode;
+    System.out.println("ShooterSubsystem: setShooterMode");
   }
 
   public void setShooterIntakeSpeed(double speed) {
-
+    System.out.println("ShooterSubsystem: setShooterIntakeSpeed");
     m_ShooterIntakeSpin.setControl(ShooterIntakeVelocity.withVelocity(speed));
   }
 
   public void setShooterSpeed(double shootSpeed) {
+    System.out.println("ShooterSubsystem: setShooterSpeed");
     m_SpinLeftShooter.setControl(ShooterVelocity.withVelocity(shootSpeed));
     m_SpinRightShooter.setControl(ShooterVelocity.withVelocity((shootSpeed*0.9)));
   }
 
   public void setShooterArmPosition(int position) {
+    System.out.println("ShooterSubsystem: setShooterArmPosition");
     m_ShooterArmRotateLeft.setControl(ShooterArmPosition.withPosition(position));
   }
 
@@ -187,17 +187,24 @@ public boolean getShooterReadyToShoot() {
   //End of motor set methods
 
   //Start of motor get methods
+  
+  public String getShooterMode(){
+    System.out.println("ShooterSubsystem: getShooterMode");
+    return m_shooterMode;
+  }
 
   public double getShooterSpeed() {
+    System.out.println("ShooterSubsystem: getShooterSpeed");
     return m_SpinLeftShooter.getPosition().getValue();
   }
 
   public double getShooterArmPosition() {
+    System.out.println("ShooterSubsystem: getShooterArmPosition");
     return m_ShooterArmRotateLeft.getPosition().getValue();
   }
 
   public boolean getShooterUpToSpeed(int desiredSpeed) {
-    System.out.println("Subsystem: Shooter - getShooterUpToSpeed");
+    System.out.println("ShooterSubsystem: getShooterUpToSpeed");
     if ((desiredSpeed - Constants.kShooterSpeedTolerance) >= getShooterSpeed() && getShooterSpeed() <= (desiredSpeed + Constants.kShooterSpeedTolerance)) {
       return true;
     } else {
@@ -206,8 +213,7 @@ public boolean getShooterReadyToShoot() {
   }
 
   public Boolean getShooterArmInPosition(int desiredPosition) {
-
-      System.out.println("Subsystem: Shooter - getShooterArmInPosition");
+      System.out.println("ShooterSubsystem: getShooterArmInPosition");
       /* if (m_ShooterRotateLeft.getPosition().getValue() > (desiredPosition-Constants.kShooterArmTolerancePos) && (m_ShooterRotateLeft.getPosition().getValue() < (desiredPosition+Constants.kShooterArmTolerancePos)))
       {
         return true; 
@@ -215,8 +221,7 @@ public boolean getShooterReadyToShoot() {
       {
         return false;
       } */
-      return false;
-      
+      return false;  
     }
     //End of motor get methods
   

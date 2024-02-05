@@ -14,21 +14,22 @@ import edu.wpi.first.wpilibj2.command.PrintCommand;
 public class ShooterModeAmp extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final ShooterSubsystem m_shooterSubsystem;
-  private final FrontIntakeSubsystem m_intakeSubsystem;
+  private final FrontIntakeSubsystem m_frontIntakeSubsystem;
+  
   private boolean m_isFinished = false;
-  private boolean m_readyToShoot = false;
 
   /**
    * Creates a new ExampleCommand.
    * 
    * @param shooterSubsystem The subsystem used by this command.
    */
-  public ShooterModeAmp(FrontIntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem) {
+  public ShooterModeAmp(FrontIntakeSubsystem frontIntakeSubsystem, ShooterSubsystem shooterSubsystem) {
     m_shooterSubsystem = shooterSubsystem;
-    m_intakeSubsystem = intakeSubsystem;
+    m_FrontIntakeSubsystem = frontIntakeSubsystem;
+
+
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_shooterSubsystem);
-    addRequirements(m_intakeSubsystem);
   }
 
 
@@ -36,40 +37,45 @@ public class ShooterModeAmp extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    System.out.println("==========================");
     System.out.println("Command Operator: ShooterModeAmp");
-    m_intakeSubsystem.setFrontIntakeSpeed(0);
     m_shooterSubsystem.setShooterIntakeSpeed(0);
     m_shooterSubsystem.setShooterArmPosition(Constants.kShooterArmAmpPos);
     m_shooterSubsystem.setShooterSpeed(Constants.kShooterAmpSpeed);
 
     m_shooterSubsystem.setShooterMode("ShootAmp");
+
+    m_isFinished = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (m_shooterSubsystem.getShooterUpToSpeed(Constants.kShooterAmpSpeed)) {
-      m_shooterSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeShootSpeed);
-      m_readyToShoot = true;
+
+    //Need to check that front intake is in position before we can move the arm
+    if (m_frontIntakeSubsystem.getFrontIntakeInPosition(Constants.kFrontIntakeDownPos)) {
+       m_shooterSubsystem.setShooterArmPosition(Constants.kShooterArmPreClimbPos);
+       System.out.println("Command Operator PreClimb: Front Intake is clear");
     }
 
-    //We need to debounce this with a slight delay to let the note get out of the shooter before moving the arm.
-    if (!m_shooterSubsystem.getNotePresentShooter() && m_readyToShoot) {
+    if (m_shooterSubsystem.getShooterUpToSpeed(Constants.kShooterAmpSpeed)) {
+      System.out.println("Command Operator ShooterModeAmp: shooter up to speed");
+      m_readyToShoot = true;
       m_isFinished = true;
     }
+
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_shooterSubsystem.setShooterIntakeSpeed(0);
-    m_shooterSubsystem.setShooterSpeed(Constants.kShooterIdleSpeed);
-    m_shooterSubsystem.setShooterArmPosition(Constants.kShooterArmHomePos);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    System.out.println("Command Operator ShooterModeAmp: Command Complete");
+    System.out.println("==========================");
     return m_isFinished;
   }
 }

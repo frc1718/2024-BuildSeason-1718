@@ -109,16 +109,11 @@ public class RobotContainer {
     // Schedules Brake Swerve Drivetrain Binds (x-lock wheels) Driver
     //driveController.x().whileTrue(drivetrain.applyRequest(() -> brake));
     
-    driveController.leftBumper().whileTrue(new Shoot(frontIntake, shooter, climber));
+    driveController.leftBumper().whileTrue(new Shoot(frontIntake, shooter));
     driveController.rightBumper().whileTrue(new Suck(frontIntake, shooter));
     driveController.rightTrigger(.5).whileTrue(new Spit(frontIntake, shooter)); 
-
-    //If climb is enabled, these commands are valid
-    if (climber.getPreClimbActuated()) {
-      driveController.leftTrigger(.5).whileTrue(new Climb(climber,frontIntake,shooter));
-      // Schedules Descend - Binds ********
-      // At this time, we aren't going to descend because we don't have time.
-    }
+    driveController.leftTrigger(.5).onTrue(new Climb(climber,frontIntake,shooter));
+ 
      
     // Schedules reset the field - Binds centric heading on back and start button push
     //driveController.back().and(driveController.start()).onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative()));
@@ -141,10 +136,10 @@ public class RobotContainer {
     // A - Subwoofer
     // Right Top + Left Top Bumper Climb Mode - Hold Down Both at Once
     //
-    operatorController.y().onTrue(new ShooterModePodium(frontIntake,shooter));
-    operatorController.b().onTrue(new ShooterModeAmp(frontIntake,shooter));
-    operatorController.x().onTrue(new ShooterModeShootWithPose(frontIntake,shooter));
-    operatorController.a().onTrue(new ShooterModeSubwoofer(frontIntake,shooter));
+    operatorController.y().onTrue(new ShooterModePodium(frontIntake, shooter));
+    operatorController.b().onTrue(new ShooterModeAmp(frontIntake, shooter));
+    operatorController.x().onTrue(new ShooterModeShootWithPose(frontIntake, shooter));
+    operatorController.a().onTrue(new ShooterModeSubwoofer(frontIntake, shooter));
     operatorController.leftBumper().and(operatorController.rightBumper()).debounce(2).onTrue(new PreClimb(climber,shooter,frontIntake));
 
     // Schedules Play music - Binds Dpad Up
