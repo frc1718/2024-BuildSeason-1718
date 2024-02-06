@@ -18,11 +18,6 @@ public class Spit extends Command {
   private final ShooterSubsystem m_shooterSubsystem;
 
   boolean m_isFinished=false;
-  /**
-   * Creates a new ExampleCommand.
-   * @param shooterSubsystem
-   * @param frontIntakeSubsystem The subsystem used by this command.
-   */
   
   public Spit(FrontIntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem) {
     m_frontIntakeSubsystem = intakeSubsystem;
@@ -42,28 +37,32 @@ public class Spit extends Command {
 
     //Stop front intake, move front intake down, stop intake, stop shooter, move shooter arm up high enough to eject
     m_frontIntakeSubsystem.setFrontIntakeSpeed(Constants.kFrontIntakeStopSpeed);
-    m_frontIntakeSubsystem.setFrontIntakePosition(Constants.kFrontIntakeDownPos);
-    m_shooterSubsystem.setShooterIntakeSpeed(Constants.kFrontIntakeStopSpeed);
-    m_shooterSubsystem.setShooterArmPosition(Constants.kShooterArmSpitPos);
+    m_frontIntakeSubsystem.setFrontIntakePosition(Constants.kFrontIntakeClearPos);
+    m_shooterSubsystem.setShooterIntakeSpeed(Constants.kFrontIntakeStopSpeed);    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
 
+    //Check that front intake is out of the way before moving arm
+    if (m_frontIntakeSubsystem.getFrontIntakeInPosition(Constants.kFrontIntakeClearPos)) {
+      System.out.println("Driver Command: Front Intake is in position to spit");
+      m_shooterSubsystem.setShooterArmPosition(Constants.kShooterArmSpitPos);
+    }
+
     //Make sure everything is in the correct position, then spit
-    if (m_frontIntakeSubsystem.getFrontIntakeInPosition(Constants.kFrontIntakeDownPos) && m_shooterSubsystem.getShooterArmInPosition(Constants.kShooterArmSpitPos))
+    if (m_frontIntakeSubsystem.getFrontIntakeInPosition(Constants.kFrontIntakeClearPos) && m_shooterSubsystem.getShooterArmInPosition(Constants.kShooterArmSpitPos))
     {
-      System.out.println("Driver Command: Intake and Arm in Position to SpiT");
+      System.out.println("Driver Command: Front Intake and Arm in Position to Spit");
       m_frontIntakeSubsystem.setFrontIntakeSpeed(-Constants.kFrontIntakeMaxSpeed);
-      m_shooterSubsystem.setShooterIntakeSpeed(-Constants.kFrontIntakeMaxSpeed);
+      m_shooterSubsystem.setShooterIntakeSpeed(-Constants.kShooterIntakeMaxSpeed);
       m_shooterSubsystem.setShooterSpeed(Constants.kShooterMaxSpeed);
     }
 
-    if (!m_shooterSubsystem.getNotePresentIntake() && !m_shooterSubsystem.getNotePresentShooter())
-    System.out.println("Command Driver Spit: No note present.");
-    m_isFinished = true;
 
+
+    
   }
 
   // Called once the command ends or is interrupted.

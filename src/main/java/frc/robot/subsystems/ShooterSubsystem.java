@@ -25,6 +25,7 @@ import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants;
 
 public class ShooterSubsystem extends SubsystemBase implements NTSendable{
@@ -149,7 +150,11 @@ public class ShooterSubsystem extends SubsystemBase implements NTSendable{
     return (m_BeamBreakIntakeAnalog.getVoltage() >= Constants.kIntakeBeamBreakCrossover);
     
   }
-   
+  
+  public Trigger shooterArmInHomePositionTrigger() {
+    return(new Trigger(()->getShooterArmInPosition(Constants.kShooterArmHomePos)));
+  }
+
   public boolean getNotePresentShooter() {  
     //This will print out constantly because it's on a constant trigger
     //System.out.println("Subsystem: Shooter - getNotePresentShooter");

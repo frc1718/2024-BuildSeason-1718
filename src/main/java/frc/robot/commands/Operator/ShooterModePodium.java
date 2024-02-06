@@ -18,7 +18,6 @@ public class ShooterModePodium extends Command {
   private final FrontIntakeSubsystem m_frontIntakeSubsystem;
 
   private boolean m_isFinished = false;
-  private boolean m_readyToShoot = false;
 
   /**
    * Creates a new ExampleCommand.
@@ -27,9 +26,11 @@ public class ShooterModePodium extends Command {
    */
   public ShooterModePodium(FrontIntakeSubsystem frontIntakeSubsystem, ShooterSubsystem shooterSubsystem) {
     m_shooterSubsystem = shooterSubsystem;
+    m_frontIntakeSubsystem = frontIntakeSubsystem;
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_shooterSubsystem);
+    addRequirements(m_frontIntakeSubsystem);
   }
 
 
@@ -54,7 +55,6 @@ public class ShooterModePodium extends Command {
 
     //Command finishes if shooter gets up to speed
     if (m_shooterSubsystem.getShooterUpToSpeed(Constants.kShooterPodiumSpeed)) {
-      m_readyToShoot = true;
       System.out.println("Command Operator ShooterModePodium: shooter up to speed");
       m_isFinished = true;
     }

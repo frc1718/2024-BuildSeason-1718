@@ -31,6 +31,7 @@ import frc.robot.commands.Operator.ShooterModeAmp;
 import frc.robot.commands.Operator.ShooterModePodium;
 import frc.robot.commands.Operator.ShooterModeShootWithPose;
 import frc.robot.commands.Operator.ShooterModeSubwoofer;
+import frc.robot.commands.Default.FrontIntakeDefault;
 import frc.robot.commands.Driver.Climb;
 import frc.robot.commands.Driver.Shoot;
 import frc.robot.commands.Driver.Spit;
@@ -109,7 +110,7 @@ public class RobotContainer {
     // Schedules Brake Swerve Drivetrain Binds (x-lock wheels) Driver
     //driveController.x().whileTrue(drivetrain.applyRequest(() -> brake));
     
-    driveController.leftBumper().whileTrue(new Shoot(frontIntake, shooter));
+    driveController.leftBumper().whileTrue(new Shoot(frontIntake, shooter, climber));
     driveController.rightBumper().whileTrue(new Suck(frontIntake, shooter));
     driveController.rightTrigger(.5).whileTrue(new Spit(frontIntake, shooter)); 
     driveController.leftTrigger(.5).onTrue(new Climb(climber,frontIntake,shooter));
@@ -118,6 +119,8 @@ public class RobotContainer {
     // Schedules reset the field - Binds centric heading on back and start button push
     //driveController.back().and(driveController.start()).onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative()));
     
+    shooter.shooterArmInHomePositionTrigger().onTrue(new FrontIntakeDefault(frontIntake) );
+
     //LED Stuff blinks randomly
     //Trigger PickupStatus = new Trigger(shooter::getNotePresentIntake);
     //PickupStatus.onTrue(new BlinkSignalLight(LED, 1, 0.5));

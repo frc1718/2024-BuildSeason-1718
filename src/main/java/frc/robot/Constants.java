@@ -49,11 +49,11 @@ public class Constants {
     public static final int kClimberPreClimbPos = 0;
     public static final int kClimberTolerancePos = 0;
     
-    public static final int kFrontIntakeDownPos = 0;
-    public static final int kFrontIntakeUpPos = 0;
-    public static final int kFrontIntakeHomePos = 0; 
+    public static final int kFrontIntakeDownPos = 0;  //Down so we can suck in
+    public static final int kFrontIntakeHomePos = 0; //Starting position.  On hardstops
     public static final int kFrontIntakeTolerancePos = 0;
-    public static final int kFrontIntakeClearPos = 0;
+    public static final int kFrontIntakeClearPos = 0; //Clear is clear of the shooterarm motion
+    public static final int kFrontIntakeStowPos = 0; //Stow is just inside the bumper
 
     public static final int kShooterIntakePivotReleasedPos = 0;
     // End Positions

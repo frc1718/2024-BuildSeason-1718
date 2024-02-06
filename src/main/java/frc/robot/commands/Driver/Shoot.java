@@ -19,11 +19,11 @@ public class Shoot extends Command {
   private final FrontIntakeSubsystem m_frontIntakeSubsystem;
 
   private boolean m_isFinished = false;
+
   private int m_shooterArmPosition = 0;
   private int m_shooterSpeed = 0;
   private int m_frontIntakePosition = 0;
   private int m_frontIntakeSpeed = 0;
-  private int m_intakeSpeed = 0;
 
   /**
    * Creates a new ExampleCommand.
@@ -38,6 +38,9 @@ public class Shoot extends Command {
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_shooterSubsystem);
+    addRequirements(m_frontIntakeSubsystem);
+    addRequirements(m_climberSubsystem);
+    
   }
 
 
@@ -59,7 +62,7 @@ public class Shoot extends Command {
           System.out.println("Driver Command Shoot: We got ShootAmp from the Operator!");
           m_shooterArmPosition = Constants.kShooterArmAmpPos;
           m_shooterSpeed = Constants.kShooterAmpSpeed;
-          m_frontIntakePosition = Constants.kFrontIntakeHomePos;
+          m_frontIntakePosition = Constants.kFrontIntakeClearPos;
           m_frontIntakeSpeed = Constants.kFrontIntakeStopSpeed;
           break;
         case "ShootTrap":
@@ -73,14 +76,14 @@ public class Shoot extends Command {
           System.out.println("Driver Command Shoot: We got ShootPodium from the Operator!");
           m_shooterArmPosition = Constants.kShooterArmPodiumPos;
           m_shooterSpeed = Constants.kShooterPodiumSpeed;
-          m_frontIntakePosition = Constants.kFrontIntakeHomePos;
+          m_frontIntakePosition = Constants.kFrontIntakeClearPos;
           m_frontIntakeSpeed = Constants.kFrontIntakeStopSpeed;
           break;
         case "ShootSubwoofer":
           System.out.println("Driver Command Shoot: We got ShootSubwoofer from the Operator!");
           m_shooterArmPosition = Constants.kShooterArmSubwooferPos;
           m_shooterSpeed = Constants.kShooterSubwooferSpeed;
-          m_frontIntakePosition = Constants.kFrontIntakeHomePos;
+          m_frontIntakePosition = Constants.kFrontIntakeClearPos;
           m_frontIntakeSpeed = Constants.kFrontIntakeStopSpeed;
           break;
         case "ShootWithPose":
@@ -88,14 +91,16 @@ public class Shoot extends Command {
           System.out.println("Driver Command Shoot: We got ShootWithPose from the Operator!");
           m_shooterArmPosition =0;
           m_shooterSpeed = 0;
-          m_frontIntakePosition = Constants.kFrontIntakeHomePos;
+          m_frontIntakePosition = Constants.kFrontIntakeClearPos;
           m_frontIntakeSpeed = Constants.kFrontIntakeStopSpeed;
         break;
       }
     }
+
     // Set the values for the subsystems
- 
     m_shooterSubsystem.setShooterSpeed(m_shooterSpeed);
+    m_frontIntakeSubsystem.setFrontIntakePosition(m_frontIntakePosition);
+    m_frontIntakeSubsystem.setFrontIntakeSpeed(m_frontIntakeSpeed);
 
   }
 
@@ -103,11 +108,12 @@ public class Shoot extends Command {
   @Override
   public void execute() {
     
+    //Make sure our front intake is in position before we command the shooter arm
     if (m_frontIntakeSubsystem.getFrontIntakeInPosition(Constants.kFrontIntakeClearPos)) {
       m_shooterSubsystem.setShooterArmPosition(m_shooterArmPosition);
     }
 
-    //Check to see when we are ready to shoot and arm is in position
+    //Check to see when we are ready to shoot: is shooter up to speed and arm is in position
     if (m_shooterSubsystem.getShooterUpToSpeed(Constants.kShooterPodiumSpeed) && m_shooterSubsystem.getShooterArmInPosition(m_shooterArmPosition)) {
       System.out.println("Driver Command Shoot: We are ready to shoot!");
       m_shooterSubsystem.setShooterReadyToShoot(true);
@@ -130,6 +136,7 @@ public class Shoot extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    //Always have to set ready to shoot back to false at the end of a shot.
     m_shooterSubsystem.setShooterReadyToShoot(false);
     m_shooterSubsystem.setShooterSpeed(Constants.kShooterIdleSpeed);
     m_shooterSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeStopSpeed);

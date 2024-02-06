@@ -25,11 +25,11 @@ public class ShooterModeAmp extends Command {
    */
   public ShooterModeAmp(FrontIntakeSubsystem frontIntakeSubsystem, ShooterSubsystem shooterSubsystem) {
     m_shooterSubsystem = shooterSubsystem;
-    m_FrontIntakeSubsystem = frontIntakeSubsystem;
-
+    m_frontIntakeSubsystem = frontIntakeSubsystem;
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_shooterSubsystem);
+    addRequirements(m_frontIntakeSubsystem);
   }
 
 
@@ -60,7 +60,6 @@ public class ShooterModeAmp extends Command {
 
     if (m_shooterSubsystem.getShooterUpToSpeed(Constants.kShooterAmpSpeed)) {
       System.out.println("Command Operator ShooterModeAmp: shooter up to speed");
-      m_readyToShoot = true;
       m_isFinished = true;
     }
 

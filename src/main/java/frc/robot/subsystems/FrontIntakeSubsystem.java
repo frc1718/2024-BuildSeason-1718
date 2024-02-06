@@ -13,9 +13,12 @@ import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+
+
 
 public class FrontIntakeSubsystem extends SubsystemBase {
 
@@ -68,8 +71,7 @@ public class FrontIntakeSubsystem extends SubsystemBase {
   }
 
   public void setFrontIntakeSpeed(int speed) {
-    // set.intakeposition
-    /* set.intakeSpeed(spit) */
+    /* set.intakeSpeed( ) */
     System.out.println("FrontIntakeSubsystem - setFrontIntakeSpeed");
   }
   
@@ -95,7 +97,6 @@ public class FrontIntakeSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
   }
 
   @Override

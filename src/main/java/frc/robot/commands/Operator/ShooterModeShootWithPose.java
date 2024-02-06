@@ -26,8 +26,11 @@ public class ShooterModeShootWithPose extends Command {
    */
   public ShooterModeShootWithPose(FrontIntakeSubsystem frontIntakeSubsystem, ShooterSubsystem shooterSubsystem) {
     m_shooterSubsystem = shooterSubsystem;
+    m_frontIntakeSubsystem = frontIntakeSubsystem;
+
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_shooterSubsystem);
+    addRequirements(m_frontIntakeSubsystem);
   }
 
 
