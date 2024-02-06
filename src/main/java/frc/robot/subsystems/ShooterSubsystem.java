@@ -6,7 +6,6 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
-import com.ctre.phoenix6.configs.MagnetSensorConfigs;
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -22,8 +21,6 @@ import com.ctre.phoenix6.signals.SensorDirectionValue;
 import edu.wpi.first.networktables.NTSendable;
 import edu.wpi.first.networktables.NTSendableBuilder;
 import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.Servo;
-import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -195,12 +192,12 @@ public class ShooterSubsystem extends SubsystemBase implements NTSendable{
 
   public double getShooterSpeed() {
     System.out.println("ShooterSubsystem: getShooterSpeed");
-    return m_SpinLeftShooter.getPosition().getValue();
+    return m_SpinLeftShooter.getVelocity().getValueAsDouble();
   }
 
   public double getShooterArmPosition() {
     System.out.println("ShooterSubsystem: getShooterArmPosition");
-    return m_ShooterArmRotateLeft.getPosition().getValue();
+    return m_ShooterArmRotateLeft.getPosition().getValueAsDouble();
   }
 
   public boolean getShooterUpToSpeed(int desiredSpeed) {
@@ -214,14 +211,13 @@ public class ShooterSubsystem extends SubsystemBase implements NTSendable{
 
   public Boolean getShooterArmInPosition(int desiredPosition) {
       System.out.println("ShooterSubsystem: getShooterArmInPosition");
-      /* if (m_ShooterRotateLeft.getPosition().getValue() > (desiredPosition-Constants.kShooterArmTolerancePos) && (m_ShooterRotateLeft.getPosition().getValue() < (desiredPosition+Constants.kShooterArmTolerancePos)))
+      if (m_ShooterArmRotateLeft.getPosition().getValue() > (desiredPosition-Constants.kShooterArmTolerancePos) && (m_ShooterArmRotateLeft.getPosition().getValue() < (desiredPosition+Constants.kShooterArmTolerancePos)))
       {
         return true; 
       } else
       {
         return false;
-      } */
-      return false;  
+      }
     }
     //End of motor get methods
   
