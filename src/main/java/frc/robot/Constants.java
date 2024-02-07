@@ -9,19 +9,18 @@ public class Constants {
     //End Controllers
 
     // Start CanIDs
-    public static final int kShooterArmRotateLeftCanID = 40;
-    public static final int kShooterArmRotateRightCanID = 40;
-    public static final int kSpinLeftShooterCanID = 40;
-    public static final int kSpinRightShooterCanID = 40;
-    public static final int kShooterIntakeSpinCanID = 40;
-    public static final int kFrontIntakeRotateCanID = 40;
-    public static final int kFrontIntakeSpinCanID = 40;
-    public static final int kLeftClimbCanID = 40;
-    public static final int kRightClimbCanID = 40;
-    public static final int kFrontIntakeCancoderCanID = 40;
-    public static final int kShooterArmCancoderCanID = 40;
-    public static final int kSignalLightCanID = 38;
-    public static final int kFrontIntakeRotateCancoderCanID = 40;
+    public static final int kShooterArmRotateLeftCanID = 18;
+    public static final int kShooterArmRotateRightCanID = 19;
+    public static final int kSpinLeftShooterCanID = 20;
+    public static final int kSpinRightShooterCanID = 21;
+    public static final int kLeftClimbCanID = 22;
+    public static final int kRightClimbCanID = 23;
+    public static final int kShooterIntakeSpinCanID = 24;
+    public static final int kFrontIntakeRotateCanID = 25;
+    public static final int kFrontIntakeSpinCanID = 26;
+    public static final int kShooterArmCancoderCanID = 27;
+    public static final int kFrontIntakeRotateCancoderCanID = 28;
+    public static final int kSignalLightCanID = 29;
     // End CanIDs
 
     // Start PWM
