@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class IntakeSubsystem extends SubsystemBase {
@@ -39,6 +40,15 @@ public class IntakeSubsystem extends SubsystemBase {
     return false;
   }
   
+  @Override
+  public void initSendable(SendableBuilder builder){
+    builder.setSmartDashboardType("FrontIntakeSubsystem");
+    builder.addDoubleProperty("Front Intake Speed", () -> {return 0; /*this::getFrontIntakeSpeed*/}, null);
+    builder.addDoubleProperty("Front Intake Position", () -> {return 0; /*this::getFrontIntakePosition*/}, null);
+    builder.addBooleanProperty("Front Intake in Position?", () -> {return false; /*this::getFrontIntakeInPosition*/}, null);
+    builder.addBooleanProperty("Front Intake Up to Speed?", () -> {return false; /*this::getFrontIntakeUpToSpeed*/}, null);
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

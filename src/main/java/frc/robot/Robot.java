@@ -20,7 +20,11 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
-  
+
+  //Use this to enable / disable reading data from the limelight.
+  //The terminal gets clogged up if a limelight isn't actually connected.
+  boolean enableLimelight = false;
+
   @Override
   public void robotInit() {
     m_robotContainer = new RobotContainer();
@@ -32,14 +36,16 @@ public class Robot extends TimedRobot {
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
 
-    //Periodically retrieve the results from the limelight and extract the pose.
-    Results limelightResults = LimelightHelpers.getLatestResults(Constants.kLimelightName).targetingResults;
-    Pose2d limelightPose = limelightResults.getBotPose2d();
+    if (enableLimelight) {
+      //Periodically retrieve the results from the limelight and extract the pose.
+      Results limelightResults = LimelightHelpers.getLatestResults(Constants.kLimelightName).targetingResults;
+      Pose2d limelightPose = limelightResults.getBotPose2d();
 
-    //This validity check will probably have more logic to it in the future, but for now, just check if the latest results are valid.
-    if (limelightResults.valid) {
-      //botpose[6] is the combined targeting latency and capture latency.  Subtract from the current time to determine when the results were calculated.
-      m_robotContainer.drivetrain.addVisionMeasurement(limelightPose, Timer.getFPGATimestamp() - (limelightResults.botpose[6] / 1000));
+      //This validity check will probably have more logic to it in the future, but for now, just check if the latest results are valid.
+      if (limelightResults.valid) {
+        //botpose[6] is the combined targeting latency and capture latency.  Subtract from the current time to determine when the results were calculated.
+        m_robotContainer.drivetrain.addVisionMeasurement(limelightPose, Timer.getFPGATimestamp() - (limelightResults.botpose[6] / 1000));
+      }
     }
   }
 

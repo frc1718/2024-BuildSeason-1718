@@ -14,6 +14,8 @@ import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
+import edu.wpi.first.math.interpolation.InterpolatingTreeMap;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -38,6 +40,10 @@ import frc.robot.subsystems.LEDSubsystem;
 public class RobotContainer {
   private double MaxSpeed = 6; // 6 meters per second desired top speed
   private double MaxAngularRate = 1.5 * Math.PI; // 3/4 of a rotation per second max angular velocity
+
+  //Inserting these to better understand how to use them.
+  public InterpolatingDoubleTreeMap shooterSpeedMap = new InterpolatingDoubleTreeMap();
+  public InterpolatingDoubleTreeMap shooterAngleMap = new InterpolatingDoubleTreeMap();
 
   //Attempting to create a selector object.
   File chirpFolder = new File(Filesystem.getDeployDirectory() + "/chirp");
@@ -126,6 +132,9 @@ public class RobotContainer {
             .withTargetDirection(Constants.kBlueSpeakerLocation.minus(drivetrain.getState().Pose.getTranslation()).getAngle())
             ));
 
+    //Just a test command.  Based on the distance between the robot and the speaker, calculate the shooter speed required based on the interpolation.
+    driveController.povLeft().onTrue(new InstantCommand(() -> {SmartDashboard.putNumber("Req. Shooter Speed", shooterSpeedMap.get(Constants.kBlueSpeakerLocation.getDistance(drivetrain.getState().Pose.getTranslation())));}));
+
     // Schedules Shoot - Binds Left Top Bumper Driver 
     driveController.leftBumper().whileTrue(shooter.shoot());
     
@@ -146,7 +155,6 @@ public class RobotContainer {
     //DEBUG CODE
     //No idea why, but the debug command won't print the string WITHOUT the '.andThen' following up with a PrintCommand.
     driveController.y().onTrue(new ShooterBeamBreak(shooter));
-    // l1.onTrue(new Place(m_claw, m_wrist, m_elevator));
     
     Trigger Testing = new Trigger(shooter::getNotePresentShooter).debounce(0.1);
     Testing.onTrue(new SetSignalLightIntensity(LED, 1));
@@ -185,7 +193,7 @@ public class RobotContainer {
       }
     }).ignoringDisable(true));
 
-    driveController.y().onTrue(new InstantCommand(() -> {
+    driveController.a().onTrue(new InstantCommand(() -> {
       //I'm not sure if 'tableName' refers to limelight name, or a network table.
       //Need to implement a way to automatically name the files with unique names.
       LimelightHelpers.takeSnapshot("limelight", "snapshot");
@@ -204,6 +212,8 @@ public class RobotContainer {
     SmartDashboard.putData("Chirp Selector", chirpSelect);
     SmartDashboard.putData("Auton Selector", autonSelect);    
     SmartDashboard.putData(shooter);
+    SmartDashboard.putData(climber);
+    SmartDashboard.putData(frontIntake);
     SmartDashboard.putData(LED);
   }
 
@@ -218,7 +228,27 @@ public class RobotContainer {
     NamedCommands.registerCommand("Auton Blink", new BlinkSignalLight(LED, 1.00, 0.5));
   }
 
+  private void initLookupTables(){
+    //Add values to the InterpolatingTreeMaps here.
+    //For now, the numbers aren't real.  Shooter speed is in RPM, shooter angle is in degrees.
+    //Both maps use distance (in meters) as the key.
+    shooterSpeedMap.put(0.0, 1000.0);
+    shooterSpeedMap.put(2.0, 2500.0);
+    shooterSpeedMap.put(4.0, 4000.0);
+    shooterSpeedMap.put(6.0, 5500.0);
+    shooterSpeedMap.put(8.0, 7000.0);
+    shooterSpeedMap.put(10.0, 8500.0);
+
+    shooterAngleMap.put(0.0, 75.0);
+    shooterAngleMap.put(2.0, 65.0);
+    shooterAngleMap.put(4.0, 55.0);
+    shooterAngleMap.put(6.0, 45.0);
+    shooterAngleMap.put(8.0, 35.0);
+    shooterAngleMap.put(10.0, 25.0);
+  }
+
   public RobotContainer() {
+    initLookupTables();
     configureBindings();
     //Not sure if this is the correct placement for registering autonomous commands.
     registerAutonCommands();

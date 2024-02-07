@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ClimberSubsystem extends SubsystemBase {
@@ -43,6 +44,14 @@ public class ClimberSubsystem extends SubsystemBase {
   public boolean climberCondition() {
     // Query some boolean state, such as a digital sensor.
     return false;
+  }
+
+  @Override
+  public void initSendable(SendableBuilder builder){
+    builder.setSmartDashboardType("ClimberSubsystem");
+    builder.addDoubleProperty("Climber Position", () -> {return 0; /*this::getClimberPosition*/}, null);
+    builder.addBooleanProperty("Climber Pre-Actuated?", () -> {return false; /*this::getPreClimbActuated*/}, null);
+    builder.addBooleanProperty("Climber in Position?", () -> {return false; /*this::getClimberInPosition*/}, null);  
   }
 
   @Override

@@ -74,6 +74,6 @@ public class Selector implements NTSendable{
     @Override
     public void initSendable(NTSendableBuilder builder){
         builder.setSmartDashboardType("Selector");
-        builder.addStringProperty("Current Selection", () -> {return getCurrentSelectionName();}, null); 
+        builder.addStringProperty("Current Selection", this::getCurrentSelectionName, null); 
     }
 }

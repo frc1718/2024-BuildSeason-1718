@@ -47,12 +47,6 @@
         "open": true
       },
       "SmartDashboard": {
-        "Auton Selector": {
-          "open": true
-        },
-        "LEDSubsystem": {
-          "open": true
-        },
         "Selecter": {
           "open": true
         },

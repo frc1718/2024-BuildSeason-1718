@@ -43,15 +43,11 @@ public class LEDSubsystem extends SubsystemBase {
    *
    * @return value of some boolean subsystem state, such as a digital sensor.
    */
-  public boolean shooterCondition() {
-    // Query some boolean state, such as a digital sensor.
-    return false;
-  }
   
   @Override
   public void initSendable(SendableBuilder builder){
       builder.setSmartDashboardType("LEDSubsystem");
-      builder.addDoubleProperty("LED Intensity", () -> {return GetLightIntensity();}, null); 
+      builder.addDoubleProperty("LED Intensity", this::GetLightIntensity, null); 
   }
 
   @Override
