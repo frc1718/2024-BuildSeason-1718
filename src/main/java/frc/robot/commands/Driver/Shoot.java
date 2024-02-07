@@ -24,6 +24,7 @@ public class Shoot extends Command {
   private int m_shooterSpeed = 0;
   private int m_frontIntakePosition = 0;
   private int m_frontIntakeSpeed = 0;
+  private int m_shooterState=1;
 
   /**
    * Creates a new ExampleCommand.
@@ -108,29 +109,47 @@ public class Shoot extends Command {
   @Override
   public void execute() {
     
-    //Make sure our front intake is in position before we command the shooter arm
-    if (m_frontIntakeSubsystem.getFrontIntakeInPosition(Constants.kFrontIntakeClearPos)) {
-      m_shooterSubsystem.setShooterArmPosition(m_shooterArmPosition);
-    }
-
-    //Check to see when we are ready to shoot: is shooter up to speed and arm is in position
-    if (m_shooterSubsystem.getShooterUpToSpeed(Constants.kShooterPodiumSpeed) && m_shooterSubsystem.getShooterArmInPosition(m_shooterArmPosition)) {
-      System.out.println("Driver Command Shoot: We are ready to shoot!");
-      m_shooterSubsystem.setShooterReadyToShoot(true);
-    }
-
-    //Run the shooter intake if we are ready to shoot
-    if (m_shooterSubsystem.getShooterReadyToShoot())
-    {
-      System.out.println("Driver Command Shoot: We are running the shooter intake to shoot!");
-      m_shooterSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeShootSpeed);
-    }
-
-    //If the note is no longer present in either sensor, and we were ready to shoot, then we've shot
-    if (!m_shooterSubsystem.getNotePresentShooter() && !m_shooterSubsystem.getNotePresentIntake()) {
-      m_isFinished = true;
-    }
-
+  //Set values based on shooter mode the operator has selected
+      switch(m_shooterState){     
+        case 1:  //Front intake in position
+          System.out.println("Driver Command Shoot: Case 1");
+          if (m_frontIntakeSubsystem.getFrontIntakeInPosition(Constants.kFrontIntakeClearPos)) {
+            m_shooterSubsystem.setShooterArmPosition(m_shooterArmPosition);
+            m_shooterState=m_shooterState+1;
+          }        
+          break;
+        case 2:  // Shooter up to speed and arm is in position
+          System.out.println("Driver Command Shoot: Case 2");
+          if (m_shooterSubsystem.getShooterUpToSpeed(Constants.kShooterPodiumSpeed) && m_shooterSubsystem.getShooterArmInPosition(m_shooterArmPosition)) {
+            System.out.println("Driver Command Shoot: We are ready to shoot!");
+            m_shooterSubsystem.setShooterReadyToShoot(true);
+            m_shooterState=m_shooterState+1;
+          }
+          break;
+        case 3:  //Run the shooter intake if we are ready to shoot
+          System.out.println("Driver Command Shoot: Case 3");       
+          if (m_shooterSubsystem.getShooterReadyToShoot()) {
+            System.out.println("Driver Command Shoot: We are running the shooter intake to shoot!");
+            m_shooterSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeShootSpeed);
+            m_shooterState=m_shooterState+1;
+          }
+          break;
+        case 4:  //Wait for the shooter speedto drop a certain amount for the shot to be complete.
+          System.out.println("Driver Command Shoot: Case 4");
+          if (m_shooterSubsystem.getShooterSpeed() < m_shooterSpeed - Constants.kShooterShotSpeedDrop) {
+            m_shooterSubsystem.setShooterReadyToShoot(false);
+            m_shooterSubsystem.setShooterArmPosition(Constants.kShooterArmHomePos);
+            m_shooterState=m_shooterState+1;
+          }
+          break;
+        case 5:  //When the arm is at home position move the intake to stow position
+          System.out.println("Driver Command Shoot: Case 5");
+          if (m_shooterSubsystem.getShooterArmInPosition(Constants.kShooterArmHomePos)) {
+            m_frontIntakeSubsystem.setFrontIntakePosition(Constants.kFrontIntakeStowPos);
+            m_isFinished= true;
+          }
+          break;
+      }
   }
 
   // Called once the command ends or is interrupted.
@@ -140,14 +159,14 @@ public class Shoot extends Command {
     m_shooterSubsystem.setShooterReadyToShoot(false);
     m_shooterSubsystem.setShooterSpeed(Constants.kShooterIdleSpeed);
     m_shooterSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeStopSpeed);
-
+    m_shooterState=1;
+    System.out.println("Driver Command Shoot: Was completed!");
     System.out.println("=======================================");
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    System.out.println("Driver Command Shoot: Was completed!");
     return m_isFinished;
   }
 }

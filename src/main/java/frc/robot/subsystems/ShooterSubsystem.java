@@ -145,9 +145,10 @@ public class ShooterSubsystem extends SubsystemBase implements NTSendable{
     
   }
   
-  public Trigger shooterArmInHomePositionTrigger() {
-    return(new Trigger(()->getShooterArmInPosition(Constants.kShooterArmHomePos)));
-  }
+  //public Trigger shooterArmInHomePositionTrigger() {
+    //System.out.println("ShooterSubsystem: shooterArmInHomePositionTrigger");
+    //return(new Trigger(()->getShooterArmInPosition(Constants.kShooterArmHomePos)));
+  //}
 
   public boolean getNotePresentShooter() {  
     //This will print out constantly because it's on a constant trigger

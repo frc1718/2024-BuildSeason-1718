@@ -81,6 +81,9 @@ public class Constants {
     public static final int kFrontIntakeMaxSpeed = 0;
 
     public static final int kShooterSpeedTolerance = 0;
+
+    public static final int kShooterShotSpeedDrop = 0;  //The amount the shooter declines when we shoot a note
+
     // End Speeds
     
     // Start Swerves

@@ -110,7 +110,7 @@ public class RobotContainer {
     // Schedules Brake Swerve Drivetrain Binds (x-lock wheels) Driver
     //driveController.x().whileTrue(drivetrain.applyRequest(() -> brake));
     
-    driveController.leftBumper().whileTrue(new Shoot(frontIntake, shooter, climber));
+    driveController.leftBumper().onTrue(new Shoot(frontIntake, shooter, climber));
     driveController.rightBumper().whileTrue(new Suck(frontIntake, shooter));
     driveController.rightTrigger(.5).whileTrue(new Spit(frontIntake, shooter)); 
     driveController.leftTrigger(.5).onTrue(new Climb(climber,frontIntake,shooter));
@@ -119,7 +119,8 @@ public class RobotContainer {
     // Schedules reset the field - Binds centric heading on back and start button push
     //driveController.back().and(driveController.start()).onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative()));
     
-    shooter.shooterArmInHomePositionTrigger().onTrue(new FrontIntakeDefault(frontIntake) );
+    //First try at the front intake stowing when the arm is at home
+    //shooter.shooterArmInHomePositionTrigger().onTrue(new FrontIntakeDefault(frontIntake) );
 
     //LED Stuff blinks randomly
     //Trigger PickupStatus = new Trigger(shooter::getNotePresentIntake);
@@ -168,6 +169,9 @@ public class RobotContainer {
     //  drivetrain.seedFieldRelative(new Pose2d(new Translation2d(), Rotation2d.fromDegrees(90)));
     //}
     //drivetrain.registerTelemetry(logger::telemeterize);
+
+
+
   }
 
 
@@ -182,6 +186,9 @@ public class RobotContainer {
   public RobotContainer() {
     configureBindings();
     configureCustomNTValues();
+
+    //===================Default Commands==============================
+    //shooter.setDefaultCommand(new FrontIntakeDefault(frontIntake, shooter));
   }
 
   public Command getAutonomousCommand() {

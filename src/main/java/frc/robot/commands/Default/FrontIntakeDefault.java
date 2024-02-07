@@ -10,6 +10,7 @@ package frc.robot.commands.Default;
 
 import frc.robot.Constants;
 import frc.robot.subsystems.FrontIntakeSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 
@@ -17,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.PrintCommand;
 public class FrontIntakeDefault extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final FrontIntakeSubsystem m_frontIntakeSubsystem;
+  private final ShooterSubsystem m_shooterSubsystem;
 
   boolean m_isFinished = false;
 
@@ -25,11 +27,13 @@ public class FrontIntakeDefault extends Command {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public FrontIntakeDefault(FrontIntakeSubsystem frontIntakeSubsystem) {
+  public FrontIntakeDefault(FrontIntakeSubsystem frontIntakeSubsystem, ShooterSubsystem shooterSubsystem) {
     m_frontIntakeSubsystem = frontIntakeSubsystem;
+    m_shooterSubsystem = shooterSubsystem;
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_frontIntakeSubsystem);
+    addRequirements(m_shooterSubsystem);
 
   }
 
@@ -46,7 +50,10 @@ public class FrontIntakeDefault extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_frontIntakeSubsystem.setFrontIntakePosition(Constants.kFrontIntakeStowPos);
+    if(m_shooterSubsystem.getShooterArmInPosition(Constants.kShooterArmHomePos)){
+       System.out.println("FrontIntakeDefault: Shooter Arm is Home!");
+      m_frontIntakeSubsystem.setFrontIntakePosition(Constants.kFrontIntakeStowPos);
+    }
   }
 
   // Called once the command ends or is interrupted.
