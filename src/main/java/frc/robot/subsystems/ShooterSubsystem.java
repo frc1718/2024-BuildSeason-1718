@@ -31,21 +31,18 @@ public class ShooterSubsystem extends SubsystemBase implements NTSendable{
   AnalogInput m_BeamBreakIntakeAnalog = new AnalogInput(Constants.kBeamBreakIntakeAnalog);
   AnalogInput m_BeamBreakShooterAnalog = new AnalogInput(Constants.kBeamBreakShooterAnalog);
   
-  //Open Servo
-  //Servo intakeHinge = new Servo(Constants.kShooterIntakePivotReleasePWM);
-
-  //Open Motors
-  
+  //Make variables
   public String m_shooterMode = "";
   public boolean m_readyToShoot = false;
-
+  
+  //Open motors
   TalonFX m_ShooterArmRotateLeft = new TalonFX(Constants.kShooterArmRotateLeftCanID, "Canivore");
   TalonFX m_ShooterArmRotateRight = new TalonFX(Constants.kShooterArmRotateRightCanID, "Canivore");
   TalonFX m_ShooterIntakeSpin = new TalonFX(Constants.kShooterIntakeSpinCanID, "Canivore");
   TalonFX m_SpinRightShooter = new TalonFX(Constants.kSpinRightShooterCanID, "Canivore");
   TalonFX m_SpinLeftShooter = new TalonFX(Constants.kSpinLeftShooterCanID, "Canivore"); 
 
-  //Open CanCoder
+  //Open CANcoder
   CANcoder ShooterArmCANcoder = new CANcoder(Constants.kShooterArmCancoderCanID);
   
   private final VelocityVoltage ShooterVelocity = new VelocityVoltage(0.0, 0.0, true, 0,0, false, false, false);
