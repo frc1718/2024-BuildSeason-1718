@@ -37,10 +37,13 @@ import frc.robot.commands.Driver.ShootTrap;
 import frc.robot.commands.Driver.Spit;
 import frc.robot.commands.Driver.Suck;
 import frc.robot.generated.TunerConstants;
+
+//Subsystem Imports
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.FrontIntakeSubsystem;
 import frc.robot.subsystems.LEDSubsystem;
+import frc.robot.subsystems.ShooterIntakeSubsystem;
 
 public class RobotContainer {
   private double MaxSpeed = 6; // 6 meters per second desired top speed
@@ -79,6 +82,7 @@ public class RobotContainer {
   private final FrontIntakeSubsystem frontIntake = new FrontIntakeSubsystem();
   private final ClimberSubsystem climber = new ClimberSubsystem();
   private final LEDSubsystem LED = new LEDSubsystem();
+  private final ShooterIntakeSubsystem shooterIntakeSubsystem = new ShooterIntakeSubsystem();
 
   private void configureBindings() {
     //Schedules drivertain
@@ -100,11 +104,11 @@ public class RobotContainer {
     // Schedules Brake Swerve Drivetrain Binds (x-lock wheels) Driver
     //driveController.x().whileTrue(drivetrain.applyRequest(() -> brake));
     
-    driveController.leftBumper().onTrue(new Shoot(frontIntake, shooter, climber));
-    driveController.rightBumper().whileTrue(new Suck(frontIntake, shooter));
-    driveController.rightTrigger(.5).whileTrue(new Spit(frontIntake, shooter)); 
+    driveController.leftBumper().onTrue(new Shoot(frontIntake, shooter, climber, shooterIntakeSubsystem));
+    driveController.rightBumper().whileTrue(new Suck(frontIntake, shooter, shooterIntakeSubsystem));
+    driveController.rightTrigger(.5).whileTrue(new Spit(frontIntake, shooter, shooterIntakeSubsystem)); 
     driveController.leftTrigger(.5).onTrue(new Climb(climber,frontIntake,shooter));
-    driveController.y().onTrue(new ShootTrap(frontIntake, shooter, climber));
+    driveController.y().onTrue(new ShootTrap(frontIntake, shooter, climber, shooterIntakeSubsystem));
  
      
     // Schedules reset the field - Binds centric heading on back and start button push

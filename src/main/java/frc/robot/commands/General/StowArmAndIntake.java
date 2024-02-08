@@ -6,18 +6,17 @@
   //in case of encoders messing up and we don't want the climber
   //going to positions it physically can't.
 
-package frc.robot.commands.Driver;
+package frc.robot.commands.General;
 
 import frc.robot.Constants;
-import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.FrontIntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /** An example command that uses an example subsystem. */
-public class Climb extends Command {
+public class StowArmAndIntake extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final ClimberSubsystem m_climberSubsystem;
+
   private final FrontIntakeSubsystem m_frontIntakeSubsystem;
   private final ShooterSubsystem m_shooterSubsystem;
 
@@ -25,13 +24,12 @@ public class Climb extends Command {
 
   private int m_stateMachine = 1;
 
-  public Climb(ClimberSubsystem climberSubsystem, FrontIntakeSubsystem frontIntakeSubsystem, ShooterSubsystem shooterSubsystem) {
-    m_climberSubsystem = climberSubsystem;
+  public StowArmAndIntake(FrontIntakeSubsystem frontIntakeSubsystem, ShooterSubsystem shooterSubsystem) {
+
     m_frontIntakeSubsystem = frontIntakeSubsystem;
     m_shooterSubsystem = shooterSubsystem;
 
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_climberSubsystem);
     addRequirements(m_frontIntakeSubsystem);
     addRequirements(m_shooterSubsystem);
 
@@ -41,16 +39,14 @@ public class Climb extends Command {
   @Override
   public void initialize() {
     System.out.println("========================");
-    System.out.println("Driver Command: Climb");
+    System.out.println("General StowArmAndIntake Started");
     
     //Initialize state machine
     m_stateMachine = 1;
     
     //Set Positions and speeds
-    m_climberSubsystem.setClimberDesiredPosition(Constants.kClimberPreClimbPos);
-    m_frontIntakeSubsystem.setFrontIntakePosition(Constants.kFrontIntakeDownPos);
+    m_frontIntakeSubsystem.setFrontIntakePosition(Constants.kFrontIntakeClearPos);
     m_frontIntakeSubsystem.setFrontIntakeSpeed(Constants.kFrontIntakeStopSpeed);
-    m_shooterSubsystem.setShooterArmPosition(Constants.kShooterArmPreClimbPos);
 
     m_isFinished = false;
 
@@ -61,26 +57,23 @@ public class Climb extends Command {
   public void execute() {
 
     switch(m_stateMachine){     
-      case 1:  //PreClimbActuated
-        System.out.println("Driver Command Climb: Case 1");
-        if (m_climberSubsystem.getPreClimbActuated()) {
-          System.out.println("Driver Command Climb: Case 1 Complete");
-          m_climberSubsystem.setClimberDesiredPosition(Constants.kClimberClimbPos);
+      case 1:  //Move Front Intake to Clear Position
+        System.out.println("General StowArmAndIntake: Case 1");
+        if (m_frontIntakeSubsystem.getFrontIntakeInPosition(Constants.kFrontIntakeClearPos)) {
+          System.out.println("General StowArmAndIntake: Case 1 Complete");
+          m_shooterSubsystem.setShooterArmPosition(Constants.kShooterArmHomePos);
           m_stateMachine = m_stateMachine + 1;
-        } else {
-          System.out.println("Driver Command: Preclimb has not been actuated!  Abort!");
-          m_isFinished = true;
         }
         break;
-      case 2:  //Climb Complete
-        System.out.println("Driver Command Climb: Case 2");
-        if (m_climberSubsystem.getClimberInPosition(Constants.kClimberClimbPos)){
-          System.out.println("Driver Command Climb: Case 2 Complete.");
-          m_climberSubsystem.setClimberDesiredPosition(Constants.kClimberClimbPos);
+      case 2:  //When arm is home, end command
+        System.out.println("General StowArmAndIntake: Case 2");
+        if (m_shooterSubsystem.getShooterArmInPosition(Constants.kShooterArmHomePos)){
+          System.out.println("General StowArmAndIntake: Case 2 Complete.");
+          m_isFinished = true;
         }
     }   
 
-    //Remove once climber is in place.  Here so the command finishes for debuggin.
+    //Remove once all logic is in place.
     m_isFinished=true;
     
   }
@@ -88,7 +81,7 @@ public class Climb extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    System.out.println("Driver Command: Climb completed!");
+    System.out.println("General StowArmAndIntake Completed");
     System.out.println("================================");
   }
 

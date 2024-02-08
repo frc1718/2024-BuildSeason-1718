@@ -8,7 +8,6 @@ import frc.robot.Constants;
 import frc.robot.subsystems.FrontIntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.PrintCommand;
 
 /** An example command that uses an example subsystem. */
 public class ShooterModeAmp extends Command {
@@ -44,7 +43,6 @@ public class ShooterModeAmp extends Command {
     m_stateMachine = 1;
 
     // Be careful to only command items here that can't interefere with eachother
-    m_shooterSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeStopSpeed);
     m_frontIntakeSubsystem.setFrontIntakePosition(Constants.kFrontIntakeClearPos);
     m_shooterSubsystem.setShooterSpeed(Constants.kShooterAmpSpeed);
 

@@ -13,7 +13,6 @@ import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.FrontIntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.PrintCommand;
 
 /** An example command that uses an example subsystem. */
 public class PreClimb extends Command {
@@ -23,7 +22,6 @@ public class PreClimb extends Command {
   private final FrontIntakeSubsystem m_frontIntakeSubsystem;
 
   private boolean m_isFinished = false;
-  private boolean preClimbActuated = false;
   private int m_stateMachine=1;
 
   /**
@@ -59,7 +57,6 @@ public class PreClimb extends Command {
     m_climberSubsystem.setClimberDesiredPosition(Constants.kClimberPreClimbPos);
 
     m_shooterSubsystem.setShooterSpeed(Constants.kShooterStopSpeed);
-    m_shooterSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeStopSpeed);
     
     m_isFinished = false;
 

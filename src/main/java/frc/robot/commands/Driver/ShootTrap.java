@@ -8,8 +8,8 @@ import frc.robot.Constants;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.PrintCommand;
 import frc.robot.subsystems.FrontIntakeSubsystem;
+import frc.robot.subsystems.ShooterIntakeSubsystem;
 
 /** An example command that uses an example subsystem. */
 public class ShootTrap extends Command {
@@ -17,31 +17,35 @@ public class ShootTrap extends Command {
   private final ShooterSubsystem m_shooterSubsystem;
   private final ClimberSubsystem m_climberSubsystem;
   private final FrontIntakeSubsystem m_frontIntakeSubsystem;
+  private final ShooterIntakeSubsystem m_shooterIntakeSubsystem;
 
   private boolean m_isFinished = false;
 
-  private int m_shooterArmPosition = 0;
   private int m_shooterSpeed = 0;
   private int m_frontIntakePosition = 0;
   private int m_frontIntakeSpeed = 0;
 
-  private int m_stateMachine = 1;
+  private int m_stateMachine = 0;
 
   /**
    * Creates a new ExampleCommand.
    * 
    * @param shooterSubsystem The subsystem used by this command.
    */
-  public ShootTrap(FrontIntakeSubsystem frontIntakeSubsystem, ShooterSubsystem shooterSubsystem, ClimberSubsystem climbSubsystem) {
+  public ShootTrap(FrontIntakeSubsystem frontIntakeSubsystem, ShooterSubsystem shooterSubsystem, ClimberSubsystem climbSubsystem, ShooterIntakeSubsystem shooterIntakeSubsystem) {
 
     m_frontIntakeSubsystem = frontIntakeSubsystem;
     m_shooterSubsystem = shooterSubsystem;
     m_climberSubsystem = climbSubsystem;
+    m_shooterIntakeSubsystem = shooterIntakeSubsystem;
+
+    m_stateMachine = 1;
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_shooterSubsystem);
     addRequirements(m_frontIntakeSubsystem);
     addRequirements(m_climberSubsystem);
+    addRequirements(m_shooterIntakeSubsystem);
     
   }
 
@@ -67,7 +71,7 @@ public class ShootTrap extends Command {
   //Set values based on shooter mode the operator has selected
     if (m_climberSubsystem.getPreClimbActuated()) {
       System.out.println("Driver Command ShooTrapt: Case 1 Complete!");
-      m_shooterSubsystem.setShooterIntakeSpeed(-Constants.kShooterIntakeShootSpeed);
+      m_shooterIntakeSubsystem.setShooterIntakeSpeed(-Constants.kShooterIntakeShootSpeed);
       m_isFinished = true;
     } else {
       System.out.println("Driver Command ShootTrap: Preclimb Not Actuated!");

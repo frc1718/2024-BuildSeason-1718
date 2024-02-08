@@ -17,19 +17,12 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
-
-import edu.wpi.first.networktables.NTSendable;
-import edu.wpi.first.networktables.NTSendableBuilder;
-import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants;
 
-public class ShooterSubsystem extends SubsystemBase implements NTSendable{
+public class ShooterSubsystem extends SubsystemBase {
  
-  //Open sensors
-  AnalogInput m_BeamBreakIntakeAnalog = new AnalogInput(Constants.kBeamBreakIntakeAnalog);
-  AnalogInput m_BeamBreakShooterAnalog = new AnalogInput(Constants.kBeamBreakShooterAnalog);
+
   
   //Open Servo
   //Servo intakeHinge = new Servo(Constants.kShooterIntakePivotReleasePWM);
@@ -50,10 +43,7 @@ public class ShooterSubsystem extends SubsystemBase implements NTSendable{
   
   private final VelocityVoltage ShooterVelocity = new VelocityVoltage(0.0, 0.0, true, 0,0, false, false, false);
   private final MotionMagicVoltage ShooterArmPosition = new MotionMagicVoltage(0.0, true, 0, 0, false, false, false);
-  private final VelocityVoltage ShooterIntakeVelocity = new VelocityVoltage(0, 0, true, 0, 0, false, false, false);
-
-
-
+  
   public ShooterSubsystem() {
     //Configuring CANcoder
     CANcoderConfiguration ShooterArmCANcoderConfig = new CANcoderConfiguration();
@@ -138,39 +128,11 @@ public class ShooterSubsystem extends SubsystemBase implements NTSendable{
     return m_readyToShoot;
   }
 
-  // Start of sensor related methods
-  public boolean getNotePresentIntake() {  
-    //This will print out constantly because it's on a trigger
-    //System.out.println("ShooterSubsystem: getNotePresentIntake");
-
-    //This needs to be both on a debounce AND to have hysterisis programmed in
-    return (m_BeamBreakIntakeAnalog.getVoltage() >= Constants.kIntakeBeamBreakCrossover);
-    
-  }
-  
-  //public Trigger shooterArmInHomePositionTrigger() {
-    //System.out.println("ShooterSubsystem: shooterArmInHomePositionTrigger");
-    //return(new Trigger(()->getShooterArmInPosition(Constants.kShooterArmHomePos)));
-  //}
-
-  public boolean getNotePresentShooter() {  
-    //This will print out constantly because it's on a constant trigger
-    //System.out.println("Subsystem: Shooter - getNotePresentShooter");
-    return (m_BeamBreakShooterAnalog.getVoltage() >= Constants.kShooterBeamBreakCrossover);
-
-  }
-  // End of sensor related methods
-
   // Start of motor set methods
 
   public void setShooterMode(String shooterMode){
     m_shooterMode=shooterMode;
     System.out.println("ShooterSubsystem: setShooterMode");
-  }
-
-  public void setShooterIntakeSpeed(double speed) {
-    System.out.println("ShooterSubsystem: setShooterIntakeSpeed");
-    m_ShooterIntakeSpin.setControl(ShooterIntakeVelocity.withVelocity(speed));
   }
 
   public void setShooterSpeed(double shootSpeed) {
@@ -184,13 +146,6 @@ public class ShooterSubsystem extends SubsystemBase implements NTSendable{
     m_ShooterArmRotateLeft.setControl(ShooterArmPosition.withPosition(position));
   }
 
-  public void setShooterIntakePivotPosition(double desiredPosition) {
-    //intakeHinge.set(desiredPosition);
-  }
-  //End of motor set methods
-
-  //Start of motor get methods
-  
   public String getShooterMode(){
     System.out.println("ShooterSubsystem: getShooterMode");
     return m_shooterMode;
@@ -226,13 +181,6 @@ public class ShooterSubsystem extends SubsystemBase implements NTSendable{
       }
     }
     //End of motor get methods
-  
-  @Override
-  public void initSendable(NTSendableBuilder builder){
-    builder.setSmartDashboardType("ShooterSubsystem");
-    builder.addDoubleProperty("Current Voltage", () -> {return m_BeamBreakShooterAnalog.getVoltage();}, null); 
-    builder.addBooleanProperty("Beam Broken", () -> {return (m_BeamBreakShooterAnalog.getVoltage() > Constants.kShooterBeamBreakCrossover);}, null);
-  }
 
   @Override
   public void simulationPeriodic() {

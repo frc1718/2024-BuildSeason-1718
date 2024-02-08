@@ -7,7 +7,6 @@ package frc.robot.commands.Operator;
 import frc.robot.Constants;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.PrintCommand;
 import frc.robot.subsystems.FrontIntakeSubsystem;
 
 /** An example command that uses an example subsystem. */
@@ -46,7 +45,6 @@ public class ShooterModePodium extends Command {
     m_stateMachine = 1;    
 
     //Set Initial Positions and Speeds
-    m_shooterSubsystem.setShooterIntakeSpeed(0);
     m_frontIntakeSubsystem.setFrontIntakePosition(Constants.kFrontIntakeClearPos);
     m_shooterSubsystem.setShooterSpeed(Constants.kShooterPodiumSpeed);
 
