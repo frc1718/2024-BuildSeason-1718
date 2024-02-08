@@ -62,6 +62,7 @@ public class Constants {
     public static final int kShooterSubwooferSpeed = 0;
     public static final int kShooterPodiumSpeed = 0;
     public static final int kShooterAmpSpeed = 0;
+    public static final int kShooterPoseSpeed = 0;
     public static final int kShooterIdleSpeed = 0;
     public static final int kShooterMaxSpeed = 0;
     public static final int kShooterStopSpeed = 0;

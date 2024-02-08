@@ -18,6 +18,7 @@ public class ShooterModePodium extends Command {
   private final FrontIntakeSubsystem m_frontIntakeSubsystem;
 
   private boolean m_isFinished = false;
+  private int m_stateMachine = 0;
 
   /**
    * Creates a new ExampleCommand.
@@ -40,10 +41,16 @@ public class ShooterModePodium extends Command {
   public void initialize() {
     System.out.println("==========================");
     System.out.println("Command Operator: ShooterModePodium");
+
+    //Initialize State Machine
+    m_stateMachine = 1;    
+
+    //Set Initial Positions and Speeds
     m_shooterSubsystem.setShooterIntakeSpeed(0);
-    m_shooterSubsystem.setShooterArmPosition(Constants.kShooterArmPodiumPos);
+    m_frontIntakeSubsystem.setFrontIntakePosition(Constants.kFrontIntakeClearPos);
     m_shooterSubsystem.setShooterSpeed(Constants.kShooterPodiumSpeed);
 
+    //Set Shooter Mode
     m_shooterSubsystem.setShooterMode("ShootPodium");
 
     m_isFinished = false;
@@ -53,23 +60,43 @@ public class ShooterModePodium extends Command {
   @Override
   public void execute() {
 
-    //Command finishes if shooter gets up to speed
-    if (m_shooterSubsystem.getShooterUpToSpeed(Constants.kShooterPodiumSpeed)) {
-      System.out.println("Command Operator ShooterModePodium: shooter up to speed");
-      m_isFinished = true;
+    switch(m_stateMachine) {     
+      case 1:  // Front intake in position
+        System.out.println("Operator Command ShooterModePodium: Case 1 Started");
+        if (m_frontIntakeSubsystem.getFrontIntakeInPosition(Constants.kFrontIntakeClearPos)) {
+          m_shooterSubsystem.setShooterArmPosition(Constants.kShooterArmPodiumPos);
+          System.out.println("Operator Command ShooterModePodium: Case 1 Complete");
+          m_stateMachine = m_stateMachine + 1;
+        }        
+        break;
+      case 2:  // Arm in position
+        System.out.println("Operator Command ShooterModePodium: Case 2 Started");
+        if (m_shooterSubsystem.getShooterArmInPosition(Constants.kShooterArmPodiumPos)) {
+          System.out.println("Operator Command ShooterModePodium: Case 2 Complete");
+          m_stateMachine = m_stateMachine + 1;
+        }
+        break;
+      case 3:  // Shooter up to speed
+        System.out.println("Operator Command ShooterModePodium: Case 3 Started");       
+        if (m_shooterSubsystem.getShooterUpToSpeed(Constants.kShooterPodiumSpeed)) {
+          System.out.println("Operator Command ShooterModePodium: Case 3 Complete");
+          m_isFinished = true;
+        }
+        break;
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_stateMachine = 1;
+    System.out.println("Command Operator ShooterModePodium: Command Finished");
+    System.out.println("==========================");
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    System.out.println("Command Operator ShooterModePodium: Command Finished");
-    System.out.println("==========================");
     return m_isFinished;
   }
 }

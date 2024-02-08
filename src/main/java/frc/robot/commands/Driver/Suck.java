@@ -46,6 +46,9 @@ public class Suck extends Command {
   @Override
   public void execute() {
   
+asdfasfafdsds still need to have state machine here to get the note in the right place
+also need to consider automating the sensors
+
     //Need shooter arm in position before we start front intake sucking.
     if (m_shooterSubsystem.getShooterArmInPosition(Constants.kShooterArmHomePos)) {
       m_frontIntakeSubsystem.setFrontIntakeSpeed(Constants.kFrontIntakeSuckSpeed);

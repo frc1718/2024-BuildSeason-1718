@@ -17,7 +17,7 @@ public class ShooterModeAmp extends Command {
   private final FrontIntakeSubsystem m_frontIntakeSubsystem;
   
   private boolean m_isFinished = false;
-
+  private int m_stateMachine = 1;
   /**
    * Creates a new ExampleCommand.
    * 
@@ -39,10 +39,16 @@ public class ShooterModeAmp extends Command {
   public void initialize() {
     System.out.println("==========================");
     System.out.println("Command Operator: ShooterModeAmp");
-    m_shooterSubsystem.setShooterIntakeSpeed(0);
-    m_shooterSubsystem.setShooterArmPosition(Constants.kShooterArmAmpPos);
+
+    //Initialize State Machine
+    m_stateMachine = 1;
+
+    // Be careful to only command items here that can't interefere with eachother
+    m_shooterSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeStopSpeed);
+    m_frontIntakeSubsystem.setFrontIntakePosition(Constants.kFrontIntakeClearPos);
     m_shooterSubsystem.setShooterSpeed(Constants.kShooterAmpSpeed);
 
+    //Set Shooter Mode
     m_shooterSubsystem.setShooterMode("ShootAmp");
 
     m_isFinished = false;
@@ -52,29 +58,43 @@ public class ShooterModeAmp extends Command {
   @Override
   public void execute() {
 
-    //Need to check that front intake is in position before we can move the arm
-    if (m_frontIntakeSubsystem.getFrontIntakeInPosition(Constants.kFrontIntakeDownPos)) {
-       m_shooterSubsystem.setShooterArmPosition(Constants.kShooterArmPreClimbPos);
-       System.out.println("Command Operator PreClimb: Front Intake is clear");
+    switch(m_stateMachine) {     
+      case 1:  // Front intake in position
+        System.out.println("Operator Command ShooterModeAmp: Case 1 Started");
+        if (m_frontIntakeSubsystem.getFrontIntakeInPosition(Constants.kFrontIntakeClearPos)) {
+          m_shooterSubsystem.setShooterArmPosition(Constants.kShooterArmAmpPos);
+          System.out.println("Operator Command ShooterModeAmp: Case 1 Complete");
+          m_stateMachine = m_stateMachine + 1;
+        }        
+        break;
+      case 2:  // Arm in position
+        System.out.println("Operator Command ShooterModeAmp: Case 2 Started");
+        if (m_shooterSubsystem.getShooterArmInPosition(Constants.kShooterArmAmpPos)) {
+          System.out.println("Operator Command ShooterModeAmp: Case 2 Complete");
+          m_stateMachine = m_stateMachine + 1;
+        }
+        break;
+      case 3:  // Shooter up to speed
+        System.out.println("Operator Command ShooterModeAmp: Case 3 Started");       
+        if (m_shooterSubsystem.getShooterUpToSpeed(Constants.kShooterAmpSpeed)) {
+          System.out.println("Operator Command ShooterModeAmp: Case 3 Complete");
+          m_isFinished = true;
+        }
+        break;
     }
-
-    if (m_shooterSubsystem.getShooterUpToSpeed(Constants.kShooterAmpSpeed)) {
-      System.out.println("Command Operator ShooterModeAmp: shooter up to speed");
-      m_isFinished = true;
-    }
-
   }
+
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    System.out.println("Command Operator ShooterModeAmp: Command Complete");
+    System.out.println("==========================");
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    System.out.println("Command Operator ShooterModeAmp: Command Complete");
-    System.out.println("==========================");
     return m_isFinished;
   }
 }

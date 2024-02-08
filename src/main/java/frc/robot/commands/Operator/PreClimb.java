@@ -22,8 +22,9 @@ public class PreClimb extends Command {
   private final ShooterSubsystem m_shooterSubsystem;
   private final FrontIntakeSubsystem m_frontIntakeSubsystem;
 
-  boolean m_isFinished = false;
-  boolean preClimbActuated = false;
+  private boolean m_isFinished = false;
+  private boolean preClimbActuated = false;
+  private int m_stateMachine=1;
 
   /**
    * Creates a new ExampleCommand.
@@ -48,20 +49,20 @@ public class PreClimb extends Command {
     System.out.println("==========================");
     System.out.println("Command Operator: PreClimb");
 
+    //Initialize State Machine
+    m_stateMachine = 1;
+
     //In the initialize step, set the desired starting positions and speeds of each system
+    m_frontIntakeSubsystem.setFrontIntakeSpeed(Constants.kFrontIntakeStopSpeed);
+    m_frontIntakeSubsystem.setFrontIntakePosition(Constants.kFrontIntakeDownPos);
+ 
     m_climberSubsystem.setClimberDesiredPosition(Constants.kClimberPreClimbPos);
 
     m_shooterSubsystem.setShooterSpeed(Constants.kShooterStopSpeed);
     m_shooterSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeStopSpeed);
     
-    m_frontIntakeSubsystem.setFrontIntakeSpeed(Constants.kFrontIntakeStopSpeed);
-    m_frontIntakeSubsystem.setFrontIntakePosition(Constants.kFrontIntakeDownPos);
-
-    m_climberSubsystem.setPreClimbActuated(true);
-
     m_isFinished = false;
 
-    
   }
 
 
@@ -69,33 +70,45 @@ public class PreClimb extends Command {
   @Override
   public void execute() {
 
+    switch(m_stateMachine){     
+      case 1:  //Front intake in position
+        System.out.println("Operator Command Preclimb: Case 1 Started");
+        if (m_frontIntakeSubsystem.getFrontIntakeInPosition(Constants.kFrontIntakeDownPos)) {
+          m_shooterSubsystem.setShooterArmPosition(Constants.kShooterArmPreClimbPos);
+          System.out.println("Operator Command Preclimb: Case 1 Complete");
+          m_stateMachine=m_stateMachine+1;
+        }        
+        break;
+      case 2:  // Arm in position
+        System.out.println("Operator Command Preclimb: Case 2 Started");
+        if (m_shooterSubsystem.getShooterArmInPosition(Constants.kShooterArmPreClimbPos)) {
+          System.out.println("Operator Command Preclimb: Case 2 Complete");
+          m_stateMachine=m_stateMachine+1;
+        }
+        break;
+      case 3:  // Climber in position
+        System.out.println("Operator Command Preclimb: Case 3 Started");       
+        if (m_climberSubsystem.getClimberInPosition(Constants.kClimberPreClimbPos)) {
+          System.out.println("Operator Command Preclimb: Case 3 Complete");
+          m_climberSubsystem.setPreClimbActuated(true);
+          m_isFinished= true;
+        }
+        break;
+    }
     //Remove this once the conditional check below is working.  For now, this makes sure the preclimb command finishes.
     m_isFinished = true;
-
-    //Need to check that front intake is in position before we can move the arm
-    if (m_frontIntakeSubsystem.getFrontIntakeInPosition(Constants.kFrontIntakeDownPos)) {
-      m_shooterSubsystem.setShooterArmPosition(Constants.kShooterArmPreClimbPos);
-      System.out.println("Command Operator PreClimb: Front Intake is clear");
-    }
-
-    //Check to see if we made it into the preclimb position
-    if (m_climberSubsystem.getClimberInPosition(Constants.kClimberPreClimbPos) && m_shooterSubsystem.getShooterArmInPosition(Constants.kShooterArmPreClimbPos) && m_frontIntakeSubsystem.getFrontIntakeInPosition(Constants.kFrontIntakeDownPos))
-    {
-      m_isFinished = true;
-    }
-
   }
   
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    System.out.println("Command Operator PreClimb: Command Finished");
+    System.out.println("==========================");
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    System.out.println("Command Operator PreClimb: Command Finished");
-    System.out.println("==========================");
     return m_isFinished;
   }
 }
