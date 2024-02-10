@@ -68,23 +68,23 @@ public class RobotContainer {
   /* Setting up bindings for necessary control of the swerve drive platform */
   //The drivetrain is public so the limelight pose can be added to it in Robot.java.
   //Could perhaps move that code into the drivetrain default command lambda, or into the periodic() method in CommandSwerveDrivetrain.
-  //public final CommandSwerveDrivetrain drivetrain = TunerConstants.DriveTrain; // My drivetrain
+  public final CommandSwerveDrivetrain drivetrain = TunerConstants.DriveTrain; // My drivetrain
 
   //Currently disabled to prevent missing motor error messages
-  //private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
-      //.withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
-      //.withDriveRequestType(DriveRequestType.OpenLoopVoltage); // I want field-centric
+  private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
+      .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
+      .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // I want field-centric
                                                                // driving in open loop
-  //private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
-  //private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
+  private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
+  private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
   
   //Testing an idea: hold a button and always aim at the goal.
   //Copying a fair amount of this from the FieldCentric drive.
-  //private final SwerveRequest.FieldCentricFacingAngle rootyTootyPointAndShooty = new SwerveRequest.FieldCentricFacingAngle()
-      //.withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1)
-      //.withDriveRequestType(DriveRequestType.OpenLoopVoltage);
+  private final SwerveRequest.FieldCentricFacingAngle rootyTootyPointAndShooty = new SwerveRequest.FieldCentricFacingAngle()
+      .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1)
+      .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
 
-  //private final Telemetry logger = new Telemetry(MaxSpeed);
+  private final Telemetry logger = new Telemetry(MaxSpeed);
 
   //Open Subsystems
   private final ShooterSubsystem shooter = new ShooterSubsystem();
@@ -95,24 +95,35 @@ public class RobotContainer {
 
   private void configureBindings() {
     //Schedules drivertain
-    //drivetrain.setDefaultCommand( // Drivetrain will execute this command periodically
-        //drivetrain.applyRequest(() -> drive.withVelocityX(-driveController.getLeftY() * MaxSpeed) // Drive forward with
+    drivetrain.setDefaultCommand( // Drivetrain will execute this command periodically
+        drivetrain.applyRequest(() -> drive.withVelocityX(-driveController.getLeftY() * MaxSpeed) // Drive forward with
                                                                                            // negative Y (forward)
-    //        .withVelocityY(-driveController.getLeftX() * MaxSpeed) // Drive left with negative X (left)
-    //        .withRotationalRate(-driveController.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
-    //    ));
+            .withVelocityY(-driveController.getLeftX() * MaxSpeed) // Drive left with negative X (left)
+            .withRotationalRate(-driveController.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
+        ));
 
     //=============================================================================
     //======================Driver Controller Assignments==========================
     //=============================================================================
 
     // Schedules Tilt modules without driving wheels?  Maybe?
-    //driveController.b().whileTrue(drivetrain.applyRequest(() -> point.withModuleDirection(new Rotation2d(-driveController.getLeftY(), -driveController.getLeftX()))));
+    driveController.b().whileTrue(drivetrain.applyRequest(() -> point.withModuleDirection(new Rotation2d(-driveController.getLeftY(), -driveController.getLeftX()))));
     
     // Currently disabled to prevent motor missing errors
     // Schedules Brake Swerve Drivetrain Binds (x-lock wheels) Driver
-    //driveController.x().whileTrue(drivetrain.applyRequest(() -> brake));
+    driveController.x().whileTrue(drivetrain.applyRequest(() -> brake));
     
+    //I bet there's a much better place to put this assignment, but I don't know where.
+    //These gains are also completely made up.  Not terrible in simulation, but don't trust them.
+    //rootyTootyPointAndShooty.HeadingController.setPID(20, 0, 0.05);
+
+    //Before this can be used, theres an issue with being 'above' or 'below' the coordinates of the speaker.
+    //I think it's because of the -180 to +180 crossover, but unsure how to fix it currently.
+    driveController.start().whileTrue(drivetrain.applyRequest(() -> rootyTootyPointAndShooty.withVelocityX(-driveController.getLeftY() * MaxSpeed)
+            .withVelocityY(-driveController.getLeftX() * MaxSpeed)
+            .withTargetDirection(Constants.kBlueSpeakerLocation.minus(drivetrain.getState().Pose.getTranslation()).getAngle())
+            ));
+
     driveController.leftBumper().onTrue(new Shoot(frontIntake, shooter, climber, shooterIntakeSubsystem));
     driveController.rightBumper().whileTrue(new Suck(frontIntake, shooter, shooterIntakeSubsystem));
     driveController.rightTrigger(.5).whileTrue(new Spit(frontIntake, shooter, shooterIntakeSubsystem)); 
@@ -121,7 +132,7 @@ public class RobotContainer {
  
      
     // Schedules reset the field - Binds centric heading on back and start button push
-    //driveController.back().and(driveController.start()).onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative()));
+    driveController.back().and(driveController.start()).onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative()));
     
     //First try at the front intake stowing when the arm is at home
     //shooter.shooterArmInHomePositionTrigger().onTrue(new FrontIntakeDefault(frontIntake) );
