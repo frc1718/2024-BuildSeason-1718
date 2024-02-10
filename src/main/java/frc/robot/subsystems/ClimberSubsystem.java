@@ -8,8 +8,8 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj.Servo;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 
 public class ClimberSubsystem extends SubsystemBase {
 
@@ -53,6 +53,14 @@ public class ClimberSubsystem extends SubsystemBase {
     {
       return false;
     }
+  }
+
+  @Override
+  public void initSendable(SendableBuilder builder){
+    builder.setSmartDashboardType("ClimberSubsystem");
+    builder.addDoubleProperty("Climber Position", () -> {return 0; /*this::getClimberPosition*/}, null);
+    builder.addBooleanProperty("Climber Pre-Actuated?", () -> {return false; /*this::getPreClimbActuated*/}, null);
+    builder.addBooleanProperty("Climber in Position?", () -> {return false; /*this::getClimberInPosition*/}, null);  
   }
 
   @Override

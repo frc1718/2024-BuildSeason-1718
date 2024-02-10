@@ -8,8 +8,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.TalonFX;
 
-import edu.wpi.first.networktables.NTSendable;
-import edu.wpi.first.networktables.NTSendableBuilder;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -41,11 +40,6 @@ public class ShooterSubsystem extends SubsystemBase implements NTSendable{
   public boolean shooterCondition() {
     // Query some boolean state, such as a digital sensor.
     return false;
-  }
-
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
   }
   
   // Start of sensor related methods
@@ -117,10 +111,22 @@ public class ShooterSubsystem extends SubsystemBase implements NTSendable{
     //End of motor get methods
 
   @Override
-  public void initSendable(NTSendableBuilder builder){
+  public void initSendable(SendableBuilder builder){
     builder.setSmartDashboardType("ShooterSubsystem");
-    builder.addDoubleProperty("Current Voltage", () -> {return m_BeamBreakShooterAnalog.getVoltage();}, null); 
-    builder.addBooleanProperty("Beam Broken", () -> {return (m_BeamBreakShooterAnalog.getVoltage() > Constants.kShooterBeamBreakCrossover);}, null);
+    builder.addBooleanProperty("Note Present in Intake?", this::getNotePresentIntake, null); 
+    builder.addBooleanProperty("Note Present in Shooter?", this::getNotePresentShooter, null);
+    builder.addDoubleProperty("Intake Beam Break Voltage", () -> {return m_BeamBreakIntakeAnalog.getVoltage();}, null);
+    builder.addDoubleProperty("Shooter Beam Break Voltage", () -> {return m_BeamBreakShooterAnalog.getVoltage();}, null);
+    builder.addStringProperty("Shooter Mode", () -> {return "null"; /*this::getShooterMode*/}, null);
+    builder.addDoubleProperty("Shooter Arm Position", () -> {return 0; /*this::getShooterArmPosition*/}, null);
+    builder.addDoubleProperty("Shooter Speed", () -> {return 0; /*this::getShooterSpeed*/}, null);
+    builder.addBooleanProperty("Shooter Arm in Position?", () -> {return false; /*this::getShooterArmInPosition*/}, null);
+    builder.addBooleanProperty("Shooter up to Speed?", () -> {return false; /*this::getShooterUpToSpeed*/}, null);
+  }
+
+  @Override
+  public void periodic() {
+    // This method will be called once per scheduler run
   }
 
   @Override

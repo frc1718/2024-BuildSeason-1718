@@ -6,6 +6,8 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -42,6 +44,12 @@ public class LEDSubsystem extends SubsystemBase {
    * @return value of some boolean subsystem state, such as a digital sensor.
    */
   
+  @Override
+  public void initSendable(SendableBuilder builder){
+      builder.setSmartDashboardType("LEDSubsystem");
+      builder.addDoubleProperty("LED Intensity", this::GetLightIntensity, null); 
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
