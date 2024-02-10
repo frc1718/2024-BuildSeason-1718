@@ -18,15 +18,21 @@ import frc.robot.Constants;
 public class ClimberSubsystem extends SubsystemBase {
 
   boolean m_preClimbActuated = false;
-  
+
+  /*
+
   //RightClimb Should be a follower of leftclimb
   TalonFX m_LeftClimb = new TalonFX(Constants.kLeftClimbCanID, "Canivore");
   TalonFX m_RightClimb = new TalonFX(Constants.kRightClimbCanID, "Canivore");
+
+  */
 
   private final MotionMagicVoltage climberMove = new MotionMagicVoltage(0.0, true, 0, 0, false, false, false);
 
   /** Creates a new ExampleSubsystem. */
   public ClimberSubsystem() {
+
+    /*
     //Start Configuring Climbers
     TalonFXConfiguration climberConfig = new TalonFXConfiguration();
     MotionMagicConfigs climberMotionMagic = climberConfig.MotionMagic;
@@ -56,7 +62,12 @@ public class ClimberSubsystem extends SubsystemBase {
 
     m_RightClimb.setControl(new Follower(Constants.kLeftClimbCanID, true));
     //End Configuration
+
+    */
+
   }
+
+  
 
   /**
    * Example command factory method.
@@ -65,7 +76,7 @@ public class ClimberSubsystem extends SubsystemBase {
    */
   public void setClimberDesiredPosition(int desiredPosition) {
     System.out.println("Subsystem: Climber - setClimberDesiredPosition");
-    m_LeftClimb.setControl(climberMove.withPosition(desiredPosition));
+    // m_LeftClimb.setControl(climberMove.withPosition(desiredPosition));
   }
 
   public void setPreClimbActuated(boolean preClimbActuated){
@@ -79,11 +90,15 @@ public class ClimberSubsystem extends SubsystemBase {
 
   public double getClimberPosition() {   
     System.out.println("Subsystem: Climber - getClimberPosition");
-    return m_LeftClimb.getPosition().getValueAsDouble();
+    // return m_LeftClimb.getPosition().getValueAsDouble();
+    //Remove the return below this when the above code is uncommented
+    return 1;
   }
 
   public boolean getClimberInPosition (int desiredPosition) {
     System.out.println("Subsystem: Climber - getClimberInPosition");
+    
+    /*
     if (m_LeftClimb.getPosition().getValue() > (desiredPosition-Constants.kClimberTolerancePos) && (m_LeftClimb.getPosition().getValue() < (desiredPosition+Constants.kClimberTolerancePos)))
     {
       return true; 
@@ -91,6 +106,11 @@ public class ClimberSubsystem extends SubsystemBase {
     {
       return false;
     } 
+    */
+
+    //Remove the return below this when the above code is uncommented
+    return false;
+
   }
 
   @Override

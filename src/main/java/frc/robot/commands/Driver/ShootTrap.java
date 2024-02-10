@@ -25,8 +25,6 @@ public class ShootTrap extends Command {
   private int m_frontIntakePosition = 0;
   private int m_frontIntakeSpeed = 0;
 
-  private int m_stateMachine = 0;
-
   /**
    * Creates a new ExampleCommand.
    * 
@@ -38,8 +36,6 @@ public class ShootTrap extends Command {
     m_shooterSubsystem = shooterSubsystem;
     m_climberSubsystem = climbSubsystem;
     m_shooterIntakeSubsystem = shooterIntakeSubsystem;
-
-    m_stateMachine = 1;
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_shooterSubsystem);
@@ -70,7 +66,7 @@ public class ShootTrap extends Command {
     
   //Set values based on shooter mode the operator has selected
     if (m_climberSubsystem.getPreClimbActuated()) {
-      System.out.println("Driver Command ShooTrapt: Case 1 Complete!");
+      System.out.println("Driver Command ShooTrap: Complete!");
       m_shooterIntakeSubsystem.setShooterIntakeSpeed(-Constants.kShooterIntakeShootSpeed);
       m_isFinished = true;
     } else {

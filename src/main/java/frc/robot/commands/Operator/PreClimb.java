@@ -11,6 +11,7 @@ package frc.robot.commands.Operator;
 import frc.robot.Constants;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.FrontIntakeSubsystem;
+import frc.robot.subsystems.ShooterIntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -20,25 +21,22 @@ public class PreClimb extends Command {
   private final ClimberSubsystem m_climberSubsystem;
   private final ShooterSubsystem m_shooterSubsystem;
   private final FrontIntakeSubsystem m_frontIntakeSubsystem;
+  private final ShooterIntakeSubsystem m_shooterIntakeSubsystem;
 
   private boolean m_isFinished = false;
   private int m_stateMachine=1;
 
-  /**
-   * Creates a new ExampleCommand.
-   *
-   * @param subsystem The subsystem used by this command.
-   */
-
-  public PreClimb(ClimberSubsystem climberSubsystem, ShooterSubsystem shooterSubsystem, FrontIntakeSubsystem frontIntakeSubsystem) {
+  public PreClimb(ClimberSubsystem climberSubsystem, ShooterSubsystem shooterSubsystem, FrontIntakeSubsystem frontIntakeSubsystem, ShooterIntakeSubsystem shooterIntakeSubsystem) {
     m_climberSubsystem = climberSubsystem;
     m_shooterSubsystem = shooterSubsystem;
     m_frontIntakeSubsystem = frontIntakeSubsystem;
+    m_shooterIntakeSubsystem = shooterIntakeSubsystem;
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_climberSubsystem);
     addRequirements(m_shooterSubsystem);
     addRequirements(m_frontIntakeSubsystem);
+    addRequirements(m_shooterIntakeSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -80,6 +78,7 @@ public class PreClimb extends Command {
         System.out.println("Operator Command Preclimb: Case 2 Started");
         if (m_shooterSubsystem.getShooterArmInPosition(Constants.kShooterArmPreClimbPos)) {
           System.out.println("Operator Command Preclimb: Case 2 Complete");
+          m_shooterIntakeSubsystem.Release();
           m_stateMachine=m_stateMachine+1;
         }
         break;

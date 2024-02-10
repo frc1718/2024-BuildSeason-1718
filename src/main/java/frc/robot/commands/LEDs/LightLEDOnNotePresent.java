@@ -4,63 +4,61 @@
 
 package frc.robot.commands.LEDs;
 
+import frc.robot.commands.Driver.Shoot;
 import frc.robot.subsystems.LEDSubsystem;
+import frc.robot.subsystems.ShooterIntakeSubsystem;
+import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /** An example command that uses an example subsystem. */
-public class BlinkSignalLight extends Command {
+public class LightLEDOnNotePresent extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final LEDSubsystem m_LEDSubsystem;
-  double intensity;
-  Timer timey = new Timer();
-  Double Delay;
+  private final ShooterIntakeSubsystem m_shooterIntakeSubsystem;
 
-  /**
-   * Creates a new ExampleCommand.
-   *
-   * @param subsystem The subsystem used by this command.
-   */
-  public BlinkSignalLight(LEDSubsystem subsystem, double IntensityInput, double DelayInput) {
+  Debouncer m_debouncer= new Debouncer(.1, Debouncer.DebounceType.kBoth);
+
+  boolean m_isFinished = false;
+
+  public LightLEDOnNotePresent(LEDSubsystem subsystem, ShooterIntakeSubsystem shooterIntakeSubsystem) {
     m_LEDSubsystem = subsystem;
-    intensity = IntensityInput;
-    Delay = DelayInput;
+    m_shooterIntakeSubsystem = shooterIntakeSubsystem;
+
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_LEDSubsystem);
   }
 
-
-
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("Command: BlinkSignalLight");
+    m_isFinished=false;
+    System.out.println("Command LightLEDOnNotePresent: Started");
     m_LEDSubsystem.SetLightIntensity(0);
-    timey.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (timey.hasElapsed(Delay)) {
-      if (m_LEDSubsystem.GetLightIntensity() < intensity/2) {
-        m_LEDSubsystem.SetLightIntensity(intensity);
-      } else {
+    
+    System.out.println("Command LightLEDOnNotePresent: Running");
+      m_LEDSubsystem.SetLightIntensity(1);
+
+      if (!m_shooterIntakeSubsystem.getNotePresent()){
         m_LEDSubsystem.SetLightIntensity(0);
+        m_isFinished=true;
       }
-      timey.restart();
-    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_LEDSubsystem.SetLightIntensity(0);
+
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return m_isFinished;
   }
 }
