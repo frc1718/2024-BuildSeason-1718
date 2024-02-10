@@ -14,8 +14,6 @@ import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
-import edu.wpi.first.math.interpolation.InterpolatingTreeMap;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -41,10 +39,6 @@ public class RobotContainer {
   private double MaxSpeed = 6; // 6 meters per second desired top speed
   private double MaxAngularRate = 1.5 * Math.PI; // 3/4 of a rotation per second max angular velocity
 
-  //Inserting these to better understand how to use them.
-  public InterpolatingDoubleTreeMap shooterSpeedMap = new InterpolatingDoubleTreeMap();
-  public InterpolatingDoubleTreeMap shooterAngleMap = new InterpolatingDoubleTreeMap();
-
   //Attempting to create a selector object.
   File chirpFolder = new File(Filesystem.getDeployDirectory() + "/chirp");
   File autonFolder = new File(Filesystem.getDeployDirectory() + "/pathplanner/autos");
@@ -61,22 +55,22 @@ public class RobotContainer {
   /* Setting up bindings for necessary control of the swerve drive platform */
   //The drivetrain is public so the limelight pose can be added to it in Robot.java.
   //Could perhaps move that code into the drivetrain default command lambda, or into the periodic() method in CommandSwerveDrivetrain.
-  public final CommandSwerveDrivetrain drivetrain = TunerConstants.DriveTrain; // My drivetrain
+  //public final CommandSwerveDrivetrain drivetrain = TunerConstants.DriveTrain; // My drivetrain
 
-  private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
-      .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
-      .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // I want field-centric
+  //private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
+      //.withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
+      //.withDriveRequestType(DriveRequestType.OpenLoopVoltage); // I want field-centric
                                                                // driving in open loop
-  private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
-  private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
+  //private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
+  //private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
   
   //Testing an idea: hold a button and always aim at the goal.
   //Copying a fair amount of this from the FieldCentric drive.
-  private final SwerveRequest.FieldCentricFacingAngle rootyTootyPointAndShooty = new SwerveRequest.FieldCentricFacingAngle()
-      .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1)
-      .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
+  //private final SwerveRequest.FieldCentricFacingAngle rootyTootyPointAndShooty = new SwerveRequest.FieldCentricFacingAngle()
+      //.withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1)
+      //.withDriveRequestType(DriveRequestType.OpenLoopVoltage);
 
-  private final Telemetry logger = new Telemetry(MaxSpeed);
+  //private final Telemetry logger = new Telemetry(MaxSpeed);
 
   //Open the Shooter Subsystem
   ShooterSubsystem shooter = new ShooterSubsystem();
@@ -90,23 +84,15 @@ public class RobotContainer {
   //Open the LED Subsystem
   private final LEDSubsystem LED = new LEDSubsystem();
 
-    // Sets Default Command
-    // Assign default commands
-    // ShooterSubsystem.setDefaultCommand(new TankDrive(() -> -m_joystick.getLeftY(), () -> -m_joystick.getRightY(), m_drivetrain));
-    // 
-    //
-    //
-    //
-
   //============================================================================================================
   private void configureBindings() {
     //Schedules drivertain
-    drivetrain.setDefaultCommand( // Drivetrain will execute this command periodically
-        drivetrain.applyRequest(() -> drive.withVelocityX(-driveController.getLeftY() * MaxSpeed) // Drive forward with
+    //drivetrain.setDefaultCommand( // Drivetrain will execute this command periodically
+        //drivetrain.applyRequest(() -> drive.withVelocityX(-driveController.getLeftY() * MaxSpeed) // Drive forward with
                                                                                            // negative Y (forward)
-            .withVelocityY(-driveController.getLeftX() * MaxSpeed) // Drive left with negative X (left)
-            .withRotationalRate(-driveController.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
-        ));
+            //.withVelocityY(-driveController.getLeftX() * MaxSpeed) // Drive left with negative X (left)
+            //.withRotationalRate(-driveController.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
+        //));
     
     //Driver Controller Assignments
     // X - X Drive
@@ -116,24 +102,21 @@ public class RobotContainer {
     // Right Trigger - Spit
 
     // Schedules Tilt modules without driving wheels?  Maybe?
-    driveController.b().whileTrue(drivetrain.applyRequest(() -> point.withModuleDirection(new Rotation2d(-driveController.getLeftY(), -driveController.getLeftX()))));
+    //driveController.b().whileTrue(drivetrain.applyRequest(() -> point.withModuleDirection(new Rotation2d(-driveController.getLeftY(), -driveController.getLeftX()))));
     
     // Schedules Brake Swerve Drivetrain Binds (x-lock wheels) Driver
-    driveController.x().whileTrue(drivetrain.applyRequest(() -> brake));
+    //driveController.x().whileTrue(drivetrain.applyRequest(() -> brake));
     
     //I bet there's a much better place to put this assignment, but I don't know where.
     //These gains are also completely made up.  Not terrible in simulation, but don't trust them.
-    rootyTootyPointAndShooty.HeadingController.setPID(20, 0, 0.05);
+    //rootyTootyPointAndShooty.HeadingController.setPID(20, 0, 0.05);
 
     //Before this can be used, theres an issue with being 'above' or 'below' the coordinates of the speaker.
     //I think it's because of the -180 to +180 crossover, but unsure how to fix it currently.
-    driveController.start().whileTrue(drivetrain.applyRequest(() -> rootyTootyPointAndShooty.withVelocityX(-driveController.getLeftY() * MaxSpeed)
-            .withVelocityY(-driveController.getLeftX() * MaxSpeed)
-            .withTargetDirection(Constants.kBlueSpeakerLocation.minus(drivetrain.getState().Pose.getTranslation()).getAngle())
-            ));
-
-    //Just a test command.  Based on the distance between the robot and the speaker, calculate the shooter speed required based on the interpolation.
-    driveController.povLeft().onTrue(new InstantCommand(() -> {SmartDashboard.putNumber("Req. Shooter Speed", shooterSpeedMap.get(Constants.kBlueSpeakerLocation.getDistance(drivetrain.getState().Pose.getTranslation())));}));
+    //driveController.start().whileTrue(drivetrain.applyRequest(() -> rootyTootyPointAndShooty.withVelocityX(-driveController.getLeftY() * MaxSpeed)
+            //.withVelocityY(-driveController.getLeftX() * MaxSpeed)
+            //.withTargetDirection(Constants.kBlueSpeakerLocation.minus(drivetrain.getState().Pose.getTranslation()).getAngle())
+            //));
 
     // Schedules Shoot - Binds Left Top Bumper Driver 
     driveController.leftBumper().whileTrue(shooter.shoot());
@@ -150,10 +133,8 @@ public class RobotContainer {
     driveController.rightTrigger(.5).whileTrue(new Spit(frontIntake, shooter));
     
     // Schedules reset the field - Binds centric heading on back and start button push
-    driveController.back().and(driveController.start()).onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative()));
+    //driveController.back().and(driveController.start()).onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative()));
 
-    //DEBUG CODE
-    //No idea why, but the debug command won't print the string WITHOUT the '.andThen' following up with a PrintCommand.
     driveController.y().onTrue(new ShooterBeamBreak(shooter));
     
     Trigger Testing = new Trigger(shooter::getNotePresentShooter).debounce(0.1);
@@ -200,10 +181,10 @@ public class RobotContainer {
     }));
 
 
-    if (Utils.isSimulation()) {
-      drivetrain.seedFieldRelative(new Pose2d(new Translation2d(), Rotation2d.fromDegrees(90)));
-    }
-    drivetrain.registerTelemetry(logger::telemeterize);
+    //if (Utils.isSimulation()) {
+      //drivetrain.seedFieldRelative(new Pose2d(new Translation2d(), Rotation2d.fromDegrees(90)));
+    //}
+    //drivetrain.registerTelemetry(logger::telemeterize);
   }
 
 
@@ -228,27 +209,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("Auton Blink", new BlinkSignalLight(LED, 1.00, 0.5));
   }
 
-  private void initLookupTables(){
-    //Add values to the InterpolatingTreeMaps here.
-    //For now, the numbers aren't real.  Shooter speed is in RPM, shooter angle is in degrees.
-    //Both maps use distance (in meters) as the key.
-    shooterSpeedMap.put(0.0, 1000.0);
-    shooterSpeedMap.put(2.0, 2500.0);
-    shooterSpeedMap.put(4.0, 4000.0);
-    shooterSpeedMap.put(6.0, 5500.0);
-    shooterSpeedMap.put(8.0, 7000.0);
-    shooterSpeedMap.put(10.0, 8500.0);
-
-    shooterAngleMap.put(0.0, 75.0);
-    shooterAngleMap.put(2.0, 65.0);
-    shooterAngleMap.put(4.0, 55.0);
-    shooterAngleMap.put(6.0, 45.0);
-    shooterAngleMap.put(8.0, 35.0);
-    shooterAngleMap.put(10.0, 25.0);
-  }
-
   public RobotContainer() {
-    initLookupTables();
     configureBindings();
     //Not sure if this is the correct placement for registering autonomous commands.
     registerAutonCommands();
@@ -256,8 +217,8 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    //return Commands.print("Selected Autonomous: " + chirpSelect.getCurrentSelectionName()); //Using the CHRP list for debugging.
+    return new PrintCommand("Selected Autonomous: " + chirpSelect.getCurrentSelectionName()); //Using the CHRP list for debugging.
     //This should load the selected autonomous file.
-    return drivetrain.getAutoPath(autonSelect.getCurrentSelectionName());
+    //return drivetrain.getAutoPath(autonSelect.getCurrentSelectionName());
   }
 }

@@ -4,13 +4,10 @@
 
 package frc.robot;
 
-import com.ctre.phoenix6.hardware.CANcoder;
-
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.LimelightHelpers.Results;
@@ -44,7 +41,7 @@ public class Robot extends TimedRobot {
       //This validity check will probably have more logic to it in the future, but for now, just check if the latest results are valid.
       if (limelightResults.valid) {
         //botpose[6] is the combined targeting latency and capture latency.  Subtract from the current time to determine when the results were calculated.
-        m_robotContainer.drivetrain.addVisionMeasurement(limelightPose, Timer.getFPGATimestamp() - (limelightResults.botpose[6] / 1000));
+        //m_robotContainer.drivetrain.addVisionMeasurement(limelightPose, Timer.getFPGATimestamp() - (limelightResults.botpose[6] / 1000));
       }
     }
   }
