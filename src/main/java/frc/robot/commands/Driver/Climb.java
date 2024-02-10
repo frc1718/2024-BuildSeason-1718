@@ -13,7 +13,6 @@ import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.FrontIntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.PrintCommand;
 
 /** An example command that uses an example subsystem. */
 public class Climb extends Command {
@@ -22,20 +21,16 @@ public class Climb extends Command {
   private final FrontIntakeSubsystem m_frontIntakeSubsystem;
   private final ShooterSubsystem m_shooterSubsystem;
 
-  boolean m_isFinished = false;
+  private boolean m_isFinished = false;
 
-  /**
-   * Creates a new ExampleCommand.
-   *
-   * @param subsystem The subsystem used by this command.
-   */
+  private int m_stateMachine = 1;
+
   public Climb(ClimberSubsystem climberSubsystem, FrontIntakeSubsystem frontIntakeSubsystem, ShooterSubsystem shooterSubsystem) {
     m_climberSubsystem = climberSubsystem;
     m_frontIntakeSubsystem = frontIntakeSubsystem;
     m_shooterSubsystem = shooterSubsystem;
 
     // Use addRequirements() here to declare subsystem dependencies.
-
     addRequirements(m_climberSubsystem);
     addRequirements(m_frontIntakeSubsystem);
     addRequirements(m_shooterSubsystem);
@@ -48,44 +43,58 @@ public class Climb extends Command {
     System.out.println("========================");
     System.out.println("Driver Command: Climb");
     
+    //Initialize state machine
+    m_stateMachine = 1;
+    
+    //Set Positions and speeds
+    m_climberSubsystem.setClimberDesiredPosition(Constants.kClimberPreClimbPos);
+    m_frontIntakeSubsystem.setFrontIntakePosition(Constants.kFrontIntakeDownPos);
+    m_frontIntakeSubsystem.setFrontIntakeSpeed(Constants.kFrontIntakeStopSpeed);
+    m_shooterSubsystem.setShooterArmPosition(Constants.kShooterArmPreClimbPos);
+
     m_isFinished = false;
 
-    //Tell the climber to climb
-    if(m_climberSubsystem.getPreClimbActuated()){
-      System.out.println("Driver Command Climb: Preclimb was actuated!");
-      m_climberSubsystem.setClimberDesiredPosition(Constants.kClimberClimbPos);
-    } else {
-      System.out.println("Driver Command Climb: Preclimb wasn't actuated yet!");
-      m_isFinished=true;
-    }
    }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
+
+    switch(m_stateMachine){     
+      case 1:  //PreClimbActuated
+        System.out.println("Driver Command Climb: Case 1");
+        if (m_climberSubsystem.getPreClimbActuated()) {
+          System.out.println("Driver Command Climb: Case 1 Complete");
+          m_climberSubsystem.setClimberDesiredPosition(Constants.kClimberClimbPos);
+          m_stateMachine = m_stateMachine + 1;
+        } else {
+          System.out.println("Driver Command: Preclimb has not been actuated!  Abort!");
+          m_isFinished = true;
+        }
+        break;
+      case 2:  //Climb Complete
+        System.out.println("Driver Command Climb: Case 2");
+        if (m_climberSubsystem.getClimberInPosition(Constants.kClimberClimbPos)){
+          System.out.println("Driver Command Climb: Case 2 Complete.");
+          m_climberSubsystem.setClimberDesiredPosition(Constants.kClimberClimbPos);
+        }
+    }   
+
     //Remove once climber is in place.  Here so the command finishes for debuggin.
     m_isFinished=true;
-
-    //Need to set a flag to see if we've reached climb and check it
-    if (m_climberSubsystem.getClimberInPosition(Constants.kClimberClimbPos)){
-      System.out.println("Driver Command: Climb Reached Climb Height");
-      m_isFinished= true;
-    }
     
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    System.out.println("Driver Command: Climb completed!");
     System.out.println("================================");
   }
 
   // Returns true when the command should end.
   @Override
-  public boolean isFinished() {
-    System.out.println("Driver Command: Climb completed!");
-    
+  public boolean isFinished() { 
     return m_isFinished;
   }
 }

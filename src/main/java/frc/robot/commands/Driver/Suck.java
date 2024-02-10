@@ -5,26 +5,31 @@
 package frc.robot.commands.Driver;
 
 import frc.robot.subsystems.FrontIntakeSubsystem;
+import frc.robot.subsystems.ShooterIntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.PrintCommand;
 import frc.robot.Constants;
-import frc.robot.subsystems.FrontIntakeSubsystem;
+import frc.robot.commands.General.NotePosition;
+import frc.robot.commands.General.StowArmAndIntake;
 
 /** An example command that uses an example subsystem. */
 public class Suck extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final FrontIntakeSubsystem m_frontIntakeSubsystem;
   private final ShooterSubsystem m_shooterSubsystem;
+  private final ShooterIntakeSubsystem m_shooterIntakeSubsystem;
+  private int m_stateMachine = 1;
   private boolean m_isFinished = false;
 
-  public Suck(FrontIntakeSubsystem frontIntakeSubsystem, ShooterSubsystem shooterSubsystem) {
+  public Suck(FrontIntakeSubsystem frontIntakeSubsystem, ShooterSubsystem shooterSubsystem, ShooterIntakeSubsystem shooterIntakeSubsystem) {
     m_frontIntakeSubsystem = frontIntakeSubsystem;
     m_shooterSubsystem = shooterSubsystem;
+    m_shooterIntakeSubsystem = shooterIntakeSubsystem;
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_frontIntakeSubsystem);
     addRequirements(m_shooterSubsystem);
+    addRequirements(m_shooterIntakeSubsystem);
 
   }
 
@@ -34,10 +39,11 @@ public class Suck extends Command {
     System.out.println("=====================");
     System.out.println("Driver Command: Suck");
   
+    //Reset state machine
+    m_stateMachine = 1;
+
     //Set required positions
     m_frontIntakeSubsystem.setFrontIntakePosition(Constants.kFrontIntakeDownPos);  
-    m_shooterSubsystem.setShooterArmPosition(Constants.kShooterArmHomePos);
-    m_shooterSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeSuckSpeed);
     
     m_isFinished = false;
   }
@@ -46,37 +52,54 @@ public class Suck extends Command {
   @Override
   public void execute() {
   
-    //Need shooter arm in position before we start front intake sucking.
-    if (m_shooterSubsystem.getShooterArmInPosition(Constants.kShooterArmHomePos)) {
-      m_frontIntakeSubsystem.setFrontIntakeSpeed(Constants.kFrontIntakeSuckSpeed);
-    }
 
-    //Remove this line when we have an actual sensor.  This is here just to insure the command ends.
-    m_isFinished=true;
+      //State Machine
+      switch(m_stateMachine){     
+        case 1:  //Front intake in position
+          System.out.println("Driver Command Suck: Case 1");
+          if (m_frontIntakeSubsystem.getFrontIntakeInPosition(Constants.kFrontIntakeDownPos)) {
+            System.out.println("Driver Command Suck: Case 1 Complete!");
+            m_shooterSubsystem.setShooterArmPosition(Constants.kShooterArmHomePos);
+            m_stateMachine = m_stateMachine + 1;
+          }        
+        break;
+        case 2:  // Shooter Arm In Position
+          System.out.println("Driver Command Suck: Case 2");
+          if (m_shooterSubsystem.getShooterArmInPosition(Constants.kShooterArmHomePos)) {
+            m_shooterIntakeSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeSuckSpeed);
+            m_frontIntakeSubsystem.setFrontIntakeSpeed(Constants.kFrontIntakeSuckSpeed);
+            System.out.println("Driver Command Suck: Case 2 Complete!");
+            m_stateMachine = m_stateMachine + 1;
+          }
+        break;
+        case 3:  // Shooter Arm In Position
+          System.out.println("Driver Command Suck: Case 3");
+          if (m_shooterIntakeSubsystem.getNotePresentIntake()) {
+            m_shooterIntakeSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeStopSpeed);
+            m_frontIntakeSubsystem.setFrontIntakeSpeed(Constants.kFrontIntakeStopSpeed);
+            System.out.println("Driver Command Suck: Case 3 Complete!");
+            m_isFinished = true;
+          }
+        break;
+      }
 
-    if (m_shooterSubsystem.getNotePresentIntake()) {
-      m_frontIntakeSubsystem.setFrontIntakeSpeed(Constants.kFrontIntakeStopSpeed);
-      m_isFinished = true;
-    }
-
-    //Code to place the note correctly in the intake is going to be in the shooter subsystem default.
-  
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
   m_frontIntakeSubsystem.setFrontIntakeSpeed(Constants.kFrontIntakeStopSpeed);
-  m_shooterSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeStopSpeed);
-  m_frontIntakeSubsystem.setFrontIntakePosition(Constants.kFrontIntakeHomePos); 
+  m_shooterIntakeSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeStopSpeed);
+  m_frontIntakeSubsystem.setFrontIntakePosition(Constants.kFrontIntakeHomePos);
+  new NotePosition(m_shooterIntakeSubsystem);
+  new StowArmAndIntake(m_frontIntakeSubsystem, m_shooterSubsystem);
+  System.out.println("Driver Command: Suck Finished");
   System.out.println("=====================");
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    System.out.println("Driver Command: Suck Finished");
-    
     return m_isFinished;
   }
 }

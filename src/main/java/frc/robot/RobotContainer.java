@@ -31,16 +31,19 @@ import frc.robot.commands.Operator.ShooterModeAmp;
 import frc.robot.commands.Operator.ShooterModePodium;
 import frc.robot.commands.Operator.ShooterModeShootWithPose;
 import frc.robot.commands.Operator.ShooterModeSubwoofer;
-import frc.robot.commands.Default.FrontIntakeDefault;
 import frc.robot.commands.Driver.Climb;
 import frc.robot.commands.Driver.Shoot;
+import frc.robot.commands.Driver.ShootTrap;
 import frc.robot.commands.Driver.Spit;
 import frc.robot.commands.Driver.Suck;
 import frc.robot.generated.TunerConstants;
+
+//Subsystem Imports
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.FrontIntakeSubsystem;
 import frc.robot.subsystems.LEDSubsystem;
+import frc.robot.subsystems.ShooterIntakeSubsystem;
 
 public class RobotContainer {
   private double MaxSpeed = 6; // 6 meters per second desired top speed
@@ -74,21 +77,12 @@ public class RobotContainer {
   //Drivertrain not currently active
   // private final Telemetry logger = new Telemetry(MaxSpeed);
 
-  //Open the Shooter Subsystem
+  //Open Subsystems
   private final ShooterSubsystem shooter = new ShooterSubsystem();
-
-  //Open the Intake Subsystem
   private final FrontIntakeSubsystem frontIntake = new FrontIntakeSubsystem();
-
-  //Open the Subsystem
   private final ClimberSubsystem climber = new ClimberSubsystem();
-
-  //Open the LED Subsystem
   private final LEDSubsystem LED = new LEDSubsystem();
-
-  // Sets Default Command
-  // Assign default commands
-  // ShooterSubsystem.setDefaultCommand(new TankDrive(() -> -m_joystick.getLeftY(), () -> -m_joystick.getRightY(), m_drivetrain));
+  private final ShooterIntakeSubsystem shooterIntakeSubsystem = new ShooterIntakeSubsystem();
 
   private void configureBindings() {
     //Schedules drivertain
@@ -110,10 +104,11 @@ public class RobotContainer {
     // Schedules Brake Swerve Drivetrain Binds (x-lock wheels) Driver
     //driveController.x().whileTrue(drivetrain.applyRequest(() -> brake));
     
-    driveController.leftBumper().onTrue(new Shoot(frontIntake, shooter, climber));
-    driveController.rightBumper().whileTrue(new Suck(frontIntake, shooter));
-    driveController.rightTrigger(.5).whileTrue(new Spit(frontIntake, shooter)); 
+    driveController.leftBumper().onTrue(new Shoot(frontIntake, shooter, climber, shooterIntakeSubsystem));
+    driveController.rightBumper().whileTrue(new Suck(frontIntake, shooter, shooterIntakeSubsystem));
+    driveController.rightTrigger(.5).whileTrue(new Spit(frontIntake, shooter, shooterIntakeSubsystem)); 
     driveController.leftTrigger(.5).onTrue(new Climb(climber,frontIntake,shooter));
+    driveController.y().onTrue(new ShootTrap(frontIntake, shooter, climber, shooterIntakeSubsystem));
  
      
     // Schedules reset the field - Binds centric heading on back and start button push
