@@ -32,17 +32,7 @@ public class LEDSubsystem extends SubsystemBase {
     return SignalLight.getMotorOutputPercent();
   }
 
-  /**
-   * Example command factory method.
-   *
-   * @return a command
-   */
 
-  /**
-   * An example method querying a boolean state of the subsystem (for example, a digital sensor).
-   *
-   * @return value of some boolean subsystem state, such as a digital sensor.
-   */
   
   @Override
   public void initSendable(SendableBuilder builder){

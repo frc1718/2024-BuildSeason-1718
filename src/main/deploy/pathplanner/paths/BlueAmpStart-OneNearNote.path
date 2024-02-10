@@ -1,0 +1,154 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 1.3732635157578024,
+        "y": 6.837791367890429
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.8172759422427451,
+        "y": 6.857525253516228
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.3204900255954373,
+        "y": 6.9660616244309415
+      },
+      "prevControl": {
+        "x": 1.9164568985733366,
+        "y": 6.930147568695642
+      },
+      "nextControl": {
+        "x": 2.7645024520818287,
+        "y": 7.005529395674177
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 5.221371211973195,
+        "y": 6.887126081944472
+      },
+      "prevControl": {
+        "x": 3.055260927598323,
+        "y": 6.5862774313506
+      },
+      "nextControl": {
+        "x": 5.931791094354835,
+        "y": 6.985795510048524
+      },
+      "isLocked": false,
+      "linkedName": "BlueAmpSideInWing"
+    },
+    {
+      "anchor": {
+        "x": 7.579570543756473,
+        "y": 7.459408764971376
+      },
+      "prevControl": {
+        "x": 6.795847033986719,
+        "y": 7.459408764971376
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "BlueMidNote1"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.15,
+      "rotationDegrees": 30.0,
+      "rotateFast": false
+    }
+  ],
+  "constraintZones": [
+    {
+      "name": "ShootingAndIntaking",
+      "minWaypointRelativePos": 0,
+      "maxWaypointRelativePos": 1.1,
+      "constraints": {
+        "maxVelocity": 1.0,
+        "maxAcceleration": 3.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0
+      }
+    },
+    {
+      "name": "ShootSecondNote",
+      "minWaypointRelativePos": 1.8,
+      "maxWaypointRelativePos": 2.0,
+      "constraints": {
+        "maxVelocity": 1.0,
+        "maxAcceleration": 3.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0
+      }
+    }
+  ],
+  "eventMarkers": [
+    {
+      "name": "Start Shooter",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": []
+        }
+      }
+    },
+    {
+      "name": "Shoot First Note",
+      "waypointRelativePos": 0.35,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": []
+        }
+      }
+    },
+    {
+      "name": "Run Intake",
+      "waypointRelativePos": 1.0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": []
+        }
+      }
+    },
+    {
+      "name": "ShootSecondNote",
+      "waypointRelativePos": 1.95,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": []
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -1.1233027140781247,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "Blue Side Start Paths",
+  "previewStartingState": {
+    "rotation": 0.0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}
