@@ -13,10 +13,12 @@ import frc.robot.Constants;
 
 public class ShooterIntakeSubsystem extends SubsystemBase {
  
+
   //Open sensors
   AnalogInput m_BeamBreakIntakeAnalog = new AnalogInput(Constants.kBeamBreakIntakeAnalog);
   AnalogInput m_BeamBreakShooterAnalog = new AnalogInput(Constants.kBeamBreakShooterAnalog);
   
+/*  
   //Open Servo
   //Servo intakeHinge = new Servo(Constants.kShooterIntakePivotReleasePWM);
 
@@ -25,10 +27,12 @@ public class ShooterIntakeSubsystem extends SubsystemBase {
 
   private final VelocityVoltage ShooterIntakeVelocity = new VelocityVoltage(0, 0, true, 0, 0, false, false, false);
 
-
+*/
 
   public ShooterIntakeSubsystem() {
   //=======================================shouldn't we be doing something with velocity voltage motor here to set it up?
+  m_BeamBreakIntakeAnalog.setAverageBits(4);
+  m_BeamBreakShooterAnalog.setAverageBits(4);
   }
 
   @Override
@@ -39,27 +43,37 @@ public class ShooterIntakeSubsystem extends SubsystemBase {
   // Start of sensor related methods
   public boolean getNotePresentIntake() {  
     //This will print out constantly because it's on a trigger
-    //System.out.println("ShooterSubsystem: getNotePresentIntake");
-
+    //System.out.println("Subsystem: Shooter - getNotePresentShooter Voltage " + m_BeamBreakShooterAnalog.getAverageVoltage());
     //This needs to be both on a debounce AND to have hysterisis programmed in
-    return (m_BeamBreakIntakeAnalog.getVoltage() >= Constants.kIntakeBeamBreakCrossover);
+    return (m_BeamBreakIntakeAnalog.getAverageVoltage() >= Constants.kIntakeBeamBreakCrossover);
     
   }
   
   public boolean getNotePresentShooter() {  
     //This will print out constantly because it's on a constant trigger
-    //System.out.println("Subsystem: Shooter - getNotePresentShooter");
-    return (m_BeamBreakShooterAnalog.getVoltage() >= Constants.kShooterBeamBreakCrossover);
-
+    //System.out.println("Subsystem: Shooter - getNotePresentShooter Voltage " + m_BeamBreakShooterAnalog.getAverageVoltage());   
+    return (m_BeamBreakShooterAnalog.getAverageVoltage() >= Constants.kShooterBeamBreakCrossover);
+    
   }
   // End of sensor related methods
 
-  public void setShooterIntakeSpeed(double speed) {
-    System.out.println("ShooterIntakeSubsystem: setShooterIntakeSpeed");
-    m_ShooterIntakeSpin.setControl(ShooterIntakeVelocity.withVelocity(speed));
+  public boolean getNotePresent() {
+    System.out.println("Subsystem: Shooter - getNotePresentShooter Voltage " + m_BeamBreakShooterAnalog.getAverageVoltage());
+    System.out.println("Subsystem: Shooter - getNotePresentIntake Voltage " + m_BeamBreakIntakeAnalog.getAverageVoltage());
+
+    if ((m_BeamBreakIntakeAnalog.getAverageVoltage() >= Constants.kIntakeBeamBreakCrossover) || (m_BeamBreakShooterAnalog.getAverageVoltage() >= Constants.kIntakeBeamBreakCrossover)){
+      return true;  
+    } else {
+      return false;
+    }
   }
 
-  public void setShooterIntakePivotPosition(double desiredPosition) {
+  public void setShooterIntakeSpeed(double speed) {
+    System.out.println("ShooterIntakeSubsystem: setShooterIntakeSpeed");
+    //m_ShooterIntakeSpin.setControl(ShooterIntakeVelocity.withVelocity(speed));
+  }
+
+  public void Release() {
     System.out.println("ShooterIntakeSubsystem: setShooterPivotPosition");
     //intakeHinge.set(desiredPosition);
   }

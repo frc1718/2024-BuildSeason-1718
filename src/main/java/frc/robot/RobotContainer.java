@@ -24,8 +24,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
-import frc.robot.commands.LEDs.BlinkSignalLight;
-import frc.robot.commands.LEDs.SetSignalLightIntensity;
+import frc.robot.commands.LEDs.LightLEDOnNotePresent;
 import frc.robot.commands.Operator.PreClimb;
 import frc.robot.commands.Operator.ShooterModeAmp;
 import frc.robot.commands.Operator.ShooterModePodium;
@@ -118,14 +117,16 @@ public class RobotContainer {
     //shooter.shooterArmInHomePositionTrigger().onTrue(new FrontIntakeDefault(frontIntake) );
 
     //LED Stuff blinks randomly
-    //Trigger PickupStatus = new Trigger(shooter::getNotePresentIntake);
+    //Trigger PickupStatus = new Trigger(shooterIntakeSubsystem::getNotePresentIntake);
     //PickupStatus.onTrue(new BlinkSignalLight(LED, 1, 0.5));
     //PickupStatus.onFalse(new SetSignalLightIntensity(LED, 0));
 
-    //Trigger NoteLocationStatus = new Trigger(shooter::getNotePresentShooter);
-    //NoteLocationStatus.onTrue(new SetSignalLightIntensity(LED, 0.75));
-    //NoteLocationStatus.onFalse(new SetSignalLightIntensity(LED, 0));
 
+
+    Trigger NoteLocationStatus = new Trigger(shooterIntakeSubsystem::getNotePresent);
+    NoteLocationStatus.onTrue(new LightLEDOnNotePresent(LED, shooterIntakeSubsystem));
+    
+  
     //======================================================================
     //=========================Operator Controller Assignments==============
     //======================================================================
@@ -139,7 +140,7 @@ public class RobotContainer {
     operatorController.b().onTrue(new ShooterModeAmp(frontIntake, shooter));
     operatorController.x().onTrue(new ShooterModeShootWithPose(frontIntake, shooter));
     operatorController.a().onTrue(new ShooterModeSubwoofer(frontIntake, shooter));
-    operatorController.leftBumper().and(operatorController.rightBumper()).debounce(2).onTrue(new PreClimb(climber,shooter,frontIntake));
+    operatorController.leftBumper().and(operatorController.rightBumper()).debounce(2).onTrue(new PreClimb(climber,shooter,frontIntake, shooterIntakeSubsystem));
 
     // Schedules Play music - Binds Dpad Up
     //operatorController.povUp().onTrue();

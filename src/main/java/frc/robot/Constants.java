@@ -20,7 +20,7 @@ public class Constants {
     public static final int kFrontIntakeSpinCanID = 26;
     public static final int kShooterArmCancoderCanID = 27;
     public static final int kFrontIntakeRotateCancoderCanID = 28;
-    public static final int kSignalLightCanID = 29;
+    public static final int kSignalLightCanID = 38;
     // End CanIDs
 
     // Start PWM
@@ -30,8 +30,8 @@ public class Constants {
     // Start Analog IO
     public static final int kBeamBreakIntakeAnalog = 0;
     public static final int kBeamBreakShooterAnalog = 1;
-    public static final double kIntakeBeamBreakCrossover = 0.4;
-    public static final double kShooterBeamBreakCrossover = 0.4;
+    public static final double kIntakeBeamBreakCrossover = 0.9;
+    public static final double kShooterBeamBreakCrossover = 0.9;
     // End Analog IO
 
     // Start Positions

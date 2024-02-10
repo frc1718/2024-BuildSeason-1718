@@ -24,6 +24,7 @@ import frc.robot.Constants;
 
 
 public class FrontIntakeSubsystem extends SubsystemBase {
+/*
 
   TalonFX m_frontIntakeRotate = new TalonFX(Constants.kFrontIntakeRotateCanID, "Canivore");
   TalonFX m_frontIntakeSpin = new TalonFX(Constants.kFrontIntakeSpinCanID, "Canivore");
@@ -32,8 +33,13 @@ public class FrontIntakeSubsystem extends SubsystemBase {
   private final VelocityVoltage frontIntakeVelocity = new VelocityVoltage(0, 0, true, 0, 0, false, false, false);
   CANcoder frontIntakeRotateCANcoder = new CANcoder(Constants.kFrontIntakeRotateCancoderCanID);
 
+*/
+
   public FrontIntakeSubsystem() {
     // Start Configuring CANcoder
+
+    /*
+
     CANcoderConfiguration frontIntakeRotateCANcoderConfig = new CANcoderConfiguration();
     frontIntakeRotateCANcoderConfig.MagnetSensor.MagnetOffset = 0.0;
     frontIntakeRotateCANcoderConfig.MagnetSensor.AbsoluteSensorRange = AbsoluteSensorRangeValue.Unsigned_0To1;
@@ -94,6 +100,9 @@ public class FrontIntakeSubsystem extends SubsystemBase {
       System.out.println("Could not configure device. Error: " + frontIntakeRotateStatus.toString());
     }
     //End Configuration
+
+  */
+
   }
 
   
@@ -105,34 +114,33 @@ public class FrontIntakeSubsystem extends SubsystemBase {
    */
 
   public void setFrontIntakePosition(int position) {
-    m_frontIntakeRotate.setControl(frontIntakeRotation.withPosition(position));
+    //m_frontIntakeRotate.setControl(frontIntakeRotation.withPosition(position));
     System.out.println("FrontIntakeSubsystem - setFrontIntakePosition");
   }
 
   public void setFrontIntakeSpeed(int speed) {
-    m_frontIntakeSpin.setControl(frontIntakeVelocity.withVelocity(speed));
+    //m_frontIntakeSpin.setControl(frontIntakeVelocity.withVelocity(speed));
     System.out.println("FrontIntakeSubsystem - setFrontIntakeSpeed");
   }
 
   public double getFrontIntakeSpeed() {
     System.out.println("FrontIntakeSubsystem: getFrontIntakeSpeed");
-    return m_frontIntakeSpin.getVelocity().getValueAsDouble();
+    // this WAS the return value.  Replace the "1" m_frontIntakeSpin.getVelocity().getValueAsDouble()
+    return 1 ;
   }
 
   public double getFrontIntakePosition() {
     System.out.println("FrontIntakeSubsystem: getFrontIntakePosition");
-    return m_frontIntakeRotate.getPosition().getValueAsDouble();
+    // this WAS the return value.  Replace the "1" m_frontIntakeRotate.getPosition().getValueAsDouble()
+    return 1;
   }
-  
-  /**
-   * An example method querying a boolean state of the subsystem (for example, a digital sensor).
-   *
-   * @return value of some boolean subsystem state, such as a digital sensor.
-   */
   
   public Boolean getFrontIntakeInPosition(int desiredPosition) {
     //Check that the front intake is within the tolerance of the desired position.
     System.out.println("FrontIntakeSubsystem - getFrontIntakeInPosition");
+  
+    /*
+
     if (m_frontIntakeRotate.getPosition().getValue() > (desiredPosition-Constants.kFrontIntakeTolerancePos) && (m_frontIntakeRotate.getPosition().getValue() < (desiredPosition+Constants.kFrontIntakeTolerancePos)))
     {
       return true; 
@@ -140,6 +148,12 @@ public class FrontIntakeSubsystem extends SubsystemBase {
     {
       return false;
     }
+
+    */
+
+    //This return should be removed when the code above is commented out.
+    return false;
+
   }
 
   public boolean getFrontIntakeUpToSpeed(int desiredSpeed) {

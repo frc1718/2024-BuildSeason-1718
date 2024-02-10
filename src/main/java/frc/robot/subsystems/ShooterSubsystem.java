@@ -27,8 +27,8 @@ public class ShooterSubsystem extends SubsystemBase {
   //Make variables
   public String m_shooterMode = "";
   public boolean m_readyToShoot = false;
-  
-  //Open motors
+
+  /*
   TalonFX m_ShooterArmRotateLeft = new TalonFX(Constants.kShooterArmRotateLeftCanID, "Canivore");
   TalonFX m_ShooterArmRotateRight = new TalonFX(Constants.kShooterArmRotateRightCanID, "Canivore");
   TalonFX m_ShooterIntakeSpin = new TalonFX(Constants.kShooterIntakeSpinCanID, "Canivore");
@@ -41,7 +41,12 @@ public class ShooterSubsystem extends SubsystemBase {
   private final VelocityVoltage ShooterVelocity = new VelocityVoltage(0.0, 0.0, true, 0,0, false, false, false);
   private final MotionMagicVoltage ShooterArmPosition = new MotionMagicVoltage(0.0, true, 0, 0, false, false, false);
   
+  */
+
   public ShooterSubsystem() {
+
+    /*
+    
     //Configuring CANcoder
     CANcoderConfiguration ShooterArmCANcoderConfig = new CANcoderConfiguration();
     ShooterArmCANcoderConfig.MagnetSensor.MagnetOffset = 0.0;
@@ -108,6 +113,9 @@ public class ShooterSubsystem extends SubsystemBase {
       System.out.println("Could not configure device. Error: " + shooterArmStatus.toString());
     }
     m_ShooterArmRotateRight.setControl(new Follower(Constants.kShooterArmRotateLeftCanID, true));
+
+  */
+
   }
   
   @Override
@@ -134,13 +142,13 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void setShooterSpeed(double shootSpeed) {
     System.out.println("ShooterSubsystem: setShooterSpeed");
-    m_SpinLeftShooter.setControl(ShooterVelocity.withVelocity(shootSpeed));
-    m_SpinRightShooter.setControl(ShooterVelocity.withVelocity((shootSpeed*0.9)));
+   // m_SpinLeftShooter.setControl(ShooterVelocity.withVelocity(shootSpeed));
+   // m_SpinRightShooter.setControl(ShooterVelocity.withVelocity((shootSpeed*0.9)));
   }
 
   public void setShooterArmPosition(int position) {
     System.out.println("ShooterSubsystem: setShooterArmPosition");
-    m_ShooterArmRotateLeft.setControl(ShooterArmPosition.withPosition(position));
+   // m_ShooterArmRotateLeft.setControl(ShooterArmPosition.withPosition(position));
   }
 
   public String getShooterMode(){
@@ -150,25 +158,37 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public double getShooterSpeed() {
     System.out.println("ShooterSubsystem: getShooterSpeed");
-    return m_SpinLeftShooter.getVelocity().getValueAsDouble();
+    //Uncomment when the motors are getting brought up and remove the other return
+    // return m_SpinLeftShooter.getVelocity().getValueAsDouble()
+    return 1;
   }
 
   public double getShooterArmPosition() {
     System.out.println("ShooterSubsystem: getShooterArmPosition");
-    return m_ShooterArmRotateLeft.getPosition().getValueAsDouble();
+
+    //Uncomment when the motors are getting brought up and remove the other return
+    //return m_ShooterArmRotateLeft.getPosition().getValueAsDouble();
+
+
+    return 1;
   }
 
   public boolean getShooterUpToSpeed(int desiredSpeed) {
     System.out.println("ShooterSubsystem: getShooterUpToSpeed");
+    /*  Uncomment this and remove the return below this code when doing motor bringup
     if ((desiredSpeed - Constants.kShooterSpeedTolerance) >= getShooterSpeed() && getShooterSpeed() <= (desiredSpeed + Constants.kShooterSpeedTolerance)) {
       return true;
     } else {
       return false;
     }
+    */
+
+    return false;
   }
 
   public Boolean getShooterArmInPosition(int desiredPosition) {
       System.out.println("ShooterSubsystem: getShooterArmInPosition");
+      /*  Uncomment this and remove the return below this code when doing motor bringup
       if (m_ShooterArmRotateLeft.getPosition().getValue() > (desiredPosition-Constants.kShooterArmTolerancePos) && (m_ShooterArmRotateLeft.getPosition().getValue() < (desiredPosition+Constants.kShooterArmTolerancePos)))
       {
         return true; 
@@ -176,6 +196,9 @@ public class ShooterSubsystem extends SubsystemBase {
       {
         return false;
       }
+      */
+
+      return false;
     }
     //End of motor get methods
 
