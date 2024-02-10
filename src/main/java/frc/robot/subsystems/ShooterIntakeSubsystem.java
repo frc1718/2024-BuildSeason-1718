@@ -7,6 +7,8 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
+
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -33,11 +35,6 @@ public class ShooterIntakeSubsystem extends SubsystemBase {
   //=======================================shouldn't we be doing something with velocity voltage motor here to set it up?
   m_BeamBreakIntakeAnalog.setAverageBits(4);
   m_BeamBreakShooterAnalog.setAverageBits(4);
-  }
-
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
   }
   
   // Start of sensor related methods
@@ -77,7 +74,21 @@ public class ShooterIntakeSubsystem extends SubsystemBase {
     System.out.println("ShooterIntakeSubsystem: setShooterPivotPosition");
     //intakeHinge.set(desiredPosition);
   }
- 
+
+  @Override
+  public void initSendable(SendableBuilder builder){
+    builder.setSmartDashboardType("ShooterIntakeSubsystem");
+    builder.addBooleanProperty("Note Present in Intake?", this::getNotePresentIntake, null); 
+    builder.addBooleanProperty("Note Present in Shooter?", this::getNotePresentShooter, null);
+    builder.addDoubleProperty("Intake Beam Break Voltage", () -> {return m_BeamBreakIntakeAnalog.getVoltage();}, null);
+    builder.addDoubleProperty("Shooter Beam Break Voltage", () -> {return m_BeamBreakShooterAnalog.getVoltage();}, null);
+  }
+
+  @Override
+  public void periodic() {
+    // This method will be called once per scheduler run
+  }
+
   @Override
   public void simulationPeriodic() {
     // This method will be called once per scheduler run during simulation

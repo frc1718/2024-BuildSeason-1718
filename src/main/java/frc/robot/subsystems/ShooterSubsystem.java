@@ -17,6 +17,8 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
+
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -200,10 +202,6 @@ public class ShooterSubsystem extends SubsystemBase {
   @Override
   public void initSendable(SendableBuilder builder){
     builder.setSmartDashboardType("ShooterSubsystem");
-    builder.addBooleanProperty("Note Present in Intake?", this::getNotePresentIntake, null); 
-    builder.addBooleanProperty("Note Present in Shooter?", this::getNotePresentShooter, null);
-    builder.addDoubleProperty("Intake Beam Break Voltage", () -> {return m_BeamBreakIntakeAnalog.getVoltage();}, null);
-    builder.addDoubleProperty("Shooter Beam Break Voltage", () -> {return m_BeamBreakShooterAnalog.getVoltage();}, null);
     builder.addStringProperty("Shooter Mode", () -> {return "null"; /*this::getShooterMode*/}, null);
     builder.addDoubleProperty("Shooter Arm Position", () -> {return 0; /*this::getShooterArmPosition*/}, null);
     builder.addDoubleProperty("Shooter Speed", () -> {return 0; /*this::getShooterSpeed*/}, null);
