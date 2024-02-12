@@ -166,10 +166,10 @@ public class Constants {
     public static final int kClimberVoltageClosedLoopRampPeriod = 0;
     // End Climber settings
     
-     //Name of the limelight camera.
-     public static final String kLimelightName = "limelight";
+    //Name of the limelight camera.
+    public static final String kLimelightName = "limelight";
 
-     //Pose of the blue speaker.
-     //Used to be a pose, but only the X and Y are needed.  Changed to a translation to clean up the actual calculation.
-     public static final Translation2d kBlueSpeakerLocation = new Translation2d(0.0, 5.5);
+    //Pose of the blue speaker.
+    //Used to be a pose, but only the X and Y are needed.  Changed to a translation to clean up the actual calculation.
+    public static final Translation2d kBlueSpeakerLocation = new Translation2d(0.0, 5.5);
 }

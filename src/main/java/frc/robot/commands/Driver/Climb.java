@@ -12,6 +12,7 @@ import frc.robot.Constants;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.FrontIntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /** An example command that uses an example subsystem. */
@@ -96,5 +97,11 @@ public class Climb extends Command {
   @Override
   public boolean isFinished() { 
     return m_isFinished;
+  }
+
+  @Override
+  public void initSendable(SendableBuilder builder){
+    builder.setSmartDashboardType("Climb");
+    builder.addIntegerProperty("State Machine", () -> {return this.m_stateMachine;}, null);
   }
 }
