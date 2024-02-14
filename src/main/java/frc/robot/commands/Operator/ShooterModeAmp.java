@@ -9,7 +9,10 @@ import frc.robot.subsystems.FrontIntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
-/** An example command that uses an example subsystem. */
+/**
+ * The shooter mode amp command sets the shooter mode variable of the shooter subsystem to <i>ShootAmp</i>.
+ * In preparation, the speed and position of the shooter is set to fire a shot at the amp.
+ */
 public class ShooterModeAmp extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final ShooterSubsystem m_shooterSubsystem;
@@ -17,10 +20,13 @@ public class ShooterModeAmp extends Command {
   
   private boolean m_isFinished = false;
   private int m_stateMachine = 1;
+
   /**
-   * Creates a new ExampleCommand.
-   * 
-   * @param shooterSubsystem The subsystem used by this command.
+   * Constructs an instance of the shooter mode amp command.
+   * @param frontIntakeSubsystem An instance of the front intake subsystem.
+   * Required.
+   * @param shooterSubsystem An instance of the shooter subsystem.
+   * Required.
    */
   public ShooterModeAmp(FrontIntakeSubsystem frontIntakeSubsystem, ShooterSubsystem shooterSubsystem) {
     m_shooterSubsystem = shooterSubsystem;

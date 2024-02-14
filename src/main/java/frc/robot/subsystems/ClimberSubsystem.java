@@ -16,22 +16,28 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
+/**
+ * The climber subsystem utilizies cutting edge <i>Pi-Climb®</i> technology to lift the robot off the ground.
+ */
 public class ClimberSubsystem extends SubsystemBase {
 
   boolean m_preClimbActuated = false;
+  double m_desiredPosition = 0;
 
   /*
-
   //RightClimb Should be a follower of leftclimb
   TalonFX m_LeftClimb = new TalonFX(Constants.kLeftClimbCanID, "Canivore");
   TalonFX m_RightClimb = new TalonFX(Constants.kRightClimbCanID, "Canivore");
-
   */
 
   private final MotionMagicVoltage climberMove = new MotionMagicVoltage(0.0, true, 0, 0, false, false, false);
-
-  /** Creates a new ExampleSubsystem. */
+  
+  /**
+   * Constructs an instance of the climber subsystem.
+   * The motor configuration for the climber is done here.
+   */
   public ClimberSubsystem() {
 
     /*
@@ -64,32 +70,43 @@ public class ClimberSubsystem extends SubsystemBase {
 
     m_RightClimb.setControl(new Follower(Constants.kLeftClimbCanID, true));
     //End Configuration
-
     */
 
   }
 
-  
-
   /**
-   * Example command factory method.
-   *
-   * @return a command
+   * Sets the position to move the climber to.  
+   * @param desiredPosition Desired climber position, in rotations.
    */
   public void setClimberDesiredPosition(int desiredPosition) {
     System.out.println("Subsystem: Climber - setClimberDesiredPosition");
-    // m_LeftClimb.setControl(climberMove.withPosition(desiredPosition));
+    //m_LeftClimb.setControl(climberMove.withPosition(desiredPosition));
+    m_desiredPosition = desiredPosition;
   }
 
+  /**
+   * Sets whether the climber is in the pre-climb position.
+   * @param preClimbActuated If the climber is in the pre-climb position.
+   * True or false.
+   */
   public void setPreClimbActuated(boolean preClimbActuated){
-    m_preClimbActuated=preClimbActuated;
+    m_preClimbActuated = preClimbActuated;
   }
 
+  /**
+   * Checks if the climber is in the pre-climb position.
+   * @return Whether the climber is in the pre-climb position.
+   * True or false.
+   */
   public boolean getPreClimbActuated(){
     System.out.println("Subsystem: Climber - getPreClimbActuated");
     return m_preClimbActuated;
   }
 
+  /**
+   * Get the current climber position.
+   * @return The climber motor position, in rotations.
+   */
   public double getClimberPosition() {   
     System.out.println("Subsystem: Climber - getClimberPosition");
     // return m_LeftClimb.getPosition().getValueAsDouble();
@@ -97,30 +114,37 @@ public class ClimberSubsystem extends SubsystemBase {
     return 1;
   }
 
+  /**
+   * Check if the current climber position is at the desired position, within the constant climber tolerance.
+   * @param desiredPosition The climber position to check, in rotations.
+   * @return Whether the climber is at the desired position.
+   * True or false.
+   */
   public boolean getClimberInPosition (int desiredPosition) {
     System.out.println("Subsystem: Climber - getClimberInPosition");
-    
-    /*
-    if (m_LeftClimb.getPosition().getValue() > (desiredPosition-Constants.kClimberTolerancePos) && (m_LeftClimb.getPosition().getValue() < (desiredPosition+Constants.kClimberTolerancePos)))
-    {
-      return true; 
-    } else
-    {
-      return false;
-    } 
-    */
-
+    //return ((this.getClimberPosition() > (desiredPosition - Constants.kClimberTolerancePos)) && (this.getClimberPosition() < (desiredPosition + Constants.kClimberTolerancePos)));
     //Remove the return below this when the above code is uncommented
     return false;
+  }
 
+  /**
+   * Check if the current climber position is at the desired position, within the constant climber tolerance.
+   * This is an overload.
+   * If the desired position is not passed to this method, it will use the last position set with {@link #setClimberDesiredPosition}.
+   * @return Whether the climber is at the desired position.
+   */
+  public boolean getClimberInPosition() {
+    //return ((this.getClimberPosition() > (m_desiredPosition - Constants.kClimberTolerancePos)) && (this.getClimberPosition() < (m_desiredPosition + Constants.kClimberTolerancePos)));
+    //Remove the return below this when the above code is uncommented.
+    return false;
   }
 
   @Override
   public void initSendable(SendableBuilder builder){
     builder.setSmartDashboardType("ClimberSubsystem");
-    builder.addDoubleProperty("Climber Position", () -> {return 0; /*this::getClimberPosition*/}, null);
-    builder.addBooleanProperty("Climber Pre-Actuated?", () -> {return false; /*this::getPreClimbActuated*/}, null);
-    builder.addBooleanProperty("Climber in Position?", () -> {return false; /*this::getClimberInPosition*/}, null);  
+    builder.addDoubleProperty("Climber Position", this::getClimberPosition, null);
+    builder.addBooleanProperty("Climber Pre-Actuated?", this::getPreClimbActuated, null);
+    builder.addBooleanProperty("Climber in Position?", this::getClimberInPosition, null);  
   }
 
   @Override

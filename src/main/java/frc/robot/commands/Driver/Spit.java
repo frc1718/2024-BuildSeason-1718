@@ -12,7 +12,10 @@ import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 
-/** An example command that uses an example subsystem. */
+/**
+ * The spit command ejects a note out of the shooter onto the floor.
+ * The shooter arm must be lifted to correctly spit the note onto the floor without interferring with the drivetrain.
+ */
 public class Spit extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final FrontIntakeSubsystem m_frontIntakeSubsystem;
@@ -22,6 +25,14 @@ public class Spit extends Command {
   private boolean m_isFinished = false;
   private int m_stateMachine = 1;
 
+  /**
+   * Constructs an instance of the spit command.
+   * @param frontIntakeSubsystem An instance of the front intake subsystem.
+   * Required.
+   * @param shooterSubsystem An instance of the shooter subsystem.
+   * Required.
+   * @param shooterIntakeSubsystem An instance of the shooter intake subsystem.
+   */
   public Spit(FrontIntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem, ShooterIntakeSubsystem shooterIntakeSubsystem) {
     m_frontIntakeSubsystem = intakeSubsystem;
     m_shooterSubsystem = shooterSubsystem;

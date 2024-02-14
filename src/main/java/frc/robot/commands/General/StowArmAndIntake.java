@@ -2,10 +2,6 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-  //This code is for a manual control of the climber if we want it
-  //in case of encoders messing up and we don't want the climber
-  //going to positions it physically can't.
-
 package frc.robot.commands.General;
 
 import frc.robot.Constants;
@@ -13,7 +9,11 @@ import frc.robot.subsystems.FrontIntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
-/** An example command that uses an example subsystem. */
+/**
+ * The stow arm and intake command moves the front intake roller and shooter arm into their safe 'stow' positions.
+ * The front intake roller is moved so the shooter arm can clear it, then the shooter arm is moved to it's home position.
+ * <p> Stow, home; both terms are somewhat interchangable here.
+ */
 public class StowArmAndIntake extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
@@ -24,6 +24,13 @@ public class StowArmAndIntake extends Command {
 
   private int m_stateMachine = 1;
 
+  /**
+   * Constructs an instance of the stow arm and intake command.
+   * @param frontIntakeSubsystem An instance of the front intake subsystem.
+   * Required.
+   * @param shooterSubsystem An instance of the shooter subsystem.
+   * Required.
+   */
   public StowArmAndIntake(FrontIntakeSubsystem frontIntakeSubsystem, ShooterSubsystem shooterSubsystem) {
 
     m_frontIntakeSubsystem = frontIntakeSubsystem;

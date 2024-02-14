@@ -13,6 +13,9 @@ import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
+/**
+ * The shooter intake subsystem is the portion of the shooter that is NOT responsible for ejecting notes at high velocities.
+ */
 public class ShooterIntakeSubsystem extends SubsystemBase {
  
 
@@ -20,7 +23,7 @@ public class ShooterIntakeSubsystem extends SubsystemBase {
   AnalogInput m_BeamBreakIntakeAnalog = new AnalogInput(Constants.kBeamBreakIntakeAnalog);
   AnalogInput m_BeamBreakShooterAnalog = new AnalogInput(Constants.kBeamBreakShooterAnalog);
   
-/*  
+  /*  
   //Open Servo
   //Servo intakeHinge = new Servo(Constants.kShooterIntakePivotReleasePWM);
 
@@ -29,15 +32,25 @@ public class ShooterIntakeSubsystem extends SubsystemBase {
 
   private final VelocityVoltage ShooterIntakeVelocity = new VelocityVoltage(0, 0, true, 0, 0, false, false, false);
 
-*/
+  */
 
+  /**
+   * Constructs an instance of the shooter intake subsystem.
+   * The motor and sensor configuration is done here.
+   */
   public ShooterIntakeSubsystem() {
   //=======================================shouldn't we be doing something with velocity voltage motor here to set it up?
   m_BeamBreakIntakeAnalog.setAverageBits(4);
   m_BeamBreakShooterAnalog.setAverageBits(4);
+  
   }
   
   // Start of sensor related methods
+  /**
+   * Check if a note is in front of the intake beam break.
+   * @return Whether the intake beam break detects a note.
+   * True or false.
+   */
   public boolean getNotePresentIntake() {  
     //This will print out constantly because it's on a trigger
     //System.out.println("Subsystem: Shooter - getNotePresentShooter Voltage " + m_BeamBreakShooterAnalog.getAverageVoltage());
@@ -46,6 +59,11 @@ public class ShooterIntakeSubsystem extends SubsystemBase {
     
   }
   
+  /**
+   * Check if a note is in front of the shooter beam break.
+   * @return Whether the shooter beam break detects a note.
+   * True or false.
+   */
   public boolean getNotePresentShooter() {  
     //This will print out constantly because it's on a constant trigger
     //System.out.println("Subsystem: Shooter - getNotePresentShooter Voltage " + m_BeamBreakShooterAnalog.getAverageVoltage());   
@@ -54,22 +72,30 @@ public class ShooterIntakeSubsystem extends SubsystemBase {
   }
   // End of sensor related methods
 
+  /**
+   * Check if a note is in front of either the intake beam break or the shooter beam break.
+   * @return Whether either beam break detects a note.
+   * True or false.
+   */
   public boolean getNotePresent() {
     System.out.println("Subsystem: Shooter - getNotePresentShooter Voltage " + m_BeamBreakShooterAnalog.getAverageVoltage());
     System.out.println("Subsystem: Shooter - getNotePresentIntake Voltage " + m_BeamBreakIntakeAnalog.getAverageVoltage());
 
-    if ((m_BeamBreakIntakeAnalog.getAverageVoltage() >= Constants.kIntakeBeamBreakCrossover) || (m_BeamBreakShooterAnalog.getAverageVoltage() >= Constants.kIntakeBeamBreakCrossover)){
-      return true;  
-    } else {
-      return false;
-    }
+    return (this.getNotePresentIntake() || this.getNotePresentShooter());
   }
 
+  /**
+   * Sets the speed of the shooter intake motor.
+   * @param speed The desired speed of the shooter intake, in rotations per second.
+   */
   public void setShooterIntakeSpeed(double speed) {
     System.out.println("ShooterIntakeSubsystem: setShooterIntakeSpeed");
     //m_ShooterIntakeSpin.setControl(ShooterIntakeVelocity.withVelocity(speed));
   }
 
+  /**
+   * Extends the intake hinge servo to allow the intake to pivot.
+   */
   public void Release() {
     System.out.println("ShooterIntakeSubsystem: setShooterPivotPosition");
     //intakeHinge.set(desiredPosition);

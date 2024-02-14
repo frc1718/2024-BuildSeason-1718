@@ -159,7 +159,7 @@ public class RobotContainer {
     //
     operatorController.y().onTrue(new ShooterModePodium(frontIntake, shooter));
     operatorController.b().onTrue(new ShooterModeAmp(frontIntake, shooter));
-    operatorController.x().onTrue(new ShooterModeShootWithPose(frontIntake, shooter));
+    //operatorController.x().onTrue(new ShooterModeShootWithPose(frontIntake, shooter, drivetrain));  Since this command relies on the drivetrain, it is commented out for now.
     operatorController.a().onTrue(new ShooterModeSubwoofer(frontIntake, shooter));
     operatorController.leftBumper().and(operatorController.rightBumper()).debounce(2).onTrue(new PreClimb(climber,shooter,frontIntake, shooterIntakeSubsystem));
 
@@ -188,6 +188,9 @@ public class RobotContainer {
       LimelightHelpers.takeSnapshot("limelight", "snapshot");
     }));
 
+    driveController.povLeft().onTrue(new InstantCommand(() -> {
+      frontIntake.setServoPosition(0.5);;
+    }));
 
     //if (Utils.isSimulation()) {
       //drivetrain.seedFieldRelative(new Pose2d(new Translation2d(), Rotation2d.fromDegrees(90)));
@@ -198,17 +201,23 @@ public class RobotContainer {
 
   }
 
-
+  /**
+   * Add all of the subsystems to {@link SmartDashboard}, so the data is published automatically.
+   */
   private void configureCustomNTValues(){
     //All of the NT publishing we would like to do, that won't be setup in the classes themselves, gets setup here.
     SmartDashboard.putData("Chirp Selector", chirpSelect);
     SmartDashboard.putData("Auton Selector", autonSelect);    
-    SmartDashboard.putData(shooter);
-    SmartDashboard.putData(climber);
-    SmartDashboard.putData(frontIntake);
-    SmartDashboard.putData(LED);
+    //SmartDashboard.putData(shooter);
+    //SmartDashboard.putData(climber);
+    //SmartDashboard.putData(frontIntake);
+    //SmartDashboard.putData(LED);
   }
 
+  /**
+   * Register all of the commands that can be used in autonomous.
+   * If a command is not registered here, referencing it in a PathPlanner autonomous won't do anything.
+   */
   private void registerAutonCommands(){
     //ALL COMMANDS THAT COULD BE USED IN AUTONOMOUS NEED TO BE REGISTERED HERE.
     //These are currently added as an example.

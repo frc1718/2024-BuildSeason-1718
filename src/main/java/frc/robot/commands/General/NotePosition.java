@@ -2,17 +2,15 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-  //This code is for a manual control of the climber if we want it
-  //in case of encoders messing up and we don't want the climber
-  //going to positions it physically can't.
-
 package frc.robot.commands.General;
 
 import frc.robot.Constants;
 import frc.robot.subsystems.ShooterIntakeSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
-/** An example command that uses an example subsystem. */
+/**
+ * The note position command gets the note into the correct position in the shooter: fully in contact with the intake beam break, but barely in contact with the shooter beam break.
+ */
 public class NotePosition extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
@@ -22,6 +20,11 @@ public class NotePosition extends Command {
 
   private int m_stateMachine = 1;
 
+  /**
+   * Constructs an instance of the note position command.
+   * @param shooterIntakeSubsystem An instance of the shooter intake subsystem.
+   * Required.
+   */
   public NotePosition(ShooterIntakeSubsystem shooterIntakeSubsystem) {
 
     m_shooterIntakeSubsystem = shooterIntakeSubsystem;
