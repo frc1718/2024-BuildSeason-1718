@@ -9,7 +9,10 @@ import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.FrontIntakeSubsystem;
 
-/** An example command that uses an example subsystem. */
+/**
+ * The shooter mode podium command sets the shooter mode variable of the shooter subsystem to <i>ShootPodium</i>.
+ * In preparation, the speed and position of the shooter is set to fire a shot from the podium.
+ */
 public class ShooterModePodium extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
  
@@ -20,9 +23,11 @@ public class ShooterModePodium extends Command {
   private int m_stateMachine = 0;
 
   /**
-   * Creates a new ExampleCommand.
-   * 
-   * @param shooterSubsystem The subsystem used by this command.
+   * Constructs an instance of the shooter mode amp command.
+   * @param frontIntakeSubsystem An instance of the front intake subsystem.
+   * Required.
+   * @param shooterSubsystem An instance of the shooter subsystem.
+   * Required.
    */
   public ShooterModePodium(FrontIntakeSubsystem frontIntakeSubsystem, ShooterSubsystem shooterSubsystem) {
     m_shooterSubsystem = shooterSubsystem;

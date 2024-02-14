@@ -31,7 +31,7 @@ public class ShooterSubsystem extends SubsystemBase {
   //Make variables
   public String m_shooterMode = "";
   public boolean m_readyToShoot = false;
-  public int m_desiredPosition = 0;
+  public double m_desiredPosition = 0;
   public double m_desiredSpeed = 0;
 
   /*
@@ -177,7 +177,7 @@ public class ShooterSubsystem extends SubsystemBase {
    * Sets the position of the shooter arm.
    * @param position The position of the shooter arm, in rotations.
    */
-  public void setShooterArmPosition(int position) {
+  public void setShooterArmPosition(double position) {
     System.out.println("ShooterSubsystem: setShooterArmPosition");
     //m_ShooterArmRotateLeft.setControl(ShooterArmPosition.withPosition(position));
     m_desiredPosition = position;

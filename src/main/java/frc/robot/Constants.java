@@ -1,6 +1,7 @@
 package frc.robot;
 
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 
 public class Constants {
     /* ALL CONSTANTS GO HERE */
@@ -172,4 +173,31 @@ public class Constants {
     //Pose of the blue speaker.
     //Used to be a pose, but only the X and Y are needed.  Changed to a translation to clean up the actual calculation.
     public static final Translation2d kBlueSpeakerLocation = new Translation2d(0.0, 5.5);
+
+    //Interpolation for the shoot with pose command.  The values that correspond to shooting from the subwoofer and podium can also be added.
+    //Both tables use distance (in meters) as the key.
+    public static final InterpolatingDoubleTreeMap kShooterSpeedTable = new InterpolatingDoubleTreeMap();
+    public static final InterpolatingDoubleTreeMap kShooterArmTable = new InterpolatingDoubleTreeMap();
+
+    static {
+        //Populating the shooter speed table.  Values are in rotations per second.
+        //As of Feb-13, these values are completely made up.
+        kShooterSpeedTable.put(0.0, 100.0);
+        kShooterSpeedTable.put(2.0, 200.0);
+        kShooterSpeedTable.put(4.0, 300.0);
+        kShooterSpeedTable.put(6.0, 400.0);
+        kShooterSpeedTable.put(8.0, 500.0);
+        kShooterSpeedTable.put(10.0, 600.0);       
+    }
+
+    static {
+        //Populating the shooter arm position table.  Values are in degrees.
+        //As of Feb-13, these values are completely made up.
+        kShooterArmTable.put(0.0, 85.0);
+        kShooterArmTable.put(2.0, 75.0);
+        kShooterArmTable.put(4.0, 65.0);
+        kShooterArmTable.put(6.0, 55.0);
+        kShooterArmTable.put(8.0, 45.0);
+        kShooterArmTable.put(10.0, 35.0);       
+    }
 }

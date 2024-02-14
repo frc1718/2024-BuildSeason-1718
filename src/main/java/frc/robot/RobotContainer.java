@@ -159,7 +159,7 @@ public class RobotContainer {
     //
     operatorController.y().onTrue(new ShooterModePodium(frontIntake, shooter));
     operatorController.b().onTrue(new ShooterModeAmp(frontIntake, shooter));
-    operatorController.x().onTrue(new ShooterModeShootWithPose(frontIntake, shooter));
+    //operatorController.x().onTrue(new ShooterModeShootWithPose(frontIntake, shooter, drivetrain));  Since this command relies on the drivetrain, it is commented out for now.
     operatorController.a().onTrue(new ShooterModeSubwoofer(frontIntake, shooter));
     operatorController.leftBumper().and(operatorController.rightBumper()).debounce(2).onTrue(new PreClimb(climber,shooter,frontIntake, shooterIntakeSubsystem));
 
