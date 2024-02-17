@@ -12,7 +12,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.FrontIntakeSubsystem;
 import frc.robot.subsystems.ShooterIntakeSubsystem;
 
-/** An example command that uses an example subsystem. */
+/**
+ * The shoot command sets the shooter speed and arm position based on the current shooter mode.
+ * It also performs the actual <i>shooting</i>.
+ */
 public class Shoot extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final ShooterSubsystem m_shooterSubsystem;
@@ -31,9 +34,15 @@ public class Shoot extends Command {
   private int m_stateMachine = 1;
 
   /**
-   * Creates a new ExampleCommand.
-   * 
-   * @param shooterSubsystem The subsystem used by this command.
+   * Constructs an instance of the shoot command.
+   * @param frontIntakeSubsystem An instance of the front intake subsystem.
+   * Required.
+   * @param shooterSubsystem An instance of the shooter subsystem.
+   * Required.
+   * @param climbSubsystem An instance of the climber subsystem.
+   * Required.
+   * @param shooterIntakeSubsystem An instance of the shooter intake subsystem.
+   * Required.
    */
   public Shoot(FrontIntakeSubsystem frontIntakeSubsystem, ShooterSubsystem shooterSubsystem, ClimberSubsystem climbSubsystem, ShooterIntakeSubsystem shooterIntakeSubsystem) {
 
@@ -110,9 +119,6 @@ public class Shoot extends Command {
       m_frontIntakeSubsystem.setFrontIntakeSpeed(m_frontIntakeSpeed);
       m_shooterIntakeSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeStopSpeed);
     }
-
-
-
   }
 
   // Called every time the scheduler runs while the command is scheduled.

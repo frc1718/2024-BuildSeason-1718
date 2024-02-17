@@ -17,20 +17,22 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
+
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
+/**
+ * The shooter subsystem takes a note that was picked up off the ground, and puts it somewhere that isn't the ground.
+ * <p><i>Maybe.</i>
+ */
 public class ShooterSubsystem extends SubsystemBase {
  
-
-  
-  //Open Servo
-  //Servo intakeHinge = new Servo(Constants.kShooterIntakePivotReleasePWM);
-
-  //Open Motors
-  
+  //Make variables
   public String m_shooterMode = "";
   public boolean m_readyToShoot = false;
+  public double m_desiredPosition = 0;
+  public double m_desiredSpeed = 0;
 
   /*
   TalonFX m_ShooterArmRotateLeft = new TalonFX(Constants.kShooterArmRotateLeftCanID, "Canivore");
@@ -39,18 +41,20 @@ public class ShooterSubsystem extends SubsystemBase {
   TalonFX m_SpinRightShooter = new TalonFX(Constants.kSpinRightShooterCanID, "Canivore");
   TalonFX m_SpinLeftShooter = new TalonFX(Constants.kSpinLeftShooterCanID, "Canivore"); 
 
-  //Open CanCoder
+  //Open CANcoder
   CANcoder ShooterArmCANcoder = new CANcoder(Constants.kShooterArmCancoderCanID);
   
   private final VelocityVoltage ShooterVelocity = new VelocityVoltage(0.0, 0.0, true, 0,0, false, false, false);
   private final MotionMagicVoltage ShooterArmPosition = new MotionMagicVoltage(0.0, true, 0, 0, false, false, false);
-  
   */
 
+  /**
+   * Constructs an instance of the shooter subsystem.
+   * The motor and sensor configuration is done here.
+   */
   public ShooterSubsystem() {
 
     /*
-    
     //Configuring CANcoder
     CANcoderConfiguration ShooterArmCANcoderConfig = new CANcoderConfiguration();
     ShooterArmCANcoderConfig.MagnetSensor.MagnetOffset = 0.0;
@@ -117,21 +121,24 @@ public class ShooterSubsystem extends SubsystemBase {
       System.out.println("Could not configure device. Error: " + shooterArmStatus.toString());
     }
     m_ShooterArmRotateRight.setControl(new Follower(Constants.kShooterArmRotateLeftCanID, true));
-
   */
-
   }
   
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
-  
+  /**
+   * Sets whether the shooter is ready to shoot a note.
+   * @param readyToShoot Whether the shooter is ready to shoot a note or not.
+   * True or false.
+   */
   public void setShooterReadyToShoot(boolean readyToShoot) {
     System.out.println("ShooterSubsystem: readyToShoot");
     m_readyToShoot = readyToShoot;
   }
 
+  /**
+   * Checks if the shooter is ready to shoot a note.
+   * @return Whether the shooter is ready to shoot a note or not.
+   * True or false.
+   */
   public boolean getShooterReadyToShoot() {
     System.out.println("ShooterSubsystem: getShooterReadyToShoot");
     return m_readyToShoot;
@@ -139,72 +146,140 @@ public class ShooterSubsystem extends SubsystemBase {
 
   // Start of motor set methods
 
+  /**
+   * Sets the current shooter mode.  Acceptable values are:
+   * <p>ShootAmp
+   * <p>ShootTrap
+   * <p>ShootPodium
+   * <p>ShootSubwoofer
+   * <p>ShootWithPose
+   * @param shooterMode The mode to put the shooter into.
+   */
   public void setShooterMode(String shooterMode){
-    m_shooterMode=shooterMode;
+    m_shooterMode = shooterMode;
     System.out.println("ShooterSubsystem: setShooterMode");
   }
 
+  /**
+   * Sets the speed of the shooter motors.
+   * The left shooter motor is set to the input speed.
+   * The right shooter motor is set to 90% of the input speed.
+   * @param shootSpeed The desired speed of the shooter motors, in rotations per second.
+   */
   public void setShooterSpeed(double shootSpeed) {
     System.out.println("ShooterSubsystem: setShooterSpeed");
-   // m_SpinLeftShooter.setControl(ShooterVelocity.withVelocity(shootSpeed));
-   // m_SpinRightShooter.setControl(ShooterVelocity.withVelocity((shootSpeed*0.9)));
+    //m_SpinLeftShooter.setControl(ShooterVelocity.withVelocity(shootSpeed));
+    //m_SpinRightShooter.setControl(ShooterVelocity.withVelocity((shootSpeed*0.9)));
+    m_desiredSpeed = shootSpeed;
   }
 
-  public void setShooterArmPosition(int position) {
+  /**
+   * Sets the position of the shooter arm.
+   * @param position The position of the shooter arm, in rotations.
+   */
+  public void setShooterArmPosition(double position) {
     System.out.println("ShooterSubsystem: setShooterArmPosition");
-   // m_ShooterArmRotateLeft.setControl(ShooterArmPosition.withPosition(position));
+    //m_ShooterArmRotateLeft.setControl(ShooterArmPosition.withPosition(position));
+    m_desiredPosition = position;
   }
 
+  /**
+   * Get the current shooter mode.
+   * @return The currently active shooter mode, as a String.
+   */
   public String getShooterMode(){
     System.out.println("ShooterSubsystem: getShooterMode");
     return m_shooterMode;
   }
 
+  /**
+   * Get the current speed of the left shooter motor.
+   * @return The current speed of the left shooter motor, in rotations per second.
+   */
   public double getShooterSpeed() {
     System.out.println("ShooterSubsystem: getShooterSpeed");
     //Uncomment when the motors are getting brought up and remove the other return
-    // return m_SpinLeftShooter.getVelocity().getValueAsDouble()
+    //return m_SpinLeftShooter.getVelocity().getValueAsDouble();
     return 1;
   }
 
+  /**
+   * Get the current position of the shooter arm motor.
+   * @return The current position of the shooter arm, in rotations.
+   */
   public double getShooterArmPosition() {
     System.out.println("ShooterSubsystem: getShooterArmPosition");
 
     //Uncomment when the motors are getting brought up and remove the other return
     //return m_ShooterArmRotateLeft.getPosition().getValueAsDouble();
-
-
     return 1;
   }
 
-  public boolean getShooterUpToSpeed(int desiredSpeed) {
+  /**
+   * Check if the current shooter motor speed is within tolerance of the desired speed.
+   * @param desiredSpeed The shooter motor speed to check, in rotations per second.
+   * @return Whether the shooter motor is at the desired speed.
+   * True or false.
+   */
+  public boolean getShooterUpToSpeed(double desiredSpeed) {
     System.out.println("ShooterSubsystem: getShooterUpToSpeed");
-    /*  Uncomment this and remove the return below this code when doing motor bringup
-    if ((desiredSpeed - Constants.kShooterSpeedTolerance) >= getShooterSpeed() && getShooterSpeed() <= (desiredSpeed + Constants.kShooterSpeedTolerance)) {
-      return true;
-    } else {
-      return false;
-    }
-    */
-
+    //Uncomment this and remove the return below this code when doing motor bringup
+    //return ((this.getShooterSpeed() >= (desiredSpeed - Constants.kShooterSpeedTolerance)) && (this.getShooterSpeed() <= (desiredSpeed + Constants.kShooterSpeedTolerance)));
     return false;
   }
 
+  /**
+   * Check if the current shooter motor speed is within tolerance of the desired speed.
+   * This is an overload.
+   * If the desired speed is not passed to this method, it will use the last speed set with {@link #setShooterSpeed}.
+   * @return Whether the shooter motor is at the desired speed.
+   */
+  public boolean getShooterUpToSpeed() {
+    //return this.getShooterUpToSpeed(m_desiredSpeed);
+    return false;
+  }
+
+  /**
+   * Check if the current shooter arm position is within tolerance of the desired position.
+   * @param desiredPosition The shooter arm position to check, in rotations.
+   * @return Whether the shooter arm is at the desired position.
+   * True or false.
+   */
   public Boolean getShooterArmInPosition(int desiredPosition) {
       System.out.println("ShooterSubsystem: getShooterArmInPosition");
-      /*  Uncomment this and remove the return below this code when doing motor bringup
-      if (m_ShooterArmRotateLeft.getPosition().getValue() > (desiredPosition-Constants.kShooterArmTolerancePos) && (m_ShooterArmRotateLeft.getPosition().getValue() < (desiredPosition+Constants.kShooterArmTolerancePos)))
-      {
-        return true; 
-      } else
-      {
-        return false;
-      }
-      */
-
+      //Uncomment this and remove the return below this code when doing motor bringup
+      //return ((this.getShooterArmPosition() > (desiredPosition - Constants.kShooterArmTolerancePos)) && (this.getShooterArmPosition() < (desiredPosition + Constants.kShooterArmTolerancePos)));
       return false;
     }
+
+  /**
+   * Check if the current shooter arm position is within tolerance of the desired position.
+   * This is an overload.
+   * If the desired position is not passed to this method, it will use the last position set with {@link #setShooterArmPosition}.
+   * @return Whether the shooter arm is at the desired position.
+   * True or false.
+   */
+  public Boolean getShooterArmInPosition() {
+    //return this.getShooterArmInPosition(m_desiredPosition);
+    return false;
+  }
     //End of motor get methods
+
+  @Override
+  public void initSendable(SendableBuilder builder){
+    builder.setSmartDashboardType("ShooterSubsystem");
+    builder.addStringProperty("Shooter Mode", this::getShooterMode, null);
+    builder.addBooleanProperty("Ready to Shoot?", this::getShooterReadyToShoot, null);
+    builder.addDoubleProperty("Shooter Arm Position", this::getShooterArmPosition, null);
+    builder.addDoubleProperty("Shooter Speed", this::getShooterSpeed, null);
+    builder.addBooleanProperty("Shooter Up to Speed?", this::getShooterUpToSpeed, null);
+    builder.addBooleanProperty("Shooter Arm in Position?", this::getShooterArmInPosition, null);
+  }
+
+  @Override
+  public void periodic() {
+    // This method will be called once per scheduler run
+  }
 
   @Override
   public void simulationPeriodic() {
