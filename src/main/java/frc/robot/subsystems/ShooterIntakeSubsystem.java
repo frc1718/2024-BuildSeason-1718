@@ -58,8 +58,8 @@ public class ShooterIntakeSubsystem extends SubsystemBase {
   // End of sensor related methods
 
   public boolean getNotePresent() {
-    System.out.println("Subsystem: Shooter - getNotePresentShooter Voltage " + m_BeamBreakShooterAnalog.getAverageVoltage());
-    System.out.println("Subsystem: Shooter - getNotePresentIntake Voltage " + m_BeamBreakIntakeAnalog.getAverageVoltage());
+    //System.out.println("Subsystem: Shooter - getNotePresentShooter Voltage " + m_BeamBreakShooterAnalog.getAverageVoltage());
+    //System.out.println("Subsystem: Shooter - getNotePresentIntake Voltage " + m_BeamBreakIntakeAnalog.getAverageVoltage());
 
     if ((m_BeamBreakIntakeAnalog.getAverageVoltage() >= Constants.kIntakeBeamBreakCrossover) || (m_BeamBreakShooterAnalog.getAverageVoltage() >= Constants.kIntakeBeamBreakCrossover)){
       return true;  

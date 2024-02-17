@@ -6,6 +6,7 @@ package frc.robot;
 
 import java.io.File;
 
+import com.ctre.phoenix6.SignalLogger;
 import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
@@ -180,6 +181,10 @@ public class RobotContainer {
 
 
   public RobotContainer() {
+
+    //Start the CTRE logger for sysID use
+    // SignalLogger.start();
+
     configureBindings();
     configureCustomNTValues();
 
