@@ -34,7 +34,7 @@ public class ShooterSubsystem extends SubsystemBase {
   public double m_desiredPosition = 0;
   public double m_desiredSpeed = 0;
 
-  /*
+  
   TalonFX m_ShooterArmRotateLeft = new TalonFX(Constants.kShooterArmRotateLeftCanID, "Canivore");
   TalonFX m_ShooterArmRotateRight = new TalonFX(Constants.kShooterArmRotateRightCanID, "Canivore");
   TalonFX m_ShooterIntakeSpin = new TalonFX(Constants.kShooterIntakeSpinCanID, "Canivore");
@@ -46,7 +46,7 @@ public class ShooterSubsystem extends SubsystemBase {
   
   private final VelocityVoltage ShooterVelocity = new VelocityVoltage(0.0, 0.0, true, 0,0, false, false, false);
   private final MotionMagicVoltage ShooterArmPosition = new MotionMagicVoltage(0.0, true, 0, 0, false, false, false);
-  */
+  
 
   /**
    * Constructs an instance of the shooter subsystem.
@@ -54,7 +54,7 @@ public class ShooterSubsystem extends SubsystemBase {
    */
   public ShooterSubsystem() {
 
-    /*
+    
     //Configuring CANcoder
     CANcoderConfiguration ShooterArmCANcoderConfig = new CANcoderConfiguration();
     ShooterArmCANcoderConfig.MagnetSensor.MagnetOffset = 0.0;
@@ -121,7 +121,7 @@ public class ShooterSubsystem extends SubsystemBase {
       System.out.println("Could not configure device. Error: " + shooterArmStatus.toString());
     }
     m_ShooterArmRotateRight.setControl(new Follower(Constants.kShooterArmRotateLeftCanID, true));
-  */
+  
   }
   
   /**
@@ -179,7 +179,7 @@ public class ShooterSubsystem extends SubsystemBase {
    */
   public void setShooterArmPosition(double position) {
     System.out.println("ShooterSubsystem: setShooterArmPosition");
-    //m_ShooterArmRotateLeft.setControl(ShooterArmPosition.withPosition(position));
+    m_ShooterArmRotateLeft.setControl(ShooterArmPosition.withPosition(position));
     m_desiredPosition = position;
   }
 
@@ -198,9 +198,8 @@ public class ShooterSubsystem extends SubsystemBase {
    */
   public double getShooterSpeed() {
     System.out.println("ShooterSubsystem: getShooterSpeed");
-    //Uncomment when the motors are getting brought up and remove the other return
-    //return m_SpinLeftShooter.getVelocity().getValueAsDouble();
-    return 1;
+    return m_SpinLeftShooter.getVelocity().getValueAsDouble();
+
   }
 
   /**
@@ -209,10 +208,7 @@ public class ShooterSubsystem extends SubsystemBase {
    */
   public double getShooterArmPosition() {
     System.out.println("ShooterSubsystem: getShooterArmPosition");
-
-    //Uncomment when the motors are getting brought up and remove the other return
-    //return m_ShooterArmRotateLeft.getPosition().getValueAsDouble();
-    return 1;
+    return m_ShooterArmRotateLeft.getPosition().getValueAsDouble();
   }
 
   /**
@@ -223,9 +219,7 @@ public class ShooterSubsystem extends SubsystemBase {
    */
   public boolean getShooterUpToSpeed(double desiredSpeed) {
     System.out.println("ShooterSubsystem: getShooterUpToSpeed");
-    //Uncomment this and remove the return below this code when doing motor bringup
-    //return ((this.getShooterSpeed() >= (desiredSpeed - Constants.kShooterSpeedTolerance)) && (this.getShooterSpeed() <= (desiredSpeed + Constants.kShooterSpeedTolerance)));
-    return false;
+    return ((this.getShooterSpeed() >= (desiredSpeed - Constants.kShooterSpeedTolerance)) && (this.getShooterSpeed() <= (desiredSpeed + Constants.kShooterSpeedTolerance)));
   }
 
   /**
@@ -245,11 +239,10 @@ public class ShooterSubsystem extends SubsystemBase {
    * @return Whether the shooter arm is at the desired position.
    * True or false.
    */
-  public Boolean getShooterArmInPosition(int desiredPosition) {
+  public Boolean getShooterArmInPosition(double desiredPosition) {
       System.out.println("ShooterSubsystem: getShooterArmInPosition");
-      //Uncomment this and remove the return below this code when doing motor bringup
-      //return ((this.getShooterArmPosition() > (desiredPosition - Constants.kShooterArmTolerancePos)) && (this.getShooterArmPosition() < (desiredPosition + Constants.kShooterArmTolerancePos)));
-      return false;
+      return ((this.getShooterArmPosition() > (desiredPosition - Constants.kShooterArmTolerancePos)) && (this.getShooterArmPosition() < (desiredPosition + Constants.kShooterArmTolerancePos)));
+
     }
 
   /**
@@ -260,8 +253,7 @@ public class ShooterSubsystem extends SubsystemBase {
    * True or false.
    */
   public Boolean getShooterArmInPosition() {
-    //return this.getShooterArmInPosition(m_desiredPosition);
-    return false;
+    return this.getShooterArmInPosition(m_desiredPosition);
   }
     //End of motor get methods
 

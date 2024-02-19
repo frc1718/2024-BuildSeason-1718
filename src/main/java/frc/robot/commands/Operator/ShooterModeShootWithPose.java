@@ -94,7 +94,7 @@ public class ShooterModeShootWithPose extends Command {
         break;
       case 2:  // Arm in position
         System.out.println("Operator Command ShootWithPose: Case 2 Started");
-          //This is a unique case, we are going to stay here until interrupted.  Most like by shoot command.
+          //This is a unique case, we are going to stay here until interrupted.  Most likely by shoot command.
           m_shooterSubsystem.setShooterArmPosition(m_shooterArmPosePos);
           m_shooterSubsystem.setShooterSpeed(m_shooterPoseSpeed);
         break;

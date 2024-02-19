@@ -24,9 +24,9 @@ public class ShootTrap extends Command {
 
   private boolean m_isFinished = false;
 
-  private int m_shooterSpeed = 0;
-  private int m_frontIntakePosition = 0;
-  private int m_frontIntakeSpeed = 0;
+  private double m_shooterSpeed = 0;
+  private double m_frontIntakePosition = 0;
+  private double m_frontIntakeSpeed = 0;
 
   /**
    * Constructs an instance of the shoot trap command.

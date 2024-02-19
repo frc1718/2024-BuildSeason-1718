@@ -124,6 +124,7 @@ public class Constants {
     public static final int kShooterArmRotateMotionMagicJerk = 0;
     public static final int kShooterArmRotateSupplyCurrentLimit = 0;
     public static final int kShooterArmRotateVoltageClosedLoopRampPeriod = 0;
+    public static final int kShooterArmCancoderOffeset = 0;
     // End ShooterArmRotate settings
 
     // Start FrontIntakeRotate settings
@@ -139,6 +140,7 @@ public class Constants {
     public static final int kFrontIntakeRotateMotionMagicJerk = 0;
     public static final int kFrontIntakeRotateSupplyCurrentLimit = 0;
     public static final int kFrontIntakeRotateVoltageClosedLoopRampPeriod = 0;
+    public static final int KFrontIntakeCancoderOffset = 0;
     // End FrontIntakeRotate settings
 
     // Start FrontIntakeSpin settings

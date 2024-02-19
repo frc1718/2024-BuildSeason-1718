@@ -26,11 +26,10 @@ public class ClimberSubsystem extends SubsystemBase {
   boolean m_preClimbActuated = false;
   double m_desiredPosition = 0;
 
-  /*
   //RightClimb Should be a follower of leftclimb
   TalonFX m_LeftClimb = new TalonFX(Constants.kLeftClimbCanID, "Canivore");
   TalonFX m_RightClimb = new TalonFX(Constants.kRightClimbCanID, "Canivore");
-  */
+
 
   private final MotionMagicVoltage climberMove = new MotionMagicVoltage(0.0, true, 0, 0, false, false, false);
   
@@ -40,7 +39,7 @@ public class ClimberSubsystem extends SubsystemBase {
    */
   public ClimberSubsystem() {
 
-    /*
+ 
     //Start Configuring Climbers
     TalonFXConfiguration climberConfig = new TalonFXConfiguration();
     MotionMagicConfigs climberMotionMagic = climberConfig.MotionMagic;
@@ -70,7 +69,7 @@ public class ClimberSubsystem extends SubsystemBase {
 
     m_RightClimb.setControl(new Follower(Constants.kLeftClimbCanID, true));
     //End Configuration
-    */
+
 
   }
 
@@ -78,9 +77,9 @@ public class ClimberSubsystem extends SubsystemBase {
    * Sets the position to move the climber to.  
    * @param desiredPosition Desired climber position, in rotations.
    */
-  public void setClimberDesiredPosition(int desiredPosition) {
+  public void setClimberDesiredPosition(double desiredPosition) {
     System.out.println("Subsystem: Climber - setClimberDesiredPosition");
-    //m_LeftClimb.setControl(climberMove.withPosition(desiredPosition));
+    m_LeftClimb.setControl(climberMove.withPosition(desiredPosition));
     m_desiredPosition = desiredPosition;
   }
 
@@ -109,9 +108,7 @@ public class ClimberSubsystem extends SubsystemBase {
    */
   public double getClimberPosition() {   
     System.out.println("Subsystem: Climber - getClimberPosition");
-    // return m_LeftClimb.getPosition().getValueAsDouble();
-    //Remove the return below this when the above code is uncommented
-    return 1;
+    return m_LeftClimb.getPosition().getValueAsDouble();
   }
 
   /**
@@ -120,11 +117,10 @@ public class ClimberSubsystem extends SubsystemBase {
    * @return Whether the climber is at the desired position.
    * True or false.
    */
-  public boolean getClimberInPosition (int desiredPosition) {
+  public boolean getClimberInPosition (double desiredPosition) {
     System.out.println("Subsystem: Climber - getClimberInPosition");
-    //return ((this.getClimberPosition() > (desiredPosition - Constants.kClimberTolerancePos)) && (this.getClimberPosition() < (desiredPosition + Constants.kClimberTolerancePos)));
-    //Remove the return below this when the above code is uncommented
-    return false;
+    return ((this.getClimberPosition() > (desiredPosition - Constants.kClimberTolerancePos)) && (this.getClimberPosition() < (desiredPosition + Constants.kClimberTolerancePos)));
+
   }
 
   /**
@@ -134,9 +130,7 @@ public class ClimberSubsystem extends SubsystemBase {
    * @return Whether the climber is at the desired position.
    */
   public boolean getClimberInPosition() {
-    //return ((this.getClimberPosition() > (m_desiredPosition - Constants.kClimberTolerancePos)) && (this.getClimberPosition() < (m_desiredPosition + Constants.kClimberTolerancePos)));
-    //Remove the return below this when the above code is uncommented.
-    return false;
+    return ((this.getClimberPosition() > (m_desiredPosition - Constants.kClimberTolerancePos)) && (this.getClimberPosition() < (m_desiredPosition + Constants.kClimberTolerancePos)));
   }
 
   @Override

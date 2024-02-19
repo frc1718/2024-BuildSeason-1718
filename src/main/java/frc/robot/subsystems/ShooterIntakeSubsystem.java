@@ -13,9 +13,7 @@ import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-/**
- * The shooter intake subsystem is the portion of the shooter that is NOT responsible for ejecting notes at high velocities.
- */
+// The shooter intake subsystem is the portion of the shooter that is NOT responsible for ejecting notes at high velocities.
 public class ShooterIntakeSubsystem extends SubsystemBase {
  
 
@@ -23,7 +21,7 @@ public class ShooterIntakeSubsystem extends SubsystemBase {
   AnalogInput m_BeamBreakIntakeAnalog = new AnalogInput(Constants.kBeamBreakIntakeAnalog);
   AnalogInput m_BeamBreakShooterAnalog = new AnalogInput(Constants.kBeamBreakShooterAnalog);
   
-  /*  
+   
   //Open Servo
   //Servo intakeHinge = new Servo(Constants.kShooterIntakePivotReleasePWM);
 
@@ -32,12 +30,10 @@ public class ShooterIntakeSubsystem extends SubsystemBase {
 
   private final VelocityVoltage ShooterIntakeVelocity = new VelocityVoltage(0, 0, true, 0, 0, false, false, false);
 
-  */
+  
 
-  /**
-   * Constructs an instance of the shooter intake subsystem.
-   * The motor and sensor configuration is done here.
-   */
+  // Constructs an instance of the shooter intake subsystem.
+
   public ShooterIntakeSubsystem() {
   //=======================================shouldn't we be doing something with velocity voltage motor here to set it up?
   m_BeamBreakIntakeAnalog.setAverageBits(4);
@@ -90,7 +86,7 @@ public class ShooterIntakeSubsystem extends SubsystemBase {
    */
   public void setShooterIntakeSpeed(double speed) {
     System.out.println("ShooterIntakeSubsystem: setShooterIntakeSpeed");
-    //m_ShooterIntakeSpin.setControl(ShooterIntakeVelocity.withVelocity(speed));
+    m_ShooterIntakeSpin.setControl(ShooterIntakeVelocity.withVelocity(speed));
   }
 
   /**
