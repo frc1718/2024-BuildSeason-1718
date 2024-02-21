@@ -11,7 +11,10 @@ import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 
-/** An example command that uses an example subsystem. */
+/**
+ * The light LED on note present command does exactly what you think it does.
+ * If either beam break detects a note, the LEDs will turn off.
+ */
 public class LightLEDOnNotePresent extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final LEDSubsystem m_LEDSubsystem;
@@ -21,6 +24,12 @@ public class LightLEDOnNotePresent extends Command {
 
   boolean m_isFinished = false;
 
+  /**
+   * Constructs an instance of the light LED on note present command.
+   * @param LEDSubsystem An instance of the LED subsystem.
+   * Required.
+   * @param shooterIntakeSubsystem An instance of the shooter intake subsystem.
+   */
   public LightLEDOnNotePresent(LEDSubsystem subsystem, ShooterIntakeSubsystem shooterIntakeSubsystem) {
     m_LEDSubsystem = subsystem;
     m_shooterIntakeSubsystem = shooterIntakeSubsystem;
