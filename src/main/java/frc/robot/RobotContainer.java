@@ -6,6 +6,7 @@ package frc.robot;
 
 import java.io.File;
 
+import com.ctre.phoenix6.SignalLogger;
 import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
@@ -133,21 +134,15 @@ public class RobotContainer {
      
     // Schedules reset the field - Binds centric heading on back and start button push
     driveController.back().and(driveController.start()).onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative()));
-    
-    //First try at the front intake stowing when the arm is at home
-    //shooter.shooterArmInHomePositionTrigger().onTrue(new FrontIntakeDefault(frontIntake) );
 
     //LED Stuff blinks randomly
     //Trigger PickupStatus = new Trigger(shooterIntakeSubsystem::getNotePresentIntake);
     //PickupStatus.onTrue(new BlinkSignalLight(LED, 1, 0.5));
     //PickupStatus.onFalse(new SetSignalLightIntensity(LED, 0));
 
-
-
     Trigger NoteLocationStatus = new Trigger(shooterIntakeSubsystem::getNotePresent);
     NoteLocationStatus.onTrue(new LightLEDOnNotePresent(LED, shooterIntakeSubsystem));
     
-  
     //======================================================================
     //=========================Operator Controller Assignments==============
     //======================================================================
@@ -159,7 +154,7 @@ public class RobotContainer {
     //
     operatorController.y().onTrue(new ShooterModePodium(frontIntake, shooter));
     operatorController.b().onTrue(new ShooterModeAmp(frontIntake, shooter));
-    operatorController.x().onTrue(new ShooterModeShootWithPose(frontIntake, shooter));
+    //operatorController.x().onTrue(new ShooterModeShootWithPose(frontIntake, shooter, drivetrain));  Since this command relies on the drivetrain, it is commented out for now.
     operatorController.a().onTrue(new ShooterModeSubwoofer(frontIntake, shooter));
     operatorController.leftBumper().and(operatorController.rightBumper()).debounce(2).onTrue(new PreClimb(climber,shooter,frontIntake, shooterIntakeSubsystem));
 
@@ -188,6 +183,9 @@ public class RobotContainer {
       LimelightHelpers.takeSnapshot("limelight", "snapshot");
     }));
 
+    driveController.povLeft().onTrue(new InstantCommand(() -> {
+      frontIntake.setServoPosition(0.5);;
+    }));
 
     //if (Utils.isSimulation()) {
       //drivetrain.seedFieldRelative(new Pose2d(new Translation2d(), Rotation2d.fromDegrees(90)));
@@ -198,17 +196,23 @@ public class RobotContainer {
 
   }
 
-
+  /**
+   * Add all of the subsystems to {@link SmartDashboard}, so the data is published automatically.
+   */
   private void configureCustomNTValues(){
     //All of the NT publishing we would like to do, that won't be setup in the classes themselves, gets setup here.
     SmartDashboard.putData("Chirp Selector", chirpSelect);
     SmartDashboard.putData("Auton Selector", autonSelect);    
-    SmartDashboard.putData(shooter);
-    SmartDashboard.putData(climber);
-    SmartDashboard.putData(frontIntake);
-    SmartDashboard.putData(LED);
+    //SmartDashboard.putData(shooter);
+    //SmartDashboard.putData(climber);
+    //SmartDashboard.putData(frontIntake);
+    //SmartDashboard.putData(LED);
   }
 
+  /**
+   * Register all of the commands that can be used in autonomous.
+   * If a command is not registered here, referencing it in a PathPlanner autonomous won't do anything.
+   */
   private void registerAutonCommands(){
     //ALL COMMANDS THAT COULD BE USED IN AUTONOMOUS NEED TO BE REGISTERED HERE.
     //These are currently added as an example.
@@ -221,6 +225,10 @@ public class RobotContainer {
   }
 
   public RobotContainer() {
+
+    //Start the CTRE logger for sysID use
+    // SignalLogger.start();
+
     configureBindings();
     //Not sure if this is the correct placement for registering autonomous commands.
     registerAutonCommands();

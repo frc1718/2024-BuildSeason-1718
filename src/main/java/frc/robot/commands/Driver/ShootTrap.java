@@ -11,7 +11,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.FrontIntakeSubsystem;
 import frc.robot.subsystems.ShooterIntakeSubsystem;
 
-/** An example command that uses an example subsystem. */
+/**
+ * The shoot trap command rotates the shooter arm to the correct position for scoring a note in the trap.
+ * <p>As a bonus, it also spits it out.
+ */
 public class ShootTrap extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final ShooterSubsystem m_shooterSubsystem;
@@ -21,14 +24,20 @@ public class ShootTrap extends Command {
 
   private boolean m_isFinished = false;
 
-  private int m_shooterSpeed = 0;
-  private int m_frontIntakePosition = 0;
-  private int m_frontIntakeSpeed = 0;
+  private double m_shooterSpeed = 0;
+  private double m_frontIntakePosition = 0;
+  private double m_frontIntakeSpeed = 0;
 
   /**
-   * Creates a new ExampleCommand.
-   * 
-   * @param shooterSubsystem The subsystem used by this command.
+   * Constructs an instance of the shoot trap command.
+   * @param frontIntakeSubsystem An instance of the front intake subsystem.
+   * Required.
+   * @param shooterSubsystem An instance of the shooter subsystem.
+   * Required.
+   * @param climbSubsystem An instance of the climber subsystem.
+   * Required.
+   * @param shooterIntakeSubsystem An instance of the shooter intake subsystem.
+   * Required.
    */
   public ShootTrap(FrontIntakeSubsystem frontIntakeSubsystem, ShooterSubsystem shooterSubsystem, ClimberSubsystem climbSubsystem, ShooterIntakeSubsystem shooterIntakeSubsystem) {
 

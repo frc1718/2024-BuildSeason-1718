@@ -12,7 +12,9 @@ import frc.robot.Constants;
 import frc.robot.commands.General.NotePosition;
 import frc.robot.commands.General.StowArmAndIntake;
 
-/** An example command that uses an example subsystem. */
+/**
+ * The suck command positions the front intake and shooter arm so a note can be picked up off the floor and moved into the shooter.
+ */
 public class Suck extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final FrontIntakeSubsystem m_frontIntakeSubsystem;
@@ -21,6 +23,15 @@ public class Suck extends Command {
   private int m_stateMachine = 1;
   private boolean m_isFinished = false;
 
+    /**
+   * Constructs an instance of the suck command.
+   * @param frontIntakeSubsystem An instance of the front intake subsystem.
+   * Required.
+   * @param shooterSubsystem An instance of the shooter subsystem.
+   * Required.
+   * @param shooterIntakeSubsystem An instance of the shooter intake subsystem.
+   * Required.
+   */
   public Suck(FrontIntakeSubsystem frontIntakeSubsystem, ShooterSubsystem shooterSubsystem, ShooterIntakeSubsystem shooterIntakeSubsystem) {
     m_frontIntakeSubsystem = frontIntakeSubsystem;
     m_shooterSubsystem = shooterSubsystem;

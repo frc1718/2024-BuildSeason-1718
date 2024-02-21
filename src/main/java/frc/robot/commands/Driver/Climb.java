@@ -12,9 +12,13 @@ import frc.robot.Constants;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.FrontIntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.Command;
 
-/** An example command that uses an example subsystem. */
+/**
+ * The climb command controls the actual climbing of the chain.
+ * The robot can only attempt to climb once the climber subsytem has reached the pre-climb position.
+ */
 public class Climb extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final ClimberSubsystem m_climberSubsystem;
@@ -24,7 +28,15 @@ public class Climb extends Command {
   private boolean m_isFinished = false;
 
   private int m_stateMachine = 1;
-
+  /**
+   * Constructs an instance of the climb command.
+   * @param climberSubsystem An instance of the climber subsystem.
+   * Required.
+   * @param frontIntakeSubsystem An instance of the front intake subsystem.
+   * Required.
+   * @param shooterSubsystem An instance of the shooter subsystem.
+   * Required.
+   */
   public Climb(ClimberSubsystem climberSubsystem, FrontIntakeSubsystem frontIntakeSubsystem, ShooterSubsystem shooterSubsystem) {
     m_climberSubsystem = climberSubsystem;
     m_frontIntakeSubsystem = frontIntakeSubsystem;
@@ -60,7 +72,7 @@ public class Climb extends Command {
   @Override
   public void execute() {
 
-    switch(m_stateMachine){     
+    switch(m_stateMachine) {     
       case 1:  //PreClimbActuated
         System.out.println("Driver Command Climb: Case 1");
         if (m_climberSubsystem.getPreClimbActuated()) {
@@ -80,8 +92,8 @@ public class Climb extends Command {
         }
     }   
 
-    //Remove once climber is in place.  Here so the command finishes for debuggin.
-    m_isFinished=true;
+    //Remove once climber is in place.  Here so the command finishes for debugging.
+    m_isFinished = true;
     
   }
 
@@ -96,5 +108,11 @@ public class Climb extends Command {
   @Override
   public boolean isFinished() { 
     return m_isFinished;
+  }
+
+  @Override
+  public void initSendable(SendableBuilder builder){
+    builder.setSmartDashboardType("Climb");
+    builder.addIntegerProperty("State Machine", () -> {return this.m_stateMachine;}, null);
   }
 }

@@ -1,6 +1,9 @@
 package frc.robot;
 
+import com.ctre.phoenix6.signals.InvertedValue;
+
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 
 public class Constants {
     /* ALL CONSTANTS GO HERE */
@@ -99,16 +102,30 @@ public class Constants {
     // End Swerves
 
     // Start Motor Setting Values
-    // Start shooter settings
-    public static final int kShooterProportional = 0;
-    public static final int kShooterIntegral = 0;
-    public static final int kShooterDerivative = 0;
-    public static final int kShooterVelocityFeedFoward = 0;
-    public static final int kShooterMaxForwardVoltage = 0;
-    public static final int kShooterMaxReverseVoltage = 0;
-    public static final int kShooterSupplyCurrentLimit = 0;
-    public static final int kShooterVoltageClosedLoopRampPeriod = 0;
-    // End shooter settings
+    
+    // Start LeftShooter settings
+    public static final InvertedValue kLeftShooterDirection = InvertedValue.CounterClockwise_Positive;
+    public static final int kLeftShooterProportional = 0;
+    public static final int kLeftShooterIntegral = 0;
+    public static final int kLeftShooterDerivative = 0;
+    public static final int kLeftShooterVelocityFeedFoward = 0;
+    public static final int kLeftShooterMaxForwardVoltage = 0;
+    public static final int kLeftShooterMaxReverseVoltage = 0;
+    public static final int kLeftShooterSupplyCurrentLimit = 0;
+    public static final int kLeftShooterVoltageClosedLoopRampPeriod = 0;
+    // End LeftShooter settings
+    
+    // Start RightShooter settings
+    public static final InvertedValue kRightShooterDirection = InvertedValue.Clockwise_Positive;
+    public static final int kRightShooterProportional = 0;
+    public static final int kRightShooterIntegral = 0;
+    public static final int kRightShooterDerivative = 0;
+    public static final int kRightShooterVelocityFeedFoward = 0;
+    public static final int kRightShooterMaxForwardVoltage = 0;
+    public static final int kRightShooterMaxReverseVoltage = 0;
+    public static final int kRightShooterSupplyCurrentLimit = 0;
+    public static final int kRightShooterVoltageClosedLoopRampPeriod = 0;
+    // End RightShooter settings
 
     // Start ShooterArmRotate settings
     public static final int kShooterArmRotateProportional = 0;
@@ -123,7 +140,10 @@ public class Constants {
     public static final int kShooterArmRotateMotionMagicJerk = 0;
     public static final int kShooterArmRotateSupplyCurrentLimit = 0;
     public static final int kShooterArmRotateVoltageClosedLoopRampPeriod = 0;
+    public static final int kShooterArmCancoderOffeset = 0;
     // End ShooterArmRotate settings
+    public static final int kArmRotateRotorToSensorRatio = 0;
+    // ShooterArmRotateCancoder settings above /\     /\     /\
 
     // Start FrontIntakeRotate settings
     public static final int kFrontIntakeRotateProportional = 0;
@@ -138,7 +158,10 @@ public class Constants {
     public static final int kFrontIntakeRotateMotionMagicJerk = 0;
     public static final int kFrontIntakeRotateSupplyCurrentLimit = 0;
     public static final int kFrontIntakeRotateVoltageClosedLoopRampPeriod = 0;
+    public static final int KFrontIntakeCancoderOffset = 0;
     // End FrontIntakeRotate settings
+    public static final int kFrontIntakeRotateRotorToSensorRatio = 0;
+    // FrontIntakeRotateCancoder settings above /\     /\     /\
 
     // Start FrontIntakeSpin settings
     public static final int kFrontIntakeSpinProportional = 0;
@@ -166,10 +189,37 @@ public class Constants {
     public static final int kClimberVoltageClosedLoopRampPeriod = 0;
     // End Climber settings
     
-     //Name of the limelight camera.
-     public static final String kLimelightName = "limelight";
+    //Name of the limelight camera.
+    public static final String kLimelightName = "limelight";
 
-     //Pose of the blue speaker.
-     //Used to be a pose, but only the X and Y are needed.  Changed to a translation to clean up the actual calculation.
-     public static final Translation2d kBlueSpeakerLocation = new Translation2d(0.0, 5.5);
+    //Pose of the blue speaker.
+    //Used to be a pose, but only the X and Y are needed.  Changed to a translation to clean up the actual calculation.
+    public static final Translation2d kBlueSpeakerLocation = new Translation2d(0.0, 5.5);
+
+    //Interpolation for the shoot with pose command.  The values that correspond to shooting from the subwoofer and podium can also be added.
+    //Both tables use distance (in meters) as the key.
+    public static final InterpolatingDoubleTreeMap kShooterSpeedTable = new InterpolatingDoubleTreeMap();
+    public static final InterpolatingDoubleTreeMap kShooterArmTable = new InterpolatingDoubleTreeMap();
+
+    static {
+        //Populating the shooter speed table.  Values are in rotations per second.
+        //As of Feb-13, these values are completely made up.
+        kShooterSpeedTable.put(0.0, 100.0);
+        kShooterSpeedTable.put(2.0, 200.0);
+        kShooterSpeedTable.put(4.0, 300.0);
+        kShooterSpeedTable.put(6.0, 400.0);
+        kShooterSpeedTable.put(8.0, 500.0);
+        kShooterSpeedTable.put(10.0, 600.0);       
+    }
+
+    static {
+        //Populating the shooter arm position table.  Values are in degrees.
+        //As of Feb-13, these values are completely made up.
+        kShooterArmTable.put(0.0, 85.0);
+        kShooterArmTable.put(2.0, 75.0);
+        kShooterArmTable.put(4.0, 65.0);
+        kShooterArmTable.put(6.0, 55.0);
+        kShooterArmTable.put(8.0, 45.0);
+        kShooterArmTable.put(10.0, 35.0);       
+    }
 }

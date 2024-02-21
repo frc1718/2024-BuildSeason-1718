@@ -15,7 +15,11 @@ import frc.robot.subsystems.ShooterIntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
-/** An example command that uses an example subsystem. */
+/**
+ * The pre-climb command moves all of the related subsystems into the 'Pre-Climb' state.
+ * The front intake roller and shooter motors are stopped and both the front intake and shooter arm are moved into position.
+ * The climber is moved into position so the hooks can hit the chain.
+ */
 public class PreClimb extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final ClimberSubsystem m_climberSubsystem;
@@ -26,6 +30,17 @@ public class PreClimb extends Command {
   private boolean m_isFinished = false;
   private int m_stateMachine=1;
 
+  /**
+   * Constructs an instance of the pre-climb command.
+   * @param frontIntakeSubsystem An instance of the front intake subsystem.
+   * Required.
+   * @param shooterSubsystem An instance of the shooter subsystem.
+   * Required.
+   * @param climbSubsystem An instance of the climber subsystem.
+   * Required.
+   * @param shooterIntakeSubsystem An instance of the shooter intake subsystem.
+   * Required.
+   */
   public PreClimb(ClimberSubsystem climberSubsystem, ShooterSubsystem shooterSubsystem, FrontIntakeSubsystem frontIntakeSubsystem, ShooterIntakeSubsystem shooterIntakeSubsystem) {
     m_climberSubsystem = climberSubsystem;
     m_shooterSubsystem = shooterSubsystem;

@@ -11,13 +11,27 @@ import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
+/**
+ * The LED subsystem controls the brightness of the LED string on the robot.
+ * <p>It's an orange LED string.
+ */
 public class LEDSubsystem extends SubsystemBase {
   // Create motor controllers here
   TalonSRX SignalLight = new TalonSRX(Constants.kSignalLightCanID);
 
-  /** Creates a new ExampleSubsystem. */
-  public LEDSubsystem() {}
+  /**
+   * Constructs an instance of the LED subsystem.
+   */
+  public LEDSubsystem() {
+    
+  }
 
+  /**
+   * Sets the PWM intensity of the LED string.
+   * The value is constrained so it cannot be less than 0, or greater than 1.
+   * @param intensity The desired PWM duty cycle for the LED brightness.
+   * From 0.0 to 1.0.
+   */
   public void SetLightIntensity(double intensity) {
     if (intensity < 0) {
       intensity = 0;
@@ -28,16 +42,19 @@ public class LEDSubsystem extends SubsystemBase {
     SignalLight.set(ControlMode.PercentOutput, intensity);
   }
 
+  /**
+   * Get the current PWM duty cycle of the LED string.
+   * @return The current PWM duty cycle of the LED string.
+   * Duty cycle is represented as a number from 0.0 to 1.0.
+   */
   public double GetLightIntensity() {
     return SignalLight.getMotorOutputPercent();
   }
-
-
   
   @Override
-  public void initSendable(SendableBuilder builder){
-      builder.setSmartDashboardType("LEDSubsystem");
-      builder.addDoubleProperty("LED Intensity", this::GetLightIntensity, null); 
+  public void initSendable(SendableBuilder builder) {
+    builder.setSmartDashboardType("LEDSubsystem");
+    builder.addDoubleProperty("LED Intensity", this::GetLightIntensity, null); 
   }
 
   @Override
