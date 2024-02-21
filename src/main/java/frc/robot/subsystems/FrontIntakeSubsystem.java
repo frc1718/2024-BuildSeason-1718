@@ -7,10 +7,8 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
-import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.CANcoder;
@@ -33,10 +31,10 @@ public class FrontIntakeSubsystem extends SubsystemBase {
   TalonFX m_frontIntakeSpin = new TalonFX(Constants.kFrontIntakeSpinCanID, "Canivore");
   TalonFX m_frontIntakeRotate = new TalonFX(Constants.kFrontIntakeRotateCanID, "Canivore");
   CANcoder m_frontIntakeRotateCANcoder = new CANcoder(Constants.kFrontIntakeRotateCancoderCanID);
-  Servo frontIntakeServo = new Servo(0);
+  Servo m_frontIntakeServo = new Servo(0);
 
-  private final VelocityVoltage frontIntakeVelocity = new VelocityVoltage(0, 0, true, 0, 0, false, false, false);
-  private final PositionVoltage frontIntakeRotation = new PositionVoltage(0).withslot(0);
+  private final VelocityVoltage frontIntakeVelocityRequest = new VelocityVoltage(0, 0, true, 0, 0, false, false, false);
+  private final PositionVoltage frontIntakeRotationRequest = new PositionVoltage(0).withSlot(0);
   
   public double m_desiredPosition = 0;
   public double m_desiredSpeed = 0;
@@ -46,31 +44,18 @@ public class FrontIntakeSubsystem extends SubsystemBase {
    * The motor and sensor configuration is done here.
    */
   public FrontIntakeSubsystem() {
-
-    this.configureFrontIntakeSpin();
-    this.configureFrontIntakeRotate();
-    this.configureFrontIntakeCancoder();
-
+    this.configureFrontIntakeCancoder(m_frontIntakeRotateCANcoder);
+    this.configureFrontIntakeSpin(m_frontIntakeSpin);
+    this.configureFrontIntakeRotate(m_frontIntakeRotate);
   }
 
   /**
    * Sets the position of the front intake.
    * @param position The desired position of the front intake, in rotations.
    */
-  public void setFrontIntakePosition(double position) {
-    m_frontIntakeRotate.setControl(frontIntakeRotation.withPosition(position));
-    System.out.println("FrontIntakeSubsystem - setFrontIntakePosition");
-    m_desiredPosition = position;
-  }
 
   public void configureFrontIntakeRotate(TalonFX frontIntakeSpin){
     TalonFXConfiguration frontIntakeRotateConfig = new TalonFXConfiguration();
-    
-    MotionMagicConfigs frontIntakeRotateMotionMagic = frontIntakeRotateConfig.MotionMagic;
-    //frontIntakeRotateMotionMagic.MotionMagicCruiseVelocity = Constants.kFrontIntakeRotateMotionMagicCruiseVelocity; // 5 rotations per second cruise if this is 5
-    //frontIntakeRotateMotionMagic.MotionMagicAcceleration = Constants.kFrontIntakeRotateMotionMagicAcceleration; // Take approximately 0.5 seconds to reach max vel if this is 10
-    // Take approximately 0.2 seconds to reach max accel 
-    //frontIntakeRotateMotionMagic.MotionMagicJerk = Constants.kFrontIntakeRotateMotionMagicJerk;
 
     frontIntakeRotateConfig.CurrentLimits.SupplyCurrentLimit = Constants.kFrontIntakeRotateSupplyCurrentLimit;
     frontIntakeRotateConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.kFrontIntakeRotateVoltageClosedLoopRampPeriod;
@@ -79,11 +64,12 @@ public class FrontIntakeSubsystem extends SubsystemBase {
     slot0.kP = Constants.kFrontIntakeRotateProportional;
     slot0.kI = Constants.kFrontIntakeRotateIntegral;
     slot0.kD = Constants.kFrontIntakeRotateDerivative;
+
     //slot0.kV = Constants.kFrontIntakeRotateVelocityFeedFoward;
     //slot0.kS = Constants.kFrontIntakeRotateStaticFeedFoward; // The value of s is approximately the number of volts needed to get the mechanism moving
-
-    //frontIntakeRotateConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RemoteCANcoder;
-    //frontIntakeRotateConfig.Feedback.FeedbackRemoteSensorID = frontIntakeRotateCANcoder.getDeviceID();
+    frontIntakeRotateConfig.Feedback.FeedbackRemoteSensorID = Constants.kFrontIntakeRotateCancoderCanID;
+    frontIntakeRotateConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.FusedCANcoder;
+    frontIntakeRotateConfig.Feedback.RotorToSensorRatio = Constants.kFrontIntakeRotateRotorToSensorRatio;
 
     StatusCode frontIntakeRotateStatus = StatusCode.StatusCodeNotInitialized;
     for(int i = 0; i < 5; ++i) {
@@ -97,8 +83,6 @@ public class FrontIntakeSubsystem extends SubsystemBase {
 
   public void configureFrontIntakeSpin(TalonFX frontIntakeSpin){
 
-    m_frontIntakeSpin = frontIntakeSpin;
-
     TalonFXConfiguration frontIntakeSpinVelocityConfig = new TalonFXConfiguration();
     frontIntakeSpinVelocityConfig.Slot0.kP = Constants.kFrontIntakeSpinProportional; // An error of 1 rotation per second results in 2V output
     frontIntakeSpinVelocityConfig.Slot0.kI = Constants.kFrontIntakeSpinIntegral; // An error of 1 rotation per second increases output by 0.5V every second
@@ -110,8 +94,9 @@ public class FrontIntakeSubsystem extends SubsystemBase {
     frontIntakeSpinVelocityConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.kFrontIntakeSpinVoltageClosedLoopRampPeriod;
 
     StatusCode frontIntakeSpinStatus = StatusCode.StatusCodeNotInitialized;
+
     for(int i = 0; i < 5; ++i) {
-      frontIntakeSpinStatus = m_frontIntakeSpin.getConfigurator().apply(frontIntakeSpinVelocityConfig);
+      frontIntakeSpinStatus = frontIntakeSpin.getConfigurator().apply(frontIntakeSpinVelocityConfig);
       if (frontIntakeSpinStatus.isOK()) break;
     }
     if (!frontIntakeSpinStatus.isOK()) {
@@ -132,13 +117,19 @@ public class FrontIntakeSubsystem extends SubsystemBase {
    * @param speed The desired speed of the front intake roller, in rotations per second.
    */
   public void setFrontIntakeSpeed(double speed) {
-    m_frontIntakeSpin.setControl(frontIntakeVelocity.withVelocity(speed));
+    m_frontIntakeSpin.setControl(frontIntakeVelocityRequest.withVelocity(speed));
     System.out.println("FrontIntakeSubsystem - setFrontIntakeSpeed");
     m_desiredSpeed = speed;
   }
 
+  public void setFrontIntakePosition(double position) {
+    m_frontIntakeRotate.setControl(frontIntakeRotationRequest.withPosition(position));
+    System.out.println("FrontIntakeSubsystem - setFrontIntakePosition");
+    m_desiredPosition = position;
+  }
+
   public double getAbsolutePosition(){
-    return (frontIntakeRotateCANcoder.getAbsolutePosition().getValue()-Constants.KFrontIntakeCancoderOffset);
+    return (m_frontIntakeRotateCANcoder.getAbsolutePosition().getValue()-Constants.KFrontIntakeCancoderOffset);
   }
 
   public void setFrontIntakeRotateEncoder(double counts){

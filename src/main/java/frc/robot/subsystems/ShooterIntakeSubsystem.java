@@ -15,13 +15,11 @@ import frc.robot.Constants;
 
 // The shooter intake subsystem is the portion of the shooter that is NOT responsible for ejecting notes at high velocities.
 public class ShooterIntakeSubsystem extends SubsystemBase {
- 
 
   //Open sensors
   AnalogInput m_BeamBreakIntakeAnalog = new AnalogInput(Constants.kBeamBreakIntakeAnalog);
   AnalogInput m_BeamBreakShooterAnalog = new AnalogInput(Constants.kBeamBreakShooterAnalog);
   
-   
   //Open Servo
   //Servo intakeHinge = new Servo(Constants.kShooterIntakePivotReleasePWM);
 
@@ -29,8 +27,6 @@ public class ShooterIntakeSubsystem extends SubsystemBase {
   TalonFX m_ShooterIntakeSpin = new TalonFX(Constants.kShooterIntakeSpinCanID, "Canivore");
 
   private final VelocityVoltage ShooterIntakeVelocity = new VelocityVoltage(0, 0, true, 0, 0, false, false, false);
-
-  
 
   // Constructs an instance of the shooter intake subsystem.
 
@@ -76,7 +72,6 @@ public class ShooterIntakeSubsystem extends SubsystemBase {
   public boolean getNotePresent() {
     //System.out.println("Subsystem: Shooter - getNotePresentShooter Voltage " + m_BeamBreakShooterAnalog.getAverageVoltage());
     //System.out.println("Subsystem: Shooter - getNotePresentIntake Voltage " + m_BeamBreakIntakeAnalog.getAverageVoltage());
-
     return (this.getNotePresentIntake() || this.getNotePresentShooter());
   }
 

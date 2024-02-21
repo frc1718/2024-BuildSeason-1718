@@ -6,7 +6,6 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
-import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
@@ -42,7 +41,7 @@ public class ShooterSubsystem extends SubsystemBase {
   TalonFX m_SpinLeftShooter = new TalonFX(Constants.kSpinLeftShooterCanID, "Canivore"); 
 
   //Open CANcoder
-  CANcoder ShooterArmCANcoder = new CANcoder(Constants.kShooterArmCancoderCanID);
+  CANcoder m_ShooterArmCANcoder = new CANcoder(Constants.kShooterArmCancoderCanID);
   
   private final VelocityVoltage ShooterVelocity = new VelocityVoltage(0.0, 0.0, true, 0,0, false, false, false);
   private final MotionMagicVoltage ShooterArmPosition = new MotionMagicVoltage(0.0, true, 0, 0, false, false, false);
@@ -53,77 +52,13 @@ public class ShooterSubsystem extends SubsystemBase {
    * The motor and sensor configuration is done here.
    */
   public ShooterSubsystem() {
-
-    
-    //Configuring CANcoder
-    CANcoderConfiguration ShooterArmCANcoderConfig = new CANcoderConfiguration();
-    ShooterArmCANcoderConfig.MagnetSensor.MagnetOffset = 0.0;
-    ShooterArmCANcoderConfig.MagnetSensor.AbsoluteSensorRange = AbsoluteSensorRangeValue.Unsigned_0To1;
-    ShooterArmCANcoderConfig.MagnetSensor.SensorDirection = SensorDirectionValue.Clockwise_Positive;
-
-    TalonFXConfiguration ShooterMotorsConfig = new TalonFXConfiguration();
-
-    ShooterMotorsConfig.Slot0.kP = Constants.kShooterProportional; // An error of 1 rotation per second results in 2V output
-    ShooterMotorsConfig.Slot0.kI = Constants.kShooterIntegral; // An error of 1 rotation per second increases output by 0.5V every second
-    ShooterMotorsConfig.Slot0.kD = Constants.kShooterDerivative; // A change of 1 rotation per second squared results in 0.01 volts output
-    ShooterMotorsConfig.Slot0.kV = Constants.kShooterVelocityFeedFoward; // Falcon 500 is a 500kV motor, 500rpm per V = 8.333 rps per V, 1/8.33 = 0.12 volts / Rotation per second
-    // Peak output of 8 volts
-    ShooterMotorsConfig.Voltage.PeakForwardVoltage = Constants.kShooterMaxForwardVoltage;
-    ShooterMotorsConfig.Voltage.PeakReverseVoltage = Constants.kShooterMaxReverseVoltage;
-
-    ShooterMotorsConfig.CurrentLimits.SupplyCurrentLimit = Constants.kShooterSupplyCurrentLimit;
-    ShooterMotorsConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.kShooterVoltageClosedLoopRampPeriod;
-
-    StatusCode leftShooterStatus = StatusCode.StatusCodeNotInitialized;
-    for(int i = 0; i < 5; ++i) {
-      leftShooterStatus = m_SpinLeftShooter.getConfigurator().apply(ShooterMotorsConfig);
-      if (leftShooterStatus.isOK()) break;
-    }
-    if (!leftShooterStatus.isOK()) {
-      System.out.println("Could not configure device. Error: " + leftShooterStatus.toString());
-    }
-
-    StatusCode rightShooterStatus = StatusCode.StatusCodeNotInitialized;
-    for(int i = 0; i < 5; ++i) {
-      rightShooterStatus = m_SpinRightShooter.getConfigurator().apply(ShooterMotorsConfig);
-      if (rightShooterStatus.isOK()) break;
-    }
-    if (!rightShooterStatus.isOK()) {
-      System.out.println("Could not configure device. Error: " + rightShooterStatus.toString());
-    }
-
-    TalonFXConfiguration ShooterArmRotateConfig = new TalonFXConfiguration();
-    MotionMagicConfigs ShooterArmRotateMotionMagic = ShooterArmRotateConfig.MotionMagic;
-    ShooterArmRotateMotionMagic.MotionMagicCruiseVelocity = Constants.kShooterArmRotateMotionMagicCruiseVelocity; // 5 rotations per second cruise if this is 5
-    ShooterArmRotateMotionMagic.MotionMagicAcceleration = Constants.kShooterArmRotateMotionMagicAcceleration; // Take approximately 0.5 seconds to reach max vel if this is 10
-    // Take approximately 0.2 seconds to reach max accel 
-    ShooterArmRotateMotionMagic.MotionMagicJerk = Constants.kShooterArmRotateMotionMagicJerk;
-
-    ShooterArmRotateConfig.CurrentLimits.SupplyCurrentLimit = Constants.kShooterArmRotateSupplyCurrentLimit;
-    ShooterMotorsConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.kShooterArmRotateVoltageClosedLoopRampPeriod;
-
-    Slot0Configs slot0 = ShooterArmRotateConfig.Slot0;
-    slot0.kP = Constants.kShooterArmRotateProportional;
-    slot0.kI = Constants.kShooterArmRotateIntegral;
-    slot0.kD = Constants.kShooterArmRotateDerivative;
-    slot0.kV = Constants.kShooterArmRotateVelocityFeedFoward;
-    slot0.kS = Constants.kShooterArmRotateStaticFeedFoward; // The value of s is approximately the number of volts needed to get the mechanism moving
-
-    ShooterArmRotateConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RemoteCANcoder;
-    ShooterArmRotateConfig.Feedback.FeedbackRemoteSensorID = ShooterArmCANcoder.getDeviceID();
-
-    StatusCode shooterArmStatus = StatusCode.StatusCodeNotInitialized;
-    for(int i = 0; i < 5; ++i) {
-      shooterArmStatus = m_ShooterArmRotateLeft.getConfigurator().apply(ShooterArmRotateConfig);
-      if (shooterArmStatus.isOK()) break;
-    }
-    if (!shooterArmStatus.isOK()) {
-      System.out.println("Could not configure device. Error: " + shooterArmStatus.toString());
-    }
-    m_ShooterArmRotateRight.setControl(new Follower(Constants.kShooterArmRotateLeftCanID, true));
-  
+    //Configure Motors in seperate methods for clarity
+    this.configureShooterArmCANcoder(m_ShooterArmCANcoder);
+    this.configureArmRotate(m_ShooterArmRotateLeft, m_ShooterArmRotateRight);
+    this.configureSpinRightShooter(m_SpinRightShooter);
+    this.configureSpinLeftShooter(m_SpinLeftShooter);
   }
-  
+
   /**
    * Sets whether the shooter is ready to shoot a note.
    * @param readyToShoot Whether the shooter is ready to shoot a note or not.
@@ -256,6 +191,114 @@ public class ShooterSubsystem extends SubsystemBase {
     return this.getShooterArmInPosition(m_desiredPosition);
   }
     //End of motor get methods
+
+
+
+
+    /**
+   * Open Motors
+   * 
+   */
+
+  public void configureShooterArmCANcoder(CANcoder shooterArmCANcoder){
+    //Configuring CANcoder
+    CANcoderConfiguration ShooterArmCANcoderConfig = new CANcoderConfiguration();
+    ShooterArmCANcoderConfig.MagnetSensor.MagnetOffset = 0.0;
+    ShooterArmCANcoderConfig.MagnetSensor.AbsoluteSensorRange = AbsoluteSensorRangeValue.Unsigned_0To1;
+    ShooterArmCANcoderConfig.MagnetSensor.SensorDirection = SensorDirectionValue.Clockwise_Positive;
+  }
+
+
+
+  public void configureArmRotate(TalonFX shooterArmRotateLeft, TalonFX shooterArmRotateRight){
+
+   TalonFXConfiguration ShooterArmRotateConfig = new TalonFXConfiguration();
+    
+    ShooterArmRotateConfig.CurrentLimits.SupplyCurrentLimit = Constants.kShooterArmRotateSupplyCurrentLimit;
+    
+    Slot0Configs slot0 = ShooterArmRotateConfig.Slot0;
+    slot0.kP = Constants.kShooterArmRotateProportional;
+    slot0.kI = Constants.kShooterArmRotateIntegral;
+    slot0.kD = Constants.kShooterArmRotateDerivative;
+    //slot0.kV = Constants.kShooterArmRotateVelocityFeedFoward;
+    //slot0.kS = Constants.kShooterArmRotateStaticFeedFoward; // The value of s is approximately the number of volts needed to get the mechanism moving
+
+    // Pretty sure I properly added fused cancoder here
+    ShooterArmRotateConfig.Feedback.FeedbackRemoteSensorID = Constants.kShooterArmCancoderCanID;
+    ShooterArmRotateConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.FusedCANcoder;
+    ShooterArmRotateConfig.Feedback.RotorToSensorRatio = Constants.kArmRotateRotorToSensorRatio;
+    
+    StatusCode shooterArmStatus = StatusCode.StatusCodeNotInitialized;
+    for(int i = 0; i < 5; ++i) {
+      shooterArmStatus = m_ShooterArmRotateLeft.getConfigurator().apply(ShooterArmRotateConfig);
+      if (shooterArmStatus.isOK()) break;
+    }
+    if (!shooterArmStatus.isOK()) {
+      System.out.println("Could not configure device. Error: " + shooterArmStatus.toString());
+    }
+    m_ShooterArmRotateRight.setControl(new Follower(Constants.kShooterArmRotateLeftCanID, true));
+  }
+
+
+
+  public void configureSpinRightShooter(TalonFX spinRightShooter){
+    TalonFXConfiguration RightShooterMotorsConfig = new TalonFXConfiguration();
+
+    RightShooterMotorsConfig.Slot0.kP = Constants.kRightShooterProportional; // An error of 1 rotation per second results in 2V output
+    RightShooterMotorsConfig.Slot0.kI = Constants.kRightShooterIntegral; // An error of 1 rotation per second increases output by 0.5V every second
+    RightShooterMotorsConfig.Slot0.kD = Constants.kRightShooterDerivative; // A change of 1 rotation per second squared results in 0.01 volts output
+    RightShooterMotorsConfig.Slot0.kV = Constants.kRightShooterVelocityFeedFoward; // Falcon 500 is a 500kV motor, 500rpm per V = 8.333 rps per V, 1/8.33 = 0.12 volts / Rotation per second
+  
+    RightShooterMotorsConfig.MotorOutput.Inverted = Constants.kRightShooterDirection;
+
+    // Peak output of 8 volts
+    RightShooterMotorsConfig.Voltage.PeakForwardVoltage = Constants.kRightShooterMaxForwardVoltage;
+    RightShooterMotorsConfig.Voltage.PeakReverseVoltage = Constants.kRightShooterMaxReverseVoltage;
+
+    RightShooterMotorsConfig.CurrentLimits.SupplyCurrentLimit = Constants.kRightShooterSupplyCurrentLimit;
+    RightShooterMotorsConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.kRightShooterVoltageClosedLoopRampPeriod;
+    
+    StatusCode rightShooterStatus = StatusCode.StatusCodeNotInitialized;
+    for(int i = 0; i < 5; ++i) {
+      rightShooterStatus = m_SpinRightShooter.getConfigurator().apply(RightShooterMotorsConfig);
+      if (rightShooterStatus.isOK()) break;
+    }
+    if (!rightShooterStatus.isOK()) {
+      System.out.println("Could not configure device. Error: " + rightShooterStatus.toString());
+    }
+  }
+
+  public void configureSpinLeftShooter(TalonFX spinLeftShooter){
+    TalonFXConfiguration LeftShooterMotorsConfig = new TalonFXConfiguration();
+
+    LeftShooterMotorsConfig.Slot0.kP = Constants.kLeftShooterProportional; // An error of 1 rotation per second results in 2V output
+    LeftShooterMotorsConfig.Slot0.kI = Constants.kLeftShooterIntegral; // An error of 1 rotation per second increases output by 0.5V every second
+    LeftShooterMotorsConfig.Slot0.kD = Constants.kLeftShooterDerivative; // A change of 1 rotation per second squared results in 0.01 volts output
+    LeftShooterMotorsConfig.Slot0.kV = Constants.kLeftShooterVelocityFeedFoward; // Falcon 500 is a 500kV motor, 500rpm per V = 8.333 rps per V, 1/8.33 = 0.12 volts / Rotation per second
+  
+    LeftShooterMotorsConfig.MotorOutput.Inverted = Constants.kLeftShooterDirection;
+
+    // Peak output of 8 volts
+    LeftShooterMotorsConfig.Voltage.PeakForwardVoltage = Constants.kLeftShooterMaxForwardVoltage;
+    LeftShooterMotorsConfig.Voltage.PeakReverseVoltage = Constants.kLeftShooterMaxReverseVoltage;
+
+    LeftShooterMotorsConfig.CurrentLimits.SupplyCurrentLimit = Constants.kLeftShooterSupplyCurrentLimit;
+    LeftShooterMotorsConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.kLeftShooterVoltageClosedLoopRampPeriod;
+
+    LeftShooterMotorsConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.kShooterArmRotateVoltageClosedLoopRampPeriod;
+    
+    StatusCode leftShooterStatus = StatusCode.StatusCodeNotInitialized;
+    for(int i = 0; i < 5; ++i) {
+      leftShooterStatus = m_SpinLeftShooter.getConfigurator().apply(LeftShooterMotorsConfig);
+      if (leftShooterStatus.isOK()) break;
+    }
+    if (!leftShooterStatus.isOK()) {
+      System.out.println("Could not configure device. Error: " + leftShooterStatus.toString());
+    }
+  }
+
+
+
 
   @Override
   public void initSendable(SendableBuilder builder){
