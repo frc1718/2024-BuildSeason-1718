@@ -106,10 +106,9 @@ public class FrontIntakeSubsystem extends SubsystemBase {
   
   public void configureFrontIntakeCancoder(CANcoder frontIntakeCancoder){  
     CANcoderConfiguration frontIntakeRotateCANcoderConfig = new CANcoderConfiguration();
-    frontIntakeRotateCANcoderConfig.MagnetSensor.MagnetOffset = 0.0;
+    frontIntakeRotateCANcoderConfig.MagnetSensor.MagnetOffset = -0.398926;
     frontIntakeRotateCANcoderConfig.MagnetSensor.AbsoluteSensorRange = AbsoluteSensorRangeValue.Unsigned_0To1;
     frontIntakeRotateCANcoderConfig.MagnetSensor.SensorDirection = SensorDirectionValue.Clockwise_Positive;
-
   }
 
   /**
