@@ -6,14 +6,15 @@ package frc.robot.subsystems;
 
 
 import com.ctre.phoenix6.StatusCode;
-import com.ctre.phoenix6.configs.MotionMagicConfigs;
+//import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
-import com.ctre.phoenix6.controls.MotionMagicVoltage;
+//import com.ctre.phoenix6.controls.MotionMagicVoltage;
+import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
-import edu.wpi.first.wpilibj.Servo;
+//import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -30,23 +31,30 @@ public class ClimberSubsystem extends SubsystemBase {
   TalonFX m_LeftClimb = new TalonFX(Constants.kLeftClimbCanID, "Canivore");
   TalonFX m_RightClimb = new TalonFX(Constants.kRightClimbCanID, "Canivore");
 
-
-  private final MotionMagicVoltage climberMove = new MotionMagicVoltage(0.0, true, 0, 0, false, false, false);
-  
+  //private final MotionMagicVoltage climberMove = new MotionMagicVoltage(0.0, true, 0, 0, false, false, false);
+  private final PositionVoltage climberMoveRequest = new PositionVoltage(0).withSlot(0);
   /**
    * Constructs an instance of the climber subsystem.
    * The motor configuration for the climber is done here.
    */
   public ClimberSubsystem() {
+    this.configureLeftClimb(m_LeftClimb);
+    this.configureRightClimb(m_RightClimb);
+  }
 
+  /**
+   * Configures Climber Motors
+   * 
+   */
+  public void configureLeftClimb(TalonFX leftClimb){
  
     //Start Configuring Climbers
     TalonFXConfiguration climberConfig = new TalonFXConfiguration();
-    MotionMagicConfigs climberMotionMagic = climberConfig.MotionMagic;
-    climberMotionMagic.MotionMagicCruiseVelocity = Constants.kClimberMotionMagicCruiseVelocity; // 5 rotations per second cruise if this is 5
-    climberMotionMagic.MotionMagicAcceleration = Constants.kClimberMotionMagicAcceleration; // Take approximately 0.5 seconds to reach max vel if this is 10
+    //MotionMagicConfigs climberMotionMagic = climberConfig.MotionMagic;
+    //climberMotionMagic.MotionMagicCruiseVelocity = Constants.kClimberMotionMagicCruiseVelocity; // 5 rotations per second cruise if this is 5
+    //climberMotionMagic.MotionMagicAcceleration = Constants.kClimberMotionMagicAcceleration; // Take approximately 0.5 seconds to reach max vel if this is 10
     // Take approximately 0.2 seconds to reach max accel 
-    climberMotionMagic.MotionMagicJerk = Constants.kClimberMotionMagicJerk;
+    //climberMotionMagic.MotionMagicJerk = Constants.kClimberMotionMagicJerk;
 
     climberConfig.CurrentLimits.SupplyCurrentLimit = Constants.kClimberSupplyCurrentLimit;
     climberConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.kClimberVoltageClosedLoopRampPeriod;
@@ -55,22 +63,22 @@ public class ClimberSubsystem extends SubsystemBase {
     slot0.kP = Constants.kClimberProportional;
     slot0.kI = Constants.kClimberIntegral;
     slot0.kD = Constants.kClimberDerivative;
-    slot0.kV = Constants.kClimberVelocityFeedFoward;
-    slot0.kS = Constants.kClimberStaticFeedFoward; // The value of s is approximately the number of volts needed to get the mechanism moving
-
+    //slot0.kV = Constants.kClimberVelocityFeedFoward;
+    //slot0.kS = Constants.kClimberStaticFeedFoward; // The value of s is approximately the number of volts needed to get the mechanism moving
+ 
     StatusCode climberStatus = StatusCode.StatusCodeNotInitialized;
     for(int i = 0; i < 5; ++i) {
-      climberStatus = m_LeftClimb.getConfigurator().apply(climberConfig);
+      climberStatus = leftClimb.getConfigurator().apply(climberConfig);
       if (climberStatus.isOK()) break;
     }
     if (!climberStatus.isOK()) {
       System.out.println("Could not configure device. Error: " + climberStatus.toString());
     }
+  }
 
-    m_RightClimb.setControl(new Follower(Constants.kLeftClimbCanID, true));
+  public void configureRightClimb(TalonFX rightClimb){
+    rightClimb.setControl(new Follower(Constants.kLeftClimbCanID, true));
     //End Configuration
-
-
   }
 
   /**
@@ -78,9 +86,11 @@ public class ClimberSubsystem extends SubsystemBase {
    * @param desiredPosition Desired climber position, in rotations.
    */
   public void setClimberDesiredPosition(double desiredPosition) {
-    System.out.println("Subsystem: Climber - setClimberDesiredPosition");
-    m_LeftClimb.setControl(climberMove.withPosition(desiredPosition));
-    m_desiredPosition = desiredPosition;
+    if (Constants.kMotorEnableClimber == 1) {
+      System.out.println("Subsystem: Climber - setClimberDesiredPosition");
+      m_LeftClimb.setControl(climberMoveRequest.withPosition(desiredPosition));
+    }
+      m_desiredPosition = desiredPosition;
   }
 
   /**

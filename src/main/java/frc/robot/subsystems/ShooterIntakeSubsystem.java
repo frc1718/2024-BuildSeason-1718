@@ -34,7 +34,6 @@ public class ShooterIntakeSubsystem extends SubsystemBase {
   //=======================================shouldn't we be doing something with velocity voltage motor here to set it up?
   m_BeamBreakIntakeAnalog.setAverageBits(4);
   m_BeamBreakShooterAnalog.setAverageBits(4);
-  
   }
   
   // Start of sensor related methods
@@ -46,7 +45,7 @@ public class ShooterIntakeSubsystem extends SubsystemBase {
   public boolean getNotePresentIntake() {  
     //This will print out constantly because it's on a trigger
     //System.out.println("Subsystem: Shooter - getNotePresentShooter Voltage " + m_BeamBreakShooterAnalog.getAverageVoltage());
-    //This needs to be both on a debounce AND to have hysterisis programmed in
+    //getAverageVoltage uses the setAverageBits to average
     return (m_BeamBreakIntakeAnalog.getAverageVoltage() >= Constants.kIntakeBeamBreakCrossover);
     
   }
@@ -58,7 +57,8 @@ public class ShooterIntakeSubsystem extends SubsystemBase {
    */
   public boolean getNotePresentShooter() {  
     //This will print out constantly because it's on a constant trigger
-    //System.out.println("Subsystem: Shooter - getNotePresentShooter Voltage " + m_BeamBreakShooterAnalog.getAverageVoltage());   
+    //System.out.println("Subsystem: Shooter - getNotePresentShooter Voltage " + m_BeamBreakShooterAnalog.getAverageVoltage());
+    //getAverageVoltage uses the setAverageBits to average   
     return (m_BeamBreakShooterAnalog.getAverageVoltage() >= Constants.kShooterBeamBreakCrossover);
     
   }
@@ -80,8 +80,10 @@ public class ShooterIntakeSubsystem extends SubsystemBase {
    * @param speed The desired speed of the shooter intake, in rotations per second.
    */
   public void setShooterIntakeSpeed(double speed) {
-    System.out.println("ShooterIntakeSubsystem: setShooterIntakeSpeed");
-    m_ShooterIntakeSpin.setControl(ShooterIntakeVelocity.withVelocity(speed));
+    if (Constants.kMotorEnableShooterIntakeSpin==1){
+      System.out.println("ShooterIntakeSubsystem: setShooterIntakeSpeed");
+      m_ShooterIntakeSpin.setControl(ShooterIntakeVelocity.withVelocity(speed));
+    }
   }
 
   /**

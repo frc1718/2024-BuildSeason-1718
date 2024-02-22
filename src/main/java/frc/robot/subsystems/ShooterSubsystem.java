@@ -9,7 +9,8 @@ import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
-import com.ctre.phoenix6.controls.MotionMagicVoltage;
+import com.ctre.phoenix6.controls.PositionVoltage;
+//import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -44,8 +45,8 @@ public class ShooterSubsystem extends SubsystemBase {
   CANcoder m_ShooterArmCANcoder = new CANcoder(Constants.kShooterArmCancoderCanID);
   
   private final VelocityVoltage ShooterVelocity = new VelocityVoltage(0.0, 0.0, true, 0,0, false, false, false);
-  private final MotionMagicVoltage ShooterArmPosition = new MotionMagicVoltage(0.0, true, 0, 0, false, false, false);
-  
+  //private final MotionMagicVoltage ShooterArmPosition = new MotionMagicVoltage(0.0, true, 0, 0, false, false, false);
+  private final PositionVoltage ShooterArmPositionRequest = new PositionVoltage(0).withSlot(0);
 
   /**
    * Constructs an instance of the shooter subsystem.
@@ -113,8 +114,10 @@ public class ShooterSubsystem extends SubsystemBase {
    * @param position The position of the shooter arm, in rotations.
    */
   public void setShooterArmPosition(double position) {
-    System.out.println("ShooterSubsystem: setShooterArmPosition");
-    m_ShooterArmRotateLeft.setControl(ShooterArmPosition.withPosition(position));
+    if (Constants.kMotorEnableShooterArmRotate ==1){
+      System.out.println("ShooterSubsystem: setShooterArmPosition");
+      m_ShooterArmRotateLeft.setControl(ShooterArmPositionRequest.withPosition(position));
+    }
     m_desiredPosition = position;
   }
 
@@ -220,6 +223,7 @@ public class ShooterSubsystem extends SubsystemBase {
     slot0.kP = Constants.kShooterArmRotateProportional;
     slot0.kI = Constants.kShooterArmRotateIntegral;
     slot0.kD = Constants.kShooterArmRotateDerivative;
+    slot0.kG = Constants.kShooterArmRotateGravity;
     //slot0.kV = Constants.kShooterArmRotateVelocityFeedFoward;
     //slot0.kS = Constants.kShooterArmRotateStaticFeedFoward; // The value of s is approximately the number of volts needed to get the mechanism moving
 
