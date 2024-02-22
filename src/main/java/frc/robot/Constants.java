@@ -39,6 +39,30 @@ public class Constants {
     public static final double kShooterBeamBreakCrossover = 0.9;
     // End Analog IO
 
+    // Start Motor Enables Swerve  These are currently always enabled because....CTRE
+    //public static final int kMotorEnableRightFrontSwerveDrive = 1;
+    //public static final int kMotorEnableRightFrontSwerveSteer = 1;
+    //public static final int kMotorEnableRightRearSwerveDrive = 1;
+    //public static final int kMotorEnableRightRearSwerveSteer = 1;
+    //public static final int kMotorEnableLeftFrontSwerveDrive = 1;
+    //public static final int kMotorEnableLeftFrontSwerveSteer = 1;
+    //public static final int kMotorEnableLeftRearSwerveDrive = 1;
+    //public static final int kMotorEnableLeftRearSwerveSteer = 1;
+
+    // Start Motor Enables Front Intake
+    public static final int kMotorEnableFrontIntakeSpin = 1;
+    public static final int kMotorEnableFrontIntakeRotate =1;
+
+    //Start Motor Enables Shooter
+    public static final int kMotorEnableLeftShooterSpin = 1;
+    public static final int kMotorEnableRightShooterSpin = 1;
+    public static final int kMotorEnableShooterIntakeSpin = 1;
+    public static final int kMotorEnableShooterArmRotate = 1;
+
+    //Start Motor Enables Climber
+    public static final int kMotorEnableClimber = 1;
+    // End Motor Enables
+
     // Start Positions
     public static final int kShooterArmSubwooferPos = 0;
     public static final int kShooterArmPodiumPos = 0;
@@ -131,13 +155,14 @@ public class Constants {
     public static final int kShooterArmRotateProportional = 0;
     public static final int kShooterArmRotateIntegral = 0;
     public static final int kShooterArmRotateDerivative = 0;
-    public static final int kShooterArmRotateVelocityFeedFoward = 0;
-    public static final int kShooterArmRotateStaticFeedFoward = 0;
+    public static final int kShooterArmRotateGravity = 0;
+    //public static final int kShooterArmRotateVelocityFeedFoward = 0;
+    //public static final int kShooterArmRotateStaticFeedFoward = 0;
     public static final int kShooterArmRotateMaxForwardVoltage = 0;
     public static final int kShooterArmRotateMaxReverseVoltage = 0;
-    public static final int kShooterArmRotateMotionMagicCruiseVelocity = 0;
-    public static final int kShooterArmRotateMotionMagicAcceleration = 0;
-    public static final int kShooterArmRotateMotionMagicJerk = 0;
+    //public static final int kShooterArmRotateMotionMagicCruiseVelocity = 0;
+    //public static final int kShooterArmRotateMotionMagicAcceleration = 0;
+    //public static final int kShooterArmRotateMotionMagicJerk = 0;
     public static final int kShooterArmRotateSupplyCurrentLimit = 0;
     public static final int kShooterArmRotateVoltageClosedLoopRampPeriod = 0;
     public static final int kShooterArmCancoderOffeset = 0;
@@ -149,13 +174,14 @@ public class Constants {
     public static final int kFrontIntakeRotateProportional = 0;
     public static final int kFrontIntakeRotateIntegral = 0;
     public static final int kFrontIntakeRotateDerivative = 0;
-    public static final int kFrontIntakeRotateVelocityFeedFoward = 0;
-    public static final int kFrontIntakeRotateStaticFeedFoward = 0;
+    public static final int kFrontIntakeRotateGravity = 0;
+    //public static final int kFrontIntakeRotateVelocityFeedFoward = 0;
+    //public static final int kFrontIntakeRotateStaticFeedFoward = 0;
     public static final int kFrontIntakeRotateMaxForwardVoltage = 0;
     public static final int kFrontIntakeRotateMaxReverseVoltage = 0;
-    public static final int kFrontIntakeRotateMotionMagicCruiseVelocity = 0;
-    public static final int kFrontIntakeRotateMotionMagicAcceleration = 0;
-    public static final int kFrontIntakeRotateMotionMagicJerk = 0;
+    //public static final int kFrontIntakeRotateMotionMagicCruiseVelocity = 0;
+    //public static final int kFrontIntakeRotateMotionMagicAcceleration = 0;
+    //public static final int kFrontIntakeRotateMotionMagicJerk = 0;
     public static final int kFrontIntakeRotateSupplyCurrentLimit = 0;
     public static final int kFrontIntakeRotateVoltageClosedLoopRampPeriod = 0;
     public static final int KFrontIntakeCancoderOffset = 0;
@@ -178,13 +204,13 @@ public class Constants {
     public static final int kClimberProportional = 0;
     public static final int kClimberIntegral = 0;
     public static final int kClimberDerivative = 0;
-    public static final int kClimberVelocityFeedFoward = 0;
-    public static final int kClimberStaticFeedFoward = 0;
+    //public static final int kClimberVelocityFeedFoward = 0;
+    //public static final int kClimberStaticFeedFoward = 0;
     public static final int kClimberMaxForwardVoltage = 0;
     public static final int kClimberMaxReverseVoltage = 0;
-    public static final int kClimberMotionMagicCruiseVelocity = 0;
-    public static final int kClimberMotionMagicAcceleration = 0;
-    public static final int kClimberMotionMagicJerk = 0;
+    //public static final int kClimberMotionMagicCruiseVelocity = 0;
+    //public static final int kClimberMotionMagicAcceleration = 0;
+    //public static final int kClimberMotionMagicJerk = 0;
     public static final int kClimberSupplyCurrentLimit = 0;
     public static final int kClimberVoltageClosedLoopRampPeriod = 0;
     // End Climber settings

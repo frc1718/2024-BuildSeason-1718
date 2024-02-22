@@ -64,6 +64,7 @@ public class FrontIntakeSubsystem extends SubsystemBase {
     slot0.kP = Constants.kFrontIntakeRotateProportional;
     slot0.kI = Constants.kFrontIntakeRotateIntegral;
     slot0.kD = Constants.kFrontIntakeRotateDerivative;
+    slot0.kG = Constants.kFrontIntakeRotateGravity;
 
     //slot0.kV = Constants.kFrontIntakeRotateVelocityFeedFoward;
     //slot0.kS = Constants.kFrontIntakeRotateStaticFeedFoward; // The value of s is approximately the number of volts needed to get the mechanism moving
@@ -82,7 +83,6 @@ public class FrontIntakeSubsystem extends SubsystemBase {
   }
 
   public void configureFrontIntakeSpin(TalonFX frontIntakeSpin){
-
     TalonFXConfiguration frontIntakeSpinVelocityConfig = new TalonFXConfiguration();
     frontIntakeSpinVelocityConfig.Slot0.kP = Constants.kFrontIntakeSpinProportional; // An error of 1 rotation per second results in 2V output
     frontIntakeSpinVelocityConfig.Slot0.kI = Constants.kFrontIntakeSpinIntegral; // An error of 1 rotation per second increases output by 0.5V every second
@@ -117,23 +117,23 @@ public class FrontIntakeSubsystem extends SubsystemBase {
    * @param speed The desired speed of the front intake roller, in rotations per second.
    */
   public void setFrontIntakeSpeed(double speed) {
-    m_frontIntakeSpin.setControl(frontIntakeVelocityRequest.withVelocity(speed));
-    System.out.println("FrontIntakeSubsystem - setFrontIntakeSpeed");
+    if (Constants.kMotorEnableFrontIntakeSpin == 1){
+      m_frontIntakeSpin.setControl(frontIntakeVelocityRequest.withVelocity(speed));
+      System.out.println("FrontIntakeSubsystem - setFrontIntakeSpeed");
+    }
     m_desiredSpeed = speed;
   }
 
   public void setFrontIntakePosition(double position) {
-    m_frontIntakeRotate.setControl(frontIntakeRotationRequest.withPosition(position));
-    System.out.println("FrontIntakeSubsystem - setFrontIntakePosition");
+    if (Constants.kMotorEnableFrontIntakeRotate==1){
+      m_frontIntakeRotate.setControl(frontIntakeRotationRequest.withPosition(position));
+      System.out.println("FrontIntakeSubsystem - setFrontIntakePosition");
+    }
     m_desiredPosition = position;
   }
 
   public double getAbsolutePosition(){
     return (m_frontIntakeRotateCANcoder.getAbsolutePosition().getValue()-Constants.KFrontIntakeCancoderOffset);
-  }
-
-  public void setFrontIntakeRotateEncoder(double counts){
-    //need to set the motor encoder position here
   }
 
   /**
