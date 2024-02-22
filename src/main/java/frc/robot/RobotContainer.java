@@ -40,6 +40,7 @@ import frc.robot.commands.Driver.ShootTrap;
 import frc.robot.commands.Driver.Spit;
 import frc.robot.commands.Driver.Suck;
 import frc.robot.generated.TunerConstants;
+import frc.robot.commands.CommandSwerveDrivetrain;
 
 //Subsystem Imports
 import frc.robot.subsystems.ShooterSubsystem;
@@ -108,7 +109,7 @@ public class RobotContainer {
     //=============================================================================
 
     // Schedules Tilt modules without driving wheels?  Maybe?
-    //driveController.b().whileTrue(drivetrain.applyRequest(() -> point.withModuleDirection(new Rotation2d(-driveController.getLeftY(), -driveController.getLeftX()))));
+    driveController.b().whileTrue(drivetrain.applyRequest(() -> point.withModuleDirection(new Rotation2d(-driveController.getLeftY(), -driveController.getLeftX()))));
     
     // Currently disabled to prevent motor missing errors
     // Schedules Brake Swerve Drivetrain Binds (x-lock wheels) Driver
