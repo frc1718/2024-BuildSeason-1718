@@ -2,6 +2,8 @@ package frc.robot;
 
 import com.ctre.phoenix6.signals.InvertedValue;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 
@@ -221,6 +223,15 @@ public class Constants {
     //Pose of the blue speaker.
     //Used to be a pose, but only the X and Y are needed.  Changed to a translation to clean up the actual calculation.
     public static final Translation2d kBlueSpeakerLocation = new Translation2d(0.0, 5.5);
+
+    //Default pose for testing.
+    //For correct swerve driving, seedFieldRelative needs to be called at least once.
+    //During competitions, the PathPlanner code will call seedFieldRelative with the starting position of the autonomous routine.
+    //For testing, this will be called during robotInit.
+    //Since the driver station defaults to 'Red 1' as the alliance station when not connected to the FMS, the default pose is for the red alliance.
+    //Change the rotation to 0 radians if you want the default pose to be the blue alliance.
+    public static final Rotation2d kDefaultRotation = new Rotation2d(Math.PI);
+    public static final Pose2d kDefaultPose = new Pose2d(0, 0, kDefaultRotation);
 
     //Interpolation for the shoot with pose command.  The values that correspond to shooting from the subwoofer and podium can also be added.
     //Both tables use distance (in meters) as the key.
