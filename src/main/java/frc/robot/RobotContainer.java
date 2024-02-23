@@ -78,6 +78,7 @@ public class RobotContainer {
       .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // I want field-centric
                                                                // driving in open loop
   private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
+  private final SwerveRequest.RobotCentric forwardStraight = new SwerveRequest.RobotCentric().withDriveRequestType(DriveRequestType.OpenLoopVoltage);
   private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
   
   //Testing an idea: hold a button and always aim at the goal.
@@ -102,7 +103,7 @@ public class RobotContainer {
                                                                                            // negative Y (forward)
             .withVelocityY(-driveController.getLeftX() * MaxSpeed) // Drive left with negative X (left)
             .withRotationalRate(-driveController.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
-        ));
+        ).ignoringDisable(true));
 
     //=============================================================================
     //======================Driver Controller Assignments==========================
@@ -117,7 +118,7 @@ public class RobotContainer {
     
     //I bet there's a much better place to put this assignment, but I don't know where.
     //These gains are also completely made up.  Not terrible in simulation, but don't trust them.
-    //rootyTootyPointAndShooty.HeadingController.setPID(20, 0, 0.05);
+    rootyTootyPointAndShooty.HeadingController.setPID(20, 0, 0.05);
 
     //Before this can be used, theres an issue with being 'above' or 'below' the coordinates of the speaker.
     //I think it's because of the -180 to +180 crossover, but unsure how to fix it currently.
@@ -188,10 +189,10 @@ public class RobotContainer {
       frontIntake.setServoPosition(0.5);;
     }));
 
-    //if (Utils.isSimulation()) {
-      //drivetrain.seedFieldRelative(new Pose2d(new Translation2d(), Rotation2d.fromDegrees(90)));
-    //}
-    //drivetrain.registerTelemetry(logger::telemeterize);
+    if (Utils.isSimulation()) {
+      drivetrain.seedFieldRelative(new Pose2d(new Translation2d(), Rotation2d.fromDegrees(90)));
+    }
+    drivetrain.registerTelemetry(logger::telemeterize);
 
 
 
