@@ -51,16 +51,7 @@
         "open": true
       },
       "SmartDashboard": {
-        "Module 0": {
-          "open": true
-        },
-        "Module 1": {
-          "open": true
-        },
-        "Module 2": {
-          "open": true
-        },
-        "Module 3": {
+        "Auton Selector": {
           "open": true
         },
         "Selecter": {
@@ -81,8 +72,5 @@
       "open": true
     },
     "visible": true
-  },
-  "NetworkTables View": {
-    "visible": false
   }
 }

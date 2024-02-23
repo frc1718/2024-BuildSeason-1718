@@ -26,7 +26,7 @@ import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.commands.LEDs.LightLEDOnNotePresent;
 import frc.robot.commands.CommandSwerveDrivetrain;
 import frc.robot.commands.Operator.PreClimb;
@@ -50,7 +50,7 @@ import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.ShooterIntakeSubsystem;
 
 public class RobotContainer {
-  private double MaxSpeed = 6; // 6 meters per second desired top speed
+  private double MaxSpeed = TunerConstants.kSpeedAt12VoltsMps; // kSpeedAt12VoltsMps desired top speed
   private double MaxAngularRate = 1.5 * Math.PI; // 3/4 of a rotation per second max angular velocity
 
   //Attempting to create a selector object.
@@ -65,14 +65,10 @@ public class RobotContainer {
   // Set operator controller up
   private final CommandXboxController operatorController = new CommandXboxController(Constants.kOperatorControllerPort);
 
-   
-  //Currently disabled to prevent missing motor error messages
   /* Setting up bindings for necessary control of the swerve drive platform */
   //The drivetrain is public so the limelight pose can be added to it in Robot.java.
-  //Could perhaps move that code into the drivetrain default command lambda, or into the periodic() method in CommandSwerveDrivetrain.
   public final CommandSwerveDrivetrain drivetrain = TunerConstants.DriveTrain; // My drivetrain
 
-  //Currently disabled to prevent missing motor error messages
   private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
       .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
       .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // I want field-centric
@@ -156,7 +152,7 @@ public class RobotContainer {
     //
     operatorController.y().onTrue(new ShooterModePodium(frontIntake, shooter));
     operatorController.b().onTrue(new ShooterModeAmp(frontIntake, shooter));
-    //operatorController.x().onTrue(new ShooterModeShootWithPose(frontIntake, shooter, drivetrain));  Since this command relies on the drivetrain, it is commented out for now.
+    operatorController.x().onTrue(new ShooterModeShootWithPose(frontIntake, shooter, drivetrain));
     operatorController.a().onTrue(new ShooterModeSubwoofer(frontIntake, shooter));
     operatorController.leftBumper().and(operatorController.rightBumper()).debounce(2).onTrue(new PreClimb(climber,shooter,frontIntake, shooterIntakeSubsystem));
 
@@ -194,8 +190,13 @@ public class RobotContainer {
     }
     drivetrain.registerTelemetry(logger::telemeterize);
 
-
-
+    /* Bindings for drivetrain characterization */
+    /* These bindings require multiple buttons pushed to swap between quastatic and dynamic */
+    /* Back/Start select dynamic/quasistatic, Y/X select forward/reverse direction */
+    driveController.back().and(driveController.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
+    driveController.back().and(driveController.x()).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
+    driveController.start().and(driveController.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
+    driveController.start().and(driveController.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
   }
 
   /**
@@ -241,8 +242,8 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return Commands.print("Selected Autonomous: " + chirpSelect.getCurrentSelectionName()); //Using the CHRP list for debugging.
+    //return Commands.print("Selected Autonomous: " + chirpSelect.getCurrentSelectionName()); //Using the CHRP list for debugging.
     //This should load the selected autonomous file.
-    //return drivetrain.getAutoPath(autonSelect.getCurrentSelectionName());
+    return drivetrain.getAutoPath(autonSelect.getCurrentSelectionName());
   }
 }
