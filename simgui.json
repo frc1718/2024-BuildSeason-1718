@@ -47,7 +47,13 @@
         },
         "open": true
       },
+      "Shuffleboard": {
+        "open": true
+      },
       "SmartDashboard": {
+        "Auton Selector": {
+          "open": true
+        },
         "Selecter": {
           "open": true
         },
