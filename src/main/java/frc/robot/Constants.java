@@ -1,6 +1,8 @@
 package frc.robot;
 
+import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.SensorDirectionValue;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -25,8 +27,8 @@ public class Constants {
     public static final int kShooterIntakeSpinCanID = 24;
     public static final int kFrontIntakeRotateCanID = 25;
     public static final int kFrontIntakeSpinCanID = 26;
-    public static final int kShooterArmCancoderCanID = 27;
-    public static final int kFrontIntakeRotateCancoderCanID = 28;
+    public static final int kFrontIntakeRotateCancoderCanID = 27;
+    public static final int kShooterArmCancoderCanID = 28;
     public static final int kSignalLightCanID = 38;
     // End CanIDs
 
@@ -66,38 +68,39 @@ public class Constants {
     // End Motor Enables
 
     // Start Positions
-    public static final int kShooterArmSubwooferPos = 0;
-    public static final int kShooterArmPodiumPos = 0;
-    public static final int kShooterArmAmpPos = 0;
-    public static final int kShooterArmHomePos = 0;
-    public static final int kShooterArmPreClimbPos = 0;
-    public static final int kShooterArmTolerancePos = 0;
-    public static final int kShooterArmSpitPos = 0;
-    public static final int kShooterArmTrapPos = 0;
+    public static final double kShooterArmSubwooferPos = -0.095;
+    public static final double kShooterArmPodiumPos = -0.0388;
+    public static final double kShooterArmAmpPos = 0.135;
+    public static final double kShooterArmHomePos = -0.136;
+    public static final double kShooterArmPreClimbPos = 0.135;
+    public static final double kShooterArmTolerancePos = 0.015;
+    public static final double kShooterArmSpitPos = 0;
+    public static final double kShooterArmTrapPos = 0.135;
 
     public static final int kClimberHomePos = 0;
     public static final int kClimberClimbPos = 0;
     public static final int kClimberPreClimbPos = 0;
     public static final int kClimberTolerancePos = 0;
     
-    public static final int kFrontIntakeDownPos = 0;  //Down so we can suck in
-    public static final int kFrontIntakeHomePos = 0; //Starting position.  On hardstops
-    public static final int kFrontIntakeTolerancePos = 0;
-    public static final int kFrontIntakeClearPos = 0; //Clear is clear of the shooterarm motion
-    public static final int kFrontIntakeStowPos = 0; //Stow is just inside the bumper
+    public static final double kFrontIntakeDownPos = 0;  //Down so we can suck in
+    public static final double kFrontIntakeHomePos = 0.38; //Starting position.  On hardstops
+    public static final double kFrontIntakeTolerancePos = 0.015;
+    public static final double kFrontIntakeClearPos = 0.239; //Clear is clear of the shooterarm motion
+    public static final double kFrontIntakeStowPos = 0.38; //Stow is just inside the bumper
 
     public static final int kShooterIntakePivotReleasedPos = 0;
     // End Positions
 
     // Start Speeds
-    public static final int kShooterSubwooferSpeed = 0;
-    public static final int kShooterPodiumSpeed = 0;
-    public static final int kShooterAmpSpeed = 0;
+    public static final int kShooterSubwooferSpeed = 70;
+    public static final int kShooterPodiumSpeed = 70;
+    public static final int kShooterAmpSpeed = 20;
     public static final int kShooterPoseSpeed = 0;
-    public static final int kShooterIdleSpeed = 0;
-    public static final int kShooterMaxSpeed = 0;
+    public static final int kShooterIdleSpeed = 30;
+    public static final int kShooterMaxSpeed = 80;
     public static final int kShooterStopSpeed = 0;
     
+    public static final InvertedValue kShooterIntakeDirection = InvertedValue.Clockwise_Positive;
     public static final int kShooterIntakeTrapSpeed = 0;
     public static final int kShooterIntakeSuckSpeed = 0;
     public static final int kShooterIntakeStopSpeed = 0;
@@ -130,90 +133,111 @@ public class Constants {
     // Start Motor Setting Values
     
     // Start LeftShooter settings
-    public static final InvertedValue kLeftShooterDirection = InvertedValue.CounterClockwise_Positive;
-    public static final int kLeftShooterProportional = 0;
-    public static final int kLeftShooterIntegral = 0;
-    public static final int kLeftShooterDerivative = 0;
-    public static final int kLeftShooterVelocityFeedFoward = 0;
-    public static final int kLeftShooterMaxForwardVoltage = 0;
-    public static final int kLeftShooterMaxReverseVoltage = 0;
-    public static final int kLeftShooterSupplyCurrentLimit = 0;
+    public static final InvertedValue kLeftShooterDirection = InvertedValue.Clockwise_Positive;
+    public static final double kLeftShooterProportional = 0.5;
+    public static final double kLeftShooterIntegral = 0;
+    public static final double kLeftShooterDerivative = 0;
+    public static final double kLeftShooterVelocityFeedFoward = 0.135;
+    public static final int kLeftShooterMaxForwardVoltage = 11;
+    public static final int kLeftShooterMaxReverseVoltage = -11;
+    public static final int kLeftShooterSupplyCurrentLimit = 50;
     public static final int kLeftShooterVoltageClosedLoopRampPeriod = 0;
     // End LeftShooter settings
     
     // Start RightShooter settings
-    public static final InvertedValue kRightShooterDirection = InvertedValue.Clockwise_Positive;
-    public static final int kRightShooterProportional = 0;
-    public static final int kRightShooterIntegral = 0;
-    public static final int kRightShooterDerivative = 0;
-    public static final int kRightShooterVelocityFeedFoward = 0;
-    public static final int kRightShooterMaxForwardVoltage = 0;
-    public static final int kRightShooterMaxReverseVoltage = 0;
-    public static final int kRightShooterSupplyCurrentLimit = 0;
+    public static final InvertedValue kRightShooterDirection = InvertedValue.CounterClockwise_Positive;
+    public static final double kRightShooterProportional = 0.5;
+    public static final double kRightShooterIntegral = 0;
+    public static final double kRightShooterDerivative = 0;
+    public static final double kRightShooterVelocityFeedFoward = .135;
+    public static final int kRightShooterMaxForwardVoltage = 11;
+    public static final int kRightShooterMaxReverseVoltage = -11;
+    public static final int kRightShooterSupplyCurrentLimit = 50;
     public static final int kRightShooterVoltageClosedLoopRampPeriod = 0;
     // End RightShooter settings
 
     // Start ShooterArmRotate settings
-    public static final int kShooterArmRotateProportional = 0;
-    public static final int kShooterArmRotateIntegral = 0;
-    public static final int kShooterArmRotateDerivative = 0;
-    public static final int kShooterArmRotateGravity = 0;
-    //public static final int kShooterArmRotateVelocityFeedFoward = 0;
+    public static final InvertedValue kShooterArmRotateDirection = InvertedValue.Clockwise_Positive;
+    public static final double kShooterArmRotateProportional = 35;
+    public static final double kShooterArmRotateIntegral = 0;
+    public static final double kShooterArmRotateDerivative = 0;
+    public static final double kShooterArmRotateGravity = 0.3;
+    public static final double kShooterArmRotateVelocityFeedFoward = 40;
     //public static final int kShooterArmRotateStaticFeedFoward = 0;
-    public static final int kShooterArmRotateMaxForwardVoltage = 0;
-    public static final int kShooterArmRotateMaxReverseVoltage = 0;
-    //public static final int kShooterArmRotateMotionMagicCruiseVelocity = 0;
-    //public static final int kShooterArmRotateMotionMagicAcceleration = 0;
-    //public static final int kShooterArmRotateMotionMagicJerk = 0;
-    public static final int kShooterArmRotateSupplyCurrentLimit = 0;
+    public static final int kShooterArmRotateMaxForwardVoltage = 11;
+    public static final int kShooterArmRotateMaxReverseVoltage = -11;
+    public static final double kShooterArmRotateMotionMagicCruiseVelocity = 0.25;
+    public static final double kShooterArmRotateMotionMagicAcceleration = 1;
+    public static final int kShooterArmRotateMotionMagicJerk = 0;
+    public static final int kShooterArmRotateSupplyCurrentLimit = 40;
     public static final int kShooterArmRotateVoltageClosedLoopRampPeriod = 0;
-    public static final int kShooterArmCancoderOffeset = 0;
     // End ShooterArmRotate settings
-    public static final int kArmRotateRotorToSensorRatio = 0;
+    public static final int kShooterArmRotateCancoderRotorToSensorRatio = 300;
+    public static final SensorDirectionValue kShooterArmRotateCancoderDirection = SensorDirectionValue.Clockwise_Positive;
+    public static final AbsoluteSensorRangeValue kShooterArmRotateCancoderRange = AbsoluteSensorRangeValue.Signed_PlusMinusHalf;
+    public static final double kShooterArmRotateCancoderOffset = 0;
     // ShooterArmRotateCancoder settings above /\     /\     /\
 
     // Start FrontIntakeRotate settings
-    public static final int kFrontIntakeRotateProportional = 0;
-    public static final int kFrontIntakeRotateIntegral = 0;
-    public static final int kFrontIntakeRotateDerivative = 0;
-    public static final int kFrontIntakeRotateGravity = 0;
-    //public static final int kFrontIntakeRotateVelocityFeedFoward = 0;
+    public static final InvertedValue kFrontIntakeRotateDirection = InvertedValue.Clockwise_Positive;
+    public static final double kFrontIntakeRotateProportional = 10;
+    public static final double kFrontIntakeRotateIntegral = 0;
+    public static final double kFrontIntakeRotateDerivative = 0;
+    public static final double kFrontIntakeRotateGravity = 0.28;
+    public static final double kFrontIntakeRotateVelocityFeedFoward = 7.2;
     //public static final int kFrontIntakeRotateStaticFeedFoward = 0;
-    public static final int kFrontIntakeRotateMaxForwardVoltage = 0;
-    public static final int kFrontIntakeRotateMaxReverseVoltage = 0;
-    //public static final int kFrontIntakeRotateMotionMagicCruiseVelocity = 0;
-    //public static final int kFrontIntakeRotateMotionMagicAcceleration = 0;
-    //public static final int kFrontIntakeRotateMotionMagicJerk = 0;
-    public static final int kFrontIntakeRotateSupplyCurrentLimit = 0;
+    public static final int kFrontIntakeRotateMaxForwardVoltage = 11;
+    public static final int kFrontIntakeRotateMaxReverseVoltage = -11;
+    public static final double kFrontIntakeRotateMotionMagicCruiseVelocity = 4;
+    public static final double kFrontIntakeRotateMotionMagicAcceleration = 10;
+    public static final double kFrontIntakeRotateMotionMagicJerk = 0;
+    public static final int kFrontIntakeRotateSupplyCurrentLimit = 20;
     public static final int kFrontIntakeRotateVoltageClosedLoopRampPeriod = 0;
     public static final int KFrontIntakeCancoderOffset = 0;
     // End FrontIntakeRotate settings
-    public static final int kFrontIntakeRotateRotorToSensorRatio = 0;
+    public static final double kFrontIntakeRotateRotorToSensorRatio = 56.25;
+    public static final SensorDirectionValue kFrontIntakeRotateCancoderDirection = SensorDirectionValue.Clockwise_Positive;
+    public static final AbsoluteSensorRangeValue kFrontIntakeRotateCancoderRange = AbsoluteSensorRangeValue.Signed_PlusMinusHalf;
+    public static final double kFrontIntakeRotateCancoderOffset = -0.398926;
     // FrontIntakeRotateCancoder settings above /\     /\     /\
 
     // Start FrontIntakeSpin settings
-    public static final int kFrontIntakeSpinProportional = 0;
-    public static final int kFrontIntakeSpinIntegral = 0;
-    public static final int kFrontIntakeSpinDerivative = 0;
-    public static final int kFrontIntakeSpinVelocityFeedFoward = 0;
-    public static final int kFrontIntakeSpinMaxForwardVoltage = 0;
-    public static final int kFrontIntakeSpinMaxReverseVoltage = 0;
-    public static final int kFrontIntakeSpinSupplyCurrentLimit = 0;
+    public static final InvertedValue kFrontIntakeSpinDirection = InvertedValue.Clockwise_Positive;
+    public static final double kFrontIntakeSpinProportional = .715;
+    public static final double kFrontIntakeSpinIntegral = 0;
+    public static final double kFrontIntakeSpinDerivative = 0;
+    public static final double kFrontIntakeSpinVelocityFeedFoward = 0.122;
+    public static final int kFrontIntakeSpinMaxForwardVoltage = 11;
+    public static final int kFrontIntakeSpinMaxReverseVoltage = -11;
+    public static final int kFrontIntakeSpinSupplyCurrentLimit = 20;
     public static final int kFrontIntakeSpinVoltageClosedLoopRampPeriod = 0;
     // End FrontIntakeSpin settings
 
+    // Start ShooterIntakeSpin settings
+    public static final InvertedValue kShooterIntakeSpinDirection = InvertedValue.Clockwise_Positive;
+    public static final double kShooterIntakeSpinProportional = .6;
+    public static final double kShooterIntakeSpinIntegral = 0;
+    public static final double kShooterIntakeSpinDerivative = 0;
+    public static final double kShooterIntakeSpinVelocityFeedFoward = 0.136;
+    public static final int kShooterIntakeSpinMaxForwardVoltage = 11;
+    public static final int kShooterIntakeSpinMaxReverseVoltage = -11;
+    public static final int kShooterIntakeSpinSupplyCurrentLimit = 40;
+    public static final int kShooterIntakeSpinVoltageClosedLoopRampPeriod = 0;
+    // End ShooterIntakeSpin settings
+
     // Start Climber settings
+    public static final InvertedValue kClimberDirection = InvertedValue.Clockwise_Positive;
     public static final int kClimberProportional = 0;
     public static final int kClimberIntegral = 0;
     public static final int kClimberDerivative = 0;
-    //public static final int kClimberVelocityFeedFoward = 0;
+    public static final int kClimberVelocityFeedFoward = 0;
     //public static final int kClimberStaticFeedFoward = 0;
-    public static final int kClimberMaxForwardVoltage = 0;
-    public static final int kClimberMaxReverseVoltage = 0;
-    //public static final int kClimberMotionMagicCruiseVelocity = 0;
-    //public static final int kClimberMotionMagicAcceleration = 0;
+    public static final int kClimberMaxForwardVoltage = 11;
+    public static final int kClimberMaxReverseVoltage = -11;
+    public static final int kClimberMotionMagicCruiseVelocity = 0;
+    public static final int kClimberMotionMagicAcceleration = 0;
     //public static final int kClimberMotionMagicJerk = 0;
-    public static final int kClimberSupplyCurrentLimit = 0;
+    public static final int kClimberSupplyCurrentLimit = 50;
     public static final int kClimberVoltageClosedLoopRampPeriod = 0;
     // End Climber settings
     
@@ -238,6 +262,7 @@ public class Constants {
     public static final InterpolatingDoubleTreeMap kShooterSpeedTable = new InterpolatingDoubleTreeMap();
     public static final InterpolatingDoubleTreeMap kShooterArmTable = new InterpolatingDoubleTreeMap();
 
+    /*
     static {
         //Populating the shooter speed table.  Values are in rotations per second.
         //As of Feb-13, these values are completely made up.
@@ -248,15 +273,17 @@ public class Constants {
         kShooterSpeedTable.put(8.0, 500.0);
         kShooterSpeedTable.put(10.0, 600.0);       
     }
+    */
 
     static {
         //Populating the shooter arm position table.  Values are in degrees.
         //As of Feb-13, these values are completely made up.
-        kShooterArmTable.put(0.0, 85.0);
-        kShooterArmTable.put(2.0, 75.0);
-        kShooterArmTable.put(4.0, 65.0);
-        kShooterArmTable.put(6.0, 55.0);
-        kShooterArmTable.put(8.0, 45.0);
-        kShooterArmTable.put(10.0, 35.0);       
+        //(Distance in meters, Angle in rotations)
+        kShooterArmTable.put(1.0033, -0.095);
+        kShooterArmTable.put(2.6289, -0.0388);
+        //kShooterArmTable.put(4.0, 65.0);
+        //kShooterArmTable.put(6.0, 55.0);
+        //kShooterArmTable.put(8.0, 45.0);
+        //kShooterArmTable.put(10.0, 35.0);       
     }
 }

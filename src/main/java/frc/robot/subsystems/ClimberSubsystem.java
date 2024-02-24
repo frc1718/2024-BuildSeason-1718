@@ -6,13 +6,16 @@ package frc.robot.subsystems;
 
 
 import com.ctre.phoenix6.StatusCode;
-//import com.ctre.phoenix6.configs.MotionMagicConfigs;
+import com.ctre.phoenix6.configs.MotionMagicConfigs;
+import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
-//import com.ctre.phoenix6.controls.MotionMagicVoltage;
+import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.GravityTypeValue;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 
 //import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.util.sendable.SendableBuilder;
@@ -50,20 +53,25 @@ public class ClimberSubsystem extends SubsystemBase {
  
     //Start Configuring Climbers
     TalonFXConfiguration climberConfig = new TalonFXConfiguration();
-    //MotionMagicConfigs climberMotionMagic = climberConfig.MotionMagic;
-    //climberMotionMagic.MotionMagicCruiseVelocity = Constants.kClimberMotionMagicCruiseVelocity; // 5 rotations per second cruise if this is 5
-    //climberMotionMagic.MotionMagicAcceleration = Constants.kClimberMotionMagicAcceleration; // Take approximately 0.5 seconds to reach max vel if this is 10
+    MotionMagicConfigs climberMotionMagic = climberConfig.MotionMagic;
+    climberMotionMagic.MotionMagicCruiseVelocity = Constants.kClimberMotionMagicCruiseVelocity; // 5 rotations per second cruise if this is 5
+    climberMotionMagic.MotionMagicAcceleration = Constants.kClimberMotionMagicAcceleration; // Take approximately 0.5 seconds to reach max vel if this is 10
     // Take approximately 0.2 seconds to reach max accel 
     //climberMotionMagic.MotionMagicJerk = Constants.kClimberMotionMagicJerk;
 
+    climberConfig.MotorOutput.Inverted = Constants.kClimberDirection;
+    climberConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
     climberConfig.CurrentLimits.SupplyCurrentLimit = Constants.kClimberSupplyCurrentLimit;
     climberConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.kClimberVoltageClosedLoopRampPeriod;
+    climberConfig.Voltage.PeakForwardVoltage = Constants.kClimberMaxForwardVoltage;
+    climberConfig.Voltage.PeakReverseVoltage = Constants.kClimberMaxReverseVoltage;
 
     Slot0Configs slot0 = climberConfig.Slot0;
     slot0.kP = Constants.kClimberProportional;
     slot0.kI = Constants.kClimberIntegral;
     slot0.kD = Constants.kClimberDerivative;
-    //slot0.kV = Constants.kClimberVelocityFeedFoward;
+    slot0.GravityType = GravityTypeValue.Elevator_Static;
+    slot0.kV = Constants.kClimberVelocityFeedFoward;
     //slot0.kS = Constants.kClimberStaticFeedFoward; // The value of s is approximately the number of volts needed to get the mechanism moving
  
     StatusCode climberStatus = StatusCode.StatusCodeNotInitialized;
@@ -141,6 +149,22 @@ public class ClimberSubsystem extends SubsystemBase {
    */
   public boolean getClimberInPosition() {
     return ((this.getClimberPosition() > (m_desiredPosition - Constants.kClimberTolerancePos)) && (this.getClimberPosition() < (m_desiredPosition + Constants.kClimberTolerancePos)));
+  }
+
+  public void SetLeftClimberNeutralMode(NeutralModeValue NeutralMode) {
+    var neuMotOut = new MotorOutputConfigs();
+    var currentConfigurator = m_LeftClimb.getConfigurator();
+    currentConfigurator.refresh(neuMotOut);
+    neuMotOut.NeutralMode = NeutralMode;
+    currentConfigurator.apply(neuMotOut);
+  }
+
+  public void SetRightClimberNeutralMode(NeutralModeValue NeutralMode) {
+    var neuMotOut = new MotorOutputConfigs();
+    var currentConfigurator = m_RightClimb.getConfigurator();
+    currentConfigurator.refresh(neuMotOut);
+    neuMotOut.NeutralMode = NeutralMode;
+    currentConfigurator.apply(neuMotOut);
   }
 
   @Override

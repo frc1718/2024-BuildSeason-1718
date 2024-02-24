@@ -50,7 +50,7 @@ public class LightLEDOnNotePresent extends Command {
   @Override
   public void execute() {
     
-    System.out.println("Command LightLEDOnNotePresent: Running");
+    //System.out.println("Command LightLEDOnNotePresent: Running");
       m_LEDSubsystem.SetLightIntensity(1);
 
       if (!m_shooterIntakeSubsystem.getNotePresent()){

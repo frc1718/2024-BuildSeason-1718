@@ -7,15 +7,19 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
+import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
-import com.ctre.phoenix6.signals.SensorDirectionValue;
+import com.ctre.phoenix6.signals.GravityTypeValue;
+import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.Servo;
@@ -34,7 +38,7 @@ public class FrontIntakeSubsystem extends SubsystemBase {
   Servo m_frontIntakeServo = new Servo(0);
 
   private final VelocityVoltage frontIntakeVelocityRequest = new VelocityVoltage(0, 0, true, 0, 0, false, false, false);
-  private final PositionVoltage frontIntakeRotationRequest = new PositionVoltage(0).withSlot(0);
+  private final MotionMagicVoltage frontIntakeRotationRequest = new MotionMagicVoltage(0.0, true, 0.0, 0, false, false, false);
   
   public double m_desiredPosition = 0;
   public double m_desiredSpeed = 0;
@@ -60,11 +64,21 @@ public class FrontIntakeSubsystem extends SubsystemBase {
     frontIntakeRotateConfig.CurrentLimits.SupplyCurrentLimit = Constants.kFrontIntakeRotateSupplyCurrentLimit;
     frontIntakeRotateConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.kFrontIntakeRotateVoltageClosedLoopRampPeriod;
 
+    frontIntakeRotateConfig.MotorOutput.Inverted = Constants.kFrontIntakeRotateDirection;
+    frontIntakeRotateConfig.Voltage.PeakForwardVoltage = Constants.kFrontIntakeRotateMaxForwardVoltage;
+    frontIntakeRotateConfig.Voltage.PeakReverseVoltage = Constants.kFrontIntakeRotateMaxReverseVoltage;
+    frontIntakeRotateConfig.MotionMagic.MotionMagicAcceleration = Constants.kFrontIntakeRotateMotionMagicAcceleration;
+    frontIntakeRotateConfig.MotionMagic.MotionMagicCruiseVelocity = Constants.kFrontIntakeRotateMotionMagicCruiseVelocity;
+    //frontIntakeRotateConfig.MotionMagic.MotionMagicJerk = Constants.kFrontIntakeRotateMotionMagicJerk; // Idk how needed Jerk is
+    frontIntakeRotateConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+
     Slot0Configs slot0 = frontIntakeRotateConfig.Slot0;
     slot0.kP = Constants.kFrontIntakeRotateProportional;
     slot0.kI = Constants.kFrontIntakeRotateIntegral;
     slot0.kD = Constants.kFrontIntakeRotateDerivative;
     slot0.kG = Constants.kFrontIntakeRotateGravity;
+    slot0.kV = Constants.kFrontIntakeRotateVelocityFeedFoward;
+    slot0.GravityType = GravityTypeValue.Arm_Cosine;
 
     //slot0.kV = Constants.kFrontIntakeRotateVelocityFeedFoward;
     //slot0.kS = Constants.kFrontIntakeRotateStaticFeedFoward; // The value of s is approximately the number of volts needed to get the mechanism moving
@@ -92,6 +106,7 @@ public class FrontIntakeSubsystem extends SubsystemBase {
     frontIntakeSpinVelocityConfig.Voltage.PeakReverseVoltage = Constants.kFrontIntakeSpinMaxReverseVoltage;
     frontIntakeSpinVelocityConfig.CurrentLimits.SupplyCurrentLimit = Constants.kFrontIntakeSpinSupplyCurrentLimit;
     frontIntakeSpinVelocityConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.kFrontIntakeSpinVoltageClosedLoopRampPeriod;
+    frontIntakeSpinVelocityConfig.MotorOutput.Inverted = Constants.kFrontIntakeSpinDirection;
 
     StatusCode frontIntakeSpinStatus = StatusCode.StatusCodeNotInitialized;
 
@@ -107,8 +122,8 @@ public class FrontIntakeSubsystem extends SubsystemBase {
   public void configureFrontIntakeCancoder(CANcoder frontIntakeCancoder){  
     CANcoderConfiguration frontIntakeRotateCANcoderConfig = new CANcoderConfiguration();
     frontIntakeRotateCANcoderConfig.MagnetSensor.MagnetOffset = -0.398926;
-    frontIntakeRotateCANcoderConfig.MagnetSensor.AbsoluteSensorRange = AbsoluteSensorRangeValue.Unsigned_0To1;
-    frontIntakeRotateCANcoderConfig.MagnetSensor.SensorDirection = SensorDirectionValue.Clockwise_Positive;
+    frontIntakeRotateCANcoderConfig.MagnetSensor.AbsoluteSensorRange = AbsoluteSensorRangeValue.Signed_PlusMinusHalf;
+    frontIntakeRotateCANcoderConfig.MagnetSensor.SensorDirection = Constants.kFrontIntakeRotateCancoderDirection;
   }
 
   /**
@@ -174,6 +189,14 @@ public class FrontIntakeSubsystem extends SubsystemBase {
    */
   public Boolean getFrontIntakeInPosition() {
     return this.getFrontIntakeInPosition(m_desiredPosition);
+  }
+
+  public void SetFrontIntakeRotateNeutralMode(NeutralModeValue NeutralMode) {
+    var neuMotOut = new MotorOutputConfigs();
+    var currentConfigurator = m_frontIntakeRotate.getConfigurator();
+    currentConfigurator.refresh(neuMotOut);
+    neuMotOut.NeutralMode = NeutralMode;
+    currentConfigurator.apply(neuMotOut);
   }
 
   /**

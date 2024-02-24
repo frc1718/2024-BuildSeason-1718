@@ -12,12 +12,17 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.LimelightHelpers.Results;
+import frc.robot.commands.General.DisabledSafety;
 
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
+  private DisabledSafety m_disabledSafetyCommand;
+
+  Timer disabledTimer = new Timer();
+  
 
   //Use this to enable / disable reading data from the limelight.
   //The terminal gets clogged up if a limelight isn't actually connected.
@@ -26,11 +31,12 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     m_robotContainer = new RobotContainer();
+    m_disabledSafetyCommand = new DisabledSafety(m_robotContainer.shooterIntake,m_robotContainer.frontIntake,m_robotContainer.shooter,m_robotContainer.climber);
     
     //Need to seed the field relative position at least once.
     m_robotContainer.drivetrain.seedFieldRelative(Constants.kDefaultPose);
 
-    CameraServer.startAutomaticCapture();
+    //CameraServer.startAutomaticCapture();
   }
 
   @Override
@@ -51,13 +57,25 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+    //Start the disabled timer for motion safety
+    disabledTimer.reset();
+    disabledTimer.start();
+  }
 
   @Override
-  public void disabledPeriodic() {}
+  public void disabledPeriodic() {
+    //If we have been in disabled more than 5 seconds, stop everything and set desired positions to current
+    if (disabledTimer.get() > 5.0) {
+      m_disabledSafetyCommand.schedule();
+    }
+  }
 
   @Override
-  public void disabledExit() {}
+  public void disabledExit() {
+    //Stop and disabled timer
+    disabledTimer.stop();
+  }
 
   @Override
   public void autonomousInit() {

@@ -5,6 +5,8 @@
 package frc.robot.subsystems;
 
 
+import com.ctre.phoenix6.StatusCode;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
@@ -80,7 +82,7 @@ public class ShooterIntakeSubsystem extends SubsystemBase {
    * @param speed The desired speed of the shooter intake, in rotations per second.
    */
   public void setShooterIntakeSpeed(double speed) {
-    if (Constants.kMotorEnableShooterIntakeSpin==1){
+    if (Constants.kMotorEnableShooterIntakeSpin == 1){
       System.out.println("ShooterIntakeSubsystem: setShooterIntakeSpeed");
       m_ShooterIntakeSpin.setControl(ShooterIntakeVelocity.withVelocity(speed));
     }
@@ -92,6 +94,29 @@ public class ShooterIntakeSubsystem extends SubsystemBase {
   public void Release() {
     System.out.println("ShooterIntakeSubsystem: setShooterPivotPosition");
     //intakeHinge.set(desiredPosition);
+  }
+
+  public void configureShooterIntakeSpin(TalonFX shooterIntakeSpin) {
+    TalonFXConfiguration shooterIntakeSpinVelocityConfig = new TalonFXConfiguration();
+    shooterIntakeSpinVelocityConfig.Slot0.kP = Constants.kShooterIntakeSpinProportional; // An error of 1 rotation per second results in 2V output
+    shooterIntakeSpinVelocityConfig.Slot0.kI = Constants.kShooterIntakeSpinIntegral; // An error of 1 rotation per second increases output by 0.5V every second
+    shooterIntakeSpinVelocityConfig.Slot0.kD = Constants.kShooterIntakeSpinDerivative; // A change of 1 rotation per second squared results in 0.01 volts output
+    shooterIntakeSpinVelocityConfig.Slot0.kV = Constants.kShooterIntakeSpinVelocityFeedFoward; // Falcon 500 is a 500kV motor, 500rpm per V = 8.333 rps per V, 1/8.33 = 0.12 volts / Rotation per second Peak output of 8 volts
+    shooterIntakeSpinVelocityConfig.Voltage.PeakForwardVoltage = Constants.kShooterIntakeSpinMaxForwardVoltage;
+    shooterIntakeSpinVelocityConfig.Voltage.PeakReverseVoltage = Constants.kShooterIntakeSpinMaxReverseVoltage;
+    shooterIntakeSpinVelocityConfig.CurrentLimits.SupplyCurrentLimit = Constants.kShooterIntakeSpinSupplyCurrentLimit;
+    shooterIntakeSpinVelocityConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.kShooterIntakeSpinVoltageClosedLoopRampPeriod;
+    shooterIntakeSpinVelocityConfig.MotorOutput.Inverted = Constants.kShooterIntakeSpinDirection;
+
+    StatusCode shooterIntakeSpinStatus = StatusCode.StatusCodeNotInitialized;
+
+    for(int i = 0; i < 5; ++i) {
+      shooterIntakeSpinStatus = shooterIntakeSpin.getConfigurator().apply(shooterIntakeSpinVelocityConfig);
+      if (shooterIntakeSpinStatus.isOK()) break;
+    }
+    if (!shooterIntakeSpinStatus.isOK()) {
+      System.out.println("Could not configure device. Error: " + shooterIntakeSpinStatus.toString());
+    }
   }
 
   @Override

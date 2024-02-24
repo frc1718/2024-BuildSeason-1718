@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
+import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
@@ -16,6 +17,8 @@ import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
+import com.ctre.phoenix6.signals.GravityTypeValue;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
 
 import edu.wpi.first.util.sendable.SendableBuilder;
@@ -195,8 +198,21 @@ public class ShooterSubsystem extends SubsystemBase {
   }
     //End of motor get methods
 
-
-
+  public void SetShooterArmLeftNeutralMode(NeutralModeValue NeutralMode) {
+    var neuMotOut = new MotorOutputConfigs();
+    var currentConfigurator = m_ShooterArmRotateLeft.getConfigurator();
+    currentConfigurator.refresh(neuMotOut);
+    neuMotOut.NeutralMode = NeutralMode;
+    currentConfigurator.apply(neuMotOut);
+  }
+  
+  public void SetShooterArmRightNeutralMode(NeutralModeValue NeutralMode) {
+    var neuMotOut = new MotorOutputConfigs();
+    var currentConfigurator = m_ShooterArmRotateRight.getConfigurator();
+    currentConfigurator.refresh(neuMotOut);
+    neuMotOut.NeutralMode = NeutralMode;
+    currentConfigurator.apply(neuMotOut);
+  }
 
     /**
    * Open Motors
@@ -218,19 +234,29 @@ public class ShooterSubsystem extends SubsystemBase {
    TalonFXConfiguration ShooterArmRotateConfig = new TalonFXConfiguration();
     
     ShooterArmRotateConfig.CurrentLimits.SupplyCurrentLimit = Constants.kShooterArmRotateSupplyCurrentLimit;
-    
+    ShooterArmRotateConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.kShooterArmRotateVoltageClosedLoopRampPeriod;
+    ShooterArmRotateConfig.MotionMagic.MotionMagicAcceleration = Constants.kShooterArmRotateMotionMagicAcceleration;
+    ShooterArmRotateConfig.MotionMagic.MotionMagicCruiseVelocity = Constants.kShooterArmRotateMotionMagicCruiseVelocity;
+    //ShooterArmRotateConfig.MotionMagic.MotionMagicJerk = Constants.kShooterArmRotateMotionMagicJerk; Idk if we want Jerk
+    ShooterArmRotateConfig.Voltage.PeakForwardVoltage = Constants.kShooterArmRotateMaxForwardVoltage;
+    ShooterArmRotateConfig.Voltage.PeakReverseVoltage = Constants.kShooterArmRotateMaxReverseVoltage;
+    ShooterArmRotateConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+
     Slot0Configs slot0 = ShooterArmRotateConfig.Slot0;
     slot0.kP = Constants.kShooterArmRotateProportional;
     slot0.kI = Constants.kShooterArmRotateIntegral;
     slot0.kD = Constants.kShooterArmRotateDerivative;
     slot0.kG = Constants.kShooterArmRotateGravity;
+    slot0.kV = Constants.kShooterArmRotateVelocityFeedFoward;
+    slot0.GravityType = GravityTypeValue.Arm_Cosine;
     //slot0.kV = Constants.kShooterArmRotateVelocityFeedFoward;
     //slot0.kS = Constants.kShooterArmRotateStaticFeedFoward; // The value of s is approximately the number of volts needed to get the mechanism moving
+    ShooterArmRotateConfig.MotorOutput.Inverted = Constants.kShooterArmRotateDirection;
 
     // Pretty sure I properly added fused cancoder here
     ShooterArmRotateConfig.Feedback.FeedbackRemoteSensorID = Constants.kShooterArmCancoderCanID;
     ShooterArmRotateConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.FusedCANcoder;
-    ShooterArmRotateConfig.Feedback.RotorToSensorRatio = Constants.kArmRotateRotorToSensorRatio;
+    ShooterArmRotateConfig.Feedback.RotorToSensorRatio = Constants.kShooterArmRotateCancoderRotorToSensorRatio;
     
     StatusCode shooterArmStatus = StatusCode.StatusCodeNotInitialized;
     for(int i = 0; i < 5; ++i) {
@@ -288,8 +314,6 @@ public class ShooterSubsystem extends SubsystemBase {
 
     LeftShooterMotorsConfig.CurrentLimits.SupplyCurrentLimit = Constants.kLeftShooterSupplyCurrentLimit;
     LeftShooterMotorsConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.kLeftShooterVoltageClosedLoopRampPeriod;
-
-    LeftShooterMotorsConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.kShooterArmRotateVoltageClosedLoopRampPeriod;
     
     StatusCode leftShooterStatus = StatusCode.StatusCodeNotInitialized;
     for(int i = 0; i < 5; ++i) {

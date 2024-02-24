@@ -39,6 +39,7 @@ import frc.robot.commands.Driver.Shoot;
 import frc.robot.commands.Driver.ShootTrap;
 import frc.robot.commands.Driver.Spit;
 import frc.robot.commands.Driver.Suck;
+import frc.robot.commands.General.SetMotorsToCoast;
 import frc.robot.generated.TunerConstants;
 import frc.robot.commands.CommandSwerveDrivetrain;
 
@@ -86,11 +87,11 @@ public class RobotContainer {
   private final Telemetry logger = new Telemetry(MaxSpeed);
 
   //Open Subsystems
-  private final ShooterSubsystem shooter = new ShooterSubsystem();
-  private final FrontIntakeSubsystem frontIntake = new FrontIntakeSubsystem();
-  private final ClimberSubsystem climber = new ClimberSubsystem();
-  private final LEDSubsystem LED = new LEDSubsystem();
-  private final ShooterIntakeSubsystem shooterIntakeSubsystem = new ShooterIntakeSubsystem();
+  public final ShooterSubsystem shooter = new ShooterSubsystem();
+  public final FrontIntakeSubsystem frontIntake = new FrontIntakeSubsystem();
+  public final ClimberSubsystem climber = new ClimberSubsystem();
+  public final LEDSubsystem LED = new LEDSubsystem();
+  public final ShooterIntakeSubsystem shooterIntake = new ShooterIntakeSubsystem();
 
   private void configureBindings() {
     //Schedules drivertain
@@ -123,11 +124,11 @@ public class RobotContainer {
             .withTargetDirection(Constants.kBlueSpeakerLocation.minus(drivetrain.getState().Pose.getTranslation()).getAngle())
             ));
 
-    driveController.leftBumper().onTrue(new Shoot(frontIntake, shooter, climber, shooterIntakeSubsystem));
-    driveController.rightBumper().whileTrue(new Suck(frontIntake, shooter, shooterIntakeSubsystem));
-    driveController.rightTrigger(.5).whileTrue(new Spit(frontIntake, shooter, shooterIntakeSubsystem)); 
+    driveController.leftBumper().onTrue(new Shoot(frontIntake, shooter, climber, shooterIntake));
+    driveController.rightBumper().whileTrue(new Suck(frontIntake, shooter, shooterIntake));
+    driveController.rightTrigger(.5).whileTrue(new Spit(frontIntake, shooter, shooterIntake)); 
     driveController.leftTrigger(.5).onTrue(new Climb(climber,frontIntake,shooter));
-    driveController.y().onTrue(new ShootTrap(frontIntake, shooter, climber, shooterIntakeSubsystem));
+    driveController.y().onTrue(new ShootTrap(frontIntake, shooter, climber, shooterIntake));
  
      
     // Schedules reset the field - Binds centric heading on back and start button push
@@ -138,8 +139,8 @@ public class RobotContainer {
     //PickupStatus.onTrue(new BlinkSignalLight(LED, 1, 0.5));
     //PickupStatus.onFalse(new SetSignalLightIntensity(LED, 0));
 
-    Trigger NoteLocationStatus = new Trigger(shooterIntakeSubsystem::getNotePresent);
-    NoteLocationStatus.onTrue(new LightLEDOnNotePresent(LED, shooterIntakeSubsystem));
+    Trigger NoteLocationStatus = new Trigger(shooterIntake::getNotePresent);
+    NoteLocationStatus.onTrue(new LightLEDOnNotePresent(LED, shooterIntake));
     
     //======================================================================
     //=========================Operator Controller Assignments==============
@@ -154,7 +155,7 @@ public class RobotContainer {
     operatorController.b().onTrue(new ShooterModeAmp(frontIntake, shooter));
     operatorController.x().onTrue(new ShooterModeShootWithPose(frontIntake, shooter, drivetrain));
     operatorController.a().onTrue(new ShooterModeSubwoofer(frontIntake, shooter));
-    operatorController.leftBumper().and(operatorController.rightBumper()).debounce(2).onTrue(new PreClimb(climber,shooter,frontIntake, shooterIntakeSubsystem));
+    operatorController.leftBumper().and(operatorController.rightBumper()).debounce(2).onTrue(new PreClimb(climber,shooter,frontIntake, shooterIntake));
 
     // Schedules Play music - Binds Dpad Up
     //operatorController.povUp().onTrue();
@@ -168,6 +169,7 @@ public class RobotContainer {
       }
     }).ignoringDisable(true));
 
+    driveController.a().and(RobotState::isDisabled).whileTrue(new SetMotorsToCoast(climber, shooter, frontIntake));
 
     driveController.povUp().onTrue(new InstantCommand(() -> {
       if (RobotState.isDisabled()) {
@@ -223,7 +225,7 @@ public class RobotContainer {
     //If I understand the commands correctly, Auton Light will end almost immediately.
     //But Auton Blink should never end.
     NamedCommands.registerCommand("Print YAY", new PrintCommand("YAY"));
-    NamedCommands.registerCommand("Auton Light",new LightLEDOnNotePresent(LED, shooterIntakeSubsystem));
+    NamedCommands.registerCommand("Auton Light",new LightLEDOnNotePresent(LED, shooterIntake));
     NamedCommands.registerCommand("Auton Blink", new PrintCommand("Auton Blink no longer exists."));
   }
 
