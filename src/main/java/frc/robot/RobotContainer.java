@@ -128,7 +128,9 @@ public class RobotContainer {
     driveController.rightTrigger(.5).whileTrue(new Spit(frontIntake, shooter, shooterIntakeSubsystem)); 
     driveController.leftTrigger(.5).onTrue(new Climb(climber,frontIntake,shooter));
     driveController.y().onTrue(new ShootTrap(frontIntake, shooter, climber, shooterIntakeSubsystem));
- 
+    
+    //DEBUG
+    //driveController.povLeft().onTrue(new InstantCommand(() -> {drivetrain.setSwerveDriveCustomCurrentLimits();}));
      
     // Schedules reset the field - Binds centric heading on back and start button push
     driveController.back().and(driveController.start()).onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative()));

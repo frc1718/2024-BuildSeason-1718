@@ -44,11 +44,7 @@
       "Pose": {
         "double[]##v_/Pose/robotPose": {
           "open": true
-        },
-        "open": true
-      },
-      "Shuffleboard": {
-        "open": true
+        }
       },
       "SmartDashboard": {
         "Auton Selector": {
@@ -59,8 +55,7 @@
         },
         "Selector": {
           "open": true
-        },
-        "open": true
+        }
       }
     }
   },
