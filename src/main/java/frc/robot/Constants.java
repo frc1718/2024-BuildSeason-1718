@@ -226,7 +226,7 @@ public class Constants {
     // End ShooterIntakeSpin settings
 
     // Start Climber settings
-    public static final InvertedValue kClimberDirection = InvertedValue.Clockwise_Positive;
+    public static final InvertedValue kClimberDirection = InvertedValue.CounterClockwise_Positive;
     public static final int kClimberProportional = 0;
     public static final int kClimberIntegral = 0;
     public static final int kClimberDerivative = 0;
