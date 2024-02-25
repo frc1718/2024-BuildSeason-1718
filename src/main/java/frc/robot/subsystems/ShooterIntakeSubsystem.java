@@ -18,10 +18,6 @@ import frc.robot.Constants;
 // The shooter intake subsystem is the portion of the shooter that is NOT responsible for ejecting notes at high velocities.
 public class ShooterIntakeSubsystem extends SubsystemBase {
 
-  //Open sensors
-  AnalogInput m_BeamBreakIntakeAnalog = new AnalogInput(Constants.kBeamBreakIntakeAnalog);
-  AnalogInput m_BeamBreakShooterAnalog = new AnalogInput(Constants.kBeamBreakShooterAnalog);
-  
   //Open Servo
   //Servo intakeHinge = new Servo(Constants.kShooterIntakePivotReleasePWM);
 
@@ -34,8 +30,7 @@ public class ShooterIntakeSubsystem extends SubsystemBase {
 
   public ShooterIntakeSubsystem() {
   //=======================================shouldn't we be doing something with velocity voltage motor here to set it up?
-  m_BeamBreakIntakeAnalog.setAverageBits(4);
-  m_BeamBreakShooterAnalog.setAverageBits(4);
+  this.configureShooterIntakeSpin(m_ShooterIntakeSpin);
   }
   
   // Start of sensor related methods
@@ -44,26 +39,12 @@ public class ShooterIntakeSubsystem extends SubsystemBase {
    * @return Whether the intake beam break detects a note.
    * True or false.
    */
-  public boolean getNotePresentIntake() {  
-    //This will print out constantly because it's on a trigger
-    //System.out.println("Subsystem: Shooter - getNotePresentShooter Voltage " + m_BeamBreakShooterAnalog.getAverageVoltage());
-    //getAverageVoltage uses the setAverageBits to average
-    return (m_BeamBreakIntakeAnalog.getAverageVoltage() >= Constants.kIntakeBeamBreakCrossover);
-    
-  }
   
   /**
    * Check if a note is in front of the shooter beam break.
    * @return Whether the shooter beam break detects a note.
    * True or false.
    */
-  public boolean getNotePresentShooter() {  
-    //This will print out constantly because it's on a constant trigger
-    //System.out.println("Subsystem: Shooter - getNotePresentShooter Voltage " + m_BeamBreakShooterAnalog.getAverageVoltage());
-    //getAverageVoltage uses the setAverageBits to average   
-    return (m_BeamBreakShooterAnalog.getAverageVoltage() >= Constants.kShooterBeamBreakCrossover);
-    
-  }
   // End of sensor related methods
 
   /**
@@ -71,11 +52,6 @@ public class ShooterIntakeSubsystem extends SubsystemBase {
    * @return Whether either beam break detects a note.
    * True or false.
    */
-  public boolean getNotePresent() {
-    //System.out.println("Subsystem: Shooter - getNotePresentShooter Voltage " + m_BeamBreakShooterAnalog.getAverageVoltage());
-    //System.out.println("Subsystem: Shooter - getNotePresentIntake Voltage " + m_BeamBreakIntakeAnalog.getAverageVoltage());
-    return (this.getNotePresentIntake() || this.getNotePresentShooter());
-  }
 
   /**
    * Sets the speed of the shooter intake motor.
@@ -107,7 +83,7 @@ public class ShooterIntakeSubsystem extends SubsystemBase {
     shooterIntakeSpinVelocityConfig.CurrentLimits.SupplyCurrentLimit = Constants.kShooterIntakeSpinSupplyCurrentLimit;
     shooterIntakeSpinVelocityConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.kShooterIntakeSpinVoltageClosedLoopRampPeriod;
     shooterIntakeSpinVelocityConfig.MotorOutput.Inverted = Constants.kShooterIntakeSpinDirection;
-
+    shooterIntakeSpinVelocityConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
     StatusCode shooterIntakeSpinStatus = StatusCode.StatusCodeNotInitialized;
 
     for(int i = 0; i < 5; ++i) {
@@ -121,11 +97,7 @@ public class ShooterIntakeSubsystem extends SubsystemBase {
 
   @Override
   public void initSendable(SendableBuilder builder){
-    builder.setSmartDashboardType("ShooterIntakeSubsystem");
-    builder.addBooleanProperty("Note Present in Intake?", this::getNotePresentIntake, null); 
-    builder.addBooleanProperty("Note Present in Shooter?", this::getNotePresentShooter, null);
-    builder.addDoubleProperty("Intake Beam Break Voltage", () -> {return m_BeamBreakIntakeAnalog.getVoltage();}, null);
-    builder.addDoubleProperty("Shooter Beam Break Voltage", () -> {return m_BeamBreakShooterAnalog.getVoltage();}, null);
+    
   }
 
   @Override

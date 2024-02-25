@@ -5,6 +5,7 @@
 package frc.robot.commands.General;
 
 import frc.robot.Constants;
+import frc.robot.subsystems.BeamBreakSubsystem;
 import frc.robot.subsystems.ShooterIntakeSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -15,6 +16,7 @@ public class NotePosition extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
   private final ShooterIntakeSubsystem m_shooterIntakeSubsystem;
+  private final BeamBreakSubsystem m_beamBreakSubsystem;
 
   private boolean m_isFinished = false;
 
@@ -25,10 +27,10 @@ public class NotePosition extends Command {
    * @param shooterIntakeSubsystem An instance of the shooter intake subsystem.
    * Required.
    */
-  public NotePosition(ShooterIntakeSubsystem shooterIntakeSubsystem) {
+  public NotePosition(ShooterIntakeSubsystem shooterIntakeSubsystem, BeamBreakSubsystem beamBreakSubsystem) {
 
     m_shooterIntakeSubsystem = shooterIntakeSubsystem;
-
+    m_beamBreakSubsystem = beamBreakSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_shooterIntakeSubsystem);
 
@@ -51,29 +53,36 @@ public class NotePosition extends Command {
   @Override
   public void execute() {
 
-    switch(m_stateMachine){     
-      case 1:  //If Note is breaking intake beam, stop indexing.
+    switch(m_stateMachine){
+      case 1:  //If note isn't here, why are you here?
+          if (!m_beamBreakSubsystem.getNotePresent()){
+            m_isFinished = true;
+          }
+          else{
+          m_stateMachine=m_stateMachine+1;
+          }
+        break;
+      case 2:  //If note is breaking shooter beam, back it up.
         System.out.println("General NotePosition: Case 1");
-        if (m_shooterIntakeSubsystem.getNotePresentIntake()) {
+        if (m_beamBreakSubsystem.getNotePresentShooter()){
+          m_shooterIntakeSubsystem.setShooterIntakeSpeed(-Constants.kShooterIntakeIndexSpeed);  
+        } else {
           System.out.println("General NotePosition: Case 1 Complete");
+          m_stateMachine = m_stateMachine + 1; 
+        }    
+        break; 
+      case 3:  //If Note is breaking intake beam, stop indexing.
+        System.out.println("General NotePosition: Case 2");
+        if (m_beamBreakSubsystem.getNotePresentIntake()) {
+          System.out.println("General NotePosition: Case 2 Complete");
           m_shooterIntakeSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeStopSpeed);  
-          m_stateMachine = m_stateMachine + 1;
+          m_isFinished = true;
         } else {
           m_shooterIntakeSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeIndexSpeed);
         }
         break;
-      case 2:  //If note is breaking shooter beam, back it up.
-        System.out.println("General NotePosition: Case 2");
-        if (m_shooterIntakeSubsystem.getNotePresentShooter()){
-          m_shooterIntakeSubsystem.setShooterIntakeSpeed(-Constants.kShooterIntakeIndexSpeed);  
-        } else {
-          m_shooterIntakeSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeStopSpeed);  
-          m_isFinished = true;
-        }
     }   
 
-    //Remove once all logic is in place.
-    m_isFinished=true;
     
   }
 

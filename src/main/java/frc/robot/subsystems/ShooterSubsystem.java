@@ -241,6 +241,7 @@ public class ShooterSubsystem extends SubsystemBase {
     ShooterArmRotateConfig.Voltage.PeakForwardVoltage = Constants.kShooterArmRotateMaxForwardVoltage;
     ShooterArmRotateConfig.Voltage.PeakReverseVoltage = Constants.kShooterArmRotateMaxReverseVoltage;
     ShooterArmRotateConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+    ShooterArmRotateConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
 
     Slot0Configs slot0 = ShooterArmRotateConfig.Slot0;
     slot0.kP = Constants.kShooterArmRotateProportional;
@@ -284,7 +285,7 @@ public class ShooterSubsystem extends SubsystemBase {
     // Peak output of 8 volts
     RightShooterMotorsConfig.Voltage.PeakForwardVoltage = Constants.kRightShooterMaxForwardVoltage;
     RightShooterMotorsConfig.Voltage.PeakReverseVoltage = Constants.kRightShooterMaxReverseVoltage;
-
+    RightShooterMotorsConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
     RightShooterMotorsConfig.CurrentLimits.SupplyCurrentLimit = Constants.kRightShooterSupplyCurrentLimit;
     RightShooterMotorsConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.kRightShooterVoltageClosedLoopRampPeriod;
     
@@ -311,7 +312,7 @@ public class ShooterSubsystem extends SubsystemBase {
     // Peak output of 8 volts
     LeftShooterMotorsConfig.Voltage.PeakForwardVoltage = Constants.kLeftShooterMaxForwardVoltage;
     LeftShooterMotorsConfig.Voltage.PeakReverseVoltage = Constants.kLeftShooterMaxReverseVoltage;
-
+    LeftShooterMotorsConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
     LeftShooterMotorsConfig.CurrentLimits.SupplyCurrentLimit = Constants.kLeftShooterSupplyCurrentLimit;
     LeftShooterMotorsConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.kLeftShooterVoltageClosedLoopRampPeriod;
     

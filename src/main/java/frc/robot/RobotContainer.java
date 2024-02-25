@@ -47,6 +47,7 @@ import frc.robot.commands.CommandSwerveDrivetrain;
 
 //Subsystem Imports
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.BeamBreakSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.FrontIntakeSubsystem;
 import frc.robot.subsystems.LEDSubsystem;
@@ -95,6 +96,7 @@ public class RobotContainer {
   public final ClimberSubsystem climber = new ClimberSubsystem();
   public final LEDSubsystem LED = new LEDSubsystem();
   public final ShooterIntakeSubsystem shooterIntake = new ShooterIntakeSubsystem();
+  public final BeamBreakSubsystem beamBreak = new BeamBreakSubsystem();
 
   private void configureBindings() {
     //Schedules drivertain
@@ -110,7 +112,7 @@ public class RobotContainer {
     //=============================================================================
 
     // Schedules Tilt modules without driving wheels?  Maybe?
-    driveController.b().whileTrue(drivetrain.applyRequest(() -> point.withModuleDirection(new Rotation2d(-driveController.getLeftY(), -driveController.getLeftX()))));
+    //driveController.b().whileTrue(drivetrain.applyRequest(() -> point.withModuleDirection(new Rotation2d(-driveController.getLeftY(), -driveController.getLeftX()))));
     
     // Currently disabled to prevent motor missing errors
     // Schedules Brake Swerve Drivetrain Binds (x-lock wheels) Driver
@@ -128,10 +130,10 @@ public class RobotContainer {
             ));
 
     driveController.leftBumper().onTrue(new Shoot(frontIntake, shooter, climber, shooterIntake));
-    driveController.rightBumper().whileTrue(new Suck(frontIntake, shooter, shooterIntake));
+    driveController.rightBumper().whileTrue(new Suck(frontIntake, shooter, shooterIntake, beamBreak));
     driveController.rightTrigger(.5).whileTrue(new Spit(frontIntake, shooter, shooterIntake)); 
     driveController.leftTrigger(.5).onTrue(new Climb(climber,frontIntake,shooter));
-    driveController.y().onTrue(new ShootTrap(frontIntake, shooter, climber, shooterIntake));
+    //driveController.y().onTrue(new ShootTrap(frontIntake, shooter, climber, shooterIntake));
  
      
     // Schedules reset the field - Binds centric heading on back and start button push
@@ -142,9 +144,14 @@ public class RobotContainer {
     //PickupStatus.onTrue(new BlinkSignalLight(LED, 1, 0.5));
     //PickupStatus.onFalse(new SetSignalLightIntensity(LED, 0));
 
-    Trigger NoteLocationStatus = new Trigger(shooterIntake::getNotePresent);
-    NoteLocationStatus.onTrue(new LightLEDOnNotePresent(LED, shooterIntake));
+    //Trigger NoteLocationStatus = new Trigger(shooterIntake::getNotePresent);
+    //NoteLocationStatus.onTrue(new LightLEDOnNotePresent(LED, shooterIntake));
     
+    Trigger NotePositionInShooterIntake = new Trigger(beamBreak::getNotePresentShooter);
+    NotePositionInShooterIntake.onTrue(new NotePosition(shooterIntake, beamBreak));
+    
+    driveController.y().onTrue(new NotePosition(shooterIntake, beamBreak));
+
     //======================================================================
     //=========================Operator Controller Assignments==============
     //======================================================================
@@ -170,7 +177,7 @@ public class RobotContainer {
       chirpSelect.decrementSelection();
     }).ignoringDisable(true));
 
-    driveController.a().and(RobotState::isDisabled).whileTrue(new SetMotorsToCoast(climber, shooter, frontIntake));
+    driveController.a().and(RobotState::isDisabled).whileTrue(new SetMotorsToCoast(climber, shooter, frontIntake).ignoringDisable(true));
 
     driveController.povUp().and(RobotState::isDisabled).onTrue(new InstantCommand(() -> {
       chirpSelect.incrementSelection();
@@ -207,7 +214,7 @@ public class RobotContainer {
     //All of the NT publishing we would like to do, that won't be setup in the classes themselves, gets setup here.
     SmartDashboard.putData("Chirp Selector", chirpSelect);
     SmartDashboard.putData("Auton Selector", autonSelect);    
-    //SmartDashboard.putData(shooter);
+    SmartDashboard.putData(beamBreak);
     //SmartDashboard.putData(climber);
     //SmartDashboard.putData(frontIntake);
     //SmartDashboard.putData(LED);
@@ -223,10 +230,10 @@ public class RobotContainer {
     NamedCommands.registerCommand("Shoot", new Shoot(frontIntake, shooter, climber, shooterIntake));
     NamedCommands.registerCommand("ShootTrap", new ShootTrap(frontIntake, shooter, climber, shooterIntake));
     NamedCommands.registerCommand("Spit", new Spit(frontIntake, shooter, shooterIntake));
-    NamedCommands.registerCommand("Suck", new Suck(frontIntake, shooter, shooterIntake));
-    NamedCommands.registerCommand("NotePosition", new NotePosition(shooterIntake));
+    NamedCommands.registerCommand("Suck", new Suck(frontIntake, shooter, shooterIntake, beamBreak));
+    NamedCommands.registerCommand("NotePosition", new NotePosition(shooterIntake, beamBreak));
     NamedCommands.registerCommand("StowArmAndIntake", new StowArmAndIntake(frontIntake, shooter));
-    NamedCommands.registerCommand("LightLEDOnNotePresent", new LightLEDOnNotePresent(LED, shooterIntake));
+    NamedCommands.registerCommand("LightLEDOnNotePresent", new LightLEDOnNotePresent(LED, beamBreak));
     NamedCommands.registerCommand("PreClimb", new PreClimb(climber, shooter, frontIntake, shooterIntake));
     NamedCommands.registerCommand("ShooterModeAmp", new ShooterModeAmp(frontIntake, shooter));
     NamedCommands.registerCommand("ShooterModePodium", new ShooterModePodium(frontIntake, shooter));

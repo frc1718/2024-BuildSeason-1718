@@ -6,12 +6,9 @@ package frc.robot.subsystems;
 
 
 import com.ctre.phoenix6.StatusCode;
-import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.Follower;
-import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.GravityTypeValue;
@@ -52,42 +49,65 @@ public class ClimberSubsystem extends SubsystemBase {
   public void configureLeftClimb(TalonFX leftClimb){
  
     //Start Configuring Climbers
-    TalonFXConfiguration climberConfig = new TalonFXConfiguration();
-    MotionMagicConfigs climberMotionMagic = climberConfig.MotionMagic;
-    climberMotionMagic.MotionMagicCruiseVelocity = Constants.kClimberMotionMagicCruiseVelocity; // 5 rotations per second cruise if this is 5
-    climberMotionMagic.MotionMagicAcceleration = Constants.kClimberMotionMagicAcceleration; // Take approximately 0.5 seconds to reach max vel if this is 10
-    // Take approximately 0.2 seconds to reach max accel 
-    //climberMotionMagic.MotionMagicJerk = Constants.kClimberMotionMagicJerk;
+    TalonFXConfiguration leftClimberConfig = new TalonFXConfiguration();
 
-    climberConfig.MotorOutput.Inverted = Constants.kClimberDirection;
-    climberConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-    climberConfig.CurrentLimits.SupplyCurrentLimit = Constants.kClimberSupplyCurrentLimit;
-    climberConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.kClimberVoltageClosedLoopRampPeriod;
-    climberConfig.Voltage.PeakForwardVoltage = Constants.kClimberMaxForwardVoltage;
-    climberConfig.Voltage.PeakReverseVoltage = Constants.kClimberMaxReverseVoltage;
+    leftClimberConfig.MotorOutput.Inverted = Constants.kLeftClimberDirection;
+    leftClimberConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+    leftClimberConfig.CurrentLimits.SupplyCurrentLimit = Constants.kLeftClimberSupplyCurrentLimit;
+    leftClimberConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.kLeftClimberVoltageClosedLoopRampPeriod;
+    leftClimberConfig.Voltage.PeakForwardVoltage = Constants.kLeftClimberMaxForwardVoltage;
+    leftClimberConfig.Voltage.PeakReverseVoltage = Constants.kLeftClimberMaxReverseVoltage;
+    leftClimberConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
 
-    Slot0Configs slot0 = climberConfig.Slot0;
-    slot0.kP = Constants.kClimberProportional;
-    slot0.kI = Constants.kClimberIntegral;
-    slot0.kD = Constants.kClimberDerivative;
+    Slot0Configs slot0 = leftClimberConfig.Slot0;
+    slot0.kP = Constants.kLeftClimberProportional;
+    slot0.kI = Constants.kLeftClimberIntegral;
+    slot0.kD = Constants.kLeftClimberDerivative;
     slot0.GravityType = GravityTypeValue.Elevator_Static;
-    slot0.kV = Constants.kClimberVelocityFeedFoward;
+    slot0.kV = Constants.kLeftClimberVelocityFeedFoward;
     //slot0.kS = Constants.kClimberStaticFeedFoward; // The value of s is approximately the number of volts needed to get the mechanism moving
  
     StatusCode climberStatus = StatusCode.StatusCodeNotInitialized;
     for(int i = 0; i < 5; ++i) {
-      climberStatus = leftClimb.getConfigurator().apply(climberConfig);
+      climberStatus = leftClimb.getConfigurator().apply(leftClimberConfig);
       if (climberStatus.isOK()) break;
     }
     if (!climberStatus.isOK()) {
       System.out.println("Could not configure device. Error: " + climberStatus.toString());
     }
+    m_LeftClimb.setPosition(0);
   }
 
   public void configureRightClimb(TalonFX rightClimb){
-    rightClimb.setControl(new Follower(Constants.kLeftClimbCanID, true));
+    TalonFXConfiguration rightClimberConfig = new TalonFXConfiguration();
+
+    rightClimberConfig.MotorOutput.Inverted = Constants.kRightClimberDirection;
+    rightClimberConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+    rightClimberConfig.CurrentLimits.SupplyCurrentLimit = Constants.kRightClimberSupplyCurrentLimit;
+    rightClimberConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.kRightClimberVoltageClosedLoopRampPeriod;
+    rightClimberConfig.Voltage.PeakForwardVoltage = Constants.kRightClimberMaxForwardVoltage;
+    rightClimberConfig.Voltage.PeakReverseVoltage = Constants.kRightClimberMaxReverseVoltage;
+    rightClimberConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
+
+    Slot0Configs slot0 = rightClimberConfig.Slot0;
+    slot0.kP = Constants.kRightClimberProportional;
+    slot0.kI = Constants.kRightClimberIntegral;
+    slot0.kD = Constants.kRightClimberDerivative;
+    slot0.GravityType = GravityTypeValue.Elevator_Static;
+    slot0.kV = Constants.kRightClimberVelocityFeedFoward;
+    //slot0.kS = Constants.kClimberStaticFeedFoward; // The value of s is approximately the number of volts needed to get the mechanism moving
+    
+    StatusCode climberStatus = StatusCode.StatusCodeNotInitialized;
+    for(int i = 0; i < 5; ++i) {
+      climberStatus = rightClimb.getConfigurator().apply(rightClimberConfig);
+      if (climberStatus.isOK()) break;
+    }
+    if (!climberStatus.isOK()) {
+      System.out.println("Could not configure device. Error: " + climberStatus.toString());
+    }
     //End Configuration
-  }
+    m_RightClimb.setPosition(0);
+    }
 
   /**
    * Sets the position to move the climber to.  
@@ -97,6 +117,7 @@ public class ClimberSubsystem extends SubsystemBase {
     if (Constants.kMotorEnableClimber == 1) {
       System.out.println("Subsystem: Climber - setClimberDesiredPosition");
       m_LeftClimb.setControl(climberMoveRequest.withPosition(desiredPosition));
+      m_RightClimb.setControl(climberMoveRequest.withPosition(desiredPosition));
     }
       m_desiredPosition = desiredPosition;
   }

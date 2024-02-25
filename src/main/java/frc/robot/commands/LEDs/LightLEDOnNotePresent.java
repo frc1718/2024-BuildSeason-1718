@@ -4,11 +4,9 @@
 
 package frc.robot.commands.LEDs;
 
-import frc.robot.commands.Driver.Shoot;
+import frc.robot.subsystems.BeamBreakSubsystem;
 import frc.robot.subsystems.LEDSubsystem;
-import frc.robot.subsystems.ShooterIntakeSubsystem;
 import edu.wpi.first.math.filter.Debouncer;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /**
@@ -18,8 +16,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class LightLEDOnNotePresent extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final LEDSubsystem m_LEDSubsystem;
-  private final ShooterIntakeSubsystem m_shooterIntakeSubsystem;
-
+  private final BeamBreakSubsystem m_beamBreak;
   Debouncer m_debouncer= new Debouncer(.1, Debouncer.DebounceType.kBoth);
 
   boolean m_isFinished = false;
@@ -30,9 +27,9 @@ public class LightLEDOnNotePresent extends Command {
    * Required.
    * @param shooterIntakeSubsystem An instance of the shooter intake subsystem.
    */
-  public LightLEDOnNotePresent(LEDSubsystem subsystem, ShooterIntakeSubsystem shooterIntakeSubsystem) {
+  public LightLEDOnNotePresent(LEDSubsystem subsystem, BeamBreakSubsystem beamBreakSubsystem) {
     m_LEDSubsystem = subsystem;
-    m_shooterIntakeSubsystem = shooterIntakeSubsystem;
+    m_beamBreak = beamBreakSubsystem;
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_LEDSubsystem);
@@ -53,7 +50,7 @@ public class LightLEDOnNotePresent extends Command {
     //System.out.println("Command LightLEDOnNotePresent: Running");
       m_LEDSubsystem.SetLightIntensity(1);
 
-      if (!m_shooterIntakeSubsystem.getNotePresent()){
+      if (!m_beamBreak.getNotePresent()){
         m_LEDSubsystem.SetLightIntensity(0);
         m_isFinished=true;
       }

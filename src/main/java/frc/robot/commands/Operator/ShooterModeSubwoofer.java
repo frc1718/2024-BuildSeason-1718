@@ -67,7 +67,7 @@ public class ShooterModeSubwoofer extends Command {
     switch(m_stateMachine) {     
       case 1:  // Front intake in position
         System.out.println("Operator Command ShooterModeSubwoofer: Case 1 Started");
-        if (m_frontIntakeSubsystem.getFrontIntakeInPosition(Constants.kFrontIntakeClearPos)) {
+        if (m_frontIntakeSubsystem.getFrontIntakeIsClear()) {
           m_shooterSubsystem.setShooterArmPosition(Constants.kShooterArmSubwooferPos);
           System.out.println("Operator Command ShooterModeSubwoofer: Case 1 Complete");
           m_stateMachine = m_stateMachine + 1;
