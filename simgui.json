@@ -44,14 +44,13 @@
       "Pose": {
         "double[]##v_/Pose/robotPose": {
           "open": true
-        },
-        "open": true
-      },
-      "Shuffleboard": {
-        "open": true
+        }
       },
       "SmartDashboard": {
         "Auton Selector": {
+          "open": true
+        },
+        "Chirp Selector": {
           "open": true
         },
         "Selecter": {

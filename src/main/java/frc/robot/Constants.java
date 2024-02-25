@@ -54,17 +54,17 @@ public class Constants {
     //public static final int kMotorEnableLeftRearSwerveSteer = 1;
 
     // Start Motor Enables Front Intake
-    public static final int kMotorEnableFrontIntakeSpin = 1;
-    public static final int kMotorEnableFrontIntakeRotate =1;
+    public static final int kMotorEnableFrontIntakeSpin = 0;
+    public static final int kMotorEnableFrontIntakeRotate = 0;
 
     //Start Motor Enables Shooter
-    public static final int kMotorEnableLeftShooterSpin = 1;
-    public static final int kMotorEnableRightShooterSpin = 1;
-    public static final int kMotorEnableShooterIntakeSpin = 1;
-    public static final int kMotorEnableShooterArmRotate = 1;
+    public static final int kMotorEnableLeftShooterSpin = 0;
+    public static final int kMotorEnableRightShooterSpin = 0;
+    public static final int kMotorEnableShooterIntakeSpin = 0;
+    public static final int kMotorEnableShooterArmRotate = 0;
 
     //Start Motor Enables Climber
-    public static final int kMotorEnableClimber = 1;
+    public static final int kMotorEnableClimber = 0;
     // End Motor Enables
 
     // Start Positions
@@ -241,6 +241,23 @@ public class Constants {
     public static final int kClimberVoltageClosedLoopRampPeriod = 0;
     // End Climber settings
     
+    //Start custom Swerve settings
+    public static final int kSwerveDriveMaxForwardVoltage = 11;
+    public static final int kSwerveDriveMaxReverseVoltage = -11;
+    //A note of the current limiting: it only kicks in if the current is past the threshold for the threshold time.
+    //So, with the values below, the supply current will be limited to 60 A if the motor draws 80 A or higher for 1 sec.
+    public static final int kSwerveDriveSupplyCurrentLimit = 60;
+    public static final boolean kSwerveDriveSupplyCurrentLimitEnable = true;
+    public static final int kSwerveDriveSupplyCurrentThreshold = 80;
+    public static final int kSwerveDriveSupplyTimeThreshold = 1;
+
+    public static final int kSwerveSteerMaxForwardVoltage = 11;
+    public static final int kSwerveSteerMaxReverseVoltage = -11;
+    public static final int kSwerveSteerSupplyCurrentLimit = 60;
+    public static final boolean kSwerveSteerSupplyCurrentLimitEnable = true;
+    public static final int kSwerveSteerSupplyCurrentThreshold = 80;
+    public static final int kSwerveSteerSupplyTimeThreshold = 1;
+
     //Name of the limelight camera.
     public static final String kLimelightName = "limelight";
 

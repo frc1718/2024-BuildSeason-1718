@@ -40,6 +40,8 @@ import frc.robot.commands.Driver.ShootTrap;
 import frc.robot.commands.Driver.Spit;
 import frc.robot.commands.Driver.Suck;
 import frc.robot.commands.General.SetMotorsToCoast;
+import frc.robot.commands.General.NotePosition;
+import frc.robot.commands.General.StowArmAndIntake;
 import frc.robot.generated.TunerConstants;
 import frc.robot.commands.CommandSwerveDrivetrain;
 
@@ -74,6 +76,7 @@ public class RobotContainer {
       .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
       .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // I want field-centric
                                                                // driving in open loop
+                                                               
   private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
   private final SwerveRequest.RobotCentric forwardStraight = new SwerveRequest.RobotCentric().withDriveRequestType(DriveRequestType.OpenLoopVoltage);
   private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
@@ -163,18 +166,14 @@ public class RobotContainer {
     /* Setting up bindings for selecting an autonomous to run. */
     /* Up / Down on the D-Pad of the driver controller. */
     /* Until we start generating paths and creating auton routines, this will cycle through .chrp files.*/
-    driveController.povDown().onTrue(new InstantCommand(() -> {
-      if (RobotState.isDisabled()) {
-        chirpSelect.decrementSelection();
-      }
+    driveController.povDown().and(RobotState::isDisabled).onTrue(new InstantCommand(() -> {
+      chirpSelect.decrementSelection();
     }).ignoringDisable(true));
 
     driveController.a().and(RobotState::isDisabled).whileTrue(new SetMotorsToCoast(climber, shooter, frontIntake));
 
-    driveController.povUp().onTrue(new InstantCommand(() -> {
-      if (RobotState.isDisabled()) {
-        chirpSelect.incrementSelection();
-      }
+    driveController.povUp().and(RobotState::isDisabled).onTrue(new InstantCommand(() -> {
+      chirpSelect.incrementSelection();
     }).ignoringDisable(true));
 
     driveController.a().onTrue(new InstantCommand(() -> {
@@ -220,22 +219,27 @@ public class RobotContainer {
    */
   private void registerAutonCommands(){
     //ALL COMMANDS THAT COULD BE USED IN AUTONOMOUS NEED TO BE REGISTERED HERE.
-    //These are currently added as an example.
-    //PrintCommand is basic.
-    //If I understand the commands correctly, Auton Light will end almost immediately.
-    //But Auton Blink should never end.
-    NamedCommands.registerCommand("Print YAY", new PrintCommand("YAY"));
-    NamedCommands.registerCommand("Auton Light",new LightLEDOnNotePresent(LED, shooterIntake));
-    NamedCommands.registerCommand("Auton Blink", new PrintCommand("Auton Blink no longer exists."));
+    NamedCommands.registerCommand("Climb", new Climb(climber, frontIntake, shooter));
+    NamedCommands.registerCommand("Shoot", new Shoot(frontIntake, shooter, climber, shooterIntake));
+    NamedCommands.registerCommand("ShootTrap", new ShootTrap(frontIntake, shooter, climber, shooterIntake));
+    NamedCommands.registerCommand("Spit", new Spit(frontIntake, shooter, shooterIntake));
+    NamedCommands.registerCommand("Suck", new Suck(frontIntake, shooter, shooterIntake));
+    NamedCommands.registerCommand("NotePosition", new NotePosition(shooterIntake));
+    NamedCommands.registerCommand("StowArmAndIntake", new StowArmAndIntake(frontIntake, shooter));
+    NamedCommands.registerCommand("LightLEDOnNotePresent", new LightLEDOnNotePresent(LED, shooterIntake));
+    NamedCommands.registerCommand("PreClimb", new PreClimb(climber, shooter, frontIntake, shooterIntake));
+    NamedCommands.registerCommand("ShooterModeAmp", new ShooterModeAmp(frontIntake, shooter));
+    NamedCommands.registerCommand("ShooterModePodium", new ShooterModePodium(frontIntake, shooter));
+    NamedCommands.registerCommand("ShooterModeShootWithPose", new ShooterModeShootWithPose(frontIntake, shooter, drivetrain));
+    NamedCommands.registerCommand("ShooterModeSubwoofer", new ShooterModeSubwoofer(frontIntake, shooter));
   }
 
   public RobotContainer() {
 
     //Start the CTRE logger for sysID use
-    // SignalLogger.start();
+    //SignalLogger.start();
 
     configureBindings();
-    //Not sure if this is the correct placement for registering autonomous commands.
     registerAutonCommands();
     configureCustomNTValues();
 
@@ -244,7 +248,6 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    //return Commands.print("Selected Autonomous: " + chirpSelect.getCurrentSelectionName()); //Using the CHRP list for debugging.
     //This should load the selected autonomous file.
     return drivetrain.getAutoPath(autonSelect.getCurrentSelectionName());
   }
