@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -46,14 +47,21 @@ public class Robot extends TimedRobot {
 
     if (enableLimelight) {
       //Periodically retrieve the results from the limelight and extract the pose.
-      Results limelightResults = LimelightHelpers.getLatestResults(Constants.kLimelightName).targetingResults;
-      Pose2d limelightPose = limelightResults.getBotPose2d();
+      LimelightHelpers.PoseEstimate limelightMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue(Constants.kLimelightName);
+      if (limelightMeasurement.tagCount >= 2) {
+        m_robotContainer.drivetrain.setVisionMeasurementStdDevs(VecBuilder.fill(0.7, 0.7, 9999999));
+        m_robotContainer.drivetrain.addVisionMeasurement(limelightMeasurement.pose, limelightMeasurement.timestampSeconds);
+      }
+
+      //Old limelight example code.
+      //Results limelightResults = LimelightHelpers.getLatestResults(Constants.kLimelightName).targetingResults;
+      //Pose2d limelightPose = limelightResults.getBotPose2d();
 
       //This validity check will probably have more logic to it in the future, but for now, just check if the latest results are valid.
-      if (limelightResults.valid) {
+      //if (limelightResults.valid) {
         //botpose[6] is the combined targeting latency and capture latency.  Subtract from the current time to determine when the results were calculated.
         //m_robotContainer.drivetrain.addVisionMeasurement(limelightPose, Timer.getFPGATimestamp() - (limelightResults.botpose[6] / 1000));
-      }
+      //}
     }
   }
 
