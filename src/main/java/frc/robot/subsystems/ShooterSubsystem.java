@@ -6,10 +6,12 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
+import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
+import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.PositionVoltage;
 //import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
@@ -49,7 +51,7 @@ public class ShooterSubsystem extends SubsystemBase {
   
   private final VelocityVoltage ShooterVelocity = new VelocityVoltage(0.0, 0.0, true, 0,0, false, false, false);
   //private final MotionMagicVoltage ShooterArmPosition = new MotionMagicVoltage(0.0, true, 0, 0, false, false, false);
-  private final PositionVoltage ShooterArmPositionRequest = new PositionVoltage(0).withSlot(0);
+  private final MotionMagicVoltage ShooterArmPositionRequest = new MotionMagicVoltage(0, true, 0, 0, false, false, false).withSlot(0);
 
   /**
    * Constructs an instance of the shooter subsystem.
@@ -107,8 +109,8 @@ public class ShooterSubsystem extends SubsystemBase {
    */
   public void setShooterSpeed(double shootSpeed) {
     System.out.println("ShooterSubsystem: setShooterSpeed");
-    //m_SpinLeftShooter.setControl(ShooterVelocity.withVelocity(shootSpeed));
-    //m_SpinRightShooter.setControl(ShooterVelocity.withVelocity((shootSpeed*0.9)));
+    m_SpinLeftShooter.setControl(ShooterVelocity.withVelocity(shootSpeed));
+    m_SpinRightShooter.setControl(ShooterVelocity.withVelocity((shootSpeed)));
     m_desiredSpeed = shootSpeed;
   }
 

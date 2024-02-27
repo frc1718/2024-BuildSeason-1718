@@ -57,6 +57,7 @@ public class Suck extends Command {
 
     //Set required positions
     m_frontIntakeSubsystem.setFrontIntakePosition(Constants.kFrontIntakeDownPos);  
+    m_shooterSubsystem.setShooterSpeed(0);
     
     m_isFinished = false;
   }
@@ -70,7 +71,7 @@ public class Suck extends Command {
       switch(m_stateMachine){     
         case 1:  //Front intake in position
           System.out.println("Driver Command Suck: Case 1");
-          if (m_frontIntakeSubsystem.getFrontIntakeInPosition(Constants.kFrontIntakeDownPos)) {
+          if (m_frontIntakeSubsystem.getFrontIntakeInPosition(Constants.kFrontIntakeDownPos) && (m_shooterSubsystem.getShooterUpToSpeed(0))) {
             System.out.println("Driver Command Suck: Case 1 Complete!");
             m_shooterSubsystem.setShooterArmPosition(Constants.kShooterArmHomePos);
             m_stateMachine = m_stateMachine + 1;

@@ -58,8 +58,8 @@ public class Constants {
     public static final int kMotorEnableFrontIntakeRotate = 1;
 
     //Start Motor Enables Shooter
-    public static final int kMotorEnableLeftShooterSpin = 0;
-    public static final int kMotorEnableRightShooterSpin = 0;
+    public static final int kMotorEnableLeftShooterSpin = 1;
+    public static final int kMotorEnableRightShooterSpin = 1;
     public static final int kMotorEnableShooterIntakeSpin = 1;
     public static final int kMotorEnableShooterArmRotate = 1;
 

@@ -132,6 +132,7 @@ public class Shoot extends Command {
         if (m_frontIntakeSubsystem.getFrontIntakeInPosition(Constants.kFrontIntakeClearPos)) {
           System.out.println("Driver Command Shoot: Case 1 Complete!");
           m_shooterSubsystem.setShooterArmPosition(m_shooterArmPosition);
+          m_shooterSubsystem.setShooterSpeed(m_shooterSpeed);
           m_stateMachine = m_stateMachine + 1;
         }        
       break;
