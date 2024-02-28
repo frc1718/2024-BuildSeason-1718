@@ -271,6 +271,20 @@ public class Constants {
     //Name of the limelight camera.
     public static final String kLimelightName = "limelight";
 
+    //Allowable TX tolerance for aiming at an AprilTag.
+    public static final double kTXTolerance = 1;    //A complete guess.
+
+    //Distance between the center of the speaker AprilTag and the floor.
+    //The bottom of the AprilTag is 4 ft. 3-7/8 in. from the ground.
+    //Add 4-1/2 in. to the center of the AprilTag.
+    //56-3/8 in. is 1.432 meters.
+    public static final double kSpeakerAprilTagHeight = 1.432;
+    
+    //Distance between the lens of the limelight and the floor.
+    //Lens of the limelight is 16-9/10 in. from the ground.
+    //16-9/10 in. is 0.429 meters.
+    public static final double kLimelightHeight = 0.429;
+
     //Pose of the blue speaker.
     //Used to be a pose, but only the X and Y are needed.  Changed to a translation to clean up the actual calculation.
     public static final Translation2d kBlueSpeakerLocation = new Translation2d(0.0, 5.5);
@@ -282,6 +296,10 @@ public class Constants {
     //Since the driver station defaults to 'Red 1' as the alliance station when not connected to the FMS, the default pose is for the red alliance.
     //Change the rotation to 0 radians if you want the default pose to be the blue alliance.
     public static final Rotation2d kDefaultRotation = new Rotation2d(Math.PI);
+
+    static {
+        
+    }
     public static final Pose2d kDefaultPose = new Pose2d(0, 0, kDefaultRotation);
 
     //Interpolation for the shoot with pose command.  The values that correspond to shooting from the subwoofer and podium can also be added.

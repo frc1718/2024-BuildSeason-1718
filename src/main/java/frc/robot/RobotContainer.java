@@ -88,6 +88,11 @@ public class RobotContainer {
       .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1)
       .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
 
+  //Experimental Limelight targeting
+  private final SwerveRequest.FieldCentricFacingAngle limelightCentering = new SwerveRequest.FieldCentricFacingAngle()
+      .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1)
+      .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
+  
   private final Telemetry logger = new Telemetry(MaxSpeed);
 
   //Open Subsystems
@@ -106,7 +111,7 @@ public class RobotContainer {
             .withVelocityY(-driveController.getLeftX() * MaxSpeed) // Drive left with negative X (left)
             .withRotationalRate(-driveController.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
         ).ignoringDisable(true));
-
+    
     //=============================================================================
     //======================Driver Controller Assignments==========================
     //=============================================================================
