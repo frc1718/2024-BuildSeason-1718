@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
@@ -39,6 +40,12 @@ public class Robot extends TimedRobot {
     m_robotContainer.drivetrain.seedFieldRelative(Constants.kDefaultPose);
 
     //CameraServer.startAutomaticCapture();
+
+    //Setting up port forwarding for all limelight related ports.
+    //Only setting the port-forwarding once in the code.
+    for (int port = 5800; port <= 5807; port++) {
+      PortForwarder.add(port, "limelight.local", port);
+    }
   }
 
   @Override
