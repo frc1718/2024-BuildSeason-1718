@@ -36,6 +36,13 @@ public class ShooterModeShootWithLimelight extends Command {
   .withVelocityX(0)
   .withVelocityY(0);
 
+  private final SwerveRequest.FieldCentric m_PIDAim = new SwerveRequest.FieldCentric()
+  .withDeadband((TunerConstants.kSpeedAt12VoltsMps) * 0.1)
+  .withRotationalDeadband((1.5 * Math.PI) * 0.1)
+  .withDriveRequestType(DriveRequestType.OpenLoopVoltage)
+  .withVelocityX(0)
+  .withVelocityY(0);
+
   /*
    * Check for Fiducal 'Whatever it is (7?)'                            CASE 1
    * If present, get TX - If not, quit command (or signal in some way)  CASE 1
@@ -58,6 +65,8 @@ public class ShooterModeShootWithLimelight extends Command {
   private Rotation2d m_limeLightRotation;
   private double m_limeLightToAprilTagVerticalDistance = (Constants.kSpeakerAprilTagHeight - Constants.kLimelightHeight);
   private double m_verticalAngleToAprilTag = 0;
+  private double m_quickErrCalc = 0;
+  private double m_kP = 0.01;
 
   /**
    * Constructs an instance of the aim with limelight command.
@@ -125,13 +134,18 @@ public class ShooterModeShootWithLimelight extends Command {
           System.out.println("AimWithLimelight - Case 1 - AprilTag found!");
           //Get angles.
           m_angleToAprilTag = LimelightHelpers.getTX(Constants.kLimelightName);
-          m_currentRobotHeading = m_drivetrain.getState().Pose.getRotation().getDegrees();
-          //m_currentRobotHeading = m_drivetrain.getPigeon2().getRotation2d().getDegrees(); Alternate if above doesn't work.
+          System.out.println("AimWithLimelight - Case 1 - Angle to AprilTag: " + m_angleToAprilTag);
+          //m_currentRobotHeading = m_drivetrain.getState().Pose.getRotation().getDegrees();
+          m_currentRobotHeading = m_drivetrain.getPigeon2().getAngle();
+          System.out.println("AimWithLimelight - Case 1 - Current Robot Heading: " + m_currentRobotHeading);
           m_newAngleHeading = m_angleToAprilTag + m_currentRobotHeading;
+          System.out.println("AimWithLimelight - Case 1 - New Angle Heading: " + m_newAngleHeading);
           m_limeLightRotation = helpMe(m_newAngleHeading);
 
           m_verticalAngleToAprilTag = LimelightHelpers.getTY(Constants.kLimelightName);
+          System.out.println("AimWithLimelight - Case 1 - Vertical Angle to AprilTag: " + m_verticalAngleToAprilTag);
           m_distanceToAprilTag = m_limeLightToAprilTagVerticalDistance / Math.tan(m_verticalAngleToAprilTag);
+          System.out.println("AimWithLimelight - Case 1 - Distance to AprilTag: " + m_distanceToAprilTag);
 
           m_stateMachine = m_stateMachine + 1;
         }
@@ -144,7 +158,9 @@ public class ShooterModeShootWithLimelight extends Command {
 
       case 2:  //Rotate to the new angle.
         System.out.println("AimWithLimelight - Case 2 - Rotate to position");
-        m_drivetrain.setControl(m_aim.withTargetDirection(m_limeLightRotation));
+        m_quickErrCalc = m_newAngleHeading - m_drivetrain.getPigeon2().getAngle();
+        System.out.println("AimWithLimelight - Case 2 - Angle Error: " + m_quickErrCalc);
+        m_drivetrain.setControl(m_PIDAim.withRotationalRate(-(m_quickErrCalc * m_kP) * (1.5 * Math.PI)));
         if (Math.abs(LimelightHelpers.getTX(Constants.kLimelightName)) <= Constants.kTXTolerance) {
           if (m_debounceCounter >= m_debounceLimit) {
             m_stateMachine = m_stateMachine + 1;

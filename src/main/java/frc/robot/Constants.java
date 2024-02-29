@@ -54,14 +54,14 @@ public class Constants {
     //public static final int kMotorEnableLeftRearSwerveSteer = 1;
 
     // Start Motor Enables Front Intake
-    public static final int kMotorEnableFrontIntakeSpin = 1;
-    public static final int kMotorEnableFrontIntakeRotate = 1;
+    public static final int kMotorEnableFrontIntakeSpin = 0;
+    public static final int kMotorEnableFrontIntakeRotate = 0;
 
     //Start Motor Enables Shooter
-    public static final int kMotorEnableLeftShooterSpin = 1;
-    public static final int kMotorEnableRightShooterSpin = 1;
-    public static final int kMotorEnableShooterIntakeSpin = 1;
-    public static final int kMotorEnableShooterArmRotate = 1;
+    public static final int kMotorEnableLeftShooterSpin = 0;
+    public static final int kMotorEnableRightShooterSpin = 0;
+    public static final int kMotorEnableShooterIntakeSpin = 0;
+    public static final int kMotorEnableShooterArmRotate = 0;
 
     //Start Motor Enables Climber
     public static final int kMotorEnableClimber = 0;

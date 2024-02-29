@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.LimelightHelpers.LimelightTarget_Fiducial;
 import frc.robot.LimelightHelpers.Results;
 import frc.robot.commands.General.DisabledSafety;
 import frc.robot.commands.General.NotePosition;
@@ -60,8 +61,6 @@ public class Robot extends TimedRobot {
         m_robotContainer.drivetrain.addVisionMeasurement(limelightMeasurement.pose, limelightMeasurement.timestampSeconds);
       }
 
-      //Old limelight example code.
-      //Results limelightResults = LimelightHelpers.getLatestResults(Constants.kLimelightName).targetingResults;
       //Pose2d limelightPose = limelightResults.getBotPose2d();
 
       //This validity check will probably have more logic to it in the future, but for now, just check if the latest results are valid.
