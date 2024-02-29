@@ -33,6 +33,7 @@ import frc.robot.commands.Operator.Home;
 import frc.robot.commands.Operator.PreClimb;
 import frc.robot.commands.Operator.ShooterModeAmp;
 import frc.robot.commands.Operator.ShooterModePodium;
+import frc.robot.commands.Operator.ShooterModeShootWithLimelight;
 import frc.robot.commands.Operator.ShooterModeShootWithPose;
 import frc.robot.commands.Operator.ShooterModeSubwoofer;
 import frc.robot.commands.Driver.Climb;
@@ -89,6 +90,11 @@ public class RobotContainer {
       .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1)
       .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
 
+  //Experimental Limelight targeting
+  private final SwerveRequest.FieldCentricFacingAngle limelightCentering = new SwerveRequest.FieldCentricFacingAngle()
+      .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1)
+      .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
+  
   private final Telemetry logger = new Telemetry(MaxSpeed);
 
   //Open Subsystems
@@ -107,7 +113,7 @@ public class RobotContainer {
             .withVelocityY(-driveController.getLeftX() * MaxSpeed) // Drive left with negative X (left)
             .withRotationalRate(-driveController.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
         ).ignoringDisable(true));
-
+    
     //=============================================================================
     //======================Driver Controller Assignments==========================
     //=============================================================================
@@ -207,8 +213,11 @@ public class RobotContainer {
     driveController.back().and(driveController.x()).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
     driveController.start().and(driveController.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
     driveController.start().and(driveController.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
-  }
 
+    //Limelight piece-by-piece debugging
+    driveController.back().onTrue(new ShooterModeShootWithLimelight(frontIntake, shooter, drivetrain, shooterIntake));
+  }
+  
   /**
    * Add all of the subsystems to {@link SmartDashboard}, so the data is published automatically.
    */

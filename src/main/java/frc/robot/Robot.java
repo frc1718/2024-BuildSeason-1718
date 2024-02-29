@@ -5,12 +5,15 @@
 package frc.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.LimelightHelpers.LimelightTarget_Fiducial;
 import frc.robot.LimelightHelpers.Results;
 import frc.robot.commands.General.DisabledSafety;
 import frc.robot.commands.General.NotePosition;
@@ -38,6 +41,12 @@ public class Robot extends TimedRobot {
     m_robotContainer.drivetrain.seedFieldRelative(Constants.kDefaultPose);
 
     //CameraServer.startAutomaticCapture();
+
+    //Setting up port forwarding for all limelight related ports.
+    //Only setting the port-forwarding once in the code.
+    for (int port = 5800; port <= 5807; port++) {
+      PortForwarder.add(port, "limelight.local", port);
+    }
   }
 
   @Override
@@ -46,14 +55,19 @@ public class Robot extends TimedRobot {
 
     if (enableLimelight) {
       //Periodically retrieve the results from the limelight and extract the pose.
-      Results limelightResults = LimelightHelpers.getLatestResults(Constants.kLimelightName).targetingResults;
-      Pose2d limelightPose = limelightResults.getBotPose2d();
+      LimelightHelpers.PoseEstimate limelightMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue(Constants.kLimelightName);
+      if (limelightMeasurement.tagCount >= 2) {
+        m_robotContainer.drivetrain.setVisionMeasurementStdDevs(VecBuilder.fill(0.7, 0.7, 9999999));
+        m_robotContainer.drivetrain.addVisionMeasurement(limelightMeasurement.pose, limelightMeasurement.timestampSeconds);
+      }
+
+      //Pose2d limelightPose = limelightResults.getBotPose2d();
 
       //This validity check will probably have more logic to it in the future, but for now, just check if the latest results are valid.
-      if (limelightResults.valid) {
+      //if (limelightResults.valid) {
         //botpose[6] is the combined targeting latency and capture latency.  Subtract from the current time to determine when the results were calculated.
         //m_robotContainer.drivetrain.addVisionMeasurement(limelightPose, Timer.getFPGATimestamp() - (limelightResults.botpose[6] / 1000));
-      }
+      //}
     }
   }
 
