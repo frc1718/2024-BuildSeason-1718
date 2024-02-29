@@ -20,7 +20,7 @@ import edu.wpi.first.wpilibj2.command.Command;
  * The front intake roller and shooter motors are stopped and both the front intake and shooter arm are moved into position.
  * The climber is moved into position so the hooks can hit the chain.
  */
-public class PreClimb extends Command {
+public class Home extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final ClimberSubsystem m_climberSubsystem;
   private final ShooterSubsystem m_shooterSubsystem;
@@ -41,7 +41,7 @@ public class PreClimb extends Command {
    * @param shooterIntakeSubsystem An instance of the shooter intake subsystem.
    * Required.
    */
-  public PreClimb(ClimberSubsystem climberSubsystem, ShooterSubsystem shooterSubsystem, FrontIntakeSubsystem frontIntakeSubsystem, ShooterIntakeSubsystem shooterIntakeSubsystem) {
+  public Home(ClimberSubsystem climberSubsystem, ShooterSubsystem shooterSubsystem, FrontIntakeSubsystem frontIntakeSubsystem, ShooterIntakeSubsystem shooterIntakeSubsystem) {
     m_climberSubsystem = climberSubsystem;
     m_shooterSubsystem = shooterSubsystem;
     m_frontIntakeSubsystem = frontIntakeSubsystem;
@@ -58,19 +58,17 @@ public class PreClimb extends Command {
   @Override
   public void initialize() {
     System.out.println("==========================");
-    System.out.println("Command Operator: PreClimb");
+    System.out.println("Command Operator: Home");
 
     //Initialize State Machine
     m_stateMachine = 1;
 
     //In the initialize step, set the desired starting positions and speeds of each system
     m_frontIntakeSubsystem.setFrontIntakeSpeed(Constants.kFrontIntakeStopSpeed);
-    m_frontIntakeSubsystem.setFrontIntakePosition(Constants.kFrontIntakeDownPos);
- 
-    m_climberSubsystem.setClimberDesiredPosition(Constants.kClimberPreClimbPos);
-
+    m_frontIntakeSubsystem.setFrontIntakePosition(Constants.kFrontIntakeClearPos);
+    m_climberSubsystem.setClimberDesiredPosition(Constants.kClimberHomePos);
     m_shooterSubsystem.setShooterSpeed(Constants.kShooterStopSpeed);
-    
+    m_shooterSubsystem.setShooterMode("DoNothing");
     m_isFinished = false;
 
   }
@@ -82,25 +80,26 @@ public class PreClimb extends Command {
 
     switch(m_stateMachine){     
       case 1:  //Front intake in position
-        System.out.println("Operator Command Preclimb: Case 1 Started");
-        if (m_frontIntakeSubsystem.getFrontIntakeInPosition(Constants.kFrontIntakeDownPos)) {
-          m_shooterSubsystem.setShooterArmPosition(Constants.kShooterArmPreClimbPos);
-          System.out.println("Operator Command Preclimb: Case 1 Complete");
+        System.out.println("Operator Command Home: Case 1 Started");
+        if (m_frontIntakeSubsystem.getFrontIntakeInPosition(Constants.kFrontIntakeClearPos)) {
+          m_shooterSubsystem.setShooterArmPosition(Constants.kShooterArmHomePos);
+          System.out.println("Operator Command Home: Case 1 Complete");
           m_stateMachine=m_stateMachine+1;
         }        
         break;
       case 2:  // Arm in position
-        System.out.println("Operator Command Preclimb: Case 2 Started");
-        if (m_shooterSubsystem.getShooterArmInPosition(Constants.kShooterArmPreClimbPos)) {
-          System.out.println("Operator Command Preclimb: Case 2 Complete");
+        System.out.println("Operator Command Home: Case 2 Started");
+        if (m_shooterSubsystem.getShooterArmInPosition(Constants.kShooterArmHomePos)) {
+          System.out.println("Operator Command Home: Case 2 Complete");
+          m_frontIntakeSubsystem.setFrontIntakePosition(Constants.kFrontIntakeHomePos);
           m_stateMachine=m_stateMachine+1;
         }
         break;
-      case 3:  // Climber in position
-        System.out.println("Operator Command Preclimb: Case 3 Started");       
-        if (m_climberSubsystem.getClimberInPosition(Constants.kClimberPreClimbPos)) {
-          System.out.println("Operator Command Preclimb: Case 3 Complete");
-          m_climberSubsystem.setPreClimbActuated(true);
+      case 3:  // Front Intake in position
+        System.out.println("Operator Command Home: Case 3 Started");       
+        if (m_frontIntakeSubsystem.getFrontIntakeInPosition(Constants.kFrontIntakeHomePos)) {
+          System.out.println("Operator Command Home: Case 3 Complete");
+          m_climberSubsystem.setPreClimbActuated(false);
           m_isFinished= true;
         }
         break;
@@ -110,7 +109,7 @@ public class PreClimb extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    System.out.println("Command Operator PreClimb: Command Finished");
+    System.out.println("Command Operator Home: Command Finished");
     System.out.println("==========================");
   }
 

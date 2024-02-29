@@ -34,7 +34,7 @@ import frc.robot.Constants;
 public class ShooterSubsystem extends SubsystemBase {
  
   //Make variables
-  public String m_shooterMode = "";
+  public String m_shooterMode = "DoNothing";
   public boolean m_readyToShoot = false;
   public double m_desiredPosition = 0;
   public double m_desiredSpeed = 0;

@@ -29,6 +29,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.commands.LEDs.LightLEDOnNotePresent;
 import frc.robot.commands.CommandSwerveDrivetrain;
+import frc.robot.commands.Operator.Home;
 import frc.robot.commands.Operator.PreClimb;
 import frc.robot.commands.Operator.ShooterModeAmp;
 import frc.robot.commands.Operator.ShooterModePodium;
@@ -129,9 +130,9 @@ public class RobotContainer {
             .withTargetDirection(Constants.kBlueSpeakerLocation.minus(drivetrain.getState().Pose.getTranslation()).getAngle())
             ));
 
-    driveController.leftBumper().onTrue(new Shoot(frontIntake, shooter, climber, shooterIntake));
-    driveController.rightBumper().whileTrue(new Suck(frontIntake, shooter, shooterIntake, beamBreak));
-    driveController.rightTrigger(.5).whileTrue(new Spit(frontIntake, shooter, shooterIntake)); 
+    driveController.leftBumper().onTrue(new Shoot(frontIntake, shooter, climber, shooterIntake)); //.onFalse(new StowArmAndIntake(frontIntake, shooter));
+    driveController.rightBumper().whileTrue(new Suck(frontIntake, shooter, shooterIntake, beamBreak)).onFalse(new StowArmAndIntake(frontIntake, shooter));
+    driveController.rightTrigger(.5).whileTrue(new Spit(frontIntake, shooter, shooterIntake)).onFalse(new StowArmAndIntake(frontIntake, shooter)); 
     driveController.leftTrigger(.5).onTrue(new Climb(climber,frontIntake,shooter));
     //driveController.y().onTrue(new ShootTrap(frontIntake, shooter, climber, shooterIntake));
  
@@ -166,6 +167,7 @@ public class RobotContainer {
     operatorController.x().onTrue(new ShooterModeShootWithPose(frontIntake, shooter, drivetrain));
     operatorController.a().onTrue(new ShooterModeSubwoofer(frontIntake, shooter));
     operatorController.leftBumper().and(operatorController.rightBumper()).debounce(2).onTrue(new PreClimb(climber,shooter,frontIntake, shooterIntake));
+    operatorController.start().onTrue(new Home(climber, shooter, frontIntake, shooterIntake));
 
     // Schedules Play music - Binds Dpad Up
     //operatorController.povUp().onTrue();

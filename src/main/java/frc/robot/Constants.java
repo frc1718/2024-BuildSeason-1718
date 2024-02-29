@@ -64,7 +64,7 @@ public class Constants {
     public static final int kMotorEnableShooterArmRotate = 1;
 
     //Start Motor Enables Climber
-    public static final int kMotorEnableClimber = 0;
+    public static final int kMotorEnableClimber = 1;
     // End Motor Enables
 
     // Start Positions
@@ -79,8 +79,8 @@ public class Constants {
 
     public static final int kClimberHomePos = 0;
     public static final int kClimberClimbPos = 0;
-    public static final int kClimberPreClimbPos = 0;
-    public static final int kClimberTolerancePos = 0;
+    public static final int kClimberPreClimbPos = 56;
+    public static final int kClimberTolerancePos = 1;
     
     public static final double kFrontIntakeDownPos = -0.01;  //Down so we can suck in
     public static final double kFrontIntakeHomePos = 0.38; //Starting position.  On hardstops
@@ -104,18 +104,18 @@ public class Constants {
     public static final int kShooterIntakeTrapSpeed = 0;
     public static final int kShooterIntakeSuckSpeed = 60;
     public static final int kShooterIntakeStopSpeed = 0;
-    public static final int kShooterIntakeSpitSpeed = 0;
-    public static final int kShooterIntakeShootSpeed = 0;
+    public static final int kShooterIntakeSpitSpeed = -60;
+    public static final int kShooterIntakeShootSpeed = 75;
     public static final int kShooterIntakeIndexSpeed = 10;
-    public static final int kShooterIntakeReverseIndexSpeed = 0;
-    public static final int kShooterIntakeMaxSpeed = 0;
+    public static final int kShooterIntakeReverseIndexSpeed = 10;
+    public static final int kShooterIntakeMaxSpeed = 100;
 
     public static final int kFrontIntakeStopSpeed = 0;
     public static final int kFrontIntakeSuckSpeed = 50;
-    public static final int kFrontIntakeSpitSpeed = 0;
-    public static final int kFrontIntakeMaxSpeed = 0;
+    public static final int kFrontIntakeSpitSpeed = -35;
+    public static final int kFrontIntakeMaxSpeed = 75;
 
-    public static final int kShooterSpeedTolerance = 0;
+    public static final int kShooterSpeedTolerance = 1;
 
     public static final int kShooterShotSpeedDrop = 0;  //The amount the shooter declines when we shoot a note
 

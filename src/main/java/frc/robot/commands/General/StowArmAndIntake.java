@@ -52,7 +52,7 @@ public class StowArmAndIntake extends Command {
     m_stateMachine = 1;
     
     //Set Positions and speeds
-    m_frontIntakeSubsystem.setFrontIntakePosition(Constants.kFrontIntakeClearPos);
+
     m_frontIntakeSubsystem.setFrontIntakeSpeed(Constants.kFrontIntakeStopSpeed);
 
     m_isFinished = false;
@@ -63,25 +63,32 @@ public class StowArmAndIntake extends Command {
   @Override
   public void execute() {
 
-    switch(m_stateMachine){     
-      case 1:  //Move Front Intake to Clear Position
+    switch(m_stateMachine){
+      case 1:  //Check if everything is home
+        if (m_shooterSubsystem.getShooterArmInPosition(Constants.kShooterArmHomePos)) {
+          m_frontIntakeSubsystem.setFrontIntakePosition(Constants.kFrontIntakeHomePos);
+          m_isFinished=true;
+        } else {
+            m_frontIntakeSubsystem.setFrontIntakePosition(Constants.kFrontIntakeClearPos);  
+            m_stateMachine = m_stateMachine++;
+        }
+      case 2:  //Move Front Intake to Clear Position
         System.out.println("General StowArmAndIntake: Case 1");
         if (m_frontIntakeSubsystem.getFrontIntakeInPosition(Constants.kFrontIntakeClearPos)) {
           System.out.println("General StowArmAndIntake: Case 1 Complete");
           m_shooterSubsystem.setShooterArmPosition(Constants.kShooterArmHomePos);
           m_stateMachine = m_stateMachine + 1;
         }
-        break;
-      case 2:  //When arm is home, end command
+      break;
+      case 3:  //When arm is home, end command
         System.out.println("General StowArmAndIntake: Case 2");
         if (m_shooterSubsystem.getShooterArmInPosition(Constants.kShooterArmHomePos)){
           System.out.println("General StowArmAndIntake: Case 2 Complete.");
+          m_frontIntakeSubsystem.setFrontIntakePosition(Constants.kFrontIntakeHomePos);
           m_isFinished = true;
         }
+      break;
     }   
-
-    //Remove once all logic is in place.
-    m_isFinished=true;
     
   }
 

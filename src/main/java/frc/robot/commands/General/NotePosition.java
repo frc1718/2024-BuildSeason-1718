@@ -32,7 +32,6 @@ public class NotePosition extends Command {
     m_shooterIntakeSubsystem = shooterIntakeSubsystem;
     m_beamBreakSubsystem = beamBreakSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_shooterIntakeSubsystem);
 
   }
 

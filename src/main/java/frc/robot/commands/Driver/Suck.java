@@ -56,10 +56,20 @@ public class Suck extends Command {
     m_stateMachine = 1;
 
     //Set required positions
-    m_frontIntakeSubsystem.setFrontIntakePosition(Constants.kFrontIntakeDownPos);  
-    m_shooterSubsystem.setShooterSpeed(0);
+    if (m_beamBreakSubsystem.getNotePresent()){
+      m_isFinished=true;
+    } else
+    {
+      m_isFinished = false;
+      m_frontIntakeSubsystem.setFrontIntakePosition(Constants.kFrontIntakeDownPos);  
+      m_shooterSubsystem.setShooterSpeed(0);
+      m_shooterIntakeSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeSuckSpeed);
+     if (m_shooterSubsystem.getShooterArmInPosition(Constants.kShooterArmHomePos)) {
+        m_frontIntakeSubsystem.setFrontIntakeSpeed(Constants.kFrontIntakeSuckSpeed);
+     }
+    }
     
-    m_isFinished = false;
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -71,7 +81,7 @@ public class Suck extends Command {
       switch(m_stateMachine){     
         case 1:  //Front intake in position
           System.out.println("Driver Command Suck: Case 1");
-          if (m_frontIntakeSubsystem.getFrontIntakeInPosition(Constants.kFrontIntakeDownPos) && (m_shooterSubsystem.getShooterUpToSpeed(0))) {
+          if (m_frontIntakeSubsystem.getFrontIntakeInPosition(Constants.kFrontIntakeDownPos)) {
             System.out.println("Driver Command Suck: Case 1 Complete!");
             m_shooterSubsystem.setShooterArmPosition(Constants.kShooterArmHomePos);
             m_stateMachine = m_stateMachine + 1;
@@ -80,9 +90,8 @@ public class Suck extends Command {
         case 2:  // Shooter Arm In Position
           System.out.println("Driver Command Suck: Case 2");
           if (m_shooterSubsystem.getShooterArmInPosition(Constants.kShooterArmHomePos)) {
-            m_shooterIntakeSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeSuckSpeed);
-            m_frontIntakeSubsystem.setFrontIntakeSpeed(Constants.kFrontIntakeSuckSpeed);
             System.out.println("Driver Command Suck: Case 2 Complete!");
+            m_frontIntakeSubsystem.setFrontIntakeSpeed(Constants.kFrontIntakeSuckSpeed);
             m_stateMachine = m_stateMachine + 1;
           }
         break;
@@ -104,7 +113,7 @@ public class Suck extends Command {
   public void end(boolean interrupted) {
   m_frontIntakeSubsystem.setFrontIntakeSpeed(Constants.kFrontIntakeStopSpeed);
   m_shooterIntakeSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeStopSpeed);
-  m_frontIntakeSubsystem.setFrontIntakePosition(Constants.kFrontIntakeHomePos);
+  new StowArmAndIntake(m_frontIntakeSubsystem, m_shooterSubsystem);
   System.out.println("Driver Command: Suck Finished");
   System.out.println("=====================");
   }
