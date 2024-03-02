@@ -10,8 +10,6 @@ import frc.robot.subsystems.ShooterIntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
-import frc.robot.commands.General.NotePosition;
-import frc.robot.commands.General.StowArmAndIntake;
 
 /**
  * The suck command positions the front intake and shooter arm so a note can be picked up off the floor and moved into the shooter.
@@ -54,6 +52,8 @@ public class Suck extends Command {
   
     //Reset state machine
     m_stateMachine = 1;
+
+    m_isFinished = false;
 
     //Set required positions
     if (m_beamBreakSubsystem.getNotePresent()){
@@ -100,8 +100,8 @@ public class Suck extends Command {
           if (m_beamBreakSubsystem.getNotePresentShooter()) {
             m_shooterIntakeSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeStopSpeed);
             m_frontIntakeSubsystem.setFrontIntakeSpeed(Constants.kFrontIntakeStopSpeed);
-
             System.out.println("Driver Command Suck: Case 3 Complete!");
+            m_isFinished=true;
           }
         break;
       }
@@ -111,11 +111,14 @@ public class Suck extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-  m_frontIntakeSubsystem.setFrontIntakeSpeed(Constants.kFrontIntakeStopSpeed);
-  m_shooterIntakeSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeStopSpeed);
-  new StowArmAndIntake(m_frontIntakeSubsystem, m_shooterSubsystem);
-  System.out.println("Driver Command: Suck Finished");
-  System.out.println("=====================");
+    m_frontIntakeSubsystem.setFrontIntakeSpeed(Constants.kFrontIntakeStopSpeed);
+    m_shooterIntakeSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeStopSpeed);
+    if (m_isFinished=true) {
+     System.out.println("Driver Command: Suck Finished");
+    } else {
+     System.out.println("Driver Command: Suck Interrupted!");
+    }
+    System.out.println("=====================");
   }
 
   // Returns true when the command should end.

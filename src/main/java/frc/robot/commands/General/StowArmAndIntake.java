@@ -65,25 +65,28 @@ public class StowArmAndIntake extends Command {
 
     switch(m_stateMachine){
       case 1:  //Check if everything is home
+        System.out.println("General StowArmAndIntake: Case " + m_stateMachine);
         if (m_shooterSubsystem.getShooterArmInPosition(Constants.kShooterArmHomePos)) {
           m_frontIntakeSubsystem.setFrontIntakePosition(Constants.kFrontIntakeHomePos);
+          System.out.println("General StowArmAndIntake: Case " + m_stateMachine + " nothing to do!");
           m_isFinished=true;
         } else {
             m_frontIntakeSubsystem.setFrontIntakePosition(Constants.kFrontIntakeClearPos);  
-            m_stateMachine = m_stateMachine++;
+            m_stateMachine = m_stateMachine + 1;
+            System.out.println("General StowArmAndIntake: Case " + m_stateMachine + " Complete");
         }
       case 2:  //Move Front Intake to Clear Position
-        System.out.println("General StowArmAndIntake: Case 1");
+        System.out.println("General StowArmAndIntake: Case " + m_stateMachine);
         if (m_frontIntakeSubsystem.getFrontIntakeInPosition(Constants.kFrontIntakeClearPos)) {
-          System.out.println("General StowArmAndIntake: Case 1 Complete");
+          System.out.println("General StowArmAndIntake: Case " + m_stateMachine + " Complete");
           m_shooterSubsystem.setShooterArmPosition(Constants.kShooterArmHomePos);
           m_stateMachine = m_stateMachine + 1;
         }
       break;
       case 3:  //When arm is home, end command
-        System.out.println("General StowArmAndIntake: Case 2");
+        System.out.println("General StowArmAndIntake: Case " + m_stateMachine);
         if (m_shooterSubsystem.getShooterArmInPosition(Constants.kShooterArmHomePos)){
-          System.out.println("General StowArmAndIntake: Case 2 Complete.");
+          System.out.println("General StowArmAndIntake: Case " + m_stateMachine + " Complete");
           m_frontIntakeSubsystem.setFrontIntakePosition(Constants.kFrontIntakeHomePos);
           m_isFinished = true;
         }

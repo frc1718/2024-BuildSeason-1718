@@ -12,7 +12,6 @@ import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
-import com.ctre.phoenix6.controls.PositionVoltage;
 //import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.CANcoder;
@@ -141,6 +140,7 @@ public class ShooterSubsystem extends SubsystemBase {
    */
   public double getShooterSpeed() {
     System.out.println("ShooterSubsystem: getShooterSpeed");
+    m_SpinLeftShooter.getVelocity().getValueAsDouble();
     return m_SpinLeftShooter.getVelocity().getValueAsDouble();
 
   }

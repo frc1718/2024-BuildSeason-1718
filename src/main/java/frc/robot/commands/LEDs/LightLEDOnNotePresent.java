@@ -40,20 +40,18 @@ public class LightLEDOnNotePresent extends Command {
   public void initialize() {
     m_isFinished=false;
     System.out.println("Command LightLEDOnNotePresent: Started");
-    m_LEDSubsystem.SetLightIntensity(0);
+    m_LEDSubsystem.LEDOFF();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
     //System.out.println("Command LightLEDOnNotePresent: Running");
-      m_LEDSubsystem.SetLightIntensity(1);
-
-      if (!m_beamBreak.getNotePresent()){
-        m_LEDSubsystem.SetLightIntensity(0);
-        m_isFinished=true;
-      }
+    if (m_beamBreak.getNotePresent()){
+      m_LEDSubsystem.LEDON();
+    } else {
+      m_LEDSubsystem.LEDOFF();
+    }
   }
 
   // Called once the command ends or is interrupted.

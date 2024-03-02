@@ -63,6 +63,8 @@ public class PreClimb extends Command {
     //Initialize State Machine
     m_stateMachine = 1;
 
+    m_isFinished = false;
+
     //In the initialize step, set the desired starting positions and speeds of each system
     m_frontIntakeSubsystem.setFrontIntakeSpeed(Constants.kFrontIntakeStopSpeed);
     m_frontIntakeSubsystem.setFrontIntakePosition(Constants.kFrontIntakeDownPos);
@@ -71,7 +73,7 @@ public class PreClimb extends Command {
 
     m_shooterSubsystem.setShooterSpeed(Constants.kShooterStopSpeed);
     
-    m_isFinished = false;
+
 
   }
 

@@ -33,12 +33,12 @@ import frc.robot.commands.Operator.Home;
 import frc.robot.commands.Operator.PreClimb;
 import frc.robot.commands.Operator.ShooterModeAmp;
 import frc.robot.commands.Operator.ShooterModePodium;
-import frc.robot.commands.Operator.ShooterModeShootWithLimelight;
 import frc.robot.commands.Operator.ShooterModeShootWithPose;
 import frc.robot.commands.Operator.ShooterModeSubwoofer;
 import frc.robot.commands.Driver.Climb;
 import frc.robot.commands.Driver.Shoot;
 import frc.robot.commands.Driver.ShootTrap;
+import frc.robot.commands.Driver.ShooterModeShootWithLimelight;
 import frc.robot.commands.Driver.Spit;
 import frc.robot.commands.Driver.Suck;
 import frc.robot.commands.General.SetMotorsToCoast;
@@ -89,11 +89,6 @@ public class RobotContainer {
   private final SwerveRequest.FieldCentricFacingAngle rootyTootyPointAndShooty = new SwerveRequest.FieldCentricFacingAngle()
       .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1)
       .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
-
-  //Experimental Limelight targeting
-  private final SwerveRequest.FieldCentricFacingAngle limelightCentering = new SwerveRequest.FieldCentricFacingAngle()
-      .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1)
-      .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
   
   private final Telemetry logger = new Telemetry(MaxSpeed);
 
@@ -121,7 +116,6 @@ public class RobotContainer {
     // Schedules Tilt modules without driving wheels?  Maybe?
     //driveController.b().whileTrue(drivetrain.applyRequest(() -> point.withModuleDirection(new Rotation2d(-driveController.getLeftY(), -driveController.getLeftX()))));
     
-    // Currently disabled to prevent motor missing errors
     // Schedules Brake Swerve Drivetrain Binds (x-lock wheels) Driver
     driveController.x().whileTrue(drivetrain.applyRequest(() -> brake));
     
@@ -136,60 +130,20 @@ public class RobotContainer {
             .withTargetDirection(Constants.kBlueSpeakerLocation.minus(drivetrain.getState().Pose.getTranslation()).getAngle())
             ));
 
-    driveController.leftBumper().onTrue(new Shoot(frontIntake, shooter, climber, shooterIntake)); //.onFalse(new StowArmAndIntake(frontIntake, shooter));
-    driveController.rightBumper().whileTrue(new Suck(frontIntake, shooter, shooterIntake, beamBreak)).onFalse(new StowArmAndIntake(frontIntake, shooter));
-    driveController.rightTrigger(.5).whileTrue(new Spit(frontIntake, shooter, shooterIntake)).onFalse(new StowArmAndIntake(frontIntake, shooter)); 
+    driveController.leftBumper().onTrue(new Shoot(frontIntake, shooter, climber, shooterIntake, beamBreak)).onFalse(Commands.parallel(new StowArmAndIntake(frontIntake, shooter), new NotePosition(shooterIntake, beamBreak)));
+    driveController.rightBumper().onTrue(new Suck(frontIntake, shooter, shooterIntake, beamBreak)).onFalse(Commands.parallel(new StowArmAndIntake(frontIntake, shooter), new NotePosition(shooterIntake, beamBreak)));
+    driveController.rightTrigger(.5).whileTrue(new Spit(frontIntake, shooter, shooterIntake, beamBreak)).onFalse(Commands.parallel(new StowArmAndIntake(frontIntake, shooter), new NotePosition(shooterIntake, beamBreak))); 
     driveController.leftTrigger(.5).onTrue(new Climb(climber,frontIntake,shooter));
-    //driveController.y().onTrue(new ShootTrap(frontIntake, shooter, climber, shooterIntake));
- 
      
     // Schedules reset the field - Binds centric heading on back and start button push
     driveController.back().and(driveController.start()).onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative()));
 
-    //LED Stuff blinks randomly
-    //Trigger PickupStatus = new Trigger(shooterIntakeSubsystem::getNotePresentIntake);
-    //PickupStatus.onTrue(new BlinkSignalLight(LED, 1, 0.5));
-    //PickupStatus.onFalse(new SetSignalLightIntensity(LED, 0));
-
-    //Trigger NoteLocationStatus = new Trigger(shooterIntake::getNotePresent);
-    //NoteLocationStatus.onTrue(new LightLEDOnNotePresent(LED, shooterIntake));
-    
-    Trigger NotePositionInShooterIntake = new Trigger(beamBreak::getNotePresentShooter);
-    NotePositionInShooterIntake.onTrue(new NotePosition(shooterIntake, beamBreak));
-    
-    driveController.y().onTrue(new NotePosition(shooterIntake, beamBreak));
-
-    //======================================================================
-    //=========================Operator Controller Assignments==============
-    //======================================================================
-    // Y - Podium
-    // B - Amp
-    // X - Shoot From Pose
-    // A - Subwoofer
-    // Right Top + Left Top Bumper Climb Mode - Hold Down Both at Once
-    //
-    operatorController.y().onTrue(new ShooterModePodium(frontIntake, shooter));
-    operatorController.b().onTrue(new ShooterModeAmp(frontIntake, shooter));
-    operatorController.x().onTrue(new ShooterModeShootWithPose(frontIntake, shooter, drivetrain));
-    operatorController.a().onTrue(new ShooterModeSubwoofer(frontIntake, shooter));
-    operatorController.leftBumper().and(operatorController.rightBumper()).debounce(2).onTrue(new PreClimb(climber,shooter,frontIntake, shooterIntake));
-    operatorController.start().onTrue(new Home(climber, shooter, frontIntake, shooterIntake));
-
-    // Schedules Play music - Binds Dpad Up
-    //operatorController.povUp().onTrue();
-
     /* Setting up bindings for selecting an autonomous to run. */
     /* Up / Down on the D-Pad of the driver controller. */
     /* Until we start generating paths and creating auton routines, this will cycle through .chrp files.*/
-    driveController.povDown().and(RobotState::isDisabled).onTrue(new InstantCommand(() -> {
-      chirpSelect.decrementSelection();
-    }).ignoringDisable(true));
-
+    driveController.povDown().and(RobotState::isDisabled).onTrue(new InstantCommand(() -> {chirpSelect.decrementSelection();}).ignoringDisable(true));
     driveController.a().and(RobotState::isDisabled).whileTrue(new SetMotorsToCoast(climber, shooter, frontIntake).ignoringDisable(true));
-
-    driveController.povUp().and(RobotState::isDisabled).onTrue(new InstantCommand(() -> {
-      chirpSelect.incrementSelection();
-    }).ignoringDisable(true));
+    driveController.povUp().and(RobotState::isDisabled).onTrue(new InstantCommand(() -> {chirpSelect.incrementSelection();}).ignoringDisable(true));
 
     driveController.a().onTrue(new InstantCommand(() -> {
       //I'm not sure if 'tableName' refers to limelight name, or a network table.
@@ -201,21 +155,45 @@ public class RobotContainer {
       frontIntake.setServoPosition(0.5);;
     }));
 
+    /* Bindings for drivetrain characterization */
+    /* These bindings require multiple buttons pushed to swap between quastatic and dynamic */
+    /* Back/Start select dynamic/quasistatic, Y/X select forward/reverse direction */
+    //driveController.back().and(driveController.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
+    //driveController.back().and(driveController.x()).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
+    //driveController.start().and(driveController.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
+    //driveController.start().and(driveController.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
+
+    //Limelight piece-by-piece debugging
+    driveController.back().onTrue(new ShooterModeShootWithLimelight(frontIntake, shooter, drivetrain, shooterIntake));
+    
+    Trigger NoteLocationStatus = new Trigger(beamBreak::getNotePresent);
+    NoteLocationStatus.onTrue(new LightLEDOnNotePresent(LED, beamBreak)).onFalse(new LightLEDOnNotePresent(LED, beamBreak));
+    
+    //======================================================================
+    //=========================Operator Controller Assignments==============
+    //======================================================================
+    // Y - Podium
+    // B - Amp
+    // X - Shoot From Pose
+    // A - Subwoofer
+    // Right Top + Left Top Bumper Climb Mode - Hold Down Both at Once
+    //
+    operatorController.y().onTrue(new ShooterModePodium(frontIntake, shooter));
+    operatorController.b().onTrue(new ShooterModeAmp(frontIntake, shooter));
+    //Line below cauases a crash because it's not ready
+    //operatorController.x().onTrue(new ShooterModeShootWithPose(frontIntake, shooter, drivetrain));
+    operatorController.a().onTrue(new ShooterModeSubwoofer(frontIntake, shooter));
+    operatorController.leftBumper().and(operatorController.rightBumper()).debounce(2).onTrue(new PreClimb(climber,shooter,frontIntake, shooterIntake));
+    operatorController.start().onTrue(new Home(climber, shooter, frontIntake, shooterIntake));
+
+    // Schedules Play music - Binds Dpad Up
+    //operatorController.povUp().onTrue();
+
     if (Utils.isSimulation()) {
       drivetrain.seedFieldRelative(new Pose2d(new Translation2d(), Rotation2d.fromDegrees(90)));
     }
     drivetrain.registerTelemetry(logger::telemeterize);
 
-    /* Bindings for drivetrain characterization */
-    /* These bindings require multiple buttons pushed to swap between quastatic and dynamic */
-    /* Back/Start select dynamic/quasistatic, Y/X select forward/reverse direction */
-    driveController.back().and(driveController.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
-    driveController.back().and(driveController.x()).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
-    driveController.start().and(driveController.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
-    driveController.start().and(driveController.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
-
-    //Limelight piece-by-piece debugging
-    driveController.back().onTrue(new ShooterModeShootWithLimelight(frontIntake, shooter, drivetrain, shooterIntake));
   }
   
   /**
@@ -237,19 +215,18 @@ public class RobotContainer {
    */
   private void registerAutonCommands(){
     //ALL COMMANDS THAT COULD BE USED IN AUTONOMOUS NEED TO BE REGISTERED HERE.
-    NamedCommands.registerCommand("Climb", new Climb(climber, frontIntake, shooter));
-    NamedCommands.registerCommand("Shoot", new Shoot(frontIntake, shooter, climber, shooterIntake));
+    NamedCommands.registerCommand("Shoot", new Shoot(frontIntake, shooter, climber, shooterIntake, beamBreak));
     NamedCommands.registerCommand("ShootTrap", new ShootTrap(frontIntake, shooter, climber, shooterIntake));
-    NamedCommands.registerCommand("Spit", new Spit(frontIntake, shooter, shooterIntake));
+    NamedCommands.registerCommand("Spit", new Spit(frontIntake, shooter, shooterIntake, beamBreak));
     NamedCommands.registerCommand("Suck", new Suck(frontIntake, shooter, shooterIntake, beamBreak));
     NamedCommands.registerCommand("NotePosition", new NotePosition(shooterIntake, beamBreak));
     NamedCommands.registerCommand("StowArmAndIntake", new StowArmAndIntake(frontIntake, shooter));
     NamedCommands.registerCommand("LightLEDOnNotePresent", new LightLEDOnNotePresent(LED, beamBreak));
-    NamedCommands.registerCommand("PreClimb", new PreClimb(climber, shooter, frontIntake, shooterIntake));
     NamedCommands.registerCommand("ShooterModeAmp", new ShooterModeAmp(frontIntake, shooter));
     NamedCommands.registerCommand("ShooterModePodium", new ShooterModePodium(frontIntake, shooter));
     NamedCommands.registerCommand("ShooterModeShootWithPose", new ShooterModeShootWithPose(frontIntake, shooter, drivetrain));
     NamedCommands.registerCommand("ShooterModeSubwoofer", new ShooterModeSubwoofer(frontIntake, shooter));
+    NamedCommands.registerCommand("Home", new Home(climber,shooter,frontIntake, shooterIntake));
   }
 
   public RobotContainer() {

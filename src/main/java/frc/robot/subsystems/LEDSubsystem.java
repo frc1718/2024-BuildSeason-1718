@@ -4,12 +4,13 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-
 import edu.wpi.first.util.sendable.SendableBuilder;
+import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+
+
 
 /**
  * The LED subsystem controls the brightness of the LED string on the robot.
@@ -17,7 +18,8 @@ import frc.robot.Constants;
  */
 public class LEDSubsystem extends SubsystemBase {
   // Create motor controllers here
-  TalonSRX SignalLight = new TalonSRX(Constants.kSignalLightCanID);
+
+  PowerDistribution m_powerDistribution = new PowerDistribution(1, ModuleType.kRev);
 
   /**
    * Constructs an instance of the LED subsystem.
@@ -26,35 +28,17 @@ public class LEDSubsystem extends SubsystemBase {
     
   }
 
-  /**
-   * Sets the PWM intensity of the LED string.
-   * The value is constrained so it cannot be less than 0, or greater than 1.
-   * @param intensity The desired PWM duty cycle for the LED brightness.
-   * From 0.0 to 1.0.
-   */
-  public void SetLightIntensity(double intensity) {
-    if (intensity < 0) {
-      intensity = 0;
-    } else if (intensity > 1) {
-      intensity = 1;
-    }
-
-    SignalLight.set(ControlMode.PercentOutput, intensity);
+  public void LEDON() {
+    m_powerDistribution.setSwitchableChannel(true);
+ 
   }
-
-  /**
-   * Get the current PWM duty cycle of the LED string.
-   * @return The current PWM duty cycle of the LED string.
-   * Duty cycle is represented as a number from 0.0 to 1.0.
-   */
-  public double GetLightIntensity() {
-    return SignalLight.getMotorOutputPercent();
+  public void LEDOFF() {
+    m_powerDistribution.setSwitchableChannel(false);
   }
   
   @Override
   public void initSendable(SendableBuilder builder) {
-    builder.setSmartDashboardType("LEDSubsystem");
-    builder.addDoubleProperty("LED Intensity", this::GetLightIntensity, null); 
+
   }
 
   @Override

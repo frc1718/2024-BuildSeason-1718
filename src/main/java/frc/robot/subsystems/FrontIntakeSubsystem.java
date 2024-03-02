@@ -138,9 +138,14 @@ public class FrontIntakeSubsystem extends SubsystemBase {
   }
 
   public void setFrontIntakePosition(double position) {
+    //Check if motor safety is turned on or off
     if (Constants.kMotorEnableFrontIntakeRotate==1){
-      m_frontIntakeRotate.setControl(frontIntakeRotationRequest.withPosition(position));
-      System.out.println("FrontIntakeSubsystem - setFrontIntakePosition");
+
+      //Check if motor is within soft stop range
+      if ((position >= Constants.kFrontIntakeDownSafety) && (position <= Constants.kFrontIntakeUpSafety)) {
+        m_frontIntakeRotate.setControl(frontIntakeRotationRequest.withPosition(position));
+        System.out.println("FrontIntakeSubsystem - setFrontIntakePosition");
+      }
     }
     m_desiredPosition = position;
   }

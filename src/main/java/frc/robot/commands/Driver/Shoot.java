@@ -5,9 +5,10 @@
 package frc.robot.commands.Driver;
 
 import frc.robot.Constants;
-import frc.robot.commands.General.StowArmAndIntake;
+import frc.robot.subsystems.BeamBreakSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.FrontIntakeSubsystem;
 import frc.robot.subsystems.ShooterIntakeSubsystem;
@@ -22,6 +23,7 @@ public class Shoot extends Command {
   private final ClimberSubsystem m_climberSubsystem;
   private final FrontIntakeSubsystem m_frontIntakeSubsystem;
   private final ShooterIntakeSubsystem m_shooterIntakeSubsystem;
+  private final BeamBreakSubsystem m_beamBreakSubsystem;
 
   private boolean m_isFinished = false;
 
@@ -32,6 +34,8 @@ public class Shoot extends Command {
 
 
   private int m_stateMachine = 1;
+
+  Timer shootTimer = new Timer();
 
   /**
    * Constructs an instance of the shoot command.
@@ -44,12 +48,13 @@ public class Shoot extends Command {
    * @param shooterIntakeSubsystem An instance of the shooter intake subsystem.
    * Required.
    */
-  public Shoot(FrontIntakeSubsystem frontIntakeSubsystem, ShooterSubsystem shooterSubsystem, ClimberSubsystem climbSubsystem, ShooterIntakeSubsystem shooterIntakeSubsystem) {
+  public Shoot(FrontIntakeSubsystem frontIntakeSubsystem, ShooterSubsystem shooterSubsystem, ClimberSubsystem climbSubsystem, ShooterIntakeSubsystem shooterIntakeSubsystem, BeamBreakSubsystem beamBreakSubsystem) {
 
     m_frontIntakeSubsystem = frontIntakeSubsystem;
     m_shooterSubsystem = shooterSubsystem;
     m_climberSubsystem = climbSubsystem;
     m_shooterIntakeSubsystem = shooterIntakeSubsystem;
+    m_beamBreakSubsystem = beamBreakSubsystem;
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_shooterSubsystem);
@@ -67,6 +72,8 @@ public class Shoot extends Command {
 
     //Initialize state machine
     m_stateMachine = 1;
+
+    shootTimer.reset();
 
     m_isFinished = false;
 
@@ -129,36 +136,44 @@ public class Shoot extends Command {
   //Statemachine woop woop
     switch(m_stateMachine){  
       case 1:  //Do Nothing
+        System.out.println("Driver Command Shoot: Case " + m_stateMachine);
         if(m_shooterSubsystem.getShooterMode()=="DoNothing"){
+          System.out.println("Driver Command Shoot: Case " + m_stateMachine + " Nothing To Do! Exiting!");
           m_isFinished=true;
-        } 
+        } else {
+          System.out.println("Driver Command Shoot: Case " + m_stateMachine + " Complete!");
+          m_stateMachine = m_stateMachine + 1;
+        }
       break;  
       case 2:  //Front intake in position
-        System.out.println("Driver Command Shoot: Case 1");
+        System.out.println("Driver Command Shoot: Case " + m_stateMachine);
         if (m_frontIntakeSubsystem.getFrontIntakeInPosition(Constants.kFrontIntakeClearPos)) {
-          System.out.println("Driver Command Shoot: Case 1 Complete!");
+          System.out.println("Driver Command Shoot: Case " + m_stateMachine + " Complete!");
           m_shooterSubsystem.setShooterArmPosition(m_shooterArmPosition);
           m_shooterSubsystem.setShooterSpeed(m_shooterSpeed);
           m_stateMachine = m_stateMachine + 1;
         }        
       break;
       case 3:  // Shooter up to speed and arm is in position, run shooter intake to shoot
-        System.out.println("Driver Command Shoot: Case 2");
+        System.out.println("Driver Command Shoot: Case " + m_stateMachine);
         //System.out.println("Driver Command Shooter Target:" + m_shooterSpeed);
         //System.out.println("Driver Command Shooter Speed: " + m_shooterSubsystem.getShooterSpeed());
         if (m_shooterSubsystem.getShooterUpToSpeed(m_shooterSpeed) && m_shooterSubsystem.getShooterArmInPosition(m_shooterArmPosition)) {
           m_shooterIntakeSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeShootSpeed);
-          System.out.println("Driver Command Shoot: Case 2 Complete!");
+          System.out.println("Driver Command Shoot: Case " + m_stateMachine + " Complete!");
+          shootTimer.start();
           m_stateMachine = m_stateMachine + 1;
         }
       break;
-      case 4:  //Wait for the shooter speed to drop a certain amount for the shot to be complete.
-        System.out.println("Driver Command Shoot: Case 3");
-        if (m_shooterSubsystem.getShooterSpeed() < m_shooterSpeed - Constants.kShooterShotSpeedDrop) {
+      case 4:  //Wait for the shooter speed to drop a certain amount for the shot to be complete.  Note should be gone, timeer
+        System.out.println("Driver Command Shoot: Case" + m_stateMachine);
+        if (!m_beamBreakSubsystem.getNotePresent() && shootTimer.get() > 0.400) {
+          m_shooterSubsystem.setShooterArmPosition(Constants.kShooterArmHomePos);
           m_shooterSubsystem.setShooterMode("DoNothing");
           System.out.println("Driver Command Shoot: Case 3 Complete!");
           m_isFinished = true;
         }
+      break;
     }
   }
 
@@ -168,8 +183,13 @@ public class Shoot extends Command {
     //Always have to set ready to shoot back to false at the end of a shot.
     m_shooterSubsystem.setShooterSpeed(Constants.kShooterStopSpeed);
     m_shooterIntakeSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeStopSpeed);
-    System.out.println("Driver Command Shoot: Was completed!");
+    if (m_isFinished==true) {
+      System.out.println("Driver Command Shoot: Was completed!");
+    } else {
+      System.out.println("Driver Command Shoot: Was intterupted!"); 
+    }
     System.out.println("=======================================");
+    
   }
 
   // Returns true when the command should end.

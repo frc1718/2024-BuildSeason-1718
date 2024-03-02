@@ -43,7 +43,7 @@ public class Constants {
     public static final double kShooterBeamBreakCrossover = 0.9;
     // End Analog IO
 
-    // Start Motor Enables Swerve  These are currently always enabled because....CTRE
+    // Start Motor Enables
     //public static final int kMotorEnableRightFrontSwerveDrive = 1;
     //public static final int kMotorEnableRightFrontSwerveSteer = 1;
     //public static final int kMotorEnableRightRearSwerveDrive = 1;
@@ -52,18 +52,12 @@ public class Constants {
     //public static final int kMotorEnableLeftFrontSwerveSteer = 1;
     //public static final int kMotorEnableLeftRearSwerveDrive = 1;
     //public static final int kMotorEnableLeftRearSwerveSteer = 1;
-
-    // Start Motor Enables Front Intake
-    public static final int kMotorEnableFrontIntakeSpin = 0;
-    public static final int kMotorEnableFrontIntakeRotate = 0;
-
-    //Start Motor Enables Shooter
-    public static final int kMotorEnableLeftShooterSpin = 0;
-    public static final int kMotorEnableRightShooterSpin = 0;
-    public static final int kMotorEnableShooterIntakeSpin = 0;
-    public static final int kMotorEnableShooterArmRotate = 0;
-
-    //Start Motor Enables Climber
+    public static final int kMotorEnableFrontIntakeSpin = 1;
+    public static final int kMotorEnableFrontIntakeRotate = 1;
+    public static final int kMotorEnableLeftShooterSpin = 1;
+    public static final int kMotorEnableRightShooterSpin = 1;
+    public static final int kMotorEnableShooterIntakeSpin = 1;
+    public static final int kMotorEnableShooterArmRotate = 1;
     public static final int kMotorEnableClimber = 1;
     // End Motor Enables
 
@@ -74,33 +68,37 @@ public class Constants {
     public static final double kShooterArmHomePos = -0.136;
     public static final double kShooterArmPreClimbPos = 0.135;
     public static final double kShooterArmTolerancePos = 0.015;
-    public static final double kShooterArmSpitPos = 0;
+    public static final double kShooterArmSpitPos = -0.06;
     public static final double kShooterArmTrapPos = 0.135;
+        /* Safeties - DO NOT CHANGE THIS LINE */ public static final double kShooterArmUpSafety = 0.135;
+        /* Safeties - DO NOT CHANGE THIS LINE */ public static final double kShooterArmDownSafety = -0.136;
 
-    public static final int kClimberHomePos = 0;
+
+    public static final int kClimberHomePos = 0;    
     public static final int kClimberClimbPos = 0;
     public static final int kClimberPreClimbPos = 56;
     public static final int kClimberTolerancePos = 1;
     
     public static final double kFrontIntakeDownPos = -0.01;  //Down so we can suck in
-    public static final double kFrontIntakeHomePos = 0.38; //Starting position.  On hardstops
+    public static final double kFrontIntakeHomePos = 0.254; //Starting position.  Used to be .38 all the way back.  Changed to speed up.
     public static final double kFrontIntakeTolerancePos = 0.015;
     public static final double kFrontIntakeClearPos = 0.239; //Clear is clear of the shooterarm motion
-    public static final double kFrontIntakeStowPos = 0.38; //Stow is just inside the bumper
+        /* Safeties - DO NOT CHANGE THIS LINE */ public static final double kFrontIntakeUpSafety = 0.38;
+        /* Safeties - DO NOT CHANGE THIS LINE */ public static final double kFrontIntakeDownSafety = -0.01;
+    
 
     public static final int kShooterIntakePivotReleasedPos = 0;
     // End Positions
 
     // Start Speeds
-    public static final int kShooterSubwooferSpeed = 70;
-    public static final int kShooterPodiumSpeed = 70;
-    public static final int kShooterAmpSpeed = 20;
+    public static final int kShooterSubwooferSpeed = 10;  //Was 70, at 10 for testing in build room
+    public static final int kShooterPodiumSpeed = 10;  //Was 70, at 10 for testing in build room
+    public static final int kShooterAmpSpeed = 7;  //Was 20, at 7 for testing in build room
     public static final int kShooterPoseSpeed = 0;
-    public static final int kShooterIdleSpeed = 30;
+    public static final int kShooterIdleSpeed = 5; //Was 30, at 5 for testing in build room
     public static final int kShooterMaxSpeed = 80;
     public static final int kShooterStopSpeed = 0;
     
-    public static final InvertedValue kShooterIntakeDirection = InvertedValue.Clockwise_Positive;
     public static final int kShooterIntakeTrapSpeed = 0;
     public static final int kShooterIntakeSuckSpeed = 60;
     public static final int kShooterIntakeStopSpeed = 0;
@@ -117,7 +115,7 @@ public class Constants {
 
     public static final int kShooterSpeedTolerance = 1;
 
-    public static final int kShooterShotSpeedDrop = 0;  //The amount the shooter declines when we shoot a note
+    public static final int kShooterShotSpeedDrop = 70;  //The amount the shooter declines when we shoot a note
 
     // End Speeds
     
@@ -239,16 +237,16 @@ public class Constants {
     // End Climber settings
 
     //Start Right Climber settings
-    public static final InvertedValue kRightClimberDirection = InvertedValue.Clockwise_Positive;
-    public static final double kRightClimberProportional = 15;
-    public static final double kRightClimberIntegral = 0;
-    public static final double kRightClimberDerivative = 0.2;
-    public static final double kRightClimberVelocityFeedFoward = 0;
-    //public static final int kRightClimberStaticFeedFoward = 0;
+    // public static final InvertedValue kRightClimberDirection = InvertedValue.Clockwise_Positive;
+    // public static final double kRightClimberProportional = 15;
+    // public static final double kRightClimberIntegral = 0;
+    // public static final double kRightClimberDerivative = 0.2;
+    // public static final double kRightClimberVelocityFeedFoward = 0;
+    // public static final int kRightClimberStaticFeedFoward = 0;
     public static final int kRightClimberMaxForwardVoltage = 11;
     public static final int kRightClimberMaxReverseVoltage = -11;
     public static final int kRightClimberSupplyCurrentLimit = 50;
-    public static final double kRightClimberVoltageClosedLoopRampPeriod = 0.05;
+    // public static final double kRightClimberVoltageClosedLoopRampPeriod = 0.05;
     // End Right Climber settings
     
     //Start custom Swerve settings

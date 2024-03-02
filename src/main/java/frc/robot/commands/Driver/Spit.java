@@ -5,7 +5,7 @@
 package frc.robot.commands.Driver;
 
 import frc.robot.Constants;
-import frc.robot.commands.General.StowArmAndIntake;
+import frc.robot.subsystems.BeamBreakSubsystem;
 import frc.robot.subsystems.FrontIntakeSubsystem;
 import frc.robot.subsystems.ShooterIntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -33,7 +33,7 @@ public class Spit extends Command {
    * Required.
    * @param shooterIntakeSubsystem An instance of the shooter intake subsystem.
    */
-  public Spit(FrontIntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem, ShooterIntakeSubsystem shooterIntakeSubsystem) {
+  public Spit(FrontIntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem, ShooterIntakeSubsystem shooterIntakeSubsystem, BeamBreakSubsystem beamBreakSubsystem) {
     m_frontIntakeSubsystem = intakeSubsystem;
     m_shooterSubsystem = shooterSubsystem;
     m_shooterIntakeSubsystem = shooterIntakeSubsystem;
@@ -41,6 +41,7 @@ public class Spit extends Command {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_frontIntakeSubsystem);
     addRequirements(m_shooterSubsystem);
+    addRequirements(m_shooterIntakeSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -52,6 +53,8 @@ public class Spit extends Command {
 
     //Initialize State Machine
     m_stateMachine = 1;
+
+    m_isFinished=false;
 
     //Stop front intake, move front intake down, stop intake, stop shooter, move shooter arm up high enough to eject
     m_frontIntakeSubsystem.setFrontIntakeSpeed(Constants.kFrontIntakeStopSpeed);
@@ -81,10 +84,10 @@ public class Spit extends Command {
             m_frontIntakeSubsystem.setFrontIntakeSpeed(Constants.kFrontIntakeSpitSpeed);
             m_shooterSubsystem.setShooterSpeed(Constants.kShooterMaxSpeed);
             System.out.println("Driver Command Spit: Case 2 Complete!");
-            m_stateMachine = m_stateMachine + 1;
           }
         break;
       }
+
   }
 
   // Called once the command ends or is interrupted.
@@ -92,12 +95,14 @@ public class Spit extends Command {
   public void end(boolean interrupted) {
 
     //Stop front intake, stop shooter intake, stop shooter, move front intake to home, move shooter arm to home
-    m_frontIntakeSubsystem.setFrontIntakeSpeed(Constants.kFrontIntakeStopSpeed);
     m_shooterIntakeSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeStopSpeed);
-    m_shooterSubsystem.setShooterSpeed(Constants.kShooterIdleSpeed);  
-    new StowArmAndIntake(m_frontIntakeSubsystem, m_shooterSubsystem);
-
-    System.out.println("Driver Command: Spit Finished");
+    m_frontIntakeSubsystem.setFrontIntakeSpeed(Constants.kFrontIntakeStopSpeed);
+    m_shooterSubsystem.setShooterSpeed(Constants.kShooterStopSpeed);
+    if (m_isFinished = true) {
+      System.out.println("Driver Command: Spit Finished");
+    } else {
+      System.out.println("Driver Command: Spit Interrupted!");
+    }
     System.out.println("====================");
   }
 

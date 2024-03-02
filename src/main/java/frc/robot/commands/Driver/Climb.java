@@ -57,14 +57,16 @@ public class Climb extends Command {
     
     //Initialize state machine
     m_stateMachine = 1;
-    
-    //Set Positions and speeds
-    m_climberSubsystem.setClimberDesiredPosition(Constants.kClimberPreClimbPos);
-    m_frontIntakeSubsystem.setFrontIntakePosition(Constants.kFrontIntakeDownPos);
-    m_frontIntakeSubsystem.setFrontIntakeSpeed(Constants.kFrontIntakeStopSpeed);
-    m_shooterSubsystem.setShooterArmPosition(Constants.kShooterArmPreClimbPos);
 
     m_isFinished = false;
+    
+    //Set Positions and speeds
+    if (m_climberSubsystem.getPreClimbActuated()) { 
+      m_climberSubsystem.setClimberDesiredPosition(Constants.kClimberPreClimbPos);
+      m_frontIntakeSubsystem.setFrontIntakePosition(Constants.kFrontIntakeDownPos);
+      m_frontIntakeSubsystem.setFrontIntakeSpeed(Constants.kFrontIntakeStopSpeed);
+      m_shooterSubsystem.setShooterArmPosition(Constants.kShooterArmPreClimbPos);
+    } 
 
    }
 
@@ -100,8 +102,12 @@ public class Climb extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    System.out.println("Driver Command: Climb completed!");
-    System.out.println("================================");
+    if (m_isFinished=true) {
+      System.out.println("Driver Command: Climb completed!");
+    } else {
+      System.out.println("Driver Command: Climb interrupted!");
+    }
+      System.out.println("================================");
   }
 
   // Returns true when the command should end.
