@@ -227,6 +227,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("ShooterModeShootWithPose", new ShooterModeShootWithPose(frontIntake, shooter, drivetrain));
     NamedCommands.registerCommand("ShooterModeSubwoofer", new ShooterModeSubwoofer(frontIntake, shooter));
     NamedCommands.registerCommand("Home", new Home(climber,shooter,frontIntake, shooterIntake));
+    NamedCommands.registerCommand("ApplyBrake", drivetrain.applyRequest(() -> brake));
   }
 
   public RobotContainer() {
