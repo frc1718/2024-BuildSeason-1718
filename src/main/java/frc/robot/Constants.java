@@ -91,11 +91,11 @@ public class Constants {
     // End Positions
 
     // Start Speeds
-    public static final int kShooterSubwooferSpeed = 10;  //Was 70, at 10 for testing in build room
-    public static final int kShooterPodiumSpeed = 10;  //Was 70, at 10 for testing in build room
-    public static final int kShooterAmpSpeed = 7;  //Was 20, at 7 for testing in build room
+    public static final int kShooterSubwooferSpeed = 70;  //Was 70, at 10 for testing in build room
+    public static final int kShooterPodiumSpeed = 70;  //Was 70, at 10 for testing in build room
+    public static final int kShooterAmpSpeed = 20;  //Was 20, at 7 for testing in build room
     public static final int kShooterPoseSpeed = 0;
-    public static final int kShooterIdleSpeed = 5; //Was 30, at 5 for testing in build room
+    public static final int kShooterIdleSpeed = 30; //Was 30, at 5 for testing in build room
     public static final int kShooterMaxSpeed = 80;
     public static final int kShooterStopSpeed = 0;
     
