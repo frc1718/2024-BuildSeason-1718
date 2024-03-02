@@ -3,7 +3,7 @@
   "startingPose": {
     "position": {
       "x": 15.5,
-      "y": 2.0
+      "y": 2
     },
     "rotation": 180.0
   },
@@ -12,9 +12,9 @@
     "data": {
       "commands": [
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "ApplyBrake"
+            "pathName": "Red1Mobility"
           }
         }
       ]
