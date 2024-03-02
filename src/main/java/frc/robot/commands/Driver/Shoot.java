@@ -118,6 +118,17 @@ public class Shoot extends Command {
           m_shooterSpeed = Constants.kShooterStopSpeed;
           m_frontIntakePosition = Constants.kFrontIntakeHomePos;
           m_frontIntakeSpeed = Constants.kFrontIntakeStopSpeed;
+        case "ShootMiddleAuto":
+          m_shooterArmPosition = Constants.kShooterArmMiddleAutoPos;
+          m_shooterSpeed = Constants.kShooterStopSpeed;
+          m_frontIntakePosition = Constants.kFrontIntakeHomePos;
+          m_frontIntakeSpeed = Constants.kFrontIntakeStopSpeed;
+        break;
+        case "ShootRightAuto":
+          m_shooterArmPosition = Constants.kShooterArmMiddleAutoPos;
+          m_shooterSpeed = Constants.kShooterStopSpeed;
+          m_frontIntakePosition = Constants.kFrontIntakeHomePos;
+          m_frontIntakeSpeed = Constants.kFrontIntakeStopSpeed;
         break;
       }
 
