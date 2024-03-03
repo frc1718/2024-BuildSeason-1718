@@ -319,8 +319,7 @@ public class Constants {
     */
 
     static {
-        //Populating the shooter arm position table.  Values are in degrees.
-        //As of Feb-13, these values are completely made up.
+        //Populating the shooter arm position table.  Values are in rotations.
         //(Distance in meters, Angle in rotations)
         kShooterArmTable.put(1.0033, -0.095);
         kShooterArmTable.put(2.6289, -0.0388);

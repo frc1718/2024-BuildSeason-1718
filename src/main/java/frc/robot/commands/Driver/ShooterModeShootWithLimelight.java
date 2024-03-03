@@ -54,7 +54,7 @@ public class ShooterModeShootWithLimelight extends Command {
   
   private boolean m_isFinished = false;
   private int m_stateMachine = 1;
-  private double m_shooterPoseSpeed = 0;
+  private double m_shooterPoseSpeed = 70;
   private double m_shooterArmPosePos = 0;
   private double m_distanceToAprilTag = 0;
   private double m_angleToAprilTag = 0;
@@ -121,11 +121,6 @@ public class ShooterModeShootWithLimelight extends Command {
   @Override
   public void execute() {
 
-    //We should be calculating the pose requirements here over and over.
-    //m_distanceToSubwoofer = Constants.kBlueSpeakerLocation.getDistance(m_drivetrain.getState().Pose.getTranslation());
-    //m_shooterPoseSpeed = Constants.kShooterSpeedTable.get(m_distanceToSubwoofer);
-    //m_shooterArmPosePos = Constants.kShooterArmTable.get(m_distanceToSubwoofer);
-
     switch(m_stateMachine) {     
       case 1:  // Search for AprilTag
         System.out.println("AimWithLimelight - Case 1 - Search for AprilTag");
@@ -175,7 +170,8 @@ public class ShooterModeShootWithLimelight extends Command {
         break;
 
       case 3: //Set arm to proper position and spin up shooter
-        m_shooterSubsystem.setShooterArmPosition(m_shooterArmPosePos);
+      m_shooterArmPosePos = Constants.kShooterArmTable.get(m_distanceToAprilTag);
+      m_shooterSubsystem.setShooterArmPosition(m_shooterArmPosePos);
         m_shooterSubsystem.setShooterSpeed(m_shooterPoseSpeed);
         if (m_shooterSubsystem.getShooterArmInPosition(m_shooterArmPosePos)) {
           m_stateMachine = m_stateMachine + 1;
