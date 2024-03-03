@@ -62,18 +62,18 @@ public class Constants {
     // End Motor Enables
 
     // Start Positions
-    public static final double kShooterArmSubwooferPos = -0.11; //Was -0.095
-    public static final double kShooterArmPodiumPos = -0.0388;
-    public static final double kShooterArmAmpPos = 0.135;
-    public static final double kShooterArmHomePos = -0.136;
-    public static final double kShooterArmMiddleAutoPos = -0.0388;
-    public static final double kShooterArmRightAutoPos = -0.388;
-    public static final double kShooterArmPreClimbPos = 0.135;
-    public static final double kShooterArmTolerancePos = 0.01;
-    public static final double kShooterArmSpitPos = -0.06;
-    public static final double kShooterArmTrapPos = 0.135;
-        /* Safeties - DO NOT CHANGE THIS LINE */ public static final double kShooterArmUpSafety = 0.135;
-        /* Safeties - DO NOT CHANGE THIS LINE */ public static final double kShooterArmDownSafety = -0.136;
+    public static final double kShooterArmSubwooferPos = -0.11; //-0.11
+    public static final double kShooterArmPodiumPos = -0.0388;  //-0.0388
+    public static final double kShooterArmAmpPos = 0.135;   //0.135
+    public static final double kShooterArmHomePos = -0.136; //-0.136
+    public static final double kShooterArmMiddleAutoPos = -0.0388;  //-0.0388
+    public static final double kShooterArmRightAutoPos = -0.388;    //-0.388
+    public static final double kShooterArmPreClimbPos = 0.135;  //0.135
+    public static final double kShooterArmTolerancePos = 0.01;  //0.01
+    public static final double kShooterArmSpitPos = -0.06;  //-0.06
+    public static final double kShooterArmTrapPos = 0.135;  //0.135
+        /* Safeties - DO NOT CHANGE THIS LINE */ public static final double kShooterArmUpSafety = 0.135;    //0.135
+        /* Safeties - DO NOT CHANGE THIS LINE */ public static final double kShooterArmDownSafety = -0.136; //-0.136
 
 
     public static final int kClimberHomePos = 0;    
@@ -93,7 +93,7 @@ public class Constants {
     // End Positions
 
     // Start Speeds
-    public static final int kShooterSubwooferSpeed = 70;  //Was 70, at 10 for testing in build room
+    public static final double kShooterSubwooferSpeed = 70;  //Was 70, at 10 for testing in build room
     public static final int kShooterPodiumSpeed = 70;  //Was 70, at 10 for testing in build room
     public static final int kShooterAmpSpeed = 20;  //Was 20, at 7 for testing in build room
     public static final int kShooterPoseSpeed = 0;

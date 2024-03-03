@@ -10,6 +10,7 @@ import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
@@ -38,7 +39,7 @@ public class FrontIntakeSubsystem extends SubsystemBase {
 
   private final VelocityVoltage frontIntakeVelocityRequest = new VelocityVoltage(0, 0, true, 0, 0, false, false, false);
   private final MotionMagicVoltage frontIntakeRotationRequest = new MotionMagicVoltage(0.0, true, 0.0, 0, false, false, false);
-  private final VoltageOut frontIntakeVoltageRequest = new VoltageOut(0);
+  private final DutyCycleOut frontIntakeVoltageRequest = new DutyCycleOut(0, false, false, false, false);
   
   public double m_desiredPosition = 0;
   public double m_desiredSpeed = 0;

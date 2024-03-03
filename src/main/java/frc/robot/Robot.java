@@ -74,10 +74,10 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledInit() {
-    //Start the disabled timer for motion safety
-    disabledTimer.reset();
-    disabledTimer.start();
-    //m_robotContainer.frontIntake.setFrontIntakeRotateZeroOutput();
+    //Had a weird issue.  Moving the shooter arm or front intake during disabled (like stowing to practice auton routines) was causing the arm and intake to interfere once enabled.
+    //Solution, briefly set them in a zero output mode when disabled, then allow Motion Magic to take control again in TeleOp.
+    m_robotContainer.frontIntake.setFrontIntakeRotateZeroOutput();
+    m_robotContainer.shooter.setShooterArmRotateZeroOutput();
   }
 
   @Override
