@@ -2,47 +2,41 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 2.0,
-      "y": 7.0
+      "x": 15.0,
+      "y": 5.55
     },
-    "rotation": 0
+    "rotation": 180.0
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "Example Path - Straight Back"
+            "name": "ShooterModeSubwoofer"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Auton Light"
+            "name": "Shoot"
           }
         },
         {
-          "type": "path",
-          "data": {
-            "pathName": "Example Path - Parallel to Center Line"
-          }
-        },
-        {
-          "type": "deadline",
+          "type": "parallel",
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "named",
                 "data": {
-                  "pathName": "Example Path - End at Subwoofer"
+                  "name": "Suck"
                 }
               },
               {
-                "type": "named",
+                "type": "path",
                 "data": {
-                  "name": "Auton Blink"
+                  "pathName": "Subwoofer Mobility"
                 }
               }
             ]
@@ -51,7 +45,13 @@
         {
           "type": "named",
           "data": {
-            "name": "Print YAY"
+            "name": "ShooterModePodium"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
           }
         }
       ]

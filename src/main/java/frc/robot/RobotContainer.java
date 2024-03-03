@@ -32,7 +32,9 @@ import frc.robot.commands.CommandSwerveDrivetrain;
 import frc.robot.commands.Operator.Home;
 import frc.robot.commands.Operator.PreClimb;
 import frc.robot.commands.Operator.ShooterModeAmp;
+import frc.robot.commands.Operator.ShooterModeMiddleAuto;
 import frc.robot.commands.Operator.ShooterModePodium;
+import frc.robot.commands.Operator.ShooterModeRightAuto;
 import frc.robot.commands.Operator.ShooterModeShootWithPose;
 import frc.robot.commands.Operator.ShooterModeSubwoofer;
 import frc.robot.commands.Driver.Climb;
@@ -141,9 +143,9 @@ public class RobotContainer {
     /* Setting up bindings for selecting an autonomous to run. */
     /* Up / Down on the D-Pad of the driver controller. */
     /* Until we start generating paths and creating auton routines, this will cycle through .chrp files.*/
-    driveController.povDown().and(RobotState::isDisabled).onTrue(new InstantCommand(() -> {chirpSelect.decrementSelection();}).ignoringDisable(true));
+    driveController.povDown().and(RobotState::isDisabled).onTrue(new InstantCommand(() -> {autonSelect.decrementSelection();}).ignoringDisable(true));
     driveController.a().and(RobotState::isDisabled).whileTrue(new SetMotorsToCoast(climber, shooter, frontIntake).ignoringDisable(true));
-    driveController.povUp().and(RobotState::isDisabled).onTrue(new InstantCommand(() -> {chirpSelect.incrementSelection();}).ignoringDisable(true));
+    driveController.povUp().and(RobotState::isDisabled).onTrue(new InstantCommand(() -> {autonSelect.incrementSelection();}).ignoringDisable(true));
 
     driveController.a().onTrue(new InstantCommand(() -> {
       //I'm not sure if 'tableName' refers to limelight name, or a network table.
@@ -204,9 +206,9 @@ public class RobotContainer {
     SmartDashboard.putData("Chirp Selector", chirpSelect);
     SmartDashboard.putData("Auton Selector", autonSelect);    
     SmartDashboard.putData(beamBreak);
-    //SmartDashboard.putData(climber);
-    //SmartDashboard.putData(frontIntake);
-    //SmartDashboard.putData(LED);
+    SmartDashboard.putData(climber);
+    SmartDashboard.putData(frontIntake);
+    SmartDashboard.putData(shooter);
   }
 
   /**
@@ -227,6 +229,9 @@ public class RobotContainer {
     NamedCommands.registerCommand("ShooterModeShootWithPose", new ShooterModeShootWithPose(frontIntake, shooter, drivetrain));
     NamedCommands.registerCommand("ShooterModeSubwoofer", new ShooterModeSubwoofer(frontIntake, shooter));
     NamedCommands.registerCommand("Home", new Home(climber,shooter,frontIntake, shooterIntake));
+    NamedCommands.registerCommand("ApplyBrake", drivetrain.applyRequest(() -> brake));
+    NamedCommands.registerCommand("ShooterModeRightAuto", new ShooterModeRightAuto(frontIntake, shooter));
+    NamedCommands.registerCommand("ShooterModeMiddleAuto", new ShooterModeMiddleAuto(frontIntake, shooter));
   }
 
   public RobotContainer() {

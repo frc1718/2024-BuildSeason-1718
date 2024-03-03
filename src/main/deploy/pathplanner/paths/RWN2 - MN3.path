@@ -1,0 +1,52 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 14.289626525044774,
+        "y": 5.574358195791997
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 13.177097053195531,
+        "y": 5.972526638348569
+      },
+      "isLocked": false,
+      "linkedName": "RWN2"
+    },
+    {
+      "anchor": {
+        "x": 8.42,
+        "y": 4.11050362756931
+      },
+      "prevControl": {
+        "x": 10.775989821137987,
+        "y": 3.361010088639293
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "RMN3"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 180.0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "Red - From Wing Note",
+  "previewStartingState": {
+    "rotation": 180.0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

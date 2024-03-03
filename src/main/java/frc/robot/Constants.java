@@ -66,6 +66,8 @@ public class Constants {
     public static final double kShooterArmPodiumPos = -0.0388;
     public static final double kShooterArmAmpPos = 0.135;
     public static final double kShooterArmHomePos = -0.136;
+    public static final double kShooterArmMiddleAutoPos = -0.0388;
+    public static final double kShooterArmRightAutoPos = -0.388;
     public static final double kShooterArmPreClimbPos = 0.135;
     public static final double kShooterArmTolerancePos = 0.015;
     public static final double kShooterArmSpitPos = -0.06;
@@ -91,11 +93,11 @@ public class Constants {
     // End Positions
 
     // Start Speeds
-    public static final int kShooterSubwooferSpeed = 10;  //Was 70, at 10 for testing in build room
-    public static final int kShooterPodiumSpeed = 10;  //Was 70, at 10 for testing in build room
-    public static final int kShooterAmpSpeed = 7;  //Was 20, at 7 for testing in build room
+    public static final int kShooterSubwooferSpeed = 70;  //Was 70, at 10 for testing in build room
+    public static final int kShooterPodiumSpeed = 70;  //Was 70, at 10 for testing in build room
+    public static final int kShooterAmpSpeed = 20;  //Was 20, at 7 for testing in build room
     public static final int kShooterPoseSpeed = 0;
-    public static final int kShooterIdleSpeed = 5; //Was 30, at 5 for testing in build room
+    public static final int kShooterIdleSpeed = 30; //Was 30, at 5 for testing in build room
     public static final int kShooterMaxSpeed = 80;
     public static final int kShooterStopSpeed = 0;
     

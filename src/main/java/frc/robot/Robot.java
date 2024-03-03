@@ -38,7 +38,8 @@ public class Robot extends TimedRobot {
     m_disabledSafetyCommand = new DisabledSafety(m_robotContainer.shooterIntake,m_robotContainer.frontIntake,m_robotContainer.shooter,m_robotContainer.climber);
     m_notePositionCommand = new NotePosition(m_robotContainer.shooterIntake,m_robotContainer.beamBreak);
     //Need to seed the field relative position at least once.
-    m_robotContainer.drivetrain.seedFieldRelative(Constants.kDefaultPose);
+    //This may not be necessary with autonomous.  It might actually interfere!
+    //m_robotContainer.drivetrain.seedFieldRelative(Constants.kDefaultPose);
 
     //CameraServer.startAutomaticCapture();
 
@@ -76,6 +77,7 @@ public class Robot extends TimedRobot {
     //Start the disabled timer for motion safety
     disabledTimer.reset();
     disabledTimer.start();
+    //m_robotContainer.frontIntake.setFrontIntakeRotateZeroOutput();
   }
 
   @Override
