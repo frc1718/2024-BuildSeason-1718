@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 15.009378480295423,
-        "y": 6.640452511674254
+        "x": 15.238204285253078,
+        "y": 6.628333484912334
       },
       "isLocked": false,
       "linkedName": "RSL3"
     },
     {
       "anchor": {
-        "x": 14.05228502764698,
-        "y": 6.640452511674254
+        "x": 14.067120630674927,
+        "y": 6.75715268691593
       },
       "prevControl": {
-        "x": 14.882318718880464,
-        "y": 6.2869457089683145
+        "x": 14.897154321908411,
+        "y": 6.403645884209991
       },
       "nextControl": null,
       "isLocked": false,
@@ -39,7 +39,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 143.74616226255506,
+    "rotation": 154.38751492302126,
     "rotateFast": false
   },
   "reversed": false,

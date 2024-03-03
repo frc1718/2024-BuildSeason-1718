@@ -13,8 +13,10 @@ import frc.robot.subsystems.ShooterSubsystem;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.BeamBreakSubsystem;
 import frc.robot.subsystems.FrontIntakeSubsystem;
 import frc.robot.subsystems.ShooterIntakeSubsystem;
 
@@ -28,6 +30,7 @@ public class ShooterModeShootWithLimelight extends Command {
   private final ShooterSubsystem m_shooterSubsystem;
   private final CommandSwerveDrivetrain m_drivetrain;
   private final ShooterIntakeSubsystem m_shooterIntakeSubsystem;
+  private final BeamBreakSubsystem m_beamBreakSubsystem;
 
   private final SwerveRequest.FieldCentricFacingAngle m_aim = new SwerveRequest.FieldCentricFacingAngle()
   .withDeadband((TunerConstants.kSpeedAt12VoltsMps) * 0.1)
@@ -65,8 +68,9 @@ public class ShooterModeShootWithLimelight extends Command {
   private Rotation2d m_limeLightRotation;
   private double m_limeLightToAprilTagVerticalDistance = (Constants.kSpeakerAprilTagHeight - Constants.kLimelightHeight);
   private double m_verticalAngleToAprilTag = 0;
-  private double m_quickErrCalc = 0;
-  private double m_kP = 0.01;
+  private double m_kP = 0.07;
+
+  PIDController pid = new PIDController(m_kP, 0, 0.005);
 
   /**
    * Constructs an instance of the aim with limelight command.
@@ -77,11 +81,12 @@ public class ShooterModeShootWithLimelight extends Command {
    * @param drivetrain An instance of the drivetrain subsystem.
    * Required.
    */
-  public ShooterModeShootWithLimelight(FrontIntakeSubsystem frontIntakeSubsystem, ShooterSubsystem shooterSubsystem, CommandSwerveDrivetrain drivetrain, ShooterIntakeSubsystem shooterIntakeSubsystem) {
+  public ShooterModeShootWithLimelight(FrontIntakeSubsystem frontIntakeSubsystem, ShooterSubsystem shooterSubsystem, CommandSwerveDrivetrain drivetrain, ShooterIntakeSubsystem shooterIntakeSubsystem, BeamBreakSubsystem beamBreakSubsystem) {
     m_shooterSubsystem = shooterSubsystem;
     m_frontIntakeSubsystem = frontIntakeSubsystem;
     m_drivetrain = drivetrain;
     m_shooterIntakeSubsystem = shooterIntakeSubsystem;
+    m_beamBreakSubsystem = beamBreakSubsystem;
 
     m_aim.HeadingController.setPID(20, 0, 0.05);
 
@@ -107,7 +112,7 @@ public class ShooterModeShootWithLimelight extends Command {
     m_stateMachine = 1;
 
     m_debounceCounter = 0;
-    m_debounceLimit = 0;
+    m_debounceLimit = 10;
     
     //Set initial speeds and positions
     //m_frontIntakeSubsystem.setFrontIntakePosition(Constants.kFrontIntakeClearPos);
@@ -139,7 +144,7 @@ public class ShooterModeShootWithLimelight extends Command {
 
           m_verticalAngleToAprilTag = LimelightHelpers.getTY(Constants.kLimelightName);
           System.out.println("AimWithLimelight - Case 1 - Vertical Angle to AprilTag: " + m_verticalAngleToAprilTag);
-          m_distanceToAprilTag = m_limeLightToAprilTagVerticalDistance / Math.tan(m_verticalAngleToAprilTag);
+          m_distanceToAprilTag = m_limeLightToAprilTagVerticalDistance / Math.tan(Math.toRadians(m_verticalAngleToAprilTag));
           System.out.println("AimWithLimelight - Case 1 - Distance to AprilTag: " + m_distanceToAprilTag);
 
           m_stateMachine = m_stateMachine + 1;
@@ -153,10 +158,8 @@ public class ShooterModeShootWithLimelight extends Command {
 
       case 2:  //Rotate to the new angle.
         System.out.println("AimWithLimelight - Case 2 - Rotate to position");
-        m_quickErrCalc = m_newAngleHeading - m_drivetrain.getPigeon2().getAngle();
-        System.out.println("AimWithLimelight - Case 2 - Angle Error: " + m_quickErrCalc);
-        m_drivetrain.setControl(m_PIDAim.withRotationalRate(-(m_quickErrCalc * m_kP) * (1.5 * Math.PI)));
-        if (Math.abs(LimelightHelpers.getTX(Constants.kLimelightName)) <= Constants.kTXTolerance) {
+        m_drivetrain.setControl(m_PIDAim.withRotationalRate(-pid.calculate(m_drivetrain.getPigeon2().getAngle(), m_newAngleHeading) * (1.5 * Math.PI)));
+        if (Math.abs(pid.getPositionError()) <= Constants.kTXTolerance) {
           if (m_debounceCounter >= m_debounceLimit) {
             m_stateMachine = m_stateMachine + 1;
           } else {
@@ -170,16 +173,28 @@ public class ShooterModeShootWithLimelight extends Command {
         break;
 
       case 3: //Set arm to proper position and spin up shooter
+      m_drivetrain.setControl(m_PIDAim.withRotationalRate(0));
       m_shooterArmPosePos = Constants.kShooterArmTable.get(m_distanceToAprilTag);
       m_shooterSubsystem.setShooterArmPosition(m_shooterArmPosePos);
-        m_shooterSubsystem.setShooterSpeed(m_shooterPoseSpeed);
-        if (m_shooterSubsystem.getShooterArmInPosition(m_shooterArmPosePos)) {
-          m_stateMachine = m_stateMachine + 1;
-        }
-        break;
+      m_shooterSubsystem.setShooterSpeed(m_shooterPoseSpeed);
+      System.out.println("AimWithLimelight - Case 3 - Shooter arm desired position: " + m_shooterArmPosePos);
+      System.out.println("AimWithLimelight - Case 1 - Distance to AprilTag: " + m_distanceToAprilTag);
+      if (m_shooterSubsystem.getShooterArmInPosition(m_shooterArmPosePos)) {
+        m_debounceCounter = 0;
+        m_stateMachine = m_stateMachine + 1;
+      }
+      break;
 
       case 4:
-        if (m_shooterSubsystem.getShooterUpToSpeed(m_shooterPoseSpeed)) {
+        if (m_shooterSubsystem.getShooterUpToSpeed(m_shooterPoseSpeed) && m_shooterSubsystem.getShooterArmInPosition(m_shooterArmPosePos)) {
+          m_debounceCounter = m_debounceCounter + 1;
+          if (!m_beamBreakSubsystem.getNotePresent()) {
+            m_isFinished = true;
+          }
+        } else {
+          m_debounceCounter = 0;
+        }
+        if (m_debounceCounter >= m_debounceLimit) {
           m_shooterIntakeSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeShootSpeed);
         }
     }

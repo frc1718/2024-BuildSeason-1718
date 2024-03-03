@@ -69,7 +69,7 @@ public class Constants {
     public static final double kShooterArmMiddleAutoPos = -0.0388;
     public static final double kShooterArmRightAutoPos = -0.388;
     public static final double kShooterArmPreClimbPos = 0.135;
-    public static final double kShooterArmTolerancePos = 0.015;
+    public static final double kShooterArmTolerancePos = 0.01;
     public static final double kShooterArmSpitPos = -0.06;
     public static final double kShooterArmTrapPos = 0.135;
         /* Safeties - DO NOT CHANGE THIS LINE */ public static final double kShooterArmUpSafety = 0.135;
@@ -81,7 +81,7 @@ public class Constants {
     public static final int kClimberPreClimbPos = 56;
     public static final int kClimberTolerancePos = 1;
     
-    public static final double kFrontIntakeDownPos = -0.01;  //Down so we can suck in
+    public static final double kFrontIntakeDownPos = 0.00;  //Down so we can suck in
     public static final double kFrontIntakeHomePos = 0.254; //Starting position.  Used to be .38 all the way back.  Changed to speed up.
     public static final double kFrontIntakeTolerancePos = 0.015;
     public static final double kFrontIntakeClearPos = 0.239; //Clear is clear of the shooterarm motion
@@ -272,18 +272,18 @@ public class Constants {
     public static final String kLimelightName = "limelight";
 
     //Allowable TX tolerance for aiming at an AprilTag.
-    public static final double kTXTolerance = 1;    //A complete guess.
+    public static final double kTXTolerance = 1.5;    //A complete guess.
 
     //Distance between the center of the speaker AprilTag and the floor.
     //The bottom of the AprilTag is 4 ft. 3-7/8 in. from the ground.
     //Add 4-1/2 in. to the center of the AprilTag.
     //56-3/8 in. is 1.432 meters.
-    public static final double kSpeakerAprilTagHeight = 1.432;
+    public static final double kSpeakerAprilTagHeight = 1.45;
     
     //Distance between the lens of the limelight and the floor.
     //Lens of the limelight is 16-9/10 in. from the ground.
     //16-9/10 in. is 0.429 meters.
-    public static final double kLimelightHeight = 0.429;
+    public static final double kLimelightHeight = 0.435;
 
     //Pose of the blue speaker.
     //Used to be a pose, but only the X and Y are needed.  Changed to a translation to clean up the actual calculation.
@@ -325,7 +325,7 @@ public class Constants {
         //(Distance in meters, Angle in rotations)
         kShooterArmTable.put(1.0033, -0.095);
         kShooterArmTable.put(2.6289, -0.0388);
-        //kShooterArmTable.put(4.0, 65.0);
+        kShooterArmTable.put(4.97, -0.0035);
         //kShooterArmTable.put(6.0, 55.0);
         //kShooterArmTable.put(8.0, 45.0);
         //kShooterArmTable.put(10.0, 35.0);       

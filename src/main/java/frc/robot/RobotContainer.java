@@ -58,8 +58,8 @@ import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.ShooterIntakeSubsystem;
 
 public class RobotContainer {
-  private double MaxSpeed = TunerConstants.kSpeedAt12VoltsMps; // kSpeedAt12VoltsMps desired top speed
-  private double MaxAngularRate = 1.5 * Math.PI; // 3/4 of a rotation per second max angular velocity
+  private double MaxSpeed = TunerConstants.kSpeedAt12VoltsMps - 4.21; // kSpeedAt12VoltsMps desired top speed
+  private double MaxAngularRate = 2 * Math.PI; // 3/4 of a rotation per second max angular velocity
 
   //Attempting to create a selector object.
   File chirpFolder = new File(Filesystem.getDeployDirectory() + "/chirp");
@@ -79,18 +79,18 @@ public class RobotContainer {
 
   private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
       .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
-      .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // I want field-centric
+      .withDriveRequestType(DriveRequestType.Velocity); // I want field-centric
                                                                // driving in open loop
                                                                
   private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
-  private final SwerveRequest.RobotCentric forwardStraight = new SwerveRequest.RobotCentric().withDriveRequestType(DriveRequestType.OpenLoopVoltage);
+  private final SwerveRequest.RobotCentric forwardStraight = new SwerveRequest.RobotCentric().withDriveRequestType(DriveRequestType.Velocity);
   private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
   
   //Testing an idea: hold a button and always aim at the goal.
   //Copying a fair amount of this from the FieldCentric drive.
   private final SwerveRequest.FieldCentricFacingAngle rootyTootyPointAndShooty = new SwerveRequest.FieldCentricFacingAngle()
       .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1)
-      .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
+      .withDriveRequestType(DriveRequestType.Velocity);
   
   private final Telemetry logger = new Telemetry(MaxSpeed);
 
@@ -166,7 +166,7 @@ public class RobotContainer {
     //driveController.start().and(driveController.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
 
     //Limelight piece-by-piece debugging
-    driveController.back().onTrue(new ShooterModeShootWithLimelight(frontIntake, shooter, drivetrain, shooterIntake));
+    driveController.back().onTrue(new ShooterModeShootWithLimelight(frontIntake, shooter, drivetrain, shooterIntake, beamBreak));
     
     Trigger NoteLocationStatus = new Trigger(beamBreak::getNotePresent);
     NoteLocationStatus.onTrue(new LightLEDOnNotePresent(LED, beamBreak)).onFalse(new LightLEDOnNotePresent(LED, beamBreak));
