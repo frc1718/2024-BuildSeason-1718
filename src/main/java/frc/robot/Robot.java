@@ -77,6 +77,7 @@ public class Robot extends TimedRobot {
     //Start the disabled timer for motion safety
     disabledTimer.reset();
     disabledTimer.start();
+    //m_robotContainer.frontIntake.setFrontIntakeRotateZeroOutput();
   }
 
   @Override

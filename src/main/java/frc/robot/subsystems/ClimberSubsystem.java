@@ -111,7 +111,7 @@ public class ClimberSubsystem extends SubsystemBase {
    * True or false.
    */
   public boolean getPreClimbActuated(){
-    System.out.println("Subsystem: Climber - getPreClimbActuated");
+    //System.out.println("Subsystem: Climber - getPreClimbActuated");
     return m_preClimbActuated;
   }
 
@@ -120,7 +120,7 @@ public class ClimberSubsystem extends SubsystemBase {
    * @return The climber motor position, in rotations.
    */
   public double getClimberPosition() {   
-    System.out.println("Subsystem: Climber - getClimberPosition");
+    //System.out.println("Subsystem: Climber - getClimberPosition");
     return m_LeftClimb.getPosition().getValueAsDouble();
   }
 
@@ -131,7 +131,7 @@ public class ClimberSubsystem extends SubsystemBase {
    * True or false.
    */
   public boolean getClimberInPosition (double desiredPosition) {
-    System.out.println("Subsystem: Climber - getClimberInPosition");
+    //System.out.println("Subsystem: Climber - getClimberInPosition");
     return ((this.getClimberPosition() > (desiredPosition - Constants.kClimberTolerancePos)) && (this.getClimberPosition() < (desiredPosition + Constants.kClimberTolerancePos)));
 
   }

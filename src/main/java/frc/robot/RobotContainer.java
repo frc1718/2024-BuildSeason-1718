@@ -206,9 +206,9 @@ public class RobotContainer {
     SmartDashboard.putData("Chirp Selector", chirpSelect);
     SmartDashboard.putData("Auton Selector", autonSelect);    
     SmartDashboard.putData(beamBreak);
-    //SmartDashboard.putData(climber);
-    //SmartDashboard.putData(frontIntake);
-    //SmartDashboard.putData(LED);
+    SmartDashboard.putData(climber);
+    SmartDashboard.putData(frontIntake);
+    SmartDashboard.putData(shooter);
   }
 
   /**

@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.738506382206769,
-        "y": 7.212260162407239
+        "x": 8.42,
+        "y": 4.11050362756931
       },
       "prevControl": null,
       "nextControl": {
-        "x": 9.83801501985457,
-        "y": 7.073894599513489
+        "x": 8.902255973812945,
+        "y": 3.817732713924771
       },
-      "isLocked": true,
-      "linkedName": "MN5"
+      "isLocked": false,
+      "linkedName": "RMN3"
     },
     {
       "anchor": {
-        "x": 14.09054230376466,
-        "y": 6.757152686920786
+        "x": 8.820665858164812,
+        "y": 2.4241431649767726
       },
       "prevControl": {
-        "x": 13.376181274471993,
-        "y": 6.820391204268006
+        "x": 9.136858444900911,
+        "y": 2.9979741557200663
       },
       "nextControl": null,
-      "isLocked": true,
-      "linkedName": "RWN3"
+      "isLocked": false,
+      "linkedName": "RMN2"
     }
   ],
   "rotationTargets": [],
@@ -38,14 +38,14 @@
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
-    "velocity": 0,
-    "rotation": 153.67670173218994,
+    "velocity": 0.0,
+    "rotation": 180.0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Red - From Mid Note",
   "previewStartingState": {
-    "rotation": 151.18039190881274,
+    "rotation": 180.0,
     "velocity": 0
   },
   "useDefaultConstraints": true

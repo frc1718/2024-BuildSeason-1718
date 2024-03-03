@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 14.09054230376466,
-        "y": 6.757152686920786
+        "x": 14.05228502764698,
+        "y": 6.640452511674254
       },
       "prevControl": {
-        "x": 14.50276375017617,
-        "y": 6.686887667646096
+        "x": 14.464506474058489,
+        "y": 6.5701874923995645
       },
       "nextControl": null,
       "isLocked": true,
@@ -43,7 +43,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Red - From Subwoofer",
   "previewStartingState": {
     "rotation": 179.69523808957902,
     "velocity": 0

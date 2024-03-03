@@ -12,6 +12,7 @@ import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
+import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
@@ -37,6 +38,7 @@ public class FrontIntakeSubsystem extends SubsystemBase {
 
   private final VelocityVoltage frontIntakeVelocityRequest = new VelocityVoltage(0, 0, true, 0, 0, false, false, false);
   private final MotionMagicVoltage frontIntakeRotationRequest = new MotionMagicVoltage(0.0, true, 0.0, 0, false, false, false);
+  private final VoltageOut frontIntakeVoltageRequest = new VoltageOut(0);
   
   public double m_desiredPosition = 0;
   public double m_desiredSpeed = 0;
@@ -159,7 +161,7 @@ public class FrontIntakeSubsystem extends SubsystemBase {
    * @return The speed of the front intake roller motor, in rotations per second.
    */
   public double getFrontIntakeSpeed() {
-    System.out.println("FrontIntakeSubsystem: getFrontIntakeSpeed");
+    //System.out.println("FrontIntakeSubsystem: getFrontIntakeSpeed");
     return m_frontIntakeSpin.getVelocity().getValueAsDouble();
   }
 
@@ -168,7 +170,7 @@ public class FrontIntakeSubsystem extends SubsystemBase {
    * @return The current position of the front intake, in rotations.
    */
   public double getFrontIntakePosition() {
-    System.out.println("FrontIntakeSubsystem: getFrontIntakePosition");
+    //System.out.println("FrontIntakeSubsystem: getFrontIntakePosition");
     return m_frontIntakeRotate.getPosition().getValueAsDouble();
   }
   
@@ -180,7 +182,7 @@ public class FrontIntakeSubsystem extends SubsystemBase {
    */
   public Boolean getFrontIntakeInPosition(double desiredPosition) {
     //Check that the front intake is within the tolerance of the desired position.
-    System.out.println("FrontIntakeSubsystem - getFrontIntakeInPosition");
+    //System.out.println("FrontIntakeSubsystem - getFrontIntakeInPosition");
     return ((this.getFrontIntakePosition() > (desiredPosition - Constants.kFrontIntakeTolerancePos)) && (this.getFrontIntakePosition() < (desiredPosition + Constants.kFrontIntakeTolerancePos)));
   }
 
@@ -190,6 +192,10 @@ public class FrontIntakeSubsystem extends SubsystemBase {
     } else {
       return false;
     }
+  }
+
+  public void setFrontIntakeRotateZeroOutput() {
+    m_frontIntakeRotate.setControl(frontIntakeVoltageRequest);
   }
 
   /**
@@ -238,7 +244,7 @@ public class FrontIntakeSubsystem extends SubsystemBase {
    * True or false.
    */
   public boolean getFrontIntakeUpToSpeed(double desiredSpeed) {
-    System.out.println("ShooterSubsystem: getShooterUpToSpeed");
+    //System.out.println("ShooterSubsystem: getShooterUpToSpeed");
     return ((this.getFrontIntakeSpeed() >= (desiredSpeed - Constants.kShooterSpeedTolerance)) && (this.getFrontIntakeSpeed() <= (desiredSpeed + Constants.kShooterSpeedTolerance)));
   }
 
@@ -257,9 +263,10 @@ public class FrontIntakeSubsystem extends SubsystemBase {
     builder.setSmartDashboardType("FrontIntakeSubsystem");
     builder.addDoubleProperty("Front Intake Speed", this::getFrontIntakeSpeed, null);
     builder.addDoubleProperty("Front Intake Position", this::getFrontIntakePosition, null);
-    builder.addDoubleProperty("Front Intake Servo Position", this::getServoPosition, null);
     builder.addBooleanProperty("Front Intake in Position?", this::getFrontIntakeInPosition, null);
     builder.addBooleanProperty("Front Intake up to Speed?", this::getFrontIntakeUpToSpeed, null);
+    builder.addDoubleProperty("Front Intake Desired Position", () -> {return m_desiredPosition;}, null);
+    builder.addDoubleProperty("Front Intake Desired Speed", () -> {return m_desiredSpeed;}, null);
   }
 
   @Override
