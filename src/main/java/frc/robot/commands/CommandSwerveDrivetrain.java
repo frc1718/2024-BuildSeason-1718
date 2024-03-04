@@ -134,7 +134,15 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
                                             TunerConstants.kSpeedAt12VoltsMps,
                                             driveBaseRadius,
                                             new ReplanningConfig()),
-            () -> false,    //Will need to implement a function here to flip depending on alliance colour.
+            () -> {
+                //Boolean supplier that controls when the path will be mirrored for the BLUE alliance.
+                //Normally, the switch would flip from blue to red, but we built the red alliance for our practice field, and have written all of our auton routines as red so far.
+                var alliance = DriverStation.getAlliance();
+                if (alliance.isPresent()) {
+                    return alliance.get() == DriverStation.Alliance.Blue;
+                }
+                return false;
+            },
             this);
     }
 
