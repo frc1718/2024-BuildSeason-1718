@@ -139,7 +139,8 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
                 //Normally, the switch would flip from blue to red, but we built the red alliance for our practice field, and have written all of our auton routines as red so far.
                 var alliance = DriverStation.getAlliance();
                 if (alliance.isPresent()) {
-                    return alliance.get() == DriverStation.Alliance.Blue;
+                    return false;   //Commenting out for the moment, since it seems to be more accurate to create auton routines for each side separately.
+                    //alliance.get() == DriverStation.Alliance.Blue;
                 }
                 return false;
             },
