@@ -3,14 +3,18 @@
   "robotLength": 0.9017,
   "holonomicMode": true,
   "pathFolders": [
-    "Blue Side Segments",
-    "Blue Side Start Paths",
-    "Red - From Starting Line",
+    "Blue - From Mid Note",
+    "Blue - From Starting Line",
+    "Blue - From Subwoofer",
+    "Blue - From Wing Note",
     "Red - From Mid Note",
+    "Red - From Starting Line",
     "Red - From Subwoofer",
     "Red - From Wing Note"
   ],
-  "autoFolders": [],
+  "autoFolders": [
+    "Bad Ones"
+  ],
   "defaultMaxVel": 3.0,
   "defaultMaxAccel": 3.0,
   "defaultMaxAngVel": 540.0,

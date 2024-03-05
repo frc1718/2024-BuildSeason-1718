@@ -67,7 +67,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "RWN3 - MN5"
+                  "pathName": "RWN3 - RMN5"
                 }
               },
               {
@@ -120,6 +120,6 @@
       ]
     }
   },
-  "folder": null,
+  "folder": "Bad Ones",
   "choreoAuto": false
 }
