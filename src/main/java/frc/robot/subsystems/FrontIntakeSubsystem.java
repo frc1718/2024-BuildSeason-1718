@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 
+import com.ctre.phoenix6.Orchestra;
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
@@ -87,6 +88,9 @@ public class FrontIntakeSubsystem extends SubsystemBase {
     frontIntakeRotateConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.FusedCANcoder;
     frontIntakeRotateConfig.Feedback.RotorToSensorRatio = Constants.kFrontIntakeRotateRotorToSensorRatio;
 
+    //Setting the config option that allows playing music on the motor during disabled.
+    frontIntakeRotateConfig.Audio.AllowMusicDurDisable = true;
+
     StatusCode frontIntakeRotateStatus = StatusCode.StatusCodeNotInitialized;
     for(int i = 0; i < 5; ++i) {
       frontIntakeRotateStatus = m_frontIntakeRotate.getConfigurator().apply(frontIntakeRotateConfig);
@@ -109,6 +113,9 @@ public class FrontIntakeSubsystem extends SubsystemBase {
     frontIntakeSpinVelocityConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.kFrontIntakeSpinVoltageClosedLoopRampPeriod;
     frontIntakeSpinVelocityConfig.MotorOutput.Inverted = Constants.kFrontIntakeSpinDirection;
     frontIntakeSpinVelocityConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
+
+    //Setting the config option that allows playing music on the motor during disabled.
+    frontIntakeSpinVelocityConfig.Audio.AllowMusicDurDisable = true;
 
     StatusCode frontIntakeSpinStatus = StatusCode.StatusCodeNotInitialized;
 
@@ -257,6 +264,16 @@ public class FrontIntakeSubsystem extends SubsystemBase {
    */
   public boolean getFrontIntakeUpToSpeed() {
     return this.getFrontIntakeUpToSpeed(m_desiredSpeed);
+  }
+
+  /**
+   * Add all of the motors in the front intake subsystem to the Orchestra.
+   * I want the robot to sing.
+   * @param robotOrchestra The Orchestra to add the motors as instruments to.
+   */
+  public void addToOrchestra(Orchestra robotOrchestra) {
+    robotOrchestra.addInstrument(m_frontIntakeRotate);
+    robotOrchestra.addInstrument(m_frontIntakeSpin);
   }
 
   @Override

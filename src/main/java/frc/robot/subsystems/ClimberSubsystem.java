@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 
+import com.ctre.phoenix6.Orchestra;
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
@@ -67,6 +68,9 @@ public class ClimberSubsystem extends SubsystemBase {
     slot0.GravityType = GravityTypeValue.Elevator_Static;
     slot0.kV = Constants.kLeftClimberVelocityFeedFoward;
     //slot0.kS = Constants.kClimberStaticFeedFoward; // The value of s is approximately the number of volts needed to get the mechanism moving
+
+    //Setting the config option that allows playing music on the motor during disabled.
+    leftClimberConfig.Audio.AllowMusicDurDisable = true;
  
     StatusCode climberStatus = StatusCode.StatusCodeNotInitialized;
     for(int i = 0; i < 5; ++i) {
@@ -160,6 +164,16 @@ public class ClimberSubsystem extends SubsystemBase {
     currentConfigurator.refresh(neuMotOut);
     neuMotOut.NeutralMode = NeutralMode;
     currentConfigurator.apply(neuMotOut);
+  }
+
+  /**
+   * Add all of the motors in the climber subsystem to the Orchestra.
+   * I want the robot to sing.
+   * @param robotOrchestra The Orchestra to add the motors as instruments to.
+   */
+  public void addToOrchestra(Orchestra robotOrchestra) {
+    robotOrchestra.addInstrument(m_LeftClimb);
+    robotOrchestra.addInstrument(m_RightClimb);
   }
 
   @Override
