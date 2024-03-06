@@ -231,7 +231,7 @@ public class ShooterSubsystem extends SubsystemBase {
   public void configureShooterArmCANcoder(CANcoder shooterArmCANcoder){
     //Configuring CANcoder
     CANcoderConfiguration ShooterArmCANcoderConfig = new CANcoderConfiguration();
-    ShooterArmCANcoderConfig.MagnetSensor.MagnetOffset = 0.0;
+    ShooterArmCANcoderConfig.MagnetSensor.MagnetOffset = -0.261963;
     ShooterArmCANcoderConfig.MagnetSensor.AbsoluteSensorRange = AbsoluteSensorRangeValue.Unsigned_0To1;
     ShooterArmCANcoderConfig.MagnetSensor.SensorDirection = SensorDirectionValue.Clockwise_Positive;
   }
