@@ -207,7 +207,7 @@ public class RobotContainer {
   private void configureCustomNTValues(){
     //All of the NT publishing we would like to do, that won't be setup in the classes themselves, gets setup here.
     SmartDashboard.putData("Chirp Selector", chirpSelect);
-    SmartDashboard.putData("Auton Selector", autonSelect);    
+    SmartDashboard.putData("Auton Selector", autonSelect);  
     SmartDashboard.putData(beamBreak);
     SmartDashboard.putData(climber);
     SmartDashboard.putData(frontIntake);

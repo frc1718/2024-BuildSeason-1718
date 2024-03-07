@@ -54,8 +54,8 @@ public class Constants {
     //public static final int kMotorEnableLeftRearSwerveSteer = 1;
     public static final int kMotorEnableFrontIntakeSpin = 1;
     public static final int kMotorEnableFrontIntakeRotate = 1;
-    public static final int kMotorEnableLeftShooterSpin = 0;
-    public static final int kMotorEnableRightShooterSpin = 0;
+    public static final int kMotorEnableLeftShooterSpin = 1;
+    public static final int kMotorEnableRightShooterSpin = 1;
     public static final int kMotorEnableShooterIntakeSpin = 1;
     public static final int kMotorEnableShooterArmRotate = 1;
     public static final int kMotorEnableClimber = 1;
@@ -77,8 +77,8 @@ public class Constants {
 
 
     public static final int kClimberHomePos = 0;    
-    public static final int kClimberClimbPos = 0;
-    public static final int kClimberPreClimbPos = 56;
+    public static final double kClimberClimbPos = -40.5;
+    public static final double kClimberPreClimbPos = 17.5;
     public static final int kClimberTolerancePos = 1;
     
     public static final double kFrontIntakeDownPos = 0.00;  //Down so we can suck in
@@ -240,16 +240,16 @@ public class Constants {
     // End Climber settings
 
     //Start Right Climber settings
-    // public static final InvertedValue kRightClimberDirection = InvertedValue.Clockwise_Positive;
-    // public static final double kRightClimberProportional = 15;
-    // public static final double kRightClimberIntegral = 0;
-    // public static final double kRightClimberDerivative = 0.2;
-    // public static final double kRightClimberVelocityFeedFoward = 0;
-    // public static final int kRightClimberStaticFeedFoward = 0;
+    public static final InvertedValue kRightClimberDirection = InvertedValue.Clockwise_Positive;
+    public static final double kRightClimberProportional = 15;
+    public static final double kRightClimberIntegral = 0;
+    public static final double kRightClimberDerivative = 0.2;
+    public static final double kRightClimberVelocityFeedFoward = 0;
+    //public static final int kRightClimberStaticFeedFoward = 0;
     public static final int kRightClimberMaxForwardVoltage = 11;
     public static final int kRightClimberMaxReverseVoltage = -11;
     public static final int kRightClimberSupplyCurrentLimit = 50;
-    // public static final double kRightClimberVoltageClosedLoopRampPeriod = 0.05;
+    public static final double kRightClimberVoltageClosedLoopRampPeriod = 0.05;
     // End Right Climber settings
     
     //Start custom Swerve settings
