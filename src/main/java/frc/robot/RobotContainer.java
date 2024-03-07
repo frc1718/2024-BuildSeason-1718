@@ -43,6 +43,7 @@ import frc.robot.commands.Driver.ShootTrap;
 import frc.robot.commands.Driver.ShooterModeShootWithLimelight;
 import frc.robot.commands.Driver.Spit;
 import frc.robot.commands.Driver.Suck;
+import frc.robot.commands.Driver.SuckNoFront;
 import frc.robot.commands.General.SetMotorsToCoast;
 import frc.robot.commands.General.NotePosition;
 import frc.robot.commands.General.StowArmAndIntake;
@@ -134,8 +135,10 @@ public class RobotContainer {
 
     driveController.leftBumper().onTrue(new Shoot(frontIntake, shooter, climber, shooterIntake, beamBreak)).onFalse(Commands.parallel(new StowArmAndIntake(frontIntake, shooter), new NotePosition(shooterIntake, beamBreak)));
     driveController.rightBumper().onTrue(new Suck(frontIntake, shooter, shooterIntake, beamBreak)).onFalse(Commands.parallel(new StowArmAndIntake(frontIntake, shooter), new NotePosition(shooterIntake, beamBreak)));
-    driveController.rightTrigger(.5).whileTrue(new Spit(frontIntake, shooter, shooterIntake, beamBreak)).onFalse(Commands.parallel(new StowArmAndIntake(frontIntake, shooter), new NotePosition(shooterIntake, beamBreak))); 
+    //driveController.rightTrigger(.5).whileTrue(new Spit(frontIntake, shooter, shooterIntake, beamBreak)).onFalse(Commands.parallel(new StowArmAndIntake(frontIntake, shooter), new NotePosition(shooterIntake, beamBreak))); 
+    driveController.rightTrigger(.5).whileTrue(new SuckNoFront(frontIntake, shooter, shooterIntake, beamBreak)).onFalse(Commands.parallel(new StowArmAndIntake(frontIntake, shooter), new NotePosition(shooterIntake, beamBreak))); 
     driveController.leftTrigger(.5).onTrue(new Climb(climber,frontIntake,shooter));
+    driveController.y().whileTrue(new Spit(frontIntake, shooter, shooterIntake, beamBreak)).onFalse(Commands.parallel(new StowArmAndIntake(frontIntake, shooter), new NotePosition(shooterIntake, beamBreak))); 
      
     // Schedules reset the field - Binds centric heading on back and start button push
     driveController.back().and(driveController.start()).onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative()));

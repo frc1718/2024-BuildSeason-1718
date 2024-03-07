@@ -54,8 +54,8 @@ public class Constants {
     //public static final int kMotorEnableLeftRearSwerveSteer = 1;
     public static final int kMotorEnableFrontIntakeSpin = 1;
     public static final int kMotorEnableFrontIntakeRotate = 1;
-    public static final int kMotorEnableLeftShooterSpin = 1;
-    public static final int kMotorEnableRightShooterSpin = 1;
+    public static final int kMotorEnableLeftShooterSpin = 0;
+    public static final int kMotorEnableRightShooterSpin = 0;
     public static final int kMotorEnableShooterIntakeSpin = 1;
     public static final int kMotorEnableShooterArmRotate = 1;
     public static final int kMotorEnableClimber = 1;
@@ -82,7 +82,7 @@ public class Constants {
     public static final int kClimberTolerancePos = 1;
     
     public static final double kFrontIntakeDownPos = 0.00;  //Down so we can suck in
-    public static final double kFrontIntakeHomePos = 0.254; //Starting position.  Used to be .38 all the way back.  Changed to speed up.
+    public static final double kFrontIntakeHomePos = 0.3; //Starting position.  Used to be .38 all the way back.  Changed to speed up.
     public static final double kFrontIntakeTolerancePos = 0.015;
     public static final double kFrontIntakeClearPos = 0.239; //Clear is clear of the shooterarm motion
         /* Safeties - DO NOT CHANGE THIS LINE */ public static final double kFrontIntakeUpSafety = 0.38;
@@ -158,24 +158,25 @@ public class Constants {
 
     // Start ShooterArmRotate settings
     public static final InvertedValue kShooterArmRotateDirection = InvertedValue.Clockwise_Positive;
-    public static final double kShooterArmRotateProportional = 35;
+    public static final double kShooterArmRotateProportional = 60;
     public static final double kShooterArmRotateIntegral = 0;
     public static final double kShooterArmRotateDerivative = 0;
     public static final double kShooterArmRotateGravity = 0.3;
-    public static final double kShooterArmRotateVelocityFeedFoward = 40;
+    public static final double kShooterArmRotateVelocityFeedFoward = 41;
     //public static final int kShooterArmRotateStaticFeedFoward = 0;
     public static final int kShooterArmRotateMaxForwardVoltage = 11;
     public static final int kShooterArmRotateMaxReverseVoltage = -11;
-    public static final double kShooterArmRotateMotionMagicCruiseVelocity = 0.25;
-    public static final double kShooterArmRotateMotionMagicAcceleration = 1;
+    public static final double kShooterArmRotateMotionMagicCruiseVelocity = 0.235;
+    public static final double kShooterArmRotateMotionMagicAcceleration = 2;
     public static final int kShooterArmRotateMotionMagicJerk = 0;
-    public static final int kShooterArmRotateSupplyCurrentLimit = 40;
+    public static final int kShooterArmRotateSupplyCurrentLimit = 60;
     public static final int kShooterArmRotateVoltageClosedLoopRampPeriod = 0;
     // End ShooterArmRotate settings
     public static final int kShooterArmRotateCancoderRotorToSensorRatio = 300;
-    public static final SensorDirectionValue kShooterArmRotateCancoderDirection = SensorDirectionValue.Clockwise_Positive;
+    public static final SensorDirectionValue kShooterArmRotateCancoderDirection = SensorDirectionValue.CounterClockwise_Positive;
     public static final AbsoluteSensorRangeValue kShooterArmRotateCancoderRange = AbsoluteSensorRangeValue.Signed_PlusMinusHalf;
-    public static final double kShooterArmRotateCancoderOffset = 0;
+    public static final double kShooterArmRotateCancoderOffset = 0.38159;
+    public static final InvertedValue kRightShooterArmRotateDirection = InvertedValue.CounterClockwise_Positive;
     // ShooterArmRotateCancoder settings above /\     /\     /\
 
     // Start FrontIntakeRotate settings
@@ -196,9 +197,9 @@ public class Constants {
     public static final int KFrontIntakeCancoderOffset = 0;
     // End FrontIntakeRotate settings
     public static final double kFrontIntakeRotateRotorToSensorRatio = 56.25;
-    public static final SensorDirectionValue kFrontIntakeRotateCancoderDirection = SensorDirectionValue.Clockwise_Positive;
+    public static final SensorDirectionValue kFrontIntakeRotateCancoderDirection = SensorDirectionValue.CounterClockwise_Positive;
     public static final AbsoluteSensorRangeValue kFrontIntakeRotateCancoderRange = AbsoluteSensorRangeValue.Signed_PlusMinusHalf;
-    public static final double kFrontIntakeRotateCancoderOffset = -0.398926;
+    public static final double kFrontIntakeRotateCancoderOffset = -0.176514;
     // FrontIntakeRotateCancoder settings above /\     /\     /\
 
     // Start FrontIntakeSpin settings
