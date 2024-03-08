@@ -9,6 +9,7 @@ import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -86,6 +87,11 @@ public class Robot extends TimedRobot {
     //if (disabledTimer.get() > 5.0) {
     //  m_disabledSafetyCommand.schedule();
     //}
+    if (DriverStation.getAlliance().get() == Alliance.Blue) {
+      System.out.println("Alliance Color is: " + DriverStation.getAlliance().get());
+      m_robotContainer.driveSign=-1;
+    }
+
   }
 
   @Override
