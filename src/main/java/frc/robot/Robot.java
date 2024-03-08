@@ -87,12 +87,9 @@ public class Robot extends TimedRobot {
     //if (disabledTimer.get() > 5.0) {
     //  m_disabledSafetyCommand.schedule();
     //}
-    if (DriverStation.getAlliance().get() == Alliance.Blue) {
-      System.out.println("Alliance Color is: " + DriverStation.getAlliance().get());
-      m_robotContainer.driveSign=-1;
-    }
+   }
 
-  }
+  
 
   @Override
   public void disabledExit() {
@@ -121,9 +118,16 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
     }
     m_notePositionCommand.schedule();
+    
+    if (DriverStation.getAlliance().get() == Alliance.Blue) {
+      System.out.println("Alliance Color is: " + DriverStation.getAlliance().get());
+      m_robotContainer.resetPose = m_robotContainer.resetPoseBlue;
+    } else {
+      System.out.println("Alliance Color is: " + DriverStation.getAlliance().get());
+      m_robotContainer.resetPose = m_robotContainer.resetPoseRed;
+    }
   }
-
-  @Override
+  
   public void teleopPeriodic() {}
 
   @Override

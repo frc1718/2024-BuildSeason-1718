@@ -63,7 +63,7 @@ public class Constants {
 
     // Start Positions
     public static final double kShooterArmSubwooferPos = -0.1; //-0.11
-    public static final double kShooterArmPodiumPos = -0.0388;  //-0.0388
+    public static final double kShooterArmPodiumPos = -0.035;  //-0.0388
     public static final double kShooterArmAmpPos = 0.135;   //0.135
     public static final double kShooterArmHomePos = -0.136; //-0.136
     public static final double kShooterArmMiddleAutoPos = -0.0388;  //-0.0388
@@ -102,7 +102,7 @@ public class Constants {
     public static final int kShooterStopSpeed = 0;
     
     public static final int kShooterIntakeTrapSpeed = 0;
-    public static final int kShooterIntakeSuckSpeed = 60;
+    public static final int kShooterIntakeSuckSpeed = 80;
     public static final int kShooterIntakeStopSpeed = 0;
     public static final int kShooterIntakeSpitSpeed = -60;
     public static final int kShooterIntakeShootSpeed = 75;

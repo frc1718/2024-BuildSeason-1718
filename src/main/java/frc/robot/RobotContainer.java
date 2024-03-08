@@ -67,7 +67,13 @@ public class RobotContainer {
   File autonFolder = new File(Filesystem.getDeployDirectory() + "/pathplanner/autos");
   Selector chirpSelect = new Selector(chirpFolder, ".chrp");
   Selector autonSelect = new Selector(autonFolder, ".auto");
-  double driveSign=0;
+  double driveSign=1;
+
+  public Rotation2d resetRotationBlue = new Rotation2d(0);
+  public Rotation2d resetRotationRed = new Rotation2d (Math.PI);
+  public Pose2d resetPoseBlue = new Pose2d(0,0,resetRotationBlue);
+  public Pose2d resetPoseRed = new Pose2d(0,0,resetRotationRed);
+  public Pose2d resetPose = new Pose2d();
 
   // Set driver controller up
   private final CommandXboxController driveController = new CommandXboxController(Constants.kDriverControllerPort); // My driveController
@@ -142,7 +148,8 @@ public class RobotContainer {
     driveController.y().whileTrue(new Spit(frontIntake, shooter, shooterIntake, beamBreak)).onFalse(Commands.parallel(new StowArmAndIntake(frontIntake, shooter), new NotePosition(shooterIntake, beamBreak))); 
      
     // Schedules reset the field - Binds centric heading on back and start button push
-    driveController.back().and(driveController.start()).onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative()));
+
+    driveController.back().and(driveController.start()).onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative(resetPose)));
 
     /* Setting up bindings for selecting an autonomous to run. */
     /* Up / Down on the D-Pad of the driver controller. */
@@ -170,7 +177,7 @@ public class RobotContainer {
     //driveController.start().and(driveController.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
 
     //Limelight piece-by-piece debugging
-    driveController.back().onTrue(new ShooterModeShootWithLimelight(frontIntake, shooter, drivetrain, shooterIntake, beamBreak));
+    //driveController.back().onTrue(new ShooterModeShootWithLimelight(frontIntake, shooter, drivetrain, shooterIntake, beamBreak));
     
     Trigger NoteLocationStatus = new Trigger(beamBreak::getNotePresent);
     NoteLocationStatus.onTrue(new LightLEDOnNotePresent(LED, beamBreak)).onFalse(new LightLEDOnNotePresent(LED, beamBreak));
