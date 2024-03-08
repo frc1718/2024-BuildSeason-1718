@@ -78,7 +78,7 @@ public class Constants {
 
 
     public static final int kClimberHomePos = 0;    
-    public static final double kClimberClimbPos = -40.5;
+    public static final double kClimberClimbPos = -38.5;
     public static final double kClimberPreClimbPos = 17.5;
     public static final int kClimberTolerancePos = 1;
     
@@ -113,7 +113,7 @@ public class Constants {
     public static final int kShooterIntakeMaxSpeed = 100;
 
     public static final int kFrontIntakeStopSpeed = 0;
-    public static final int kFrontIntakeSuckSpeed = 50;
+    public static final int kFrontIntakeSuckSpeed = 40;
     public static final int kFrontIntakeSpitSpeed = -35;
     public static final int kFrontIntakeMaxSpeed = 75;
 

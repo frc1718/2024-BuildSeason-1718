@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.commands.PathPlannerAuto;
+
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -14,6 +16,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.LimelightHelpers.LimelightTarget_Fiducial;
 import frc.robot.LimelightHelpers.Results;
 import frc.robot.commands.General.DisabledSafety;
@@ -25,6 +28,7 @@ public class Robot extends TimedRobot {
   private NotePosition m_notePositionCommand;
   private RobotContainer m_robotContainer;
   private DisabledSafety m_disabledSafetyCommand;
+  private Command m_autonLoading;
   
   //Use this to enable / disable reading data from the limelight.
   //The terminal gets clogged up if a limelight isn't actually connected.
@@ -35,6 +39,9 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer();
     m_disabledSafetyCommand = new DisabledSafety(m_robotContainer.shooterIntake,m_robotContainer.frontIntake,m_robotContainer.shooter,m_robotContainer.climber);
     m_notePositionCommand = new NotePosition(m_robotContainer.shooterIntake,m_robotContainer.beamBreak);
+    //Load a 'dummy' auton just to load the PathPlannerAuto class.
+    //Hopefully, this makes the auton load faster.
+    m_autonLoading = new PathPlannerAuto("Blue - Score 0").ignoringDisable(true);
     //Need to seed the field relative position at least once.
     //This may not be necessary with autonomous.  It might actually interfere!
     //m_robotContainer.drivetrain.seedFieldRelative(Constants.kDefaultPose);
@@ -52,7 +59,7 @@ public class Robot extends TimedRobot {
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
 
-    if (enableLimelight) {
+    /*if (enableLimelight) {
       //Periodically retrieve the results from the limelight and extract the pose.
       LimelightHelpers.PoseEstimate limelightMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue(Constants.kLimelightName);
       if (limelightMeasurement.tagCount >= 2) {
@@ -67,7 +74,7 @@ public class Robot extends TimedRobot {
         //botpose[6] is the combined targeting latency and capture latency.  Subtract from the current time to determine when the results were calculated.
         //m_robotContainer.drivetrain.addVisionMeasurement(limelightPose, Timer.getFPGATimestamp() - (limelightResults.botpose[6] / 1000));
       //}
-    }
+      } */
   }
 
   @Override
@@ -76,6 +83,8 @@ public class Robot extends TimedRobot {
     //Solution, briefly set them in a zero output mode when disabled, then allow Motion Magic to take control again in TeleOp.
     m_robotContainer.frontIntake.setFrontIntakeRotateZeroOutput();
     m_robotContainer.shooter.setShooterArmRotateZeroOutput();
+    m_autonLoading.schedule();
+    
   }
 
   @Override
@@ -96,7 +105,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    m_autonomousCommand = new WaitCommand(0.010).andThen(m_robotContainer.getAutonomousCommand());
 
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
@@ -117,10 +126,10 @@ public class Robot extends TimedRobot {
     m_notePositionCommand.schedule();
     
     if (DriverStation.getAlliance().get() == Alliance.Blue) {
-      System.out.println("Alliance Color is: " + DriverStation.getAlliance().get());
+      //System.out.println("Alliance Color is: " + DriverStation.getAlliance().get());
       m_robotContainer.resetPose = m_robotContainer.resetPoseBlue;
     } else {
-      System.out.println("Alliance Color is: " + DriverStation.getAlliance().get());
+      //System.out.println("Alliance Color is: " + DriverStation.getAlliance().get());
       m_robotContainer.resetPose = m_robotContainer.resetPoseRed;
     }
   }
