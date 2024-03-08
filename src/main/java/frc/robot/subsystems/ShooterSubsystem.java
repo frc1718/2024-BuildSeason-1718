@@ -233,6 +233,8 @@ public class ShooterSubsystem extends SubsystemBase {
     rightCurrentConfigurator.apply(rightNeuMotOut);
   }
 
+  
+
     /**
    * Open Motors
    * 

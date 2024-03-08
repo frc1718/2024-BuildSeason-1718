@@ -67,6 +67,7 @@ public class RobotContainer {
   File autonFolder = new File(Filesystem.getDeployDirectory() + "/pathplanner/autos");
   Selector chirpSelect = new Selector(chirpFolder, ".chrp");
   Selector autonSelect = new Selector(autonFolder, ".auto");
+  double driveSign=0;
 
   // Set driver controller up
   private final CommandXboxController driveController = new CommandXboxController(Constants.kDriverControllerPort); // My driveController
@@ -106,9 +107,9 @@ public class RobotContainer {
   private void configureBindings() {
     //Schedules drivertain
     drivetrain.setDefaultCommand( // Drivetrain will execute this command periodically
-        drivetrain.applyRequest(() -> drive.withVelocityX(-driveController.getLeftY() * MaxSpeed) // Drive forward with
+        drivetrain.applyRequest(() -> drive.withVelocityX(-driveController.getLeftY() * MaxSpeed * driveSign) // Drive forward with
                                                                                            // negative Y (forward)
-            .withVelocityY(-driveController.getLeftX() * MaxSpeed) // Drive left with negative X (left)
+            .withVelocityY(-driveController.getLeftX() * MaxSpeed * driveSign) // Drive left with negative X (left)
             .withRotationalRate(-driveController.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
         ).ignoringDisable(true));
     
