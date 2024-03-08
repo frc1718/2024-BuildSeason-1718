@@ -62,7 +62,7 @@ public class Constants {
     // End Motor Enables
 
     // Start Positions
-    public static final double kShooterArmSubwooferPos = -0.11; //-0.11
+    public static final double kShooterArmSubwooferPos = -0.1; //-0.11
     public static final double kShooterArmPodiumPos = -0.0388;  //-0.0388
     public static final double kShooterArmAmpPos = 0.135;   //0.135
     public static final double kShooterArmHomePos = -0.136; //-0.136
