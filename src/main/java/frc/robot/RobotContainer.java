@@ -196,7 +196,7 @@ public class RobotContainer {
     //Line below cauases a crash because it's not ready
     //operatorController.x().onTrue(new ShooterModeShootWithPose(frontIntake, shooter, drivetrain));
     operatorController.a().onTrue(new ShooterModeSubwoofer(frontIntake, shooter));
-    operatorController.leftBumper().and(operatorController.rightBumper()).debounce(2).onTrue(new PreClimb(climber,shooter,frontIntake, shooterIntake));
+    operatorController.leftBumper().and(operatorController.rightBumper()).debounce(0.5).onTrue(new PreClimb(climber,shooter,frontIntake, shooterIntake));
     operatorController.start().onTrue(new Home(climber, shooter, frontIntake, shooterIntake));
 
     // Schedules Play music - Binds Dpad Up
