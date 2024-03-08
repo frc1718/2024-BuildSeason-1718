@@ -147,7 +147,7 @@ public class RobotContainer {
     driveController.rightTrigger(.5).whileTrue(new Spit(frontIntake, shooter, shooterIntake, beamBreak)).onFalse(Commands.parallel(new StowArmAndIntake(frontIntake, shooter), new NotePosition(shooterIntake, beamBreak))); 
     driveController.leftTrigger(.5).onTrue(new Climb(climber,frontIntake,shooter));
     driveController.y().whileTrue(new SuckNoFront(frontIntake, shooter, shooterIntake, beamBreak)).onFalse(Commands.parallel(new StowArmAndIntake(frontIntake, shooter), new NotePosition(shooterIntake, beamBreak))); 
-     
+    driveController.b().whileTrue(new ShootTrap(climber, shooterIntake)); 
     // Schedules reset the field - Binds centric heading on back and start button push
 
     driveController.back().and(driveController.start()).onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative(resetPose)));
@@ -230,7 +230,7 @@ public class RobotContainer {
   private void registerAutonCommands(){
     //ALL COMMANDS THAT COULD BE USED IN AUTONOMOUS NEED TO BE REGISTERED HERE.
     NamedCommands.registerCommand("Shoot", new Shoot(frontIntake, shooter, climber, shooterIntake, beamBreak));
-    NamedCommands.registerCommand("ShootTrap", new ShootTrap(frontIntake, shooter, climber, shooterIntake));
+    NamedCommands.registerCommand("ShootTrap", new ShootTrap(climber, shooterIntake));
     NamedCommands.registerCommand("Spit", new Spit(frontIntake, shooter, shooterIntake, beamBreak));
     NamedCommands.registerCommand("Suck", new Suck(frontIntake, shooter, shooterIntake, beamBreak));
     NamedCommands.registerCommand("NotePosition", new NotePosition(shooterIntake, beamBreak));

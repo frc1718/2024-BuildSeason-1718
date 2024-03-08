@@ -17,39 +17,27 @@ import frc.robot.subsystems.ShooterIntakeSubsystem;
  */
 public class ShootTrap extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final ShooterSubsystem m_shooterSubsystem;
   private final ClimberSubsystem m_climberSubsystem;
-  private final FrontIntakeSubsystem m_frontIntakeSubsystem;
   private final ShooterIntakeSubsystem m_shooterIntakeSubsystem;
 
   private boolean m_isFinished = false;
 
   private double m_shooterSpeed = 0;
-  private double m_frontIntakePosition = 0;
-  private double m_frontIntakeSpeed = 0;
 
   /**
    * Constructs an instance of the shoot trap command.
-   * @param frontIntakeSubsystem An instance of the front intake subsystem.
-   * Required.
-   * @param shooterSubsystem An instance of the shooter subsystem.
-   * Required.
+   * 
    * @param climbSubsystem An instance of the climber subsystem.
    * Required.
    * @param shooterIntakeSubsystem An instance of the shooter intake subsystem.
    * Required.
    */
-  public ShootTrap(FrontIntakeSubsystem frontIntakeSubsystem, ShooterSubsystem shooterSubsystem, ClimberSubsystem climbSubsystem, ShooterIntakeSubsystem shooterIntakeSubsystem) {
-
-    m_frontIntakeSubsystem = frontIntakeSubsystem;
-    m_shooterSubsystem = shooterSubsystem;
+  public ShootTrap(ClimberSubsystem climbSubsystem, ShooterIntakeSubsystem shooterIntakeSubsystem) {
+    
     m_climberSubsystem = climbSubsystem;
     m_shooterIntakeSubsystem = shooterIntakeSubsystem;
 
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_shooterSubsystem);
-    addRequirements(m_frontIntakeSubsystem);
-    addRequirements(m_climberSubsystem);
+    // Use addRequirements() here to declare subsystem dependencies
     addRequirements(m_shooterIntakeSubsystem);
     
   }
@@ -57,15 +45,11 @@ public class ShootTrap extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {  
-    System.out.println("========================");
-    System.out.println("Driver Command: ShootTrap");
+    //System.out.println("========================");
+    //System.out.println("Driver Command: ShootTrap");
 
     m_isFinished = false;
-
-    // Set the values for the subsystems
-    m_shooterSubsystem.setShooterSpeed(m_shooterSpeed);
-    m_frontIntakeSubsystem.setFrontIntakePosition(m_frontIntakePosition);
-    m_frontIntakeSubsystem.setFrontIntakeSpeed(m_frontIntakeSpeed);
+    
 
   }
 
@@ -75,21 +59,18 @@ public class ShootTrap extends Command {
     
   //Set values based on shooter mode the operator has selected
     if (m_climberSubsystem.getPreClimbActuated()) {
-      System.out.println("Driver Command ShooTrap: Complete!");
-      m_shooterIntakeSubsystem.setShooterIntakeSpeed(-Constants.kShooterIntakeShootSpeed);
-      m_isFinished = true;
-    } else {
-      System.out.println("Driver Command ShootTrap: Preclimb Not Actuated!");
-      m_isFinished = true;
-    }
+      //System.out.println("Driver Command ShooTrap: Complete!");
+      m_shooterIntakeSubsystem.setShooterIntakeSpeed(-15);
+      
+    } 
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     //Always have to set ready to shoot back to false at the end of a shot.
-    System.out.println("Driver Command ShootTrap: Was completed!");
-    System.out.println("=======================================");
+    //System.out.println("Driver Command ShootTrap: Was completed!");
+    //System.out.println("=======================================");
   }
 
   // Returns true when the command should end.

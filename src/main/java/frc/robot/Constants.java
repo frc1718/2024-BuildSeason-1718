@@ -64,7 +64,7 @@ public class Constants {
 
     // Start Positions
     public static final double kShooterArmSubwooferPos = -0.1; //-0.11
-    public static final double kShooterArmPodiumPos = -0.035;  //-0.0388
+    public static final double kShooterArmPodiumPos = -0.0668;  //-0.0388
     public static final double kShooterArmAmpPos = 0.135;   //0.135
     public static final double kShooterArmHomePos = -0.136; //-0.136
     public static final double kShooterArmMiddleAutoPos = -0.0388;  //-0.0388
@@ -85,7 +85,7 @@ public class Constants {
     public static final double kFrontIntakeDownPos = 0.00;  //Down so we can suck in
     public static final double kFrontIntakeHomePos = 0.3; //Starting position.  Used to be .38 all the way back.  Changed to speed up.
     public static final double kFrontIntakeTolerancePos = 0.015;
-    public static final double kFrontIntakeClearPos = 0.239; //Clear is clear of the shooterarm motion
+    public static final double kFrontIntakeClearPos = 0.239; //was .239Clear is clear of the shooterarm motion
         /* Safeties - DO NOT CHANGE THIS LINE */ public static final double kFrontIntakeUpSafety = 0.38;
         /* Safeties - DO NOT CHANGE THIS LINE */ public static final double kFrontIntakeDownSafety = -0.01;
     
@@ -95,7 +95,7 @@ public class Constants {
 
     // Start Speeds
     public static final double kShooterSubwooferSpeed = 70;  //Was 70, at 10 for testing in build room
-    public static final int kShooterPodiumSpeed = 70;  //Was 70, at 10 for testing in build room
+    public static final int kShooterPodiumSpeed = 80;  //Was 70, at 10 for testing in build room
     public static final int kShooterAmpSpeed = 20;  //Was 20, at 7 for testing in build room
     public static final int kShooterPoseSpeed = 0;
     public static final int kShooterIdleSpeed = 30; //Was 30, at 5 for testing in build room
