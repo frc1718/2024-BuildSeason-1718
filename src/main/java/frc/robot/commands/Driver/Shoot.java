@@ -130,6 +130,12 @@ public class Shoot extends Command {
           m_frontIntakePosition = Constants.kFrontIntakeHomePos;
           m_frontIntakeSpeed = Constants.kFrontIntakeStopSpeed;
         break;
+        case "ShootPass":
+          m_shooterArmPosition = Constants.kShooterArmPodiumPos;
+          m_shooterSpeed = Constants.kShooterPassSpeed;
+          m_frontIntakePosition = Constants.kFrontIntakeClearPos;
+          m_frontIntakeSpeed = Constants.kFrontIntakeStopSpeed;
+        break;
       }
 
       // Set the values for the subsystems

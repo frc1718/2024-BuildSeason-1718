@@ -59,6 +59,7 @@ public class Constants {
     public static final int kMotorEnableShooterIntakeSpin = 1;
     public static final int kMotorEnableShooterArmRotate = 1;
     public static final int kMotorEnableClimber = 1;
+    public static final boolean kPrint = false;
     // End Motor Enables
 
     // Start Positions
@@ -100,6 +101,7 @@ public class Constants {
     public static final int kShooterIdleSpeed = 30; //Was 30, at 5 for testing in build room
     public static final int kShooterMaxSpeed = 80;
     public static final int kShooterStopSpeed = 0;
+    public static final int kShooterPassSpeed = 40;
     
     public static final int kShooterIntakeTrapSpeed = 0;
     public static final int kShooterIntakeSuckSpeed = 80;

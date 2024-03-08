@@ -52,9 +52,11 @@ public class Climb extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("========================");
-    System.out.println("Driver Command: Climb");
-    
+    if (Constants.kPrint){
+      System.out.println("========================");
+      System.out.println("Driver Command: Climb");
+    }
+
     //Initialize state machine
     m_stateMachine = 1;
 
@@ -76,9 +78,13 @@ public class Climb extends Command {
 
     switch(m_stateMachine) {     
       case 1:  //PreClimbActuated
-        System.out.println("Driver Command Climb: Case 1");
+        if (Constants.kPrint){
+          System.out.println("Driver Command Climb: Case 1");
+        }
         if (m_climberSubsystem.getPreClimbActuated()) {
-          System.out.println("Driver Command Climb: Case 1 Complete");
+          if (Constants.kPrint){
+            System.out.println("Driver Command Climb: Case 1 Complete");
+          }
           m_climberSubsystem.setClimberDesiredPosition(Constants.kClimberClimbPos);
           m_stateMachine = m_stateMachine + 1;
         } else {

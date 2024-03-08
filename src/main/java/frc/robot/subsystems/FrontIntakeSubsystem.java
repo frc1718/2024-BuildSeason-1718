@@ -135,7 +135,7 @@ public class FrontIntakeSubsystem extends SubsystemBase {
   public void setFrontIntakeSpeed(double speed) {
     if (Constants.kMotorEnableFrontIntakeSpin == 1){
       m_frontIntakeSpin.setControl(frontIntakeVelocityRequest.withVelocity(speed));
-      System.out.println("FrontIntakeSubsystem - setFrontIntakeSpeed");
+      //System.out.println("FrontIntakeSubsystem - setFrontIntakeSpeed");
     }
     m_desiredSpeed = speed;
   }
@@ -147,7 +147,7 @@ public class FrontIntakeSubsystem extends SubsystemBase {
       //Check if motor is within soft stop range
       if ((position >= Constants.kFrontIntakeDownSafety) && (position <= Constants.kFrontIntakeUpSafety)) {
         m_frontIntakeRotate.setControl(frontIntakeRotationRequest.withPosition(position));
-        System.out.println("FrontIntakeSubsystem - setFrontIntakePosition");
+        //System.out.println("FrontIntakeSubsystem - setFrontIntakePosition");
       }
     }
     m_desiredPosition = position;

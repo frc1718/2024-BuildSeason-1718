@@ -25,10 +25,7 @@ public class Robot extends TimedRobot {
   private NotePosition m_notePositionCommand;
   private RobotContainer m_robotContainer;
   private DisabledSafety m_disabledSafetyCommand;
-
-  Timer disabledTimer = new Timer();
   
-
   //Use this to enable / disable reading data from the limelight.
   //The terminal gets clogged up if a limelight isn't actually connected.
   boolean enableLimelight = false;
@@ -94,7 +91,7 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledExit() {
     //Stop and disabled timer
-    disabledTimer.stop();
+
   }
 
   @Override

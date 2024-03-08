@@ -117,7 +117,7 @@ public class ClimberSubsystem extends SubsystemBase {
    */
   public void setClimberDesiredPosition(double desiredPosition) {
     if (Constants.kMotorEnableClimber == 1) {
-      System.out.println("Subsystem: Climber - setClimberDesiredPosition");
+      // System.out.println("Subsystem: Climber - setClimberDesiredPosition");
       m_LeftClimb.setControl(climberMoveRequest.withPosition(desiredPosition));
       m_RightClimb.setControl(climberMoveRequest.withPosition(desiredPosition));
     }

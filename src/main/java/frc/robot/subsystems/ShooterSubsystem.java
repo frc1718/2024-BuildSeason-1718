@@ -73,7 +73,7 @@ public class ShooterSubsystem extends SubsystemBase {
    * True or false.
    */
   public void setShooterReadyToShoot(boolean readyToShoot) {
-    System.out.println("ShooterSubsystem: readyToShoot");
+    //System.out.println("ShooterSubsystem: readyToShoot");
     m_readyToShoot = readyToShoot;
   }
 
@@ -100,7 +100,7 @@ public class ShooterSubsystem extends SubsystemBase {
    */
   public void setShooterMode(String shooterMode){
     m_shooterMode = shooterMode;
-    System.out.println("ShooterSubsystem: setShooterMode");
+    //System.out.println("ShooterSubsystem: setShooterMode");
   }
 
   /**
@@ -110,7 +110,7 @@ public class ShooterSubsystem extends SubsystemBase {
    * @param shootSpeed The desired speed of the shooter motors, in rotations per second.
    */
   public void setShooterSpeed(double shootSpeed) {
-    System.out.println("ShooterSubsystem: setShooterSpeed");
+    //System.out.println("ShooterSubsystem: setShooterSpeed");
     if (Constants.kMotorEnableLeftShooterSpin == 1){
       m_SpinLeftShooter.setControl(ShooterVelocity.withVelocity(shootSpeed));
     }
@@ -127,7 +127,7 @@ public class ShooterSubsystem extends SubsystemBase {
    */
   public void setShooterArmPosition(double position) {
     if (Constants.kMotorEnableShooterArmRotate ==1){
-      System.out.println("ShooterSubsystem: setShooterArmPosition");
+      //System.out.println("ShooterSubsystem: setShooterArmPosition");
       m_ShooterArmRotateLeft.setControl(ShooterArmPositionRequest.withPosition(position));
       m_ShooterArmRotateRight.setControl(ShooterArmPositionRequest.withPosition(position));
     }
