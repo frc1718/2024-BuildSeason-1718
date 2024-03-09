@@ -8,6 +8,8 @@ import frc.robot.subsystems.BeamBreakSubsystem;
 import frc.robot.subsystems.FrontIntakeSubsystem;
 import frc.robot.subsystems.ShooterIntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+import edu.wpi.first.wpilibj.RobotState;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 
@@ -22,7 +24,7 @@ public class Suck extends Command {
   private final BeamBreakSubsystem m_beamBreakSubsystem;
   private int m_stateMachine = 1;
   private boolean m_isFinished = false;
-
+  Timer suckTimer = new Timer();
     /**
    * Constructs an instance of the suck command.
    * @param frontIntakeSubsystem An instance of the front intake subsystem.
@@ -49,7 +51,9 @@ public class Suck extends Command {
   public void initialize() {
     System.out.println("=====================");
     System.out.println("Driver Command: Suck");
-  
+    suckTimer.reset();
+    suckTimer.start();
+    
     //Reset state machine
     m_stateMachine = 1;
 
@@ -68,7 +72,9 @@ public class Suck extends Command {
         m_frontIntakeSubsystem.setFrontIntakeSpeed(Constants.kFrontIntakeSuckSpeed);
      }
     }
-    
+    if (RobotState.isAutonomous() && (suckTimer.get() > 3.00)){
+      m_isFinished=true;
+    } 
 
   }
 
@@ -119,6 +125,8 @@ public class Suck extends Command {
      System.out.println("Driver Command: Suck Interrupted!");
     }
     System.out.println("=====================");
+    suckTimer.stop();
+    suckTimer.reset();
   }
 
   // Returns true when the command should end.
