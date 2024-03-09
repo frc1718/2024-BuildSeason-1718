@@ -1,0 +1,52 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 7.81,
+        "y": 0.76
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 4.206596259126896,
+        "y": 1.1945053276697124
+      },
+      "isLocked": false,
+      "linkedName": "BMN1"
+    },
+    {
+      "anchor": {
+        "x": 0.67,
+        "y": 4.37
+      },
+      "prevControl": {
+        "x": 3.3517051912848466,
+        "y": 2.049396395511764
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "BSWSide1"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 4.0,
+    "maxAcceleration": 4.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -60.0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "BSWSide Auto Parts",
+  "previewStartingState": {
+    "rotation": -60.0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}
