@@ -9,6 +9,7 @@ import java.io.File;
 import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
+import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -32,7 +33,7 @@ import frc.robot.commands.Operator.Home;
 import frc.robot.commands.Operator.PreClimb;
 import frc.robot.commands.Operator.ShooterModeAmp;
 import frc.robot.commands.Operator.ShooterModeMiddleAuto;
-import frc.robot.commands.Operator.ShooterModePass;
+//import frc.robot.commands.Operator.ShooterModePass;
 import frc.robot.commands.Operator.ShooterModePodium;
 import frc.robot.commands.Operator.ShooterModeRightAuto;
 import frc.robot.commands.Operator.ShooterModeShootWithPose;
@@ -75,6 +76,8 @@ public class RobotContainer {
   public Pose2d resetPoseRed = new Pose2d(0,0,resetRotationRed);
   public Pose2d resetPose = new Pose2d();
 
+  public Command builtAutonomousCommand;
+
   // Set driver controller up
   private final CommandXboxController driveController = new CommandXboxController(Constants.kDriverControllerPort); // My driveController
   
@@ -100,7 +103,7 @@ public class RobotContainer {
       .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1)
       .withDriveRequestType(DriveRequestType.Velocity); */
   
-  //private final Telemetry logger = new Telemetry(MaxSpeed);
+  private final Telemetry logger = new Telemetry(MaxSpeed);
 
   //Open Subsystems
   public final ShooterSubsystem shooter = new ShooterSubsystem();
@@ -155,9 +158,11 @@ public class RobotContainer {
     /* Setting up bindings for selecting an autonomous to run. */
     /* Up / Down on the D-Pad of the driver controller. */
     /* Until we start generating paths and creating auton routines, this will cycle through .chrp files.*/
-    driveController.povDown().and(RobotState::isDisabled).onTrue(new InstantCommand(() -> {autonSelect.decrementSelection();}).ignoringDisable(true));
+    driveController.povDown().and(RobotState::isDisabled).onTrue(new InstantCommand(() -> {autonSelect.decrementSelection();}).andThen(() -> {builtAutonomousCommand = AutoBuilder.buildAuto(autonSelect.getCurrentSelectionName());}).ignoringDisable(true));
     driveController.a().and(RobotState::isDisabled).whileTrue(new SetMotorsToCoast(climber, shooter, frontIntake).ignoringDisable(true));
-    driveController.povUp().and(RobotState::isDisabled).onTrue(new InstantCommand(() -> {autonSelect.incrementSelection();}).ignoringDisable(true));
+    driveController.povUp().and(RobotState::isDisabled).onTrue(new InstantCommand(() -> {autonSelect.incrementSelection();}).andThen(() -> {builtAutonomousCommand = AutoBuilder.buildAuto(autonSelect.getCurrentSelectionName());}).ignoringDisable(true));
+
+    //driveController.start().and(RobotState::isDisabled).onTrue(new InstantCommand(() -> {builtAutonomousCommand = AutoBuilder.buildAuto(autonSelect.getCurrentSelectionName());}).ignoringDisable(true));
 
     /*driveController.a().onTrue(new InstantCommand(() -> {
       //I'm not sure if 'tableName' refers to limelight name, or a network table.
@@ -199,14 +204,14 @@ public class RobotContainer {
     operatorController.a().onTrue(new ShooterModeSubwoofer(frontIntake, shooter));
     operatorController.leftBumper().and(operatorController.rightBumper()).debounce(0.5).onTrue(new PreClimb(climber,shooter,frontIntake, shooterIntake));
     operatorController.start().onTrue(new Home(climber, shooter, frontIntake, shooterIntake));
-    operatorController.x().onTrue(new ShooterModePass(frontIntake, shooter));
+    //operatorController.x().onTrue(new ShooterModePass(frontIntake, shooter));
     // Schedules Play music - Binds Dpad Up
     //operatorController.povUp().onTrue();
 
-    //if (Utils.isSimulation()) {
-    //  drivetrain.seedFieldRelative(new Pose2d(new Translation2d(), Rotation2d.fromDegrees(90)));
-    // }
-    //drivetrain.registerTelemetry(logger::telemeterize);
+    if (Utils.isSimulation()) {
+      drivetrain.seedFieldRelative(new Pose2d(new Translation2d(), Rotation2d.fromDegrees(90)));
+     }
+    drivetrain.registerTelemetry(logger::telemeterize);
     
   }
   
@@ -261,6 +266,6 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
     //This should load the selected autonomous file.
-    return drivetrain.getAutoPath(autonSelect.getCurrentSelectionName());
+    return builtAutonomousCommand;
   }
 }

@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 14.17,
-        "y": 5.55
+        "x": 0.67,
+        "y": 4.37
       },
       "prevControl": null,
       "nextControl": {
-        "x": 13.057470528150757,
-        "y": 5.948168442556572
+        "x": 1.8995614596079393,
+        "y": 2.459275674614116
       },
       "isLocked": false,
-      "linkedName": "RWN2"
+      "linkedName": "BSWSide1"
     },
     {
       "anchor": {
-        "x": 8.42,
-        "y": 4.11050362756931
+        "x": 7.81,
+        "y": 0.76
       },
       "prevControl": {
-        "x": 10.775989821137987,
-        "y": 3.361010088639293
+        "x": 5.120041509697854,
+        "y": 0.8080477216589235
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "RMN3"
+      "linkedName": "BMN1"
     }
   ],
   "rotationTargets": [],
@@ -39,13 +39,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0,
+    "rotation": 0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Red - From Wing Note",
+  "folder": "BSWSide Auto Parts",
   "previewStartingState": {
-    "rotation": 180.0,
+    "rotation": -60.0,
     "velocity": 0
   },
   "useDefaultConstraints": true

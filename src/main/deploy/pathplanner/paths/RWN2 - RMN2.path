@@ -4,12 +4,12 @@
     {
       "anchor": {
         "x": 14.17,
-        "y": 5.574358195791997
+        "y": 5.55
       },
       "prevControl": null,
       "nextControl": {
         "x": 11.78166496984591,
-        "y": 4.597995349836854
+        "y": 4.573637154044857
       },
       "isLocked": false,
       "linkedName": "RWN2"

@@ -67,7 +67,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "BWN3 - BMN5"
+                  "pathName": "BWN3 - BMN4"
                 }
               }
             ]
@@ -99,7 +99,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "BMN5 - BWN3"
+                  "pathName": "BMN4 - BWN3"
                 }
               },
               {
@@ -145,26 +145,8 @@
                 "data": {
                   "pathName": "BWN3 - BMN4"
                 }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Suck"
-                }
               }
             ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "NotePosition"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "BMN4 - BWN3"
           }
         }
       ]
