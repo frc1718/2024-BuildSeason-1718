@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.902190265918994,
-        "y": 6.81805748226881
+        "x": 6.936245872491746,
+        "y": 6.919264124242535
       },
       "isLocked": false,
       "linkedName": "BWN3"
@@ -17,11 +17,11 @@
     {
       "anchor": {
         "x": 8.25,
-        "y": 5.87
+        "y": 5.77
       },
       "prevControl": {
-        "x": 6.963631058645855,
-        "y": 6.77517683109546
+        "x": 6.965564788272434,
+        "y": 5.8051453245763645
       },
       "nextControl": null,
       "isLocked": false,
@@ -39,7 +39,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0,
+    "rotation": -10.0,
     "rotateFast": false
   },
   "reversed": false,
