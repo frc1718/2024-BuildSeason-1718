@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 
+import com.ctre.phoenix6.Orchestra;
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.VelocityVoltage;
@@ -84,6 +85,10 @@ public class ShooterIntakeSubsystem extends SubsystemBase {
     shooterIntakeSpinVelocityConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.kShooterIntakeSpinVoltageClosedLoopRampPeriod;
     shooterIntakeSpinVelocityConfig.MotorOutput.Inverted = Constants.kShooterIntakeSpinDirection;
     shooterIntakeSpinVelocityConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
+    
+    //Setting the config option that allows playing music on the motor during disabled.
+    shooterIntakeSpinVelocityConfig.Audio.AllowMusicDurDisable = true;
+
     StatusCode shooterIntakeSpinStatus = StatusCode.StatusCodeNotInitialized;
 
     for(int i = 0; i < 5; ++i) {
@@ -93,6 +98,15 @@ public class ShooterIntakeSubsystem extends SubsystemBase {
     if (!shooterIntakeSpinStatus.isOK()) {
       System.out.println("Could not configure device. Error: " + shooterIntakeSpinStatus.toString());
     }
+  }
+
+  /**
+   * Add all of the motors in the shooter intake subsystem to the Orchestra.
+   * I want the robot to sing.
+   * @param robotOrchestra The Orchestra to add the motors as instruments to.
+   */
+  public void addToOrchestra(Orchestra robotOrchestra) {
+    robotOrchestra.addInstrument(m_ShooterIntakeSpin);
   }
 
   @Override
