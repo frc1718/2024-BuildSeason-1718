@@ -52,7 +52,7 @@ public class Climb extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (Constants.kPrint){
+    if (Constants.kPrintDriverClimb){
       System.out.println("========================");
       System.out.println("Driver Command: Climb");
     }
@@ -78,24 +78,20 @@ public class Climb extends Command {
 
     switch(m_stateMachine) {     
       case 1:  //PreClimbActuated
-        if (Constants.kPrint){
-          //System.out.println("Driver Command Climb: Case 1");
-        }
+        if (Constants.kPrintDriverClimb){System.out.println("Driver Command Climb: Case 1");}
         if (m_climberSubsystem.getPreClimbActuated()) {
-          if (Constants.kPrint){
-          //System.out.println("Driver Command Climb: Case 1 Complete");
-          }
+          if (Constants.kPrintDriverClimb){System.out.println("Driver Command Climb: Case 1 Complete");}
           m_climberSubsystem.setClimberDesiredPosition(Constants.kClimberClimbPos);
           m_stateMachine = m_stateMachine + 1;
         } else {
-          //System.out.println("Driver Command: Preclimb has not been actuated!  Abort!");
+          if (Constants.kPrintDriverClimb){System.out.println("Driver Command: Preclimb has not been actuated!  Abort!");}
           m_isFinished = true;
         }
         break;
       case 2:  //Climb Complete
-        System.out.println("Driver Command Climb: Case 2");
+        if (Constants.kPrintDriverClimb){System.out.println("Driver Command Climb: Case 2");}
         if (m_climberSubsystem.getClimberInPosition(Constants.kClimberClimbPos)){
-          //System.out.println("Driver Command Climb: Case 2 Complete.");
+          if (Constants.kPrintDriverClimb){System.out.println("Driver Command Climb: Case 2 Complete.");}
           m_climberSubsystem.setClimberDesiredPosition(Constants.kClimberClimbPos);
         }
     }   
@@ -109,11 +105,11 @@ public class Climb extends Command {
   @Override
   public void end(boolean interrupted) {
     if (m_isFinished=true) {
-      //System.out.println("Driver Command: Climb completed!");
+      if (Constants.kPrintDriverClimb){System.out.println("Driver Command: Climb completed!");}
     } else {
-      //System.out.println("Driver Command: Climb interrupted!");
+      if (Constants.kPrintDriverClimb){System.out.println("Driver Command: Climb interrupted!");}
     }
-      //System.out.println("================================");
+      if (Constants.kPrintDriverClimb){System.out.println("================================");}
   }
 
   // Returns true when the command should end.

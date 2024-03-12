@@ -4,6 +4,7 @@
 
 package frc.robot.commands.LEDs;
 
+import frc.robot.Constants;
 import frc.robot.subsystems.BeamBreakSubsystem;
 import frc.robot.subsystems.LEDSubsystem;
 import edu.wpi.first.math.filter.Debouncer;
@@ -39,7 +40,7 @@ public class LightLEDOnNotePresent extends Command {
   @Override
   public void initialize() {
     m_isFinished=false;
-    System.out.println("Command LightLEDOnNotePresent: Started");
+    if (Constants.kPrintLEDsLightLEDOnNotePresent){System.out.println("Command LightLEDOnNotePresent: Started");}
     m_LEDSubsystem.LEDOFF();
   }
 

@@ -45,9 +45,10 @@ public class ShootTrap extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {  
-    //System.out.println("========================");
-    //System.out.println("Driver Command: ShootTrap");
-
+    if (Constants.kPrintDriverShootTrap){
+      System.out.println("========================");
+      System.out.println("Driver Command: ShootTrap");
+    }
     m_isFinished = false;
     
 
@@ -59,9 +60,8 @@ public class ShootTrap extends Command {
     
   //Set values based on shooter mode the operator has selected
     if (m_climberSubsystem.getPreClimbActuated()) {
-      //System.out.println("Driver Command ShooTrap: Complete!");
+      if (Constants.kPrintDriverShootTrap){System.out.println("Driver Command ShooTrap: Complete!");}
       m_shooterIntakeSubsystem.setShooterIntakeSpeed(-15);
-      
     } 
   }
 
@@ -69,10 +69,12 @@ public class ShootTrap extends Command {
   @Override
   public void end(boolean interrupted) {
     //Always have to set ready to shoot back to false at the end of a shot.
-    //System.out.println("Driver Command ShootTrap: Was completed!");
-    //System.out.println("=======================================");
+    if (Constants.kPrintDriverShootTrap){
+      System.out.println("Driver Command ShootTrap: Was completed!");
+      System.out.println("=======================================");
+ 
+    }
   }
-
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {

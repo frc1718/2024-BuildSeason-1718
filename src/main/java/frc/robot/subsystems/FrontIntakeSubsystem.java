@@ -135,7 +135,7 @@ public class FrontIntakeSubsystem extends SubsystemBase {
   public void setFrontIntakeSpeed(double speed) {
     if (Constants.kMotorEnableFrontIntakeSpin == 1){
       m_frontIntakeSpin.setControl(frontIntakeVelocityRequest.withVelocity(speed));
-      //System.out.println("FrontIntakeSubsystem - setFrontIntakeSpeed");
+      if (Constants.kPrintSubsystemFrontIntake){System.out.println("FrontIntakeSubsystem - setFrontIntakeSpeed");}
     }
     m_desiredSpeed = speed;
   }
@@ -147,7 +147,7 @@ public class FrontIntakeSubsystem extends SubsystemBase {
       //Check if motor is within soft stop range
       if ((position >= Constants.kFrontIntakeDownSafety) && (position <= Constants.kFrontIntakeUpSafety)) {
         m_frontIntakeRotate.setControl(frontIntakeRotationRequest.withPosition(position));
-        //System.out.println("FrontIntakeSubsystem - setFrontIntakePosition");
+        if (Constants.kPrintSubsystemFrontIntake){System.out.println("FrontIntakeSubsystem - setFrontIntakePosition");}
       }
     }
     m_desiredPosition = position;
@@ -162,7 +162,7 @@ public class FrontIntakeSubsystem extends SubsystemBase {
    * @return The speed of the front intake roller motor, in rotations per second.
    */
   public double getFrontIntakeSpeed() {
-    //System.out.println("FrontIntakeSubsystem: getFrontIntakeSpeed");
+    if (Constants.kPrintSubsystemFrontIntake){System.out.println("FrontIntakeSubsystem: getFrontIntakeSpeed");}
     return m_frontIntakeSpin.getVelocity().getValueAsDouble();
   }
 
@@ -171,7 +171,7 @@ public class FrontIntakeSubsystem extends SubsystemBase {
    * @return The current position of the front intake, in rotations.
    */
   public double getFrontIntakePosition() {
-    //System.out.println("FrontIntakeSubsystem: getFrontIntakePosition");
+    if (Constants.kPrintSubsystemFrontIntake){System.out.println("FrontIntakeSubsystem: getFrontIntakePosition");}
     return m_frontIntakeRotate.getPosition().getValueAsDouble();
   }
   
@@ -182,8 +182,7 @@ public class FrontIntakeSubsystem extends SubsystemBase {
    * True or false.
    */
   public Boolean getFrontIntakeInPosition(double desiredPosition) {
-    //Check that the front intake is within the tolerance of the desired position.
-    //System.out.println("FrontIntakeSubsystem - getFrontIntakeInPosition");
+    if (Constants.kPrintSubsystemFrontIntake){System.out.println("FrontIntakeSubsystem - getFrontIntakeInPosition");}
     return ((this.getFrontIntakePosition() > (desiredPosition - Constants.kFrontIntakeTolerancePos)) && (this.getFrontIntakePosition() < (desiredPosition + Constants.kFrontIntakeTolerancePos)));
   }
 
@@ -245,7 +244,7 @@ public class FrontIntakeSubsystem extends SubsystemBase {
    * True or false.
    */
   public boolean getFrontIntakeUpToSpeed(double desiredSpeed) {
-    //System.out.println("ShooterSubsystem: getShooterUpToSpeed");
+    if (Constants.kPrintSubsystemFrontIntake){System.out.println("ShooterSubsystem: getShooterUpToSpeed");}
     return ((this.getFrontIntakeSpeed() >= (desiredSpeed - Constants.kShooterSpeedTolerance)) && (this.getFrontIntakeSpeed() <= (desiredSpeed + Constants.kShooterSpeedTolerance)));
   }
 

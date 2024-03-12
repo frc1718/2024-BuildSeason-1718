@@ -73,7 +73,7 @@ public class ShooterSubsystem extends SubsystemBase {
    * True or false.
    */
   public void setShooterReadyToShoot(boolean readyToShoot) {
-    //System.out.println("ShooterSubsystem: readyToShoot");
+    if (Constants.kPrintSubsystemShooterSubsystem){System.out.println("ShooterSubsystem: readyToShoot");}
     m_readyToShoot = readyToShoot;
   }
 
@@ -83,7 +83,7 @@ public class ShooterSubsystem extends SubsystemBase {
    * True or false.
    */
   public boolean getShooterReadyToShoot() {
-    //System.out.println("ShooterSubsystem: getShooterReadyToShoot");
+    if (Constants.kPrintSubsystemShooterSubsystem){System.out.println("ShooterSubsystem: getShooterReadyToShoot");}
     return m_readyToShoot;
   }
 
@@ -100,7 +100,7 @@ public class ShooterSubsystem extends SubsystemBase {
    */
   public void setShooterMode(String shooterMode){
     m_shooterMode = shooterMode;
-    //System.out.println("ShooterSubsystem: setShooterMode");
+    if (Constants.kPrintSubsystemShooterSubsystem){System.out.println("ShooterSubsystem: setShooterMode");}
   }
 
   /**
@@ -110,7 +110,7 @@ public class ShooterSubsystem extends SubsystemBase {
    * @param shootSpeed The desired speed of the shooter motors, in rotations per second.
    */
   public void setShooterSpeed(double shootSpeed) {
-    //System.out.println("ShooterSubsystem: setShooterSpeed");
+    if (Constants.kPrintSubsystemShooterSubsystem){System.out.println("ShooterSubsystem: setShooterSpeed");}
     if (Constants.kMotorEnableLeftShooterSpin == 1){
       m_SpinLeftShooter.setControl(ShooterVelocity.withVelocity(shootSpeed));
     }
@@ -127,7 +127,7 @@ public class ShooterSubsystem extends SubsystemBase {
    */
   public void setShooterArmPosition(double position) {
     if (Constants.kMotorEnableShooterArmRotate ==1){
-      //System.out.println("ShooterSubsystem: setShooterArmPosition");
+      if (Constants.kPrintSubsystemShooterSubsystem){System.out.println("ShooterSubsystem: setShooterArmPosition");}
       m_ShooterArmRotateLeft.setControl(ShooterArmPositionRequest.withPosition(position));
       m_ShooterArmRotateRight.setControl(ShooterArmPositionRequest.withPosition(position));
     }
@@ -139,7 +139,7 @@ public class ShooterSubsystem extends SubsystemBase {
    * @return The currently active shooter mode, as a String.
    */
   public String getShooterMode(){
-    //System.out.println("ShooterSubsystem: getShooterMode");
+    if (Constants.kPrintSubsystemShooterSubsystem){System.out.println("ShooterSubsystem: getShooterMode");}
     return m_shooterMode;
   }
 
@@ -148,7 +148,7 @@ public class ShooterSubsystem extends SubsystemBase {
    * @return The current speed of the left shooter motor, in rotations per second.
    */
   public double getShooterSpeed() {
-    //System.out.println("ShooterSubsystem: getShooterSpeed");
+    if (Constants.kPrintSubsystemShooterSubsystem){System.out.println("ShooterSubsystem: getShooterSpeed");}
     m_SpinLeftShooter.getVelocity().getValueAsDouble();
     return m_SpinLeftShooter.getVelocity().getValueAsDouble();
 
@@ -159,7 +159,7 @@ public class ShooterSubsystem extends SubsystemBase {
    * @return The current position of the shooter arm, in rotations.
    */
   public double getShooterArmPosition() {
-    //System.out.println("ShooterSubsystem: getShooterArmPosition");
+    if (Constants.kPrintSubsystemShooterSubsystem){System.out.println("ShooterSubsystem: getShooterArmPosition");}
     return m_ShooterArmRotateLeft.getPosition().getValueAsDouble();
   }
 
@@ -170,7 +170,7 @@ public class ShooterSubsystem extends SubsystemBase {
    * True or false.
    */
   public boolean getShooterUpToSpeed(double desiredSpeed) {
-    //System.out.println("ShooterSubsystem: getShooterUpToSpeed");
+    if (Constants.kPrintSubsystemShooterSubsystem){System.out.println("ShooterSubsystem: getShooterUpToSpeed");}
     return ((this.getShooterSpeed() >= (desiredSpeed - Constants.kShooterSpeedTolerance)) && (this.getShooterSpeed() <= (desiredSpeed + Constants.kShooterSpeedTolerance)));
   }
 
@@ -192,7 +192,7 @@ public class ShooterSubsystem extends SubsystemBase {
    * True or false.
    */
   public Boolean getShooterArmInPosition(double desiredPosition) {
-      //System.out.println("ShooterSubsystem: getShooterArmInPosition");
+      if (Constants.kPrintSubsystemShooterSubsystem){System.out.println("ShooterSubsystem: getShooterArmInPosition");}
       return ((this.getShooterArmPosition() > (desiredPosition - Constants.kShooterArmTolerancePos)) && (this.getShooterArmPosition() < (desiredPosition + Constants.kShooterArmTolerancePos)));
 
     }
