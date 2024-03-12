@@ -126,15 +126,16 @@ public class RobotContainer {
     
     //I bet there's a much better place to put this assignment, but I don't know where.
     //These gains are also completely made up.  Not terrible in simulation, but don't trust them.
+    rootyTootyPointAndShooty.HeadingController.enableContinuousInput(-Math.PI, Math.PI);
     rootyTootyPointAndShooty.HeadingController.setPID(20, 0, 0.05);
 
     //Before this can be used, theres an issue with being 'above' or 'below' the coordinates of the speaker.
     //I think it's because of the -180 to +180 crossover, but unsure how to fix it currently.
     driveController.start().whileTrue(drivetrain.applyRequest(() -> rootyTootyPointAndShooty.withVelocityX(-driveController.getLeftY() * MaxSpeed)
             .withVelocityY(-driveController.getLeftX() * MaxSpeed)
-            .withTargetDirection(Constants.kBlueSpeakerLocation.minus(drivetrain.getState().Pose.getTranslation()).getAngle())
-            ));
-
+            .withTargetDirection(Constants.kBlueSpeakerLocation.minus(drivetrain.getState().Pose.getTranslation()).unaryMinus().getAngle())
+            )).whileTrue(new InstantCommand(() -> {SmartDashboard.putNumber("Test Angle", Constants.kBlueSpeakerLocation.minus(drivetrain.getState().Pose.getTranslation()).getAngle().getDegrees());}));
+    
     driveController.leftBumper().onTrue(new Shoot(frontIntake, shooter, climber, shooterIntake, beamBreak)).onFalse(Commands.parallel(new StowArmAndIntake(frontIntake, shooter), new NotePosition(shooterIntake, beamBreak)));
     driveController.rightBumper().onTrue(new Suck(frontIntake, shooter, shooterIntake, beamBreak)).onFalse(Commands.parallel(new StowArmAndIntake(frontIntake, shooter), new NotePosition(shooterIntake, beamBreak)));
     driveController.rightTrigger(.5).whileTrue(new Spit(frontIntake, shooter, shooterIntake, beamBreak)).onFalse(Commands.parallel(new StowArmAndIntake(frontIntake, shooter), new NotePosition(shooterIntake, beamBreak))); 
