@@ -7,9 +7,11 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.Orchestra;
 import com.ctre.phoenix6.StatusCode;
+import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.AnalogInput;
@@ -24,6 +26,7 @@ public class ShooterIntakeSubsystem extends SubsystemBase {
 
   //Open Motors
   TalonFX m_ShooterIntakeSpin = new TalonFX(Constants.kShooterIntakeSpinCanID, "Canivore");
+  TalonFX m_ShooterIntakeRotate = new TalonFX(Constants.kShooterIntakeRotateCanID, "Canivore");
 
   private final VelocityVoltage ShooterIntakeVelocity = new VelocityVoltage(0, 0, true, 0, 0, false, false, false);
 
@@ -32,6 +35,7 @@ public class ShooterIntakeSubsystem extends SubsystemBase {
   public ShooterIntakeSubsystem() {
   //=======================================shouldn't we be doing something with velocity voltage motor here to set it up?
   this.configureShooterIntakeSpin(m_ShooterIntakeSpin);
+  this.configureShooterIntakeRotate(m_ShooterIntakeRotate);
   }
   
   // Start of sensor related methods
@@ -65,12 +69,15 @@ public class ShooterIntakeSubsystem extends SubsystemBase {
     }
   }
 
-  /**
-   * Extends the intake hinge servo to allow the intake to pivot.
-   */
-  public void Release() {
-    //System.out.println("ShooterIntakeSubsystem: setShooterPivotPosition");
-    //intakeHinge.set(desiredPosition);
+asdfasfadsadsfda To Do here
+
+  public void SetShooterIntakeRotateNeutralMode(NeutralModeValue NeutralMode) {
+    var shooterIntakeNeuMotOut = new MotorOutputConfigs();
+    var shooterIntakeCurrentConfigurator = m_ShooterIntakeRotate.getConfigurator();
+
+    shooterIntakeCurrentConfigurator.refresh(shooterIntakeNeuMotOut);
+    shooterIntakeNeuMotOut.NeutralMode = NeutralMode;
+    shooterIntakeCurrentConfigurator.apply(shooterIntakeNeuMotOut);
   }
 
   public void configureShooterIntakeSpin(TalonFX shooterIntakeSpin) {
@@ -97,6 +104,35 @@ public class ShooterIntakeSubsystem extends SubsystemBase {
     }
     if (!shooterIntakeSpinStatus.isOK()) {
       System.out.println("Could not configure device. Error: " + shooterIntakeSpinStatus.toString());
+    }
+  }
+
+  public void configureShooterIntakeRotate(TalonFX shooterIntakeRotate) {
+    TalonFXConfiguration shooterIntakeRotateConfig = new TalonFXConfiguration();
+    shooterIntakeRotateConfig.Slot0.kP = Constants.kShooterIntakeRotateProportional; // An error of 1 rotation per second results in 2V output
+    shooterIntakeRotateConfig.Slot0.kI = Constants.kShooterIntakeRotateIntegral; // An error of 1 rotation per second increases output by 0.5V every second
+    shooterIntakeRotateConfig.Slot0.kD = Constants.kShooterIntakeRotateDerivative; // A change of 1 rotation per second squared results in 0.01 volts output
+    shooterIntakeRotateConfig.Slot0.kV = Constants.kShooterIntakeRotateFeedFoward; // Falcon 500 is a 500kV motor, 500rpm per V = 8.333 rps per V, 1/8.33 = 0.12 volts / Rotation per second Peak output of 8 volts
+    shooterIntakeRotateConfig.Voltage.PeakForwardVoltage = Constants.kShooterIntakeRotateMaxForwardVoltage;
+    shooterIntakeRotateConfig.Voltage.PeakReverseVoltage = Constants.kShooterIntakeRotateMaxReverseVoltage;
+    shooterIntakeRotateConfig.CurrentLimits.SupplyCurrentLimit = Constants.kShooterIntakeRotateSupplyCurrentLimit;
+    shooterIntakeRotateConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.kShooterIntakeRotateVoltageClosedLoopRampPeriod;
+    shooterIntakeRotateConfig.MotorOutput.Inverted = Constants.kShooterIntakeRotateDirection;
+    shooterIntakeRotateConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
+    shooterIntakeRotateConfig.MotionMagic.MotionMagicAcceleration = Constants.kShooterArmRotateMotionMagicAcceleration;
+    shooterIntakeRotateConfig.MotionMagic.MotionMagicCruiseVelocity = Constants.kShooterArmRotateMotionMagicCruiseVelocity;
+        
+    //Setting the config option that allows playing music on the motor during disabled.
+    shooterIntakeRotateConfig.Audio.AllowMusicDurDisable = true;
+
+    StatusCode shooterIntakeRotateStatus = StatusCode.StatusCodeNotInitialized;
+
+    for(int i = 0; i < 5; ++i) {
+      shooterIntakeRotateStatus = shooterIntakeRotate.getConfigurator().apply(shooterIntakeRotateConfig);
+      if (shooterIntakeRotateStatus.isOK()) break;
+    }
+    if (!shooterIntakeRotateStatus.isOK()) {
+      System.out.println("Could not configure device. Error: " + shooterIntakeRotateStatus.toString());
     }
   }
 
