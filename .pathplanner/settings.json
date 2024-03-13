@@ -3,11 +3,12 @@
   "robotLength": 0.9017,
   "holonomicMode": true,
   "pathFolders": [
+    "BSWSide Auto Parts",
     "Blue - From Mid Note",
     "Blue - From Starting Line",
     "Blue - From Subwoofer",
     "Blue - From Wing Note",
-    "BSWSide Auto Parts",
+    "RSWSide Auto Parts",
     "Red - From Mid Note",
     "Red - From Starting Line",
     "Red - From Subwoofer",

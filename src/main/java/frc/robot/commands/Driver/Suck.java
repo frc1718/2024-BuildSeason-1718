@@ -72,46 +72,44 @@ public class Suck extends Command {
         m_frontIntakeSubsystem.setFrontIntakeSpeed(Constants.kFrontIntakeSuckSpeed);
      }
     }
-    if (RobotState.isAutonomous() && (suckTimer.get() > 3.00)){
-      m_isFinished=true;
-    } 
-
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
   
+    if (RobotState.isAutonomous() && (suckTimer.get() > 3.00)){
+      m_isFinished=true;
+    } 
 
-      //State Machine
-      switch(m_stateMachine){     
-        case 1:  //Front intake in position
-          System.out.println("Driver Command Suck: Case 1");
-          if (m_frontIntakeSubsystem.getFrontIntakeInPosition(Constants.kFrontIntakeDownPos)) {
-            System.out.println("Driver Command Suck: Case 1 Complete!");
-            m_shooterSubsystem.setShooterArmPosition(Constants.kShooterArmHomePos);
-            m_stateMachine = m_stateMachine + 1;
-          }        
-        break;
-        case 2:  // Shooter Arm In Position
-          System.out.println("Driver Command Suck: Case 2");
-          if (m_shooterSubsystem.getShooterArmInPosition(Constants.kShooterArmHomePos)) {
-            System.out.println("Driver Command Suck: Case 2 Complete!");
-            m_frontIntakeSubsystem.setFrontIntakeSpeed(Constants.kFrontIntakeSuckSpeed);
-            m_stateMachine = m_stateMachine + 1;
-          }
-        break;
-        case 3:  // Shooter Arm In Position
-          System.out.println("Driver Command Suck: Case 3");
-          if (m_beamBreakSubsystem.getNotePresentShooter()) {
-            m_shooterIntakeSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeStopSpeed);
-            m_frontIntakeSubsystem.setFrontIntakeSpeed(Constants.kFrontIntakeStopSpeed);
-            System.out.println("Driver Command Suck: Case 3 Complete!");
-            m_isFinished=true;
-          }
-        break;
-      }
-
+    //State Machine
+    switch(m_stateMachine){     
+      case 1:  //Front intake in position
+        System.out.println("Driver Command Suck: Case 1");
+        if (m_frontIntakeSubsystem.getFrontIntakeInPosition(Constants.kFrontIntakeDownPos)) {
+          System.out.println("Driver Command Suck: Case 1 Complete!");
+          m_shooterSubsystem.setShooterArmPosition(Constants.kShooterArmHomePos);
+          m_stateMachine = m_stateMachine + 1;
+        }        
+      break;
+      case 2:  // Shooter Arm In Position
+        System.out.println("Driver Command Suck: Case 2");
+        if (m_shooterSubsystem.getShooterArmInPosition(Constants.kShooterArmHomePos)) {
+          System.out.println("Driver Command Suck: Case 2 Complete!");
+          m_frontIntakeSubsystem.setFrontIntakeSpeed(Constants.kFrontIntakeSuckSpeed);
+          m_stateMachine = m_stateMachine + 1;
+        }
+      break;
+      case 3:  // Shooter Arm In Position
+        System.out.println("Driver Command Suck: Case 3");
+        if (m_beamBreakSubsystem.getNotePresentShooter()) {
+          m_shooterIntakeSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeStopSpeed);
+          m_frontIntakeSubsystem.setFrontIntakeSpeed(Constants.kFrontIntakeStopSpeed);
+          System.out.println("Driver Command Suck: Case 3 Complete!");
+          m_isFinished=true;
+        }
+      break;
+    }
   }
 
   // Called once the command ends or is interrupted.

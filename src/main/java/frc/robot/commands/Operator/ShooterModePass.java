@@ -7,6 +7,7 @@ package frc.robot.commands.Operator;
 import frc.robot.Constants;
 import frc.robot.subsystems.FrontIntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+
 import edu.wpi.first.wpilibj2.command.Command;
 
 /**
@@ -61,7 +62,6 @@ public class ShooterModePass extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
     switch(m_stateMachine) {     
       case 1:  // Front intake in position
         //System.out.println("Operator Command ShooterModePass: Case 1 Started");

@@ -200,6 +200,9 @@ public class Shoot extends Command {
     //Always have to set ready to shoot back to false at the end of a shot.
     m_shooterSubsystem.setShooterSpeed(Constants.kShooterStopSpeed);
     m_shooterIntakeSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeStopSpeed);
+    if (m_shooterSubsystem.getShooterMode() == "ShootPass") {
+      m_shooterSubsystem.setShooterMode("DoNothing");
+    }
     if (m_isFinished==true) {
       //System.out.println("Driver Command Shoot: Was completed!");
     } else {
