@@ -103,6 +103,14 @@ public class ShooterSubsystem extends SubsystemBase {
     if (Constants.kPrintSubsystemShooterSubsystem){System.out.println("ShooterSubsystem: setShooterMode");}
   }
 
+  public boolean getShooterModeDoingSomething() {
+    if (m_shooterMode == "DoNothing") {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   /**
    * Sets the speed of the shooter motors.
    * The left shooter motor is set to the input speed.
