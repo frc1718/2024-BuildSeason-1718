@@ -67,16 +67,29 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "BWN3 - BMN5"
+                  "pathName": "BWN3 - BMN4"
                 }
               }
             ]
           }
         },
         {
-          "type": "named",
+          "type": "race",
           "data": {
-            "name": "Suck"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Suck"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 2.0
+                }
+              }
+            ]
           }
         },
         {
@@ -86,7 +99,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "BMN5 - BWN3"
+                  "pathName": "BMN4 - BWN3"
                 }
               },
               {
@@ -114,6 +127,12 @@
         {
           "type": "named",
           "data": {
+            "name": "NotePosition"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "Shoot"
           }
         },
@@ -126,26 +145,8 @@
                 "data": {
                   "pathName": "BWN3 - BMN4"
                 }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Suck"
-                }
               }
             ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "NotePosition"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "BMN4 - BWN3"
           }
         }
       ]

@@ -3,49 +3,49 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 15.136171242648608,
-        "y": 7.297788852371967
+        "x": 0.67,
+        "y": 4.37
       },
       "prevControl": null,
       "nextControl": {
-        "x": 15.238204285253078,
-        "y": 6.628333484912334
+        "x": 1.8995614596079393,
+        "y": 2.459275674614116
       },
-      "isLocked": true,
-      "linkedName": "RSL3"
+      "isLocked": false,
+      "linkedName": "BSWSide1"
     },
     {
       "anchor": {
-        "x": 14.067120630674927,
-        "y": 6.75715268691593
+        "x": 7.81,
+        "y": 0.76
       },
       "prevControl": {
-        "x": 14.897154321908411,
-        "y": 6.403645884209991
+        "x": 5.120041509697854,
+        "y": 0.8080477216589235
       },
       "nextControl": null,
-      "isLocked": true,
-      "linkedName": "RWN3"
+      "isLocked": false,
+      "linkedName": "BMN1"
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 4.0,
+    "maxAcceleration": 4.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 154.38751492302126,
+    "rotation": 0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Blue - From Starting Line",
+  "folder": "BSWSide Auto Parts",
   "previewStartingState": {
-    "rotation": 180.0,
+    "rotation": -60.0,
     "velocity": 0
   },
   "useDefaultConstraints": true

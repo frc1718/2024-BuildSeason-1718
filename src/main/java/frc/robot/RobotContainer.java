@@ -6,10 +6,13 @@ package frc.robot;
 
 import java.io.File;
 
+import com.ctre.phoenix6.Orchestra;
 import com.ctre.phoenix6.SignalLogger;
 import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
+import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.SteerRequestType;
+import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -33,6 +36,9 @@ import frc.robot.commands.Operator.Home;
 import frc.robot.commands.Operator.PreClimb;
 import frc.robot.commands.Operator.ShooterModeAmp;
 import frc.robot.commands.Operator.ShooterModeMiddleAuto;
+import frc.robot.commands.Operator.ShooterModePass;
+//import frc.robot.commands.Operator.ShooterModePas
+//import frc.robot.commands.Operator.ShooterModePass;
 import frc.robot.commands.Operator.ShooterModePodium;
 import frc.robot.commands.Operator.ShooterModeRightAuto;
 import frc.robot.commands.Operator.ShooterModeShootWithPose;
@@ -40,9 +46,9 @@ import frc.robot.commands.Operator.ShooterModeSubwoofer;
 import frc.robot.commands.Driver.Climb;
 import frc.robot.commands.Driver.Shoot;
 import frc.robot.commands.Driver.ShootTrap;
-import frc.robot.commands.Driver.ShooterModeShootWithLimelight;
 import frc.robot.commands.Driver.Spit;
 import frc.robot.commands.Driver.Suck;
+import frc.robot.commands.Driver.SuckNoFront;
 import frc.robot.commands.General.SetMotorsToCoast;
 import frc.robot.commands.General.NotePosition;
 import frc.robot.commands.General.StowArmAndIntake;
@@ -66,6 +72,15 @@ public class RobotContainer {
   File autonFolder = new File(Filesystem.getDeployDirectory() + "/pathplanner/autos");
   Selector chirpSelect = new Selector(chirpFolder, ".chrp");
   Selector autonSelect = new Selector(autonFolder, ".auto");
+  double driveSign=1;
+
+  public Rotation2d resetRotationBlue = new Rotation2d(0);
+  public Rotation2d resetRotationRed = new Rotation2d (Math.PI);
+  public Pose2d resetPoseBlue = new Pose2d(0,0,resetRotationBlue);
+  public Pose2d resetPoseRed = new Pose2d(0,0,resetRotationRed);
+  public Pose2d resetPose = new Pose2d();
+
+  public Command builtAutonomousCommand;
 
   // Set driver controller up
   private final CommandXboxController driveController = new CommandXboxController(Constants.kDriverControllerPort); // My driveController
@@ -85,12 +100,13 @@ public class RobotContainer {
   private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
   private final SwerveRequest.RobotCentric forwardStraight = new SwerveRequest.RobotCentric().withDriveRequestType(DriveRequestType.Velocity);
   private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
+  private final SwerveRequest.FieldCentricFacingAngle driveFacingAngle = new SwerveRequest.FieldCentricFacingAngle();
   
   //Testing an idea: hold a button and always aim at the goal.
   //Copying a fair amount of this from the FieldCentric drive.
   private final SwerveRequest.FieldCentricFacingAngle rootyTootyPointAndShooty = new SwerveRequest.FieldCentricFacingAngle()
       .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1)
-      .withDriveRequestType(DriveRequestType.Velocity);
+      .withDriveRequestType(DriveRequestType.Velocity); 
   
   private final Telemetry logger = new Telemetry(MaxSpeed);
 
@@ -102,12 +118,14 @@ public class RobotContainer {
   public final ShooterIntakeSubsystem shooterIntake = new ShooterIntakeSubsystem();
   public final BeamBreakSubsystem beamBreak = new BeamBreakSubsystem();
 
+  public final Orchestra music = new Orchestra();
+
   private void configureBindings() {
     //Schedules drivertain
     drivetrain.setDefaultCommand( // Drivetrain will execute this command periodically
-        drivetrain.applyRequest(() -> drive.withVelocityX(-driveController.getLeftY() * MaxSpeed) // Drive forward with
+        drivetrain.applyRequest(() -> drive.withVelocityX(-driveController.getLeftY() * MaxSpeed * driveSign) // Drive forward with
                                                                                            // negative Y (forward)
-            .withVelocityY(-driveController.getLeftX() * MaxSpeed) // Drive left with negative X (left)
+            .withVelocityY(-driveController.getLeftX() * MaxSpeed * driveSign) // Drive left with negative X (left)
             .withRotationalRate(-driveController.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
         ).ignoringDisable(true));
     
@@ -123,39 +141,43 @@ public class RobotContainer {
     
     //I bet there's a much better place to put this assignment, but I don't know where.
     //These gains are also completely made up.  Not terrible in simulation, but don't trust them.
+    rootyTootyPointAndShooty.HeadingController.enableContinuousInput(-Math.PI, Math.PI);
     rootyTootyPointAndShooty.HeadingController.setPID(20, 0, 0.05);
 
-    //Before this can be used, theres an issue with being 'above' or 'below' the coordinates of the speaker.
-    //I think it's because of the -180 to +180 crossover, but unsure how to fix it currently.
     driveController.start().whileTrue(drivetrain.applyRequest(() -> rootyTootyPointAndShooty.withVelocityX(-driveController.getLeftY() * MaxSpeed)
             .withVelocityY(-driveController.getLeftX() * MaxSpeed)
-            .withTargetDirection(Constants.kBlueSpeakerLocation.minus(drivetrain.getState().Pose.getTranslation()).getAngle())
-            ));
-
+            .withTargetDirection(Constants.kBlueSpeakerLocation.minus(drivetrain.getState().Pose.getTranslation()).unaryMinus().getAngle())
+            )).whileTrue(new InstantCommand(() -> {SmartDashboard.putNumber("Test Angle", Constants.kBlueSpeakerLocation.minus(drivetrain.getState().Pose.getTranslation()).getAngle().getDegrees());}));
+    
     driveController.leftBumper().onTrue(new Shoot(frontIntake, shooter, climber, shooterIntake, beamBreak)).onFalse(Commands.parallel(new StowArmAndIntake(frontIntake, shooter), new NotePosition(shooterIntake, beamBreak)));
     driveController.rightBumper().onTrue(new Suck(frontIntake, shooter, shooterIntake, beamBreak)).onFalse(Commands.parallel(new StowArmAndIntake(frontIntake, shooter), new NotePosition(shooterIntake, beamBreak)));
+    //driveController.rightTrigger(.5).whileTrue(new Spit(frontIntake, shooter, shooterIntake, beamBreak)).onFalse(Commands.parallel(new StowArmAndIntake(frontIntake, shooter), new NotePosition(shooterIntake, beamBreak))); 
     driveController.rightTrigger(.5).whileTrue(new Spit(frontIntake, shooter, shooterIntake, beamBreak)).onFalse(Commands.parallel(new StowArmAndIntake(frontIntake, shooter), new NotePosition(shooterIntake, beamBreak))); 
     driveController.leftTrigger(.5).onTrue(new Climb(climber,frontIntake,shooter));
-     
+    driveController.y().whileTrue(new SuckNoFront(frontIntake, shooter, shooterIntake, beamBreak)).onFalse(Commands.parallel(new StowArmAndIntake(frontIntake, shooter), new NotePosition(shooterIntake, beamBreak))); 
+    driveController.b().whileTrue(new ShootTrap(climber, shooterIntake)); 
     // Schedules reset the field - Binds centric heading on back and start button push
-    driveController.back().and(driveController.start()).onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative()));
+
+    driveController.back().and(driveController.start()).onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative(resetPose)));
 
     /* Setting up bindings for selecting an autonomous to run. */
     /* Up / Down on the D-Pad of the driver controller. */
     /* Until we start generating paths and creating auton routines, this will cycle through .chrp files.*/
-    driveController.povDown().and(RobotState::isDisabled).onTrue(new InstantCommand(() -> {autonSelect.decrementSelection();}).ignoringDisable(true));
+    driveController.povDown().and(RobotState::isDisabled).onTrue(new InstantCommand(() -> {autonSelect.decrementSelection();}).andThen(() -> {builtAutonomousCommand = AutoBuilder.buildAuto(autonSelect.getCurrentSelectionName());}).ignoringDisable(true));
     driveController.a().and(RobotState::isDisabled).whileTrue(new SetMotorsToCoast(climber, shooter, frontIntake).ignoringDisable(true));
-    driveController.povUp().and(RobotState::isDisabled).onTrue(new InstantCommand(() -> {autonSelect.incrementSelection();}).ignoringDisable(true));
+    driveController.povUp().and(RobotState::isDisabled).onTrue(new InstantCommand(() -> {autonSelect.incrementSelection();}).andThen(() -> {builtAutonomousCommand = AutoBuilder.buildAuto(autonSelect.getCurrentSelectionName());}).ignoringDisable(true));
 
-    driveController.a().onTrue(new InstantCommand(() -> {
+    //driveController.start().and(RobotState::isDisabled).onTrue(new InstantCommand(() -> {builtAutonomousCommand = AutoBuilder.buildAuto(autonSelect.getCurrentSelectionName());}).ignoringDisable(true));
+
+    /*driveController.a().onTrue(new InstantCommand(() -> {
       //I'm not sure if 'tableName' refers to limelight name, or a network table.
       //Need to implement a way to automatically name the files with unique names.
       LimelightHelpers.takeSnapshot("limelight", "snapshot");
-    }));
+    }));*/
 
-    driveController.povLeft().onTrue(new InstantCommand(() -> {
+    /*driveController.povLeft().onTrue(new InstantCommand(() -> {
       frontIntake.setServoPosition(0.5);;
-    }));
+    }));*/
 
     /* Bindings for drivetrain characterization */
     /* These bindings require multiple buttons pushed to swap between quastatic and dynamic */
@@ -166,7 +188,7 @@ public class RobotContainer {
     //driveController.start().and(driveController.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
 
     //Limelight piece-by-piece debugging
-    driveController.back().onTrue(new ShooterModeShootWithLimelight(frontIntake, shooter, drivetrain, shooterIntake, beamBreak));
+    //driveController.back().onTrue(new ShooterModeShootWithLimelight(frontIntake, shooter, drivetrain, shooterIntake, beamBreak));
     
     Trigger NoteLocationStatus = new Trigger(beamBreak::getNotePresent);
     NoteLocationStatus.onTrue(new LightLEDOnNotePresent(LED, beamBreak)).onFalse(new LightLEDOnNotePresent(LED, beamBreak));
@@ -185,17 +207,27 @@ public class RobotContainer {
     //Line below cauases a crash because it's not ready
     //operatorController.x().onTrue(new ShooterModeShootWithPose(frontIntake, shooter, drivetrain));
     operatorController.a().onTrue(new ShooterModeSubwoofer(frontIntake, shooter));
-    operatorController.leftBumper().and(operatorController.rightBumper()).debounce(2).onTrue(new PreClimb(climber,shooter,frontIntake, shooterIntake));
+    operatorController.leftBumper().and(operatorController.rightBumper()).debounce(0.5).onTrue(new PreClimb(climber,shooter,frontIntake, shooterIntake));
     operatorController.start().onTrue(new Home(climber, shooter, frontIntake, shooterIntake));
-
-    // Schedules Play music - Binds Dpad Up
-    //operatorController.povUp().onTrue();
-
+    operatorController.x().onTrue(new ShooterModePass(frontIntake, shooter));
+    
+    /* Setting up bindings for selecting a CHIRP file. */
+    /* Up / Down on the D-Pad of the operator controller. */
+    /* While disabled, press the back button to load the selected file and play the song. */
+    /* Press the back button again to stop the song. */
+    operatorController.povDown().and(RobotState::isDisabled).onTrue(new InstantCommand(() -> {chirpSelect.decrementSelection();}).ignoringDisable(true));
+    operatorController.povUp().and(RobotState::isDisabled).onTrue(new InstantCommand(() -> {chirpSelect.incrementSelection();}).ignoringDisable(true));
+    //Breaking this into multiple lines, because it's a lot to parse.
+    operatorController.back().and(RobotState::isDisabled).onTrue(
+      new InstantCommand(() -> {music.loadMusic(Filesystem.getDeployDirectory() + "/chirp" + chirpSelect.getCurrentSelectionName() + ".chrp");})
+      .andThen(() -> {music.play();}).ignoringDisable(true))
+      .onFalse(new InstantCommand(() -> {music.stop();}).ignoringDisable(true));
+    
     if (Utils.isSimulation()) {
       drivetrain.seedFieldRelative(new Pose2d(new Translation2d(), Rotation2d.fromDegrees(90)));
-    }
+     }
     drivetrain.registerTelemetry(logger::telemeterize);
-
+    
   }
   
   /**
@@ -203,8 +235,8 @@ public class RobotContainer {
    */
   private void configureCustomNTValues(){
     //All of the NT publishing we would like to do, that won't be setup in the classes themselves, gets setup here.
-    SmartDashboard.putData("Chirp Selector", chirpSelect);
-    SmartDashboard.putData("Auton Selector", autonSelect);    
+    //SmartDashboard.putData("Chirp Selector", chirpSelect);
+    SmartDashboard.putData("Auton Selector", autonSelect);  
     SmartDashboard.putData(beamBreak);
     SmartDashboard.putData(climber);
     SmartDashboard.putData(frontIntake);
@@ -218,7 +250,7 @@ public class RobotContainer {
   private void registerAutonCommands(){
     //ALL COMMANDS THAT COULD BE USED IN AUTONOMOUS NEED TO BE REGISTERED HERE.
     NamedCommands.registerCommand("Shoot", new Shoot(frontIntake, shooter, climber, shooterIntake, beamBreak));
-    NamedCommands.registerCommand("ShootTrap", new ShootTrap(frontIntake, shooter, climber, shooterIntake));
+    NamedCommands.registerCommand("ShootTrap", new ShootTrap(climber, shooterIntake));
     NamedCommands.registerCommand("Spit", new Spit(frontIntake, shooter, shooterIntake, beamBreak));
     NamedCommands.registerCommand("Suck", new Suck(frontIntake, shooter, shooterIntake, beamBreak));
     NamedCommands.registerCommand("NotePosition", new NotePosition(shooterIntake, beamBreak));
@@ -234,11 +266,22 @@ public class RobotContainer {
     NamedCommands.registerCommand("ShooterModeMiddleAuto", new ShooterModeMiddleAuto(frontIntake, shooter));
   }
 
+  /**
+   * Add all of the motors from each subsystem (except the drivetrain) to the Orchestra.
+   */
+  private void registerMotorsToOrchestra() {
+    shooter.addToOrchestra(music);
+    frontIntake.addToOrchestra(music);
+    climber.addToOrchestra(music);
+    shooterIntake.addToOrchestra(music);
+  }
+
   public RobotContainer() {
 
     //Start the CTRE logger for sysID use
     //SignalLogger.start();
 
+    registerMotorsToOrchestra();
     configureBindings();
     registerAutonCommands();
     configureCustomNTValues();
@@ -249,6 +292,6 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
     //This should load the selected autonomous file.
-    return drivetrain.getAutoPath(autonSelect.getCurrentSelectionName());
+    return builtAutonomousCommand;
   }
 }

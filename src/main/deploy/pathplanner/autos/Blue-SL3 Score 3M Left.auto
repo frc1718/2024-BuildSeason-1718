@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 15.167939265978388,
-      "y": 5.574358195791997
+      "x": 1.42,
+      "y": 7.3
     },
-    "rotation": 180.0
+    "rotation": 0
   },
   "command": {
     "type": "sequential",
@@ -18,7 +18,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "RSL3 - WN3"
+                  "pathName": "BSL3 - BWN3"
                 }
               },
               {
@@ -67,16 +67,29 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "RWN3 - RMN5"
+                  "pathName": "BWN3 - BMN5"
                 }
               }
             ]
           }
         },
         {
-          "type": "named",
+          "type": "race",
           "data": {
-            "name": "Suck"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Suck"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 2.0
+                }
+              }
+            ]
           }
         },
         {
@@ -86,7 +99,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "RMN5 - RWN3"
+                  "pathName": "BMN5 - BWN3"
                 }
               },
               {
@@ -114,6 +127,12 @@
         {
           "type": "named",
           "data": {
+            "name": "NotePosition"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "Shoot"
           }
         },
@@ -124,7 +143,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "RWN3 - RMN4"
+                  "pathName": "BWN3 - BMN4"
                 }
               },
               {
@@ -145,7 +164,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "RMN4 - RWN3"
+            "pathName": "BMN4 - BWN3"
           }
         }
       ]

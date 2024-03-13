@@ -38,8 +38,10 @@ public class NotePosition extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("========================");
-    System.out.println("General NotePosition Started");
+    if (Constants.kPrintGeneralNotePosition){
+      System.out.println("========================");
+      System.out.println("General NotePosition Started");
+    }
     
     //Initialize state machine
     m_stateMachine = 1;
@@ -62,18 +64,18 @@ public class NotePosition extends Command {
           }
         break;
       case 2:  //If note is breaking shooter beam, back it up.
-        System.out.println("General NotePosition: Case 1");
+      if (Constants.kPrintGeneralNotePosition){System.out.println("General NotePosition: Case 1");}
         if (m_beamBreakSubsystem.getNotePresentShooter()){
           m_shooterIntakeSubsystem.setShooterIntakeSpeed(-Constants.kShooterIntakeIndexSpeed);  
         } else {
-          System.out.println("General NotePosition: Case 1 Complete");
+          if (Constants.kPrintGeneralNotePosition){System.out.println("General NotePosition: Case 1 Complete");}
           m_stateMachine = m_stateMachine + 1; 
         }    
         break; 
       case 3:  //If Note is breaking intake beam, stop indexing.
-        System.out.println("General NotePosition: Case 2");
+        if (Constants.kPrintGeneralNotePosition){System.out.println("General NotePosition: Case 2");}
         if (m_beamBreakSubsystem.getNotePresentIntake()) {
-          System.out.println("General NotePosition: Case 2 Complete");
+          if (Constants.kPrintGeneralNotePosition){System.out.println("General NotePosition: Case 2 Complete");}
           m_shooterIntakeSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeStopSpeed);  
           m_isFinished = true;
         } else {
@@ -88,8 +90,10 @@ public class NotePosition extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    System.out.println("General NotePosition Completed");
-    System.out.println("================================");
+    if (Constants.kPrintGeneralNotePosition){
+      System.out.println("General NotePosition Completed");
+      System.out.println("================================");
+    }
   }
 
   // Returns true when the command should end.

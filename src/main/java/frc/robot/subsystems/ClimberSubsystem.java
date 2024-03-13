@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 
+import com.ctre.phoenix6.Orchestra;
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
@@ -67,6 +68,9 @@ public class ClimberSubsystem extends SubsystemBase {
     slot0.GravityType = GravityTypeValue.Elevator_Static;
     slot0.kV = Constants.kLeftClimberVelocityFeedFoward;
     //slot0.kS = Constants.kClimberStaticFeedFoward; // The value of s is approximately the number of volts needed to get the mechanism moving
+
+    //Setting the config option that allows playing music on the motor during disabled.
+    leftClimberConfig.Audio.AllowMusicDurDisable = true;
  
     StatusCode climberStatus = StatusCode.StatusCodeNotInitialized;
     for(int i = 0; i < 5; ++i) {
@@ -80,9 +84,36 @@ public class ClimberSubsystem extends SubsystemBase {
   }
 
   public void configureRightClimb(TalonFX rightClimb){
+    //Start Configuring Climbers
+    TalonFXConfiguration rightClimberConfig = new TalonFXConfiguration();
 
-    m_RightClimb.setControl(new Follower(Constants.kLeftClimbCanID, true));
+    rightClimberConfig.MotorOutput.Inverted = Constants.kRightClimberDirection;
+    rightClimberConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+    rightClimberConfig.CurrentLimits.SupplyCurrentLimit = Constants.kRightClimberSupplyCurrentLimit;
+    rightClimberConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.kRightClimberVoltageClosedLoopRampPeriod;
+    rightClimberConfig.Voltage.PeakForwardVoltage = Constants.kRightClimberMaxForwardVoltage;
+    rightClimberConfig.Voltage.PeakReverseVoltage = Constants.kRightClimberMaxReverseVoltage;
+    rightClimberConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
+
+    Slot0Configs slot0 = rightClimberConfig.Slot0;
+    slot0.kP = Constants.kRightClimberProportional;
+    slot0.kI = Constants.kRightClimberIntegral;
+    slot0.kD = Constants.kRightClimberDerivative;
+    slot0.GravityType = GravityTypeValue.Elevator_Static;
+    slot0.kV = Constants.kRightClimberVelocityFeedFoward;
+    //slot0.kS = Constants.kClimberStaticFeedFoward; // The value of s is approximately the number of volts needed to get the mechanism moving
+ 
+    StatusCode climberStatus = StatusCode.StatusCodeNotInitialized;
+    for(int i = 0; i < 5; ++i) {
+      climberStatus = rightClimb.getConfigurator().apply(rightClimberConfig);
+      if (climberStatus.isOK()) break;
+    }
+    if (!climberStatus.isOK()) {
+      System.out.println("Could not configure device. Error: " + climberStatus.toString());
+    }
+    m_RightClimb.setPosition(0);
   }
+    
 
   /**
    * Sets the position to move the climber to.  
@@ -90,8 +121,9 @@ public class ClimberSubsystem extends SubsystemBase {
    */
   public void setClimberDesiredPosition(double desiredPosition) {
     if (Constants.kMotorEnableClimber == 1) {
-      System.out.println("Subsystem: Climber - setClimberDesiredPosition");
+      // System.out.println("Subsystem: Climber - setClimberDesiredPosition");
       m_LeftClimb.setControl(climberMoveRequest.withPosition(desiredPosition));
+      m_RightClimb.setControl(climberMoveRequest.withPosition(desiredPosition));
     }
       m_desiredPosition = desiredPosition;
   }
@@ -160,6 +192,16 @@ public class ClimberSubsystem extends SubsystemBase {
     currentConfigurator.refresh(neuMotOut);
     neuMotOut.NeutralMode = NeutralMode;
     currentConfigurator.apply(neuMotOut);
+  }
+
+  /**
+   * Add all of the motors in the climber subsystem to the Orchestra.
+   * I want the robot to sing.
+   * @param robotOrchestra The Orchestra to add the motors as instruments to.
+   */
+  public void addToOrchestra(Orchestra robotOrchestra) {
+    robotOrchestra.addInstrument(m_LeftClimb);
+    robotOrchestra.addInstrument(m_RightClimb);
   }
 
   @Override

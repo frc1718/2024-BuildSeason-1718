@@ -57,10 +57,10 @@ public class ShooterModeShootWithPose extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
- 
-    System.out.println("==========================");
-    System.out.println("Command Operator: ShooterModeShootWithPose");
-   
+    if (Constants.kPrintOperatorShootWithPose){
+      System.out.println("==========================");
+      System.out.println("Command Operator: ShooterModeShootWithPose");
+    }
     //Initialize State Machine
     m_stateMachine = 1;
 
@@ -86,14 +86,14 @@ public class ShooterModeShootWithPose extends Command {
 
     switch(m_stateMachine) {     
       case 1:  // Front intake in position
-        System.out.println("Operator Command ShootWithPose: Case 1 Started");
+      if (Constants.kPrintOperatorShootWithPose){System.out.println("Operator Command ShootWithPose: Case 1 Started");}
         if (m_frontIntakeSubsystem.getFrontIntakeInPosition(Constants.kFrontIntakeClearPos)) {
-          System.out.println("Operator Command ShootWithPose: Case 1 Complete");
+          if (Constants.kPrintOperatorShootWithPose){System.out.println("Operator Command ShootWithPose: Case 1 Complete");}
           m_stateMachine = m_stateMachine + 1;
         }        
         break;
       case 2:  // Arm in position
-        System.out.println("Operator Command ShootWithPose: Case 2 Started");
+          if (Constants.kPrintOperatorShootWithPose){System.out.println("Operator Command ShootWithPose: Case 2 Started");}
           //This is a unique case, we are going to stay here until interrupted.  Most likely by shoot command.
           m_shooterSubsystem.setShooterArmPosition(m_shooterArmPosePos);
           m_shooterSubsystem.setShooterSpeed(m_shooterPoseSpeed);
@@ -104,8 +104,10 @@ public class ShooterModeShootWithPose extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    System.out.println("Command Operator ShooerModeShootWithPose: Finished");
-    System.out.println("==========================");
+    if (Constants.kPrintOperatorShootWithPose){
+      System.out.println("Command Operator ShooerModeShootWithPose: Finished");
+      System.out.println("==========================");
+    }
   }
 
   // Returns true when the command should end.

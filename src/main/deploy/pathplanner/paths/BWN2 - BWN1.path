@@ -16,24 +16,24 @@
     },
     {
       "anchor": {
-        "x": 2.4,
-        "y": 4.28
+        "x": 2.4851032868970147,
+        "y": 4.321298685393376
       },
       "prevControl": {
-        "x": 1.9976018228294707,
-        "y": 4.697702893226556
+        "x": 2.0827051097264855,
+        "y": 4.739001578619932
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "BWN1"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 4.0,
+    "maxAcceleration": 4.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
