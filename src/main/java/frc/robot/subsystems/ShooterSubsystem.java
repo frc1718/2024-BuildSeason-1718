@@ -282,7 +282,7 @@ public class ShooterSubsystem extends SubsystemBase {
     LeftShooterArmRotateConfig.Feedback.RotorToSensorRatio = Constants.kShooterArmRotateCancoderRotorToSensorRatio;
     
     //Setting the config option that allows playing music on the motor during disabled.
-    ShooterArmRotateConfig.Audio.AllowMusicDurDisable = true;
+    LeftShooterArmRotateConfig.Audio.AllowMusicDurDisable = true;
 
     //Set Left Shooter Arm
     StatusCode shooterArmStatus = StatusCode.StatusCodeNotInitialized;
