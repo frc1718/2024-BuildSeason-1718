@@ -45,9 +45,10 @@ public class StowArmAndIntake extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("========================");
-    System.out.println("General StowArmAndIntake Started");
-    
+    if (Constants.kPrintGeneralStowArmAndIntake){
+      System.out.println("========================");
+      System.out.println("General StowArmAndIntake Started");
+    }
     //Initialize state machine
     m_stateMachine = 1;
     
@@ -65,26 +66,26 @@ public class StowArmAndIntake extends Command {
 
     switch(m_stateMachine){
       case 1:  //Check if everything is home
-        System.out.println("General StowArmAndIntake: Case " + m_stateMachine);
+      if (Constants.kPrintGeneralStowArmAndIntake){System.out.println("General StowArmAndIntake: Case " + m_stateMachine);}
         if (m_shooterSubsystem.getShooterArmInPosition(Constants.kShooterArmHomePos)) {
           m_frontIntakeSubsystem.setFrontIntakePosition(Constants.kFrontIntakeHomePos);
-          System.out.println("General StowArmAndIntake: Case " + m_stateMachine + " nothing to do!");
+          if (Constants.kPrintGeneralStowArmAndIntake){System.out.println("General StowArmAndIntake: Case " + m_stateMachine + " nothing to do!");}
           m_isFinished=true;
         } else {
             m_frontIntakeSubsystem.setFrontIntakePosition(Constants.kFrontIntakeClearPos);  
             m_stateMachine = m_stateMachine + 1;
-            System.out.println("General StowArmAndIntake: Case " + m_stateMachine + " Complete");
+            if (Constants.kPrintGeneralStowArmAndIntake){System.out.println("General StowArmAndIntake: Case " + m_stateMachine + " Complete");}
         }
       case 2:  //Move Front Intake to Clear Position
-        System.out.println("General StowArmAndIntake: Case " + m_stateMachine);
+        if (Constants.kPrintGeneralStowArmAndIntake){System.out.println("General StowArmAndIntake: Case " + m_stateMachine);}
         if (m_frontIntakeSubsystem.getFrontIntakeInPosition(Constants.kFrontIntakeClearPos)) {
-          System.out.println("General StowArmAndIntake: Case " + m_stateMachine + " Complete");
+          if (Constants.kPrintGeneralStowArmAndIntake){System.out.println("General StowArmAndIntake: Case " + m_stateMachine + " Complete");}
           m_shooterSubsystem.setShooterArmPosition(Constants.kShooterArmHomePos);
           m_stateMachine = m_stateMachine + 1;
         }
       break;
       case 3:  //When arm is home, end command
-        System.out.println("General StowArmAndIntake: Case " + m_stateMachine);
+      if (Constants.kPrintGeneralStowArmAndIntake){System.out.println("General StowArmAndIntake: Case " + m_stateMachine);}
         if (m_shooterSubsystem.getShooterArmInPosition(Constants.kShooterArmHomePos)){
           System.out.println("General StowArmAndIntake: Case " + m_stateMachine + " Complete");
           m_frontIntakeSubsystem.setFrontIntakePosition(Constants.kFrontIntakeHomePos);
@@ -98,10 +99,11 @@ public class StowArmAndIntake extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    System.out.println("General StowArmAndIntake Completed");
-    System.out.println("================================");
+    if (Constants.kPrintGeneralStowArmAndIntake){
+      System.out.println("General StowArmAndIntake Completed");
+      System.out.println("================================");
+    }
   }
-
   // Returns true when the command should end.
   @Override
   public boolean isFinished() { 

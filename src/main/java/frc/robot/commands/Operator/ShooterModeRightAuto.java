@@ -42,9 +42,10 @@ public class ShooterModeRightAuto extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("==========================");
-    System.out.println("Command Operator: ShooterModeRightAuto");
-
+    if (Constants.kPrintOperatorShooterModeRightAuto){
+      System.out.println("==========================");
+      System.out.println("Command Operator: ShooterModeRightAuto");
+    }
     //Initialize State Machine
     m_stateMachine = 1;
 
@@ -64,24 +65,24 @@ public class ShooterModeRightAuto extends Command {
 
     switch(m_stateMachine) {     
       case 1:  // Front intake in position
-        System.out.println("Operator Command ShooterModeRightAuto: Case 1 Started");
+      if (Constants.kPrintOperatorShooterModeRightAuto){System.out.println("Operator Command ShooterModeRightAuto: Case 1 Started");}
         if (m_frontIntakeSubsystem.getFrontIntakeInPosition(Constants.kFrontIntakeClearPos)) {
           m_shooterSubsystem.setShooterArmPosition(Constants.kShooterArmRightAutoPos);
-          System.out.println("Operator Command ShooterModeRightAuto: Case 1 Complete");
+          if (Constants.kPrintOperatorShooterModeRightAuto){System.out.println("Operator Command ShooterModeRightAuto: Case 1 Complete");}
           m_stateMachine = m_stateMachine + 1;
         }        
         break;
       case 2:  // Arm in position
-        System.out.println("Operator Command ShooterModeRightAuto: Case 2 Started");
+      if (Constants.kPrintOperatorShooterModeRightAuto){System.out.println("Operator Command ShooterModeRightAuto: Case 2 Started");}
         if (m_shooterSubsystem.getShooterArmInPosition(Constants.kShooterArmRightAutoPos)) {
-          System.out.println("Operator Command ShooterModeRightAuto: Case 2 Complete");
+          if (Constants.kPrintOperatorShooterModeRightAuto){System.out.println("Operator Command ShooterModeRightAuto: Case 2 Complete");}
           m_stateMachine = m_stateMachine + 1;
         }
         break;
       case 3:  // Shooter up to speed
-        System.out.println("Operator Command ShooterModeRightAuto: Case 3 Started");       
+      if (Constants.kPrintOperatorShooterModeRightAuto){System.out.println("Operator Command ShooterModeRightAuto: Case 3 Started");}
         if (m_shooterSubsystem.getShooterUpToSpeed(Constants.kShooterAmpSpeed)) {
-          System.out.println("Operator Command ShooterModeRightAuto: Case 3 Complete");
+          if (Constants.kPrintOperatorShooterModeRightAuto){System.out.println("Operator Command ShooterModeRightAuto: Case 3 Complete");}
           m_isFinished = true;
         }
         break;
@@ -92,8 +93,10 @@ public class ShooterModeRightAuto extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    System.out.println("Command Operator ShooterModeRightAuto: Command Complete");
-    System.out.println("==========================");
+    if (Constants.kPrintOperatorShooterModeRightAuto){
+      System.out.println("Command Operator ShooterModeRightAuto: Command Complete");
+      System.out.println("==========================");
+    }
   }
 
   // Returns true when the command should end.

@@ -74,7 +74,7 @@ public class ShooterSubsystem extends SubsystemBase {
    * True or false.
    */
   public void setShooterReadyToShoot(boolean readyToShoot) {
-    System.out.println("ShooterSubsystem: readyToShoot");
+    if (Constants.kPrintSubsystemShooterSubsystem){System.out.println("ShooterSubsystem: readyToShoot");}
     m_readyToShoot = readyToShoot;
   }
 
@@ -84,7 +84,7 @@ public class ShooterSubsystem extends SubsystemBase {
    * True or false.
    */
   public boolean getShooterReadyToShoot() {
-    //System.out.println("ShooterSubsystem: getShooterReadyToShoot");
+    if (Constants.kPrintSubsystemShooterSubsystem){System.out.println("ShooterSubsystem: getShooterReadyToShoot");}
     return m_readyToShoot;
   }
 
@@ -101,7 +101,7 @@ public class ShooterSubsystem extends SubsystemBase {
    */
   public void setShooterMode(String shooterMode){
     m_shooterMode = shooterMode;
-    System.out.println("ShooterSubsystem: setShooterMode");
+    if (Constants.kPrintSubsystemShooterSubsystem){System.out.println("ShooterSubsystem: setShooterMode");}
   }
 
   /**
@@ -111,9 +111,14 @@ public class ShooterSubsystem extends SubsystemBase {
    * @param shootSpeed The desired speed of the shooter motors, in rotations per second.
    */
   public void setShooterSpeed(double shootSpeed) {
-    System.out.println("ShooterSubsystem: setShooterSpeed");
-    m_SpinLeftShooter.setControl(ShooterVelocity.withVelocity(shootSpeed));
-    m_SpinRightShooter.setControl(ShooterVelocity.withVelocity((shootSpeed)));
+    if (Constants.kPrintSubsystemShooterSubsystem){System.out.println("ShooterSubsystem: setShooterSpeed");}
+    if (Constants.kMotorEnableLeftShooterSpin == 1){
+      m_SpinLeftShooter.setControl(ShooterVelocity.withVelocity(shootSpeed));
+    }
+    if (Constants.kMotorEnableRightShooterSpin == 1){
+      m_SpinRightShooter.setControl(ShooterVelocity.withVelocity((shootSpeed)));
+    }
+
     m_desiredSpeed = shootSpeed;
   }
 
@@ -122,9 +127,10 @@ public class ShooterSubsystem extends SubsystemBase {
    * @param position The position of the shooter arm, in rotations.
    */
   public void setShooterArmPosition(double position) {
-    if (Constants.kMotorEnableShooterArmRotate == 1){
-      System.out.println("ShooterSubsystem: setShooterArmPosition");
+    if (Constants.kMotorEnableShooterArmRotate ==1){
+      if (Constants.kPrintSubsystemShooterSubsystem){System.out.println("ShooterSubsystem: setShooterArmPosition");}
       m_ShooterArmRotateLeft.setControl(ShooterArmPositionRequest.withPosition(position));
+      m_ShooterArmRotateRight.setControl(ShooterArmPositionRequest.withPosition(position));
     }
     m_desiredPosition = position;
   }
@@ -134,7 +140,7 @@ public class ShooterSubsystem extends SubsystemBase {
    * @return The currently active shooter mode, as a String.
    */
   public String getShooterMode(){
-    //System.out.println("ShooterSubsystem: getShooterMode");
+    if (Constants.kPrintSubsystemShooterSubsystem){System.out.println("ShooterSubsystem: getShooterMode");}
     return m_shooterMode;
   }
 
@@ -143,7 +149,7 @@ public class ShooterSubsystem extends SubsystemBase {
    * @return The current speed of the left shooter motor, in rotations per second.
    */
   public double getShooterSpeed() {
-    //System.out.println("ShooterSubsystem: getShooterSpeed");
+    if (Constants.kPrintSubsystemShooterSubsystem){System.out.println("ShooterSubsystem: getShooterSpeed");}
     m_SpinLeftShooter.getVelocity().getValueAsDouble();
     return m_SpinLeftShooter.getVelocity().getValueAsDouble();
 
@@ -154,7 +160,7 @@ public class ShooterSubsystem extends SubsystemBase {
    * @return The current position of the shooter arm, in rotations.
    */
   public double getShooterArmPosition() {
-    //System.out.println("ShooterSubsystem: getShooterArmPosition");
+    if (Constants.kPrintSubsystemShooterSubsystem){System.out.println("ShooterSubsystem: getShooterArmPosition");}
     return m_ShooterArmRotateLeft.getPosition().getValueAsDouble();
   }
 
@@ -165,7 +171,7 @@ public class ShooterSubsystem extends SubsystemBase {
    * True or false.
    */
   public boolean getShooterUpToSpeed(double desiredSpeed) {
-    //System.out.println("ShooterSubsystem: getShooterUpToSpeed");
+    if (Constants.kPrintSubsystemShooterSubsystem){System.out.println("ShooterSubsystem: getShooterUpToSpeed");}
     return ((this.getShooterSpeed() >= (desiredSpeed - Constants.kShooterSpeedTolerance)) && (this.getShooterSpeed() <= (desiredSpeed + Constants.kShooterSpeedTolerance)));
   }
 
@@ -187,7 +193,7 @@ public class ShooterSubsystem extends SubsystemBase {
    * True or false.
    */
   public Boolean getShooterArmInPosition(double desiredPosition) {
-      //System.out.println("ShooterSubsystem: getShooterArmInPosition");
+      if (Constants.kPrintSubsystemShooterSubsystem){System.out.println("ShooterSubsystem: getShooterArmInPosition");}
       return ((this.getShooterArmPosition() > (desiredPosition - Constants.kShooterArmTolerancePos)) && (this.getShooterArmPosition() < (desiredPosition + Constants.kShooterArmTolerancePos)));
 
     }
@@ -206,23 +212,29 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void setShooterArmRotateZeroOutput() {
     m_ShooterArmRotateLeft.setControl(shooterArmVoltageRequest);
+    m_ShooterArmRotateRight.setControl(shooterArmVoltageRequest);
   }
 
   public void SetShooterArmLeftNeutralMode(NeutralModeValue NeutralMode) {
-    var neuMotOut = new MotorOutputConfigs();
-    var currentConfigurator = m_ShooterArmRotateLeft.getConfigurator();
-    currentConfigurator.refresh(neuMotOut);
-    neuMotOut.NeutralMode = NeutralMode;
-    currentConfigurator.apply(neuMotOut);
+    var LeftNeuMotOut = new MotorOutputConfigs();
+    var LeftCurrentConfigurator = m_ShooterArmRotateLeft.getConfigurator();
+
+    LeftCurrentConfigurator.refresh(LeftNeuMotOut);
+    LeftNeuMotOut.NeutralMode = NeutralMode;
+    LeftCurrentConfigurator.apply(LeftNeuMotOut);
+
   }
   
   public void SetShooterArmRightNeutralMode(NeutralModeValue NeutralMode) {
-    var neuMotOut = new MotorOutputConfigs();
-    var currentConfigurator = m_ShooterArmRotateRight.getConfigurator();
-    currentConfigurator.refresh(neuMotOut);
-    neuMotOut.NeutralMode = NeutralMode;
-    currentConfigurator.apply(neuMotOut);
+    var rightNeuMotOut = new MotorOutputConfigs();
+    var rightCurrentConfigurator = m_ShooterArmRotateRight.getConfigurator();
+
+    rightCurrentConfigurator.refresh(rightNeuMotOut);
+    rightNeuMotOut.NeutralMode = NeutralMode;
+    rightCurrentConfigurator.apply(rightNeuMotOut);
   }
+
+  
 
     /**
    * Open Motors
@@ -232,55 +244,87 @@ public class ShooterSubsystem extends SubsystemBase {
   public void configureShooterArmCANcoder(CANcoder shooterArmCANcoder){
     //Configuring CANcoder
     CANcoderConfiguration ShooterArmCANcoderConfig = new CANcoderConfiguration();
-    ShooterArmCANcoderConfig.MagnetSensor.MagnetOffset = -0.261963;
+    ShooterArmCANcoderConfig.MagnetSensor.MagnetOffset = Constants.kShooterArmRotateCancoderOffset;
     ShooterArmCANcoderConfig.MagnetSensor.AbsoluteSensorRange = AbsoluteSensorRangeValue.Unsigned_0To1;
-    ShooterArmCANcoderConfig.MagnetSensor.SensorDirection = SensorDirectionValue.Clockwise_Positive;
+    ShooterArmCANcoderConfig.MagnetSensor.SensorDirection = Constants.kShooterArmRotateCancoderDirection;
   }
 
 
 
   public void configureArmRotate(TalonFX shooterArmRotateLeft, TalonFX shooterArmRotateRight){
 
-   TalonFXConfiguration ShooterArmRotateConfig = new TalonFXConfiguration();
+   TalonFXConfiguration LeftShooterArmRotateConfig = new TalonFXConfiguration();
     
-    ShooterArmRotateConfig.CurrentLimits.SupplyCurrentLimit = Constants.kShooterArmRotateSupplyCurrentLimit;
-    ShooterArmRotateConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.kShooterArmRotateVoltageClosedLoopRampPeriod;
-    ShooterArmRotateConfig.MotionMagic.MotionMagicAcceleration = Constants.kShooterArmRotateMotionMagicAcceleration;
-    ShooterArmRotateConfig.MotionMagic.MotionMagicCruiseVelocity = Constants.kShooterArmRotateMotionMagicCruiseVelocity;
-    //ShooterArmRotateConfig.MotionMagic.MotionMagicJerk = Constants.kShooterArmRotateMotionMagicJerk; Idk if we want Jerk
-    ShooterArmRotateConfig.Voltage.PeakForwardVoltage = Constants.kShooterArmRotateMaxForwardVoltage;
-    ShooterArmRotateConfig.Voltage.PeakReverseVoltage = Constants.kShooterArmRotateMaxReverseVoltage;
-    ShooterArmRotateConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-    ShooterArmRotateConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
+    //Set right arm rotor direction  
 
-    Slot0Configs slot0 = ShooterArmRotateConfig.Slot0;
-    slot0.kP = Constants.kShooterArmRotateProportional;
-    slot0.kI = Constants.kShooterArmRotateIntegral;
-    slot0.kD = Constants.kShooterArmRotateDerivative;
-    slot0.kG = Constants.kShooterArmRotateGravity;
-    slot0.kV = Constants.kShooterArmRotateVelocityFeedFoward;
-    slot0.GravityType = GravityTypeValue.Arm_Cosine;
-    //slot0.kV = Constants.kShooterArmRotateVelocityFeedFoward;
-    //slot0.kS = Constants.kShooterArmRotateStaticFeedFoward; // The value of s is approximately the number of volts needed to get the mechanism moving
-    ShooterArmRotateConfig.MotorOutput.Inverted = Constants.kShooterArmRotateDirection;
+    LeftShooterArmRotateConfig.CurrentLimits.SupplyCurrentLimit = Constants.kShooterArmRotateSupplyCurrentLimit;
+    LeftShooterArmRotateConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.kShooterArmRotateVoltageClosedLoopRampPeriod;
+    LeftShooterArmRotateConfig.MotionMagic.MotionMagicAcceleration = Constants.kShooterArmRotateMotionMagicAcceleration;
+    LeftShooterArmRotateConfig.MotionMagic.MotionMagicCruiseVelocity = Constants.kShooterArmRotateMotionMagicCruiseVelocity;
+    LeftShooterArmRotateConfig.Voltage.PeakForwardVoltage = Constants.kShooterArmRotateMaxForwardVoltage;
+    LeftShooterArmRotateConfig.Voltage.PeakReverseVoltage = Constants.kShooterArmRotateMaxReverseVoltage;
+    LeftShooterArmRotateConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+    LeftShooterArmRotateConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
+
+    Slot0Configs LeftSlot0 = LeftShooterArmRotateConfig.Slot0;
+    LeftSlot0.kP = Constants.kShooterArmRotateProportional;
+    LeftSlot0.kI = Constants.kShooterArmRotateIntegral;
+    LeftSlot0.kD = Constants.kShooterArmRotateDerivative;
+    LeftSlot0.kG = Constants.kShooterArmRotateGravity;
+    LeftSlot0.kV = Constants.kShooterArmRotateVelocityFeedFoward;
+    LeftSlot0.GravityType = GravityTypeValue.Arm_Cosine;
+    LeftShooterArmRotateConfig.MotorOutput.Inverted = Constants.kShooterArmRotateDirection;
 
     // Pretty sure I properly added fused cancoder here
-    ShooterArmRotateConfig.Feedback.FeedbackRemoteSensorID = Constants.kShooterArmCancoderCanID;
-    ShooterArmRotateConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.FusedCANcoder;
-    ShooterArmRotateConfig.Feedback.RotorToSensorRatio = Constants.kShooterArmRotateCancoderRotorToSensorRatio;
+    LeftShooterArmRotateConfig.Feedback.FeedbackRemoteSensorID = Constants.kShooterArmCancoderCanID;
+    LeftShooterArmRotateConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.FusedCANcoder;
+    LeftShooterArmRotateConfig.Feedback.SensorToMechanismRatio = 1.0;
+    LeftShooterArmRotateConfig.Feedback.RotorToSensorRatio = Constants.kShooterArmRotateCancoderRotorToSensorRatio;
     
     //Setting the config option that allows playing music on the motor during disabled.
     ShooterArmRotateConfig.Audio.AllowMusicDurDisable = true;
 
+    //Set Left Shooter Arm
     StatusCode shooterArmStatus = StatusCode.StatusCodeNotInitialized;
     for(int i = 0; i < 5; ++i) {
-      shooterArmStatus = m_ShooterArmRotateLeft.getConfigurator().apply(ShooterArmRotateConfig);
+      shooterArmStatus = m_ShooterArmRotateLeft.getConfigurator().apply(LeftShooterArmRotateConfig);
       if (shooterArmStatus.isOK()) break;
     }
     if (!shooterArmStatus.isOK()) {
       System.out.println("Could not configure device. Error: " + shooterArmStatus.toString());
     }
-    m_ShooterArmRotateRight.setControl(new Follower(Constants.kShooterArmRotateLeftCanID, true));
+    
+
+    TalonFXConfiguration RightShooterArmRotateConfig = new TalonFXConfiguration();
+
+    RightShooterArmRotateConfig.CurrentLimits.SupplyCurrentLimit = Constants.kShooterArmRotateSupplyCurrentLimit;
+    RightShooterArmRotateConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.kShooterArmRotateVoltageClosedLoopRampPeriod;
+    RightShooterArmRotateConfig.MotionMagic.MotionMagicAcceleration = Constants.kShooterArmRotateMotionMagicAcceleration;
+    RightShooterArmRotateConfig.MotionMagic.MotionMagicCruiseVelocity = Constants.kShooterArmRotateMotionMagicCruiseVelocity;
+    RightShooterArmRotateConfig.Voltage.PeakForwardVoltage = Constants.kShooterArmRotateMaxForwardVoltage;
+    RightShooterArmRotateConfig.Voltage.PeakReverseVoltage = Constants.kShooterArmRotateMaxReverseVoltage;
+    RightShooterArmRotateConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+    RightShooterArmRotateConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
+
+    Slot0Configs RightSlot0 = RightShooterArmRotateConfig.Slot0;
+    RightSlot0.kP = Constants.kShooterArmRotateProportional;
+    RightSlot0.kI = Constants.kShooterArmRotateIntegral;
+    RightSlot0.kD = Constants.kShooterArmRotateDerivative;
+    RightSlot0.kG = Constants.kShooterArmRotateGravity;
+    RightSlot0.kV = Constants.kShooterArmRotateVelocityFeedFoward;
+    RightSlot0.GravityType = GravityTypeValue.Arm_Cosine;
+
+    RightShooterArmRotateConfig.Feedback.FeedbackRemoteSensorID = Constants.kShooterArmCancoderCanID;
+    RightShooterArmRotateConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.FusedCANcoder;
+    RightShooterArmRotateConfig.Feedback.SensorToMechanismRatio = 1.0;
+    RightShooterArmRotateConfig.Feedback.RotorToSensorRatio = Constants.kShooterArmRotateCancoderRotorToSensorRatio;
+
+    RightShooterArmRotateConfig.MotorOutput.Inverted = Constants.kRightShooterArmRotateDirection;
+
+    for(int i = 0; i < 5; ++i) {
+      shooterArmStatus = m_ShooterArmRotateRight.getConfigurator().apply(RightShooterArmRotateConfig);
+      if (shooterArmStatus.isOK()) break;
+    }
   }
 
 

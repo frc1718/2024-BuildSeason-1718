@@ -60,7 +60,7 @@ public class ShooterIntakeSubsystem extends SubsystemBase {
    */
   public void setShooterIntakeSpeed(double speed) {
     if (Constants.kMotorEnableShooterIntakeSpin == 1){
-      System.out.println("ShooterIntakeSubsystem: setShooterIntakeSpeed");
+      //System.out.println("ShooterIntakeSubsystem: setShooterIntakeSpeed");
       m_ShooterIntakeSpin.setControl(ShooterIntakeVelocity.withVelocity(speed));
     }
   }
@@ -69,7 +69,7 @@ public class ShooterIntakeSubsystem extends SubsystemBase {
    * Extends the intake hinge servo to allow the intake to pivot.
    */
   public void Release() {
-    System.out.println("ShooterIntakeSubsystem: setShooterPivotPosition");
+    //System.out.println("ShooterIntakeSubsystem: setShooterPivotPosition");
     //intakeHinge.set(desiredPosition);
   }
 

@@ -44,9 +44,10 @@ public class ShooterModeSubwoofer extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
-    System.out.println("==========================");
-    System.out.println("Command Operator: ShooterModeSubwoofer");
+    if (Constants.kPrintOperatorShooterModeSubwoofer){
+      System.out.println("==========================");
+      System.out.println("Command Operator: ShooterModeSubwoofer");
+    }
 
     //Initialize state machine
     m_stateMachine = 1;
@@ -66,24 +67,24 @@ public class ShooterModeSubwoofer extends Command {
 
     switch(m_stateMachine) {     
       case 1:  // Front intake in position
-        System.out.println("Operator Command ShooterModeSubwoofer: Case 1 Started");
+        if (Constants.kPrintOperatorShooterModeSubwoofer){System.out.println("Operator Command ShooterModeSubwoofer: Case 1 Started");}
         if (m_frontIntakeSubsystem.getFrontIntakeIsClear()) {
           m_shooterSubsystem.setShooterArmPosition(Constants.kShooterArmSubwooferPos);
-          System.out.println("Operator Command ShooterModeSubwoofer: Case 1 Complete");
+          if (Constants.kPrintOperatorShooterModeSubwoofer){System.out.println("Operator Command ShooterModeSubwoofer: Case 1 Complete");}
           m_stateMachine = m_stateMachine + 1;
         }        
         break;
       case 2:  // Arm in position
-        System.out.println("Operator Command ShooterModeSubwoofer: Case 2 Started");
+      if (Constants.kPrintOperatorShooterModeSubwoofer){System.out.println("Operator Command ShooterModeSubwoofer: Case 2 Started");}
         if (m_shooterSubsystem.getShooterArmInPosition(Constants.kShooterArmSubwooferPos)) {
-          System.out.println("Operator Command ShooterModeSubwoofer: Case 2 Complete");
+          if (Constants.kPrintOperatorShooterModeSubwoofer){System.out.println("Operator Command ShooterModeSubwoofer: Case 2 Complete");}
           m_stateMachine = m_stateMachine + 1;
         }
         break;
       case 3:  // Shooter up to speed
-        System.out.println("Operator Command ShooterModeSubwoofer: Case 3 Started");       
+      if (Constants.kPrintOperatorShooterModeSubwoofer){System.out.println("Operator Command ShooterModeSubwoofer: Case 3 Started");}
         if (m_shooterSubsystem.getShooterUpToSpeed(Constants.kShooterSubwooferSpeed)) {
-          System.out.println("Operator Command ShooterModeSubwoofer: Case 3 Complete");
+          if (Constants.kPrintOperatorShooterModeSubwoofer){System.out.println("Operator Command ShooterModeSubwoofer: Case 3 Complete");}
           m_isFinished = true;
         }
         break;
@@ -94,8 +95,10 @@ public class ShooterModeSubwoofer extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    System.out.println("Command Operator ShooterModeSubwoofer: Command Finished");
-    System.out.println("==========================");
+    if (Constants.kPrintOperatorShooterModeSubwoofer){
+      System.out.println("Command Operator ShooterModeSubwoofer: Command Finished");
+      System.out.println("==========================");
+    }
   }
 
   // Returns true when the command should end.
