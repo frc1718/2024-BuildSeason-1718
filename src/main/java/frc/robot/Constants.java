@@ -337,7 +337,10 @@ public class Constants {
 
     //Pose of the blue speaker.
     //Used to be a pose, but only the X and Y are needed.  Changed to a translation to clean up the actual calculation.
-    public static final Translation2d kBlueSpeakerLocation = new Translation2d(0.0, 5.5);
+    public static final Translation2d kBlueSpeakerLocation = new Translation2d(0.0, 5.55);
+    public static final Translation2d kRedSpeakerLocation = new Translation2d(16.55, 5.55);
+    public static final Translation2d kBlueAmpLocation = new Translation2d(0.6, 7.5);
+    public static final Translation2d kRedAmpLocation = new Translation2d(15.95, 7.5);
 
     //Default pose for testing.
     //For correct swerve driving, seedFieldRelative needs to be called at least once.

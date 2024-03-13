@@ -16,6 +16,7 @@ import frc.robot.subsystems.FrontIntakeSubsystem;
 import frc.robot.subsystems.ShooterIntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
+import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -32,9 +33,11 @@ public class DriveWhileFacingAngle extends Command {
   private final CommandSwerveDrivetrain m_Drivetrain;
   private final CommandXboxController m_Controller;
   private final ShooterSubsystem m_ShooterSubsystem;
-  private final SwerveRequest.FieldCentricFacingAngle driveFacingAngle = new SwerveRequest.FieldCentricFacingAngle();
+  private final SwerveRequest.FieldCentricFacingAngle driveFacingAngle = new SwerveRequest.FieldCentricFacingAngle()
+  .withDeadband(TunerConstants.kSpeedAt12VoltsMps * 0.1).withRotationalDeadband(2 * 0.1 * Math.PI)
+      .withDriveRequestType(DriveRequestType.Velocity);
   private double MaxSpeed = TunerConstants.kSpeedAt12VoltsMps;
-  private final Rotation2d m_RotationTarget = new Rotation2d(0.0);
+  private Rotation2d m_RotationTarget = new Rotation2d(0.0);
 
   private boolean m_isFinished = false;
 
@@ -52,8 +55,8 @@ public class DriveWhileFacingAngle extends Command {
     System.out.println("==========================");
     System.out.println("Command Operator: Home");
 
-
-    //In the initialize step, set the desired starting positions and speeds of each system
+    driveFacingAngle.HeadingController.enableContinuousInput(-Math.PI, Math.PI);
+    driveFacingAngle.HeadingController.setPID(20, 0, 0.05);
     
     m_isFinished = false;
 
@@ -63,6 +66,7 @@ public class DriveWhileFacingAngle extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    m_RotationTarget = Constants.kBlueSpeakerLocation.minus(m_Drivetrain.getState().Pose.getTranslation()).unaryMinus().getAngle();
     m_Drivetrain.applyRequest(() -> driveFacingAngle.withVelocityX(-m_Controller.getLeftY() * MaxSpeed).withVelocityY(-m_Controller.getLeftY() * MaxSpeed).withTargetDirection(m_RotationTarget));
     if (m_ShooterSubsystem.getShooterMode() == "DoNothing") {
       m_isFinished = true;

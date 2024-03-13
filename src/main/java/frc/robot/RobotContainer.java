@@ -32,6 +32,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.commands.LEDs.LightLEDOnNotePresent;
 import frc.robot.commands.CommandSwerveDrivetrain;
+import frc.robot.commands.DriveWhileFacingAngle;
 import frc.robot.commands.Operator.Home;
 import frc.robot.commands.Operator.PreClimb;
 import frc.robot.commands.Operator.ShooterModeAmp;
@@ -100,7 +101,6 @@ public class RobotContainer {
   private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
   private final SwerveRequest.RobotCentric forwardStraight = new SwerveRequest.RobotCentric().withDriveRequestType(DriveRequestType.Velocity);
   private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
-  private final SwerveRequest.FieldCentricFacingAngle driveFacingAngle = new SwerveRequest.FieldCentricFacingAngle();
   
   //Testing an idea: hold a button and always aim at the goal.
   //Copying a fair amount of this from the FieldCentric drive.
@@ -193,6 +193,9 @@ public class RobotContainer {
     Trigger NoteLocationStatus = new Trigger(beamBreak::getNotePresent);
     NoteLocationStatus.onTrue(new LightLEDOnNotePresent(LED, beamBreak)).onFalse(new LightLEDOnNotePresent(LED, beamBreak));
     
+    Trigger ShootingModePass = new Trigger(shooter::getShooterModeDoingSomething);
+    ShootingModePass.whileTrue(new DriveWhileFacingAngle(drivetrain, driveController, shooter));
+
     //======================================================================
     //=========================Operator Controller Assignments==============
     //======================================================================
