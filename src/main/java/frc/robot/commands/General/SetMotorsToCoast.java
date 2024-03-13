@@ -6,6 +6,7 @@ package frc.robot.commands.General;
 
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.FrontIntakeSubsystem;
+import frc.robot.subsystems.ShooterIntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
 import com.ctre.phoenix6.signals.NeutralModeValue;
@@ -22,6 +23,7 @@ public class SetMotorsToCoast extends Command {
   private final ClimberSubsystem m_climberSubsystem;
   private final FrontIntakeSubsystem m_frontIntakeSubsystem;
   private final ShooterSubsystem m_shooterSubsystem;
+  private final ShooterIntakeSubsystem m_shooterIntakeSubsystem;
 
   Debouncer m_debouncer= new Debouncer(.1, Debouncer.DebounceType.kBoth);
 
@@ -33,15 +35,18 @@ public class SetMotorsToCoast extends Command {
    * Required.
    * @param shooterIntakeSubsystem An instance of the shooter intake subsystem.
    */
-  public SetMotorsToCoast(ClimberSubsystem climberSubsystem, ShooterSubsystem shooterIntakeSubsystem, FrontIntakeSubsystem frontIntakeSubsystem) {
+  public SetMotorsToCoast(ClimberSubsystem climberSubsystem, ShooterSubsystem shooterSubsystem, FrontIntakeSubsystem frontIntakeSubsystem, ShooterIntakeSubsystem shooterIntakeSubsystem) {
     m_climberSubsystem = climberSubsystem;
-    m_shooterSubsystem = shooterIntakeSubsystem;
+    m_shooterIntakeSubsystem = shooterIntakeSubsystem;
     m_frontIntakeSubsystem = frontIntakeSubsystem;
+    m_shooterSubsystem = shooterSubsystem;
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_climberSubsystem);
-    addRequirements(m_shooterSubsystem);
+    addRequirements(m_shooterIntakeSubsystem);
     addRequirements(m_frontIntakeSubsystem);
+    addRequirements(m_shooterSubsystem);
+    
   }
 
   // Called when the command is initially scheduled.
@@ -53,6 +58,7 @@ public class SetMotorsToCoast extends Command {
     m_shooterSubsystem.SetShooterArmLeftNeutralMode(NeutralModeValue.Coast);
     m_shooterSubsystem.SetShooterArmRightNeutralMode(NeutralModeValue.Coast);
     m_frontIntakeSubsystem.SetFrontIntakeRotateNeutralMode(NeutralModeValue.Coast);
+    m_shooterIntakeSubsystem.SetShooterIntakeRotateNeutralMode(NeutralModeValue.Coast);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -69,6 +75,7 @@ public class SetMotorsToCoast extends Command {
     m_shooterSubsystem.SetShooterArmLeftNeutralMode(NeutralModeValue.Brake);
     m_shooterSubsystem.SetShooterArmRightNeutralMode(NeutralModeValue.Brake);
     m_frontIntakeSubsystem.SetFrontIntakeRotateNeutralMode(NeutralModeValue.Brake);
+    m_shooterIntakeSubsystem.SetShooterIntakeRotateNeutralMode(NeutralModeValue.Brake);
   }
 
   // Returns true when the command should end.
