@@ -47,10 +47,10 @@ public class Spit extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
-    System.out.println("====================");
-    System.out.println("Driver Command: Spit");
-
+    if (Constants.kPrintDriverSpit){
+      System.out.println("====================");
+      System.out.println("Driver Command: Spit");
+    }
     //Initialize State Machine
     m_stateMachine = 1;
 
@@ -70,20 +70,20 @@ public class Spit extends Command {
       //State Machine
       switch(m_stateMachine){     
         case 1:  //Front intake in position
-          System.out.println("Driver Command Spit: Case 1");
+        if (Constants.kPrintDriverSpit){System.out.println("Driver Command Spit: Case 1");}
           if (m_frontIntakeSubsystem.getFrontIntakeInPosition(Constants.kFrontIntakeClearPos)) {
-            System.out.println("Driver Command Spit: Case 1 Complete!");
+            if (Constants.kPrintDriverSpit){System.out.println("Driver Command Spit: Case 1 Complete!");}
             m_shooterSubsystem.setShooterArmPosition(Constants.kShooterArmSpitPos);
             m_stateMachine = m_stateMachine + 1;
           }        
         break;
         case 2:  // Shooter Arm In Position
-          System.out.println("Driver Command Spit: Case 2");
+        if (Constants.kPrintDriverSpit){System.out.println("Driver Command Spit: Case 2");}
           if (m_shooterSubsystem.getShooterArmInPosition(Constants.kShooterArmSpitPos)) {
             m_shooterIntakeSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeSpitSpeed);
             m_frontIntakeSubsystem.setFrontIntakeSpeed(Constants.kFrontIntakeSpitSpeed);
             m_shooterSubsystem.setShooterSpeed(Constants.kShooterMaxSpeed);
-            System.out.println("Driver Command Spit: Case 2 Complete!");
+            if (Constants.kPrintDriverSpit){System.out.println("Driver Command Spit: Case 2 Complete!");}
           }
         break;
       }
@@ -99,11 +99,11 @@ public class Spit extends Command {
     m_frontIntakeSubsystem.setFrontIntakeSpeed(Constants.kFrontIntakeStopSpeed);
     m_shooterSubsystem.setShooterSpeed(Constants.kShooterStopSpeed);
     if (m_isFinished = true) {
-      System.out.println("Driver Command: Spit Finished");
+      if (Constants.kPrintDriverSpit){System.out.println("Driver Command: Spit Finished");}
     } else {
-      System.out.println("Driver Command: Spit Interrupted!");
+      if (Constants.kPrintDriverSpit){System.out.println("Driver Command: Spit Interrupted!");}
     }
-    System.out.println("====================");
+    if (Constants.kPrintDriverSpit){System.out.println("====================");}
   }
 
   // Returns true when the command should end.

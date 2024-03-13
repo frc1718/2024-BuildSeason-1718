@@ -1,0 +1,52 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 8.750400838890123,
+        "y": 0.7612043754757987
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 11.080857311500644,
+        "y": 1.3818787124022183
+      },
+      "isLocked": false,
+      "linkedName": "RMN1"
+    },
+    {
+      "anchor": {
+        "x": 13.77,
+        "y": 3.019284500107463
+      },
+      "prevControl": {
+        "x": 12.544711879723332,
+        "y": 1.8503121742334787
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "RSP1"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 4.0,
+    "maxAcceleration": 4.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -131.11,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "RSWSide Auto Parts",
+  "previewStartingState": {
+    "rotation": 180.0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

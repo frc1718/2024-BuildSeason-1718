@@ -3,10 +3,12 @@
   "robotLength": 0.9017,
   "holonomicMode": true,
   "pathFolders": [
+    "BSWSide Auto Parts",
     "Blue - From Mid Note",
     "Blue - From Starting Line",
     "Blue - From Subwoofer",
     "Blue - From Wing Note",
+    "RSWSide Auto Parts",
     "Red - From Mid Note",
     "Red - From Starting Line",
     "Red - From Subwoofer",
@@ -15,8 +17,8 @@
   "autoFolders": [
     "Bad Ones"
   ],
-  "defaultMaxVel": 3.0,
-  "defaultMaxAccel": 3.0,
+  "defaultMaxVel": 4.0,
+  "defaultMaxAccel": 4.0,
   "defaultMaxAngVel": 540.0,
   "defaultMaxAngAccel": 720.0,
   "maxModuleSpeed": 4.5

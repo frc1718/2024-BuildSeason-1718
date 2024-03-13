@@ -57,9 +57,10 @@ public class PreClimb extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("==========================");
-    System.out.println("Command Operator: PreClimb");
-
+    if (Constants.kPrintOperatorPreClimb){
+      System.out.println("==========================");
+      System.out.println("Command Operator: PreClimb");
+    }
     //Initialize State Machine
     m_stateMachine = 1;
 
@@ -84,24 +85,24 @@ public class PreClimb extends Command {
 
     switch(m_stateMachine){     
       case 1:  //Front intake in position
-        System.out.println("Operator Command Preclimb: Case 1 Started");
+        if (Constants.kPrintOperatorPreClimb){System.out.println("Operator Command Preclimb: Case 1 Started");}
         if (m_frontIntakeSubsystem.getFrontIntakeInPosition(Constants.kFrontIntakeDownPos)) {
           m_shooterSubsystem.setShooterArmPosition(Constants.kShooterArmPreClimbPos);
-          System.out.println("Operator Command Preclimb: Case 1 Complete");
+          if (Constants.kPrintOperatorPreClimb){System.out.println("Operator Command Preclimb: Case 1 Complete");}
           m_stateMachine=m_stateMachine+1;
         }        
         break;
       case 2:  // Arm in position
-        System.out.println("Operator Command Preclimb: Case 2 Started");
+      if (Constants.kPrintOperatorPreClimb){System.out.println("Operator Command Preclimb: Case 2 Started");}
         if (m_shooterSubsystem.getShooterArmInPosition(Constants.kShooterArmPreClimbPos)) {
-          System.out.println("Operator Command Preclimb: Case 2 Complete");
+          if (Constants.kPrintOperatorPreClimb){System.out.println("Operator Command Preclimb: Case 2 Complete");}
           m_stateMachine=m_stateMachine+1;
         }
         break;
       case 3:  // Climber in position
-        System.out.println("Operator Command Preclimb: Case 3 Started");       
+      if (Constants.kPrintOperatorPreClimb){System.out.println("Operator Command Preclimb: Case 3 Started");}       
         if (m_climberSubsystem.getClimberInPosition(Constants.kClimberPreClimbPos)) {
-          System.out.println("Operator Command Preclimb: Case 3 Complete");
+          if (Constants.kPrintOperatorPreClimb){System.out.println("Operator Command Preclimb: Case 3 Complete");}
           m_climberSubsystem.setPreClimbActuated(true);
           m_isFinished= true;
         }
@@ -112,9 +113,11 @@ public class PreClimb extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    System.out.println("Command Operator PreClimb: Command Finished");
-    System.out.println("==========================");
-  }
+    if (Constants.kPrintOperatorPreClimb){
+      System.out.println("Command Operator PreClimb: Command Finished");
+      System.out.println("==========================");
+    }
+   }
 
   // Returns true when the command should end.
   @Override
