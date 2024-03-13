@@ -19,7 +19,6 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.LimelightHelpers.LimelightTarget_Fiducial;
 import frc.robot.LimelightHelpers.Results;
-import frc.robot.commands.General.DisabledSafety;
 import frc.robot.commands.General.NotePosition;
 
 
@@ -27,7 +26,6 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private NotePosition m_notePositionCommand;
   private RobotContainer m_robotContainer;
-  private DisabledSafety m_disabledSafetyCommand;
   private Command m_autonLoading;
   
   //Use this to enable / disable reading data from the limelight.
@@ -37,7 +35,6 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     m_robotContainer = new RobotContainer();
-    m_disabledSafetyCommand = new DisabledSafety(m_robotContainer.shooterIntake,m_robotContainer.frontIntake,m_robotContainer.shooter,m_robotContainer.climber);
     m_notePositionCommand = new NotePosition(m_robotContainer.shooterIntake,m_robotContainer.beamBreak);
     //Load a 'dummy' auton just to load the PathPlannerAuto class.
     //Hopefully, this makes the auton load faster.

@@ -47,9 +47,10 @@ public class SuckNoFront extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("=====================");
-    System.out.println("Driver Command: SuckNoFront");
-  
+    if (Constants.kPrintDriverSuckNoFront){
+      System.out.println("=====================");
+      System.out.println("Driver Command: SuckNoFront");
+    }  
     //Reset state machine
     m_stateMachine = 1;
 
@@ -77,17 +78,17 @@ public class SuckNoFront extends Command {
       //State Machine
       switch(m_stateMachine){     
         case 1:  //Front intake in position
-          System.out.println("Driver Command SuckNoFront: Case 1");
+        if (Constants.kPrintDriverSuckNoFront){System.out.println("Driver Command SuckNoFront: Case 1");}
           if (m_frontIntakeSubsystem.getFrontIntakeInPosition(Constants.kFrontIntakeClearPos)) {
-            System.out.println("Driver Command SuckNoFront: Case 1 Complete!");
+            if (Constants.kPrintDriverSuckNoFront){System.out.println("Driver Command SuckNoFront: Case 1 Complete!");}
             m_shooterSubsystem.setShooterArmPosition(Constants.kShooterArmHomePos);
             m_stateMachine = m_stateMachine + 1;
           }        
         break;
         case 2:  // Shooter Arm In Position
-          System.out.println("Driver Command SuckNoFront: Case 2");
+          if (Constants.kPrintDriverSuckNoFront){System.out.println("Driver Command SuckNoFront: Case 2");}
           if (m_shooterSubsystem.getShooterArmInPosition(Constants.kShooterArmHomePos)) {
-            System.out.println("Driver Command SuckNoFront: Case 2 Complete!");
+            if (Constants.kPrintDriverSuckNoFront){System.out.println("Driver Command SuckNoFront: Case 2 Complete!");}
             m_frontIntakeSubsystem.setFrontIntakeSpeed(Constants.kFrontIntakeStopSpeed);
             m_stateMachine = m_stateMachine + 1;
           }
@@ -96,7 +97,7 @@ public class SuckNoFront extends Command {
           System.out.println("Driver Command SuckNoFront: Case 3");
           if (m_beamBreakSubsystem.getNotePresentShooter()) {
             m_shooterIntakeSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeStopSpeed);
-            System.out.println("Driver Command SuckNoFront: Case 3 Complete!");
+            if (Constants.kPrintDriverSuckNoFront){System.out.println("Driver Command SuckNoFront: Case 3 Complete!");}
             m_isFinished=true;
           }
         break;
@@ -110,11 +111,11 @@ public class SuckNoFront extends Command {
     m_frontIntakeSubsystem.setFrontIntakeSpeed(Constants.kFrontIntakeStopSpeed);
     m_shooterIntakeSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeStopSpeed);
     if (m_isFinished=true) {
-     System.out.println("Driver Command: SuckNoFront Finished");
+      if (Constants.kPrintDriverSuckNoFront){System.out.println("Driver Command: SuckNoFront Finished");}
     } else {
-     System.out.println("Driver Command: SuckNoFront Interrupted!");
+      if (Constants.kPrintDriverSuckNoFront){System.out.println("Driver Command: SuckNoFront Interrupted!");}
     }
-    System.out.println("=====================");
+    if (Constants.kPrintDriverSuckNoFront){System.out.println("=====================");}
   }
 
   // Returns true when the command should end.

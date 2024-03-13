@@ -32,9 +32,7 @@ public class BeamBreakSubsystem extends SubsystemBase {
    * True or false.
    */
   public boolean getNotePresentIntake() {  
-    //This will print out constantly because it's on a trigger
-    //System.out.println("Subsystem: Shooter - getNotePresentShooter Voltage " + m_BeamBreakShooterAnalog.getAverageVoltage());
-    //getAverageVoltage uses the setAverageBits to average
+    if (Constants.kPrintSubsystemBeamBreak){System.out.println("Subsystem: Shooter - getNotePresentShooter Voltage " + m_BeamBreakShooterAnalog.getAverageVoltage());}
     return (m_BeamBreakIntakeAnalog.getAverageVoltage() >= Constants.kIntakeBeamBreakCrossover);
     
   }
@@ -45,10 +43,10 @@ public class BeamBreakSubsystem extends SubsystemBase {
    * True or false.
    */
   public boolean getNotePresentShooter() {  
-    //This will print out constantly because it's on a constant trigger
-    //System.out.println("Subsystem: Shooter - getNotePresentShooter Voltage " + m_BeamBreakShooterAnalog.getAverageVoltage());
-    //getAverageVoltage uses the setAverageBits to average
-    //System.out.println("Subsystem: Shooter - getNotePresentShooter :" + (m_BeamBreakShooterAnalog.getAverageVoltage() >= Constants.kShooterBeamBreakCrossover));
+    if (Constants.kPrintSubsystemBeamBreak){
+      System.out.println("Subsystem: Shooter - getNotePresentShooter Voltage " + m_BeamBreakShooterAnalog.getAverageVoltage());
+      System.out.println("Subsystem: Shooter - getNotePresentShooter :" + (m_BeamBreakShooterAnalog.getAverageVoltage() >= Constants.kShooterBeamBreakCrossover));
+    }
     return (m_BeamBreakShooterAnalog.getAverageVoltage() >= Constants.kShooterBeamBreakCrossover);
     
   }
@@ -60,9 +58,10 @@ public class BeamBreakSubsystem extends SubsystemBase {
    * True or false.
    */
   public boolean getNotePresent() {
-    //System.out.println("Subsystem: Shooter - getNotePresentShooter Voltage " + m_BeamBreakShooterAnalog.getAverageVoltage());
-    //System.out.println("Subsystem: Shooter - getNotePresentIntake Voltage " + m_BeamBreakIntakeAnalog.getAverageVoltage());
-    //System.out.println("Subsystem: Shooter - getNotePresentIntake Note:" + this.getNotePresentIntake + this.getNotePresentShooter));
+    if (Constants.kPrintSubsystemBeamBreak){
+      System.out.println("Subsystem: Shooter - getNotePresentShooter Voltage " + m_BeamBreakShooterAnalog.getAverageVoltage());
+      System.out.println("Subsystem: Shooter - getNotePresentIntake Voltage " + m_BeamBreakIntakeAnalog.getAverageVoltage());
+    }
     return (this.getNotePresentIntake() || this.getNotePresentShooter());
   }
 

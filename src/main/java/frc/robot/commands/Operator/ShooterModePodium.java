@@ -43,8 +43,10 @@ public class ShooterModePodium extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("==========================");
-    System.out.println("Command Operator: ShooterModePodium");
+    if (Constants.kPrintOperatorShooterModePodium){
+      System.out.println("==========================");
+      System.out.println("Command Operator: ShooterModePodium");
+    }
 
     //Initialize State Machine
     m_stateMachine = 1;    
@@ -65,24 +67,24 @@ public class ShooterModePodium extends Command {
 
     switch(m_stateMachine) {     
       case 1:  // Front intake in position
-        System.out.println("Operator Command ShooterModePodium: Case 1 Started");
+        if (Constants.kPrintOperatorShooterModePodium){System.out.println("Operator Command ShooterModePodium: Case 1 Started");}
         if (m_frontIntakeSubsystem.getFrontIntakeInPosition(Constants.kFrontIntakeClearPos)) {
           m_shooterSubsystem.setShooterArmPosition(Constants.kShooterArmPodiumPos);
-          System.out.println("Operator Command ShooterModePodium: Case 1 Complete");
+          if (Constants.kPrintOperatorShooterModePodium){System.out.println("Operator Command ShooterModePodium: Case 1 Complete");}
           m_stateMachine = m_stateMachine + 1;
         }        
         break;
       case 2:  // Arm in position
-        System.out.println("Operator Command ShooterModePodium: Case 2 Started");
+      if (Constants.kPrintOperatorShooterModePodium){System.out.println("Operator Command ShooterModePodium: Case 2 Started");}
         if (m_shooterSubsystem.getShooterArmInPosition(Constants.kShooterArmPodiumPos)) {
-          System.out.println("Operator Command ShooterModePodium: Case 2 Complete");
+          if (Constants.kPrintOperatorShooterModePodium){System.out.println("Operator Command ShooterModePodium: Case 2 Complete");}
           m_stateMachine = m_stateMachine + 1;
         }
         break;
       case 3:  // Shooter up to speed
-        System.out.println("Operator Command ShooterModePodium: Case 3 Started");       
+      if (Constants.kPrintOperatorShooterModePodium){System.out.println("Operator Command ShooterModePodium: Case 3 Started");}
         if (m_shooterSubsystem.getShooterUpToSpeed(Constants.kShooterPodiumSpeed)) {
-          System.out.println("Operator Command ShooterModePodium: Case 3 Complete");
+          if (Constants.kPrintOperatorShooterModePodium){System.out.println("Operator Command ShooterModePodium: Case 3 Complete");}
           m_isFinished = true;
         }
         break;
@@ -93,8 +95,10 @@ public class ShooterModePodium extends Command {
   @Override
   public void end(boolean interrupted) {
     m_stateMachine = 1;
-    System.out.println("Command Operator ShooterModePodium: Command Finished");
-    System.out.println("==========================");
+    if (Constants.kPrintOperatorShooterModePodium){
+      System.out.println("Command Operator ShooterModePodium: Command Finished");
+      System.out.println("==========================");
+    }
   }
 
   // Returns true when the command should end.

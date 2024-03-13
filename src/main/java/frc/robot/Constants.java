@@ -59,8 +59,39 @@ public class Constants {
     public static final int kMotorEnableShooterIntakeSpin = 1;
     public static final int kMotorEnableShooterArmRotate = 1;
     public static final int kMotorEnableClimber = 1;
-    public static final boolean kPrint = false;
     // End Motor Enables
+
+    //Enable Print Statemens
+    public static final boolean kPrintOperatorHome = false;
+    public static final boolean kPrintOperatorPreClimb = false;
+    public static final boolean kPrintOperatorShooterModeAmp = false;
+    public static final boolean kPrintOperatorShooterModeMiddleAuto = false;
+    public static final boolean kPrintOperatorShooterModePass = false;
+    public static final boolean kPrintOperatorShooterModePodium = false;
+    public static final boolean kPrintOperatorShooterModeRightAuto = false;
+    public static final boolean kPrintOperatorShooterModeSubwoofer = false;
+    public static final boolean kPrintOperatorShootWithPose = false;
+
+    public static final boolean kPrintDriverClimb = false;
+    public static final boolean kPrintDriverShoot = false;
+    public static final boolean kPrintDriverShootWithLimelight = false;
+    public static final boolean kPrintDriverShootTrap = false;
+    public static final boolean kPrintDriverSpit = false;
+    public static final boolean kPrintDriverSuck = false;
+    public static final boolean kPrintDriverSuckNoFront = false;
+
+    public static final boolean kPrintGeneralNotePosition = false;
+    public static final boolean kPrintGeneralSetMotorsToCoast = false;
+    public static final boolean kPrintGeneralStowArmAndIntake = false;
+    
+    public static final boolean kPrintLEDsLightLEDOnNotePresent = false;
+
+    public static final boolean kPrintSubsystemBeamBreak = false;
+    public static final boolean kPrintSubsystemClimber = false;
+    public static final boolean kPrintSubsystemFrontIntake = false;
+    public static final boolean kPrintSubsystemLED = false;
+    public static final boolean kPrintSubsystemShooterIntakeSubsystem = false;
+    public static final boolean kPrintSubsystemShooterSubsystem = false;
 
     // Start Positions
     public static final double kShooterArmSubwooferPos = -0.1; //-0.11

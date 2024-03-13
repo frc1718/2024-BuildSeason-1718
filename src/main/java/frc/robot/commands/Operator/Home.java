@@ -57,9 +57,10 @@ public class Home extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("==========================");
-    System.out.println("Command Operator: Home");
-
+    if (Constants.kPrintOperatorHome){
+      System.out.println("==========================");
+      System.out.println("Command Operator: Home");
+    }
     //Initialize State Machine
     m_stateMachine = 1;
 
@@ -80,25 +81,25 @@ public class Home extends Command {
 
     switch(m_stateMachine){     
       case 1:  //Front intake in position
-        System.out.println("Operator Command Home: Case 1 Started");
+      if (Constants.kPrintOperatorHome){System.out.println("Operator Command Home: Case 1 Started");}
         if (m_frontIntakeSubsystem.getFrontIntakeInPosition(Constants.kFrontIntakeClearPos)) {
           m_shooterSubsystem.setShooterArmPosition(Constants.kShooterArmHomePos);
-          System.out.println("Operator Command Home: Case 1 Complete");
+          if (Constants.kPrintOperatorHome){System.out.println("Operator Command Home: Case 1 Complete");}
           m_stateMachine=m_stateMachine+1;
         }        
         break;
       case 2:  // Arm in position
-        System.out.println("Operator Command Home: Case 2 Started");
+      if (Constants.kPrintOperatorHome){System.out.println("Operator Command Home: Case 2 Started");}
         if (m_shooterSubsystem.getShooterArmInPosition(Constants.kShooterArmHomePos)) {
-          System.out.println("Operator Command Home: Case 2 Complete");
+          if (Constants.kPrintOperatorHome){System.out.println("Operator Command Home: Case 2 Complete");}
           m_frontIntakeSubsystem.setFrontIntakePosition(Constants.kFrontIntakeHomePos);
           m_stateMachine=m_stateMachine+1;
         }
         break;
       case 3:  // Front Intake in position
-        System.out.println("Operator Command Home: Case 3 Started");       
+      if (Constants.kPrintOperatorHome){System.out.println("Operator Command Home: Case 3 Started");}
         if (m_frontIntakeSubsystem.getFrontIntakeInPosition(Constants.kFrontIntakeHomePos)) {
-          System.out.println("Operator Command Home: Case 3 Complete");
+          if (Constants.kPrintOperatorHome){System.out.println("Operator Command Home: Case 3 Complete");}
           m_climberSubsystem.setPreClimbActuated(false);
           m_isFinished= true;
         }
@@ -109,8 +110,10 @@ public class Home extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    System.out.println("Command Operator Home: Command Finished");
-    System.out.println("==========================");
+    if (Constants.kPrintOperatorHome){
+      System.out.println("Command Operator Home: Command Finished");
+      System.out.println("==========================");
+    }
   }
 
   // Returns true when the command should end.

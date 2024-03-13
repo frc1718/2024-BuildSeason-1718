@@ -44,7 +44,6 @@ import frc.robot.commands.Operator.ShooterModeSubwoofer;
 import frc.robot.commands.Driver.Climb;
 import frc.robot.commands.Driver.Shoot;
 import frc.robot.commands.Driver.ShootTrap;
-import frc.robot.commands.Driver.ShooterModeShootWithLimelight;
 import frc.robot.commands.Driver.Spit;
 import frc.robot.commands.Driver.Suck;
 import frc.robot.commands.Driver.SuckNoFront;
