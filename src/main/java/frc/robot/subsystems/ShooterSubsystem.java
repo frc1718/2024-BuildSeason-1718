@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.Orchestra;
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
@@ -288,6 +289,9 @@ public class ShooterSubsystem extends SubsystemBase {
     LeftShooterArmRotateConfig.Feedback.SensorToMechanismRatio = 1.0;
     LeftShooterArmRotateConfig.Feedback.RotorToSensorRatio = Constants.kShooterArmRotateCancoderRotorToSensorRatio;
     
+    //Setting the config option that allows playing music on the motor during disabled.
+    LeftShooterArmRotateConfig.Audio.AllowMusicDurDisable = true;
+
     //Set Left Shooter Arm
     StatusCode shooterArmStatus = StatusCode.StatusCodeNotInitialized;
     for(int i = 0; i < 5; ++i) {
@@ -350,6 +354,9 @@ public class ShooterSubsystem extends SubsystemBase {
     RightShooterMotorsConfig.CurrentLimits.SupplyCurrentLimit = Constants.kRightShooterSupplyCurrentLimit;
     RightShooterMotorsConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.kRightShooterVoltageClosedLoopRampPeriod;
     
+    //Setting the config option that allows playing music on the motor during disabled.
+    RightShooterMotorsConfig.Audio.AllowMusicDurDisable = true;
+
     StatusCode rightShooterStatus = StatusCode.StatusCodeNotInitialized;
     for(int i = 0; i < 5; ++i) {
       rightShooterStatus = m_SpinRightShooter.getConfigurator().apply(RightShooterMotorsConfig);
@@ -376,7 +383,10 @@ public class ShooterSubsystem extends SubsystemBase {
     LeftShooterMotorsConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
     LeftShooterMotorsConfig.CurrentLimits.SupplyCurrentLimit = Constants.kLeftShooterSupplyCurrentLimit;
     LeftShooterMotorsConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.kLeftShooterVoltageClosedLoopRampPeriod;
-    
+
+    //Setting the config option that allows playing music on the motor during disabled.
+    LeftShooterMotorsConfig.Audio.AllowMusicDurDisable = true;    
+
     StatusCode leftShooterStatus = StatusCode.StatusCodeNotInitialized;
     for(int i = 0; i < 5; ++i) {
       leftShooterStatus = m_SpinLeftShooter.getConfigurator().apply(LeftShooterMotorsConfig);
@@ -387,7 +397,18 @@ public class ShooterSubsystem extends SubsystemBase {
     }
   }
 
-
+  /**
+   * Add all of the motors in the shooter subsystem to the Orchestra.
+   * I want the robot to sing.
+   * @param robotOrchestra The Orchestra to add the motors as instruments to.
+   */
+  public void addToOrchestra(Orchestra robotOrchestra) {
+    robotOrchestra.addInstrument(m_SpinLeftShooter);
+    robotOrchestra.addInstrument(m_SpinRightShooter);
+    robotOrchestra.addInstrument(m_ShooterArmRotateLeft);
+    robotOrchestra.addInstrument(m_ShooterArmRotateRight);
+    robotOrchestra.addInstrument(m_ShooterIntakeSpin);
+  }
 
 
   @Override

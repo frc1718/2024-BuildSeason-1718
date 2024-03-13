@@ -29,7 +29,9 @@ public class Constants {
     public static final int kFrontIntakeSpinCanID = 26;
     public static final int kFrontIntakeRotateCancoderCanID = 27;
     public static final int kShooterArmCancoderCanID = 28;
+    public static final int kShooterIntakeRotateCanID = 31;
     public static final int kSignalLightCanID = 38;
+
     // End CanIDs
 
     // Start PWM
@@ -165,6 +167,20 @@ public class Constants {
 
     // Start Motor Setting Values
     
+    //Start ShooterIntakeRotate settings
+    public static final double kShooterIntakeRotateProportional = 0; // An error of 1 rotation per second results in 2V output
+    public static final double kShooterIntakeRotateIntegral = 0; // An error of 1 rotation per second increases output by 0.5V every second
+    public static final double kShooterIntakeRotateDerivative = 0; // A change of 1 rotation per second squared results in 0.01 volts output
+    public static final double kShooterIntakeRotateFeedFoward = 0; // Falcon 500 is a 500kV motor, 500rpm per V = 8.333 rps per V, 1/8.33 = 0.12 volts / Rotation per second Peak output of 8 volts
+    public static final double kShooterIntakeRotateMaxForwardVoltage = 11;
+    public static final double kShooterIntakeRotateMaxReverseVoltage = -11;
+    public static final double kShooterIntakeRotateSupplyCurrentLimit = 20;
+    public static final double kShooterIntakeRotateVoltageClosedLoopRampPeriod = 0;
+    public static final InvertedValue kShooterIntakeRotateDirection = InvertedValue.Clockwise_Positive;
+    public static final double kShooterIntakeRotateMotionMagicCruiseVelocity = 0;
+    public static final double kShooterIntakeRotateMotionMagicAcceleration = 0;
+    
+
     // Start LeftShooter settings
     public static final InvertedValue kLeftShooterDirection = InvertedValue.Clockwise_Positive;
     public static final double kLeftShooterProportional = 0.5;
