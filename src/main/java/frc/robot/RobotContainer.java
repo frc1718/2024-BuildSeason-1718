@@ -73,12 +73,9 @@ public class RobotContainer {
   File autonFolder = new File(Filesystem.getDeployDirectory() + "/pathplanner/autos");
   Selector chirpSelect = new Selector(chirpFolder, ".chrp");
   Selector autonSelect = new Selector(autonFolder, ".auto");
+  
   double driveSign = 1;
 
-  public Rotation2d resetRotationBlue = new Rotation2d(0);
-  public Rotation2d resetRotationRed = new Rotation2d (Math.PI);
-  public Pose2d resetPoseBlue = new Pose2d(0,0,resetRotationBlue);
-  public Pose2d resetPoseRed = new Pose2d(0,0,resetRotationRed);
   public Pose2d resetPose = new Pose2d();
 
   public Command builtAutonomousCommand;

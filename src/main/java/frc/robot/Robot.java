@@ -8,24 +8,20 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.VecBuilder;
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.LimelightHelpers.LimelightTarget_Fiducial;
-import frc.robot.LimelightHelpers.Results;
 import frc.robot.commands.General.NotePosition;
 
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
-  private NotePosition m_notePositionCommand;
   private RobotContainer m_robotContainer;
+  private NotePosition m_notePositionCommand;
   private Command m_autonLoading;
   
   //Use this to enable / disable reading data from the limelight.
@@ -35,15 +31,13 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     m_robotContainer = new RobotContainer();
-    m_notePositionCommand = new NotePosition(m_robotContainer.shooterIntake,m_robotContainer.beamBreak);
+    m_notePositionCommand = new NotePosition(m_robotContainer.shooterIntake, m_robotContainer.beamBreak);
+
     //Load a 'dummy' auton just to load the PathPlannerAuto class.
     //Hopefully, this makes the auton load faster.
     m_autonLoading = new PathPlannerAuto("Blue - Score 0").ignoringDisable(true);
-    //Need to seed the field relative position at least once.
-    //This may not be necessary with autonomous.  It might actually interfere!
-    //m_robotContainer.drivetrain.seedFieldRelative(Constants.kDefaultPose);
 
-    //CameraServer.startAutomaticCapture();
+    CameraServer.startAutomaticCapture();
 
     //Setting up port forwarding for all limelight related ports.
     //Only setting the port-forwarding once in the code.
@@ -56,27 +50,21 @@ public class Robot extends TimedRobot {
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
 
-    /*if (enableLimelight) {
+    //Currently disabled with the enableLimelight variable.
+    if (enableLimelight) {
       //Periodically retrieve the results from the limelight and extract the pose.
       LimelightHelpers.PoseEstimate limelightMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue(Constants.kLimelightName);
       if (limelightMeasurement.tagCount >= 2) {
         m_robotContainer.drivetrain.setVisionMeasurementStdDevs(VecBuilder.fill(0.7, 0.7, 9999999));
         m_robotContainer.drivetrain.addVisionMeasurement(limelightMeasurement.pose, limelightMeasurement.timestampSeconds);
       }
-
-      //Pose2d limelightPose = limelightResults.getBotPose2d();
-
-      //This validity check will probably have more logic to it in the future, but for now, just check if the latest results are valid.
-      //if (limelightResults.valid) {
-        //botpose[6] is the combined targeting latency and capture latency.  Subtract from the current time to determine when the results were calculated.
-        //m_robotContainer.drivetrain.addVisionMeasurement(limelightPose, Timer.getFPGATimestamp() - (limelightResults.botpose[6] / 1000));
-      //}
-      } */
+    }
   }
 
   @Override
   public void disabledInit() {
-    //Had a weird issue.  Moving the shooter arm or front intake during disabled (like stowing to practice auton routines) was causing the arm and intake to interfere once enabled.
+    //Had a weird issue.
+    //Moving the shooter arm or front intake during disabled (like stowing to practice auton routines) was causing the arm and intake to interfere once enabled.
     //Solution, briefly set them in a zero output mode when disabled, then allow Motion Magic to take control again in TeleOp.
     m_robotContainer.frontIntake.setFrontIntakeRotateZeroOutput();
     m_robotContainer.shooter.setShooterArmRotateZeroOutput();
@@ -85,23 +73,15 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void disabledPeriodic() {
-    //If we have been in disabled more than 5 seconds, stop everything and set desired positions to current
-    //if (disabledTimer.get() > 5.0) {
-    //  m_disabledSafetyCommand.schedule();
-    //}
-   }
-
-  
+  public void disabledPeriodic() {}
 
   @Override
-  public void disabledExit() {
-    //Stop and disabled timer
-
-  }
+  public void disabledExit() {}
 
   @Override
   public void autonomousInit() {
+    //Add a 10ms wait before returning the selected autonomous routine.
+    //Should help reduce the delay between the official beginning of autonomous and the start of the PathPlanner autonomous.
     m_autonomousCommand = new WaitCommand(0.010).andThen(m_robotContainer.getAutonomousCommand());
 
     if (m_autonomousCommand != null) {
@@ -120,14 +100,15 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+
     m_notePositionCommand.schedule();
     
     if (DriverStation.getAlliance().get() == Alliance.Blue) {
       //System.out.println("Alliance Color is: " + DriverStation.getAlliance().get());
-      m_robotContainer.resetPose = m_robotContainer.resetPoseBlue;
+      m_robotContainer.resetPose = Constants.resetPoseBlue;
     } else {
       //System.out.println("Alliance Color is: " + DriverStation.getAlliance().get());
-      m_robotContainer.resetPose = m_robotContainer.resetPoseRed;
+      m_robotContainer.resetPose = Constants.resetPoseRed;
     }
   }
   
