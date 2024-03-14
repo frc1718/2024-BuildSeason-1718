@@ -5,6 +5,7 @@
 package frc.robot.commands.Driver;
 
 import frc.robot.subsystems.BeamBreakSubsystem;
+import frc.robot.subsystems.CornerRollerSubsystem;
 import frc.robot.subsystems.FrontIntakeSubsystem;
 import frc.robot.subsystems.ShooterIntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -22,6 +23,8 @@ public class Suck extends Command {
   private final ShooterSubsystem m_shooterSubsystem;
   private final ShooterIntakeSubsystem m_shooterIntakeSubsystem;
   private final BeamBreakSubsystem m_beamBreakSubsystem;
+  private final CornerRollerSubsystem m_cornerRollerSubsystem;
+
   private int m_stateMachine = 1;
   private boolean m_isFinished = false;
   Timer suckTimer = new Timer();
@@ -33,17 +36,21 @@ public class Suck extends Command {
    * Required.
    * @param shooterIntakeSubsystem An instance of the shooter intake subsystem.
    * Required.
+   * @param cornerRollerSubsystem An instance of the shooter intake subsystem.
+   * Required.
    */
-  public Suck(FrontIntakeSubsystem frontIntakeSubsystem, ShooterSubsystem shooterSubsystem, ShooterIntakeSubsystem shooterIntakeSubsystem, BeamBreakSubsystem beamBreakSubsystem) {
+  public Suck(FrontIntakeSubsystem frontIntakeSubsystem, ShooterSubsystem shooterSubsystem, ShooterIntakeSubsystem shooterIntakeSubsystem, BeamBreakSubsystem beamBreakSubsystem, CornerRollerSubsystem cornerRollerSubsystem) {
     m_frontIntakeSubsystem = frontIntakeSubsystem;
     m_shooterSubsystem = shooterSubsystem;
     m_shooterIntakeSubsystem = shooterIntakeSubsystem;
     m_beamBreakSubsystem = beamBreakSubsystem;
+    m_cornerRollerSubsystem = cornerRollerSubsystem;
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_frontIntakeSubsystem);
     addRequirements(m_shooterSubsystem);
     addRequirements(m_shooterIntakeSubsystem);
+    addRequirements(m_cornerRollerSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -61,16 +68,15 @@ public class Suck extends Command {
     m_isFinished = false;
 
     //Set required positions
-    if (m_beamBreakSubsystem.getNotePresent()){
+    if (m_beamBreakSubsystem.getNotePresent()){ //Check to see if we have a note present, and end command if we do.
       m_isFinished=true;
-    } else
-    {
-      m_isFinished = false;
+    } else{  //If we don't have a note,  set speeds and move to execute
       m_frontIntakeSubsystem.setFrontIntakePosition(Constants.kFrontIntakeDownPos);  
       m_shooterSubsystem.setShooterSpeed(0);
       m_shooterIntakeSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeSuckSpeed);
      if (m_shooterSubsystem.getShooterArmInPosition(Constants.kShooterArmHomePos)) {
         m_frontIntakeSubsystem.setFrontIntakeSpeed(Constants.kFrontIntakeSuckSpeed);
+        m_cornerRollerSubsystem.setSpinSpeed(Constants.kCornerRollerSpinWithFrontRollerSpeed);
      }
     }
   }
@@ -118,6 +124,7 @@ public class Suck extends Command {
   public void end(boolean interrupted) {
     m_frontIntakeSubsystem.setFrontIntakeSpeed(Constants.kFrontIntakeStopSpeed);
     m_shooterIntakeSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeStopSpeed);
+    m_cornerRollerSubsystem.setSpinSpeed(Constants.kCornerRollerSpinStopSpeed);
     if (m_isFinished=true) {
       if (Constants.kPrintDriverSuck){System.out.println("Driver Command: Suck Finished");}
     } else {

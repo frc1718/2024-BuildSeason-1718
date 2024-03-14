@@ -60,6 +60,7 @@ import frc.robot.commands.CommandSwerveDrivetrain;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.BeamBreakSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
+import frc.robot.subsystems.CornerRollerSubsystem;
 import frc.robot.subsystems.FrontIntakeSubsystem;
 import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.ShooterIntakeSubsystem;
@@ -121,6 +122,7 @@ public class RobotContainer {
   public final LEDSubsystem LED = new LEDSubsystem();
   public final ShooterIntakeSubsystem shooterIntake = new ShooterIntakeSubsystem();
   public final BeamBreakSubsystem beamBreak = new BeamBreakSubsystem();
+  public final CornerRollerSubsystem cornerRoller = new CornerRollerSubsystem();
 
   public final Orchestra music = new Orchestra();
 
@@ -154,7 +156,7 @@ public class RobotContainer {
             )).whileTrue(new InstantCommand(() -> {SmartDashboard.putNumber("Test Angle", Constants.kBlueSpeakerLocation.minus(drivetrain.getState().Pose.getTranslation()).getAngle().getDegrees());}));
     
     driveController.leftBumper().onTrue(new Shoot(frontIntake, shooter, climber, shooterIntake, beamBreak)).onFalse(Commands.parallel(new StowArmAndIntake(frontIntake, shooter), new NotePosition(shooterIntake, beamBreak)));
-    driveController.rightBumper().onTrue(new Suck(frontIntake, shooter, shooterIntake, beamBreak)).onFalse(Commands.parallel(new StowArmAndIntake(frontIntake, shooter), new NotePosition(shooterIntake, beamBreak)));
+    driveController.rightBumper().onTrue(new Suck(frontIntake, shooter, shooterIntake, beamBreak, cornerRoller)).onFalse(Commands.parallel(new StowArmAndIntake(frontIntake, shooter), new NotePosition(shooterIntake, beamBreak)));
     //driveController.rightTrigger(.5).whileTrue(new Spit(frontIntake, shooter, shooterIntake, beamBreak)).onFalse(Commands.parallel(new StowArmAndIntake(frontIntake, shooter), new NotePosition(shooterIntake, beamBreak))); 
     driveController.rightTrigger(.5).whileTrue(new Spit(frontIntake, shooter, shooterIntake, beamBreak)).onFalse(Commands.parallel(new StowArmAndIntake(frontIntake, shooter), new NotePosition(shooterIntake, beamBreak))); 
     driveController.leftTrigger(.5).onTrue(new Climb(climber,frontIntake,shooter));
@@ -259,7 +261,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("Shoot", new Shoot(frontIntake, shooter, climber, shooterIntake, beamBreak));
     NamedCommands.registerCommand("ShootTrap", new ShootTrap(climber, shooterIntake));
     NamedCommands.registerCommand("Spit", new Spit(frontIntake, shooter, shooterIntake, beamBreak));
-    NamedCommands.registerCommand("Suck", new Suck(frontIntake, shooter, shooterIntake, beamBreak));
+    NamedCommands.registerCommand("Suck", new Suck(frontIntake, shooter, shooterIntake, beamBreak, cornerRoller));
     NamedCommands.registerCommand("NotePosition", new NotePosition(shooterIntake, beamBreak));
     NamedCommands.registerCommand("StowArmAndIntake", new StowArmAndIntake(frontIntake, shooter));
     NamedCommands.registerCommand("LightLEDOnNotePresent", new LightLEDOnNotePresent(LED, beamBreak));

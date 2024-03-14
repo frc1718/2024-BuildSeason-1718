@@ -29,6 +29,8 @@ public class Constants {
     public static final int kFrontIntakeSpinCanID = 26;
     public static final int kFrontIntakeRotateCancoderCanID = 27;
     public static final int kShooterArmCancoderCanID = 28;
+    public static final int kSpinLeftRollerCanID = 29;
+    public static final int kSpinRightRollerCanID = 30;
     public static final int kShooterIntakeRotateCanID = 31;
     public static final int kSignalLightCanID = 38;
 
@@ -61,6 +63,8 @@ public class Constants {
     public static final int kMotorEnableShooterIntakeSpin = 1;
     public static final int kMotorEnableShooterArmRotate = 1;
     public static final int kMotorEnableClimber = 1;
+    public static final int kMotorEnableLeftRollerSpin = 1;
+    public static final int kMotorEnableRightRollerSpin = 1;
     // End Motor Enables
 
     //Enable Print Statemens
@@ -94,6 +98,8 @@ public class Constants {
     public static final boolean kPrintSubsystemLED = false;
     public static final boolean kPrintSubsystemShooterIntakeSubsystem = false;
     public static final boolean kPrintSubsystemShooterSubsystem = false;
+    public static final boolean kPrintSubsystemCornerRoller = false;
+
 
     // Start Positions
     public static final double kShooterArmSubwooferPos = -0.1; //-0.11
@@ -122,8 +128,6 @@ public class Constants {
         /* Safeties - DO NOT CHANGE THIS LINE */ public static final double kFrontIntakeUpSafety = 0.38;
         /* Safeties - DO NOT CHANGE THIS LINE */ public static final double kFrontIntakeDownSafety = -0.01;
     
-
-    public static final int kShooterIntakePivotReleasedPos = 0;
     // End Positions
 
     // Start Speeds
@@ -152,7 +156,12 @@ public class Constants {
 
     public static final int kShooterSpeedTolerance = 1;
 
-    public static final int kShooterShotSpeedDrop = 70;  //The amount the shooter declines when we shoot a note
+    public static final int kCornerRollerSpinWithFrontRollerSpeed = 50;
+    public static final int kCornerRollerSpinWithNoFrontRollerSpeed = 20;
+    public static final int kCornerRollerSpinStopSpeed = 0;
+    public static final int kCornerRollerSpinSpitSpeed = -20;
+
+    //public static final int kShooterShotSpeedDrop = 70;  //The amount the shooter declines when we shoot a note
 
     // End Speeds
     
@@ -227,6 +236,19 @@ public class Constants {
     public static final double kShooterArmRotateCancoderOffset = 0.38159;
     public static final InvertedValue kRightShooterArmRotateDirection = InvertedValue.CounterClockwise_Positive;
     // ShooterArmRotateCancoder settings above /\     /\     /\
+
+    // Start CornerRoller settings
+    public static final double kRightRollerProportional=0; // An error of 1 rotation per second results in 2V output
+    public static final double kRightRollerIntegral=0; // An error of 1 rotation per second increases output by 0.5V every second
+    public static final double kRightRollerDerivative=0; // A change of 1 rotation per second squared results in 0.01 volts output
+    public static final double kRightRollerVelocityFeedFoward=0; // Falcon 500 is a 500kV motor, 500rpm per V = 8.333 rps per V, 1/8.33 = 0.12 volts / Rotation per second
+
+    public static final double kLeftRollerProportional=0; // An error of 1 rotation per second results in 2V output
+    public static final double kLeftRollerIntegral=0; // An error of 1 rotation per second increases output by 0.5V every second
+    public static final double kLeftRollerDerivative=0; // A change of 1 rotation per second squared results in 0.01 volts output
+    public static final double kLeftRollerVelocityFeedFoward=0; // Falcon 500 is a 500kV motor, 500rpm per V = 8.333 rps per V, 1/8.33 = 0.12 volts / Rotation per second
+    // End Corner roller settings
+
 
     // Start FrontIntakeRotate settings
     public static final InvertedValue kFrontIntakeRotateDirection = InvertedValue.Clockwise_Positive;

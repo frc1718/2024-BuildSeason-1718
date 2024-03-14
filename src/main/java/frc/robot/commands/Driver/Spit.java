@@ -6,6 +6,7 @@ package frc.robot.commands.Driver;
 
 import frc.robot.Constants;
 import frc.robot.subsystems.BeamBreakSubsystem;
+import frc.robot.subsystems.CornerRollerSubsystem;
 import frc.robot.subsystems.FrontIntakeSubsystem;
 import frc.robot.subsystems.ShooterIntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -21,6 +22,7 @@ public class Spit extends Command {
   private final FrontIntakeSubsystem m_frontIntakeSubsystem;
   private final ShooterSubsystem m_shooterSubsystem;
   private final ShooterIntakeSubsystem m_shooterIntakeSubsystem;
+  private final CornerRollerSubsystem m_cornerRollerSubsystem;
 
   private boolean m_isFinished = false;
   private int m_stateMachine = 1;
@@ -33,15 +35,17 @@ public class Spit extends Command {
    * Required.
    * @param shooterIntakeSubsystem An instance of the shooter intake subsystem.
    */
-  public Spit(FrontIntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem, ShooterIntakeSubsystem shooterIntakeSubsystem, BeamBreakSubsystem beamBreakSubsystem) {
+  public Spit(FrontIntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem, ShooterIntakeSubsystem shooterIntakeSubsystem, BeamBreakSubsystem beamBreakSubsystem, CornerRollerSubsystem cornerRollerSubsystem) {
     m_frontIntakeSubsystem = intakeSubsystem;
     m_shooterSubsystem = shooterSubsystem;
     m_shooterIntakeSubsystem = shooterIntakeSubsystem;
+    m_cornerRollerSubsystem = cornerRollerSubsystem;
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_frontIntakeSubsystem);
     addRequirements(m_shooterSubsystem);
     addRequirements(m_shooterIntakeSubsystem);
+    addRequirements(m_cornerRollerSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -60,6 +64,7 @@ public class Spit extends Command {
     m_frontIntakeSubsystem.setFrontIntakeSpeed(Constants.kFrontIntakeStopSpeed);
     m_frontIntakeSubsystem.setFrontIntakePosition(Constants.kFrontIntakeClearPos);
     m_shooterIntakeSubsystem.setShooterIntakeSpeed(Constants.kFrontIntakeStopSpeed);
+    m_cornerRollerSubsystem.setSpinSpeed(Constants.kCornerRollerSpinStopSpeed);
 
   }
 
@@ -83,6 +88,7 @@ public class Spit extends Command {
             m_shooterIntakeSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeSpitSpeed);
             m_frontIntakeSubsystem.setFrontIntakeSpeed(Constants.kFrontIntakeSpitSpeed);
             m_shooterSubsystem.setShooterSpeed(Constants.kShooterMaxSpeed);
+            m_cornerRollerSubsystem.setSpinSpeed(Constants.kCornerRollerSpinSpitSpeed);
             if (Constants.kPrintDriverSpit){System.out.println("Driver Command Spit: Case 2 Complete!");}
           }
         break;
@@ -98,6 +104,7 @@ public class Spit extends Command {
     m_shooterIntakeSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeStopSpeed);
     m_frontIntakeSubsystem.setFrontIntakeSpeed(Constants.kFrontIntakeStopSpeed);
     m_shooterSubsystem.setShooterSpeed(Constants.kShooterStopSpeed);
+    m_cornerRollerSubsystem.setSpinSpeed(Constants.kCornerRollerSpinStopSpeed);
     if (m_isFinished = true) {
       if (Constants.kPrintDriverSpit){System.out.println("Driver Command: Spit Finished");}
     } else {
