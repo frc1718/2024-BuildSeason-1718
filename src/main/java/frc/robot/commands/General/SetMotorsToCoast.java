@@ -15,8 +15,8 @@ import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /**
- * The light LED on note present command does exactly what you think it does.
- * If either beam break detects a note, the LEDs will turn off.
+ * The set motors to coast command sets the climber, shooter arm, and front intake motors to coast while the command is running.
+ * Useful for manually moving the components in the pits and in queue.
  */
 public class SetMotorsToCoast extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
@@ -30,10 +30,15 @@ public class SetMotorsToCoast extends Command {
   boolean m_isFinished = false;
 
   /**
-   * Constructs an instance of the light LED on note present command.
-   * @param LEDSubsystem An instance of the LED subsystem.
+   * Constructs an instance of the set motors to coast command.
+   * @param climberSubsystem An instance of the climber subsystem.
+   * Required.
+   * @param shooterSubsystem An instance of the shooter subsystem.
+   * Required.
+   * @param frontIntakeSubsystem An instance of the front intake subsystem.
    * Required.
    * @param shooterIntakeSubsystem An instance of the shooter intake subsystem.
+   * Required.
    */
   public SetMotorsToCoast(ClimberSubsystem climberSubsystem, ShooterSubsystem shooterSubsystem, FrontIntakeSubsystem frontIntakeSubsystem, ShooterIntakeSubsystem shooterIntakeSubsystem) {
     m_climberSubsystem = climberSubsystem;

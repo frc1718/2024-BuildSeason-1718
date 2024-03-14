@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 /**
  * The light LED on note present command does exactly what you think it does.
- * If either beam break detects a note, the LEDs will turn off.
+ * If either beam break detects a note, the LEDs will turn on.
  */
 public class LightLEDOnNotePresent extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
@@ -26,7 +26,7 @@ public class LightLEDOnNotePresent extends Command {
    * Constructs an instance of the light LED on note present command.
    * @param LEDSubsystem An instance of the LED subsystem.
    * Required.
-   * @param shooterIntakeSubsystem An instance of the shooter intake subsystem.
+   * @param beamBreakSubsystem An instance of the beam break subsystem.
    */
   public LightLEDOnNotePresent(LEDSubsystem subsystem, BeamBreakSubsystem beamBreakSubsystem) {
     m_LEDSubsystem = subsystem;

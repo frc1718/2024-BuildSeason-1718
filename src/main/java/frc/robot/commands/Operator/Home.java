@@ -16,9 +16,9 @@ import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /**
- * The pre-climb command moves all of the related subsystems into the 'Pre-Climb' state.
+ * The home command moves all of the related subsystems into their home positions.
  * The front intake roller and shooter motors are stopped and both the front intake and shooter arm are moved into position.
- * The climber is moved into position so the hooks can hit the chain.
+ * The climber hooks are also moved to their home position.
  */
 public class Home extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
@@ -28,10 +28,10 @@ public class Home extends Command {
   private final ShooterIntakeSubsystem m_shooterIntakeSubsystem;
 
   private boolean m_isFinished = false;
-  private int m_stateMachine=1;
+  private int m_stateMachine = 1;
 
   /**
-   * Constructs an instance of the pre-climb command.
+   * Constructs an instance of the home command.
    * @param frontIntakeSubsystem An instance of the front intake subsystem.
    * Required.
    * @param shooterSubsystem An instance of the shooter subsystem.
