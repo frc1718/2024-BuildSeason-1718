@@ -73,7 +73,7 @@ public class RobotContainer {
   File autonFolder = new File(Filesystem.getDeployDirectory() + "/pathplanner/autos");
   Selector chirpSelect = new Selector(chirpFolder, ".chrp");
   Selector autonSelect = new Selector(autonFolder, ".auto");
-  double driveSign=1;
+  double driveSign = 1;
 
   public Rotation2d resetRotationBlue = new Rotation2d(0);
   public Rotation2d resetRotationRed = new Rotation2d (Math.PI);
@@ -108,6 +108,10 @@ public class RobotContainer {
       .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1)
       .withDriveRequestType(DriveRequestType.Velocity); 
   
+  //An example of the robot centric swerve request.
+  //Useful for helping the driver line up with the chain.
+  private final SwerveRequest.RobotCentric climbAlignment = new SwerveRequest.RobotCentric().withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1);
+
   private final Telemetry logger = new Telemetry(MaxSpeed);
 
   //Open Subsystems

@@ -342,6 +342,16 @@ public class Constants {
     public static final Translation2d kBlueAmpLocation = new Translation2d(0.6, 7.5);
     public static final Translation2d kRedAmpLocation = new Translation2d(15.95, 7.5);
 
+    //Angles needed for aligning the front of the robot parallel to all six chains.
+    //The angles are a visual estimate based on an overhead picture of the field.
+    //These 'names' will need some clarification.
+    public static final Rotation2d kBlueChainOne = Rotation2d.fromDegrees(-45.0);
+    public static final Rotation2d kBlueChainTwo = Rotation2d.fromDegrees(45.0);
+    public static final Rotation2d kBlueChainThree = Rotation2d.fromDegrees(180.0);
+    public static final Rotation2d kRedChainOne = Rotation2d.fromDegrees(-135.0);
+    public static final Rotation2d kRedChainTwo = Rotation2d.fromDegrees(135.0);
+    public static final Rotation2d kRedChainThree = Rotation2d.fromDegrees(0.0);
+
     //Default pose for testing.
     //For correct swerve driving, seedFieldRelative needs to be called at least once.
     //During competitions, the PathPlanner code will call seedFieldRelative with the starting position of the autonomous routine.
