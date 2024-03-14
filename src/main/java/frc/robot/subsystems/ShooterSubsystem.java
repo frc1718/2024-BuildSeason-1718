@@ -43,7 +43,6 @@ public class ShooterSubsystem extends SubsystemBase {
   
   TalonFX m_ShooterArmRotateLeft = new TalonFX(Constants.kShooterArmRotateLeftCanID, "Canivore");
   TalonFX m_ShooterArmRotateRight = new TalonFX(Constants.kShooterArmRotateRightCanID, "Canivore");
-  TalonFX m_ShooterIntakeSpin = new TalonFX(Constants.kShooterIntakeSpinCanID, "Canivore");
   TalonFX m_SpinRightShooter = new TalonFX(Constants.kSpinRightShooterCanID, "Canivore");
   TalonFX m_SpinLeftShooter = new TalonFX(Constants.kSpinLeftShooterCanID, "Canivore"); 
 
@@ -407,7 +406,6 @@ public class ShooterSubsystem extends SubsystemBase {
     robotOrchestra.addInstrument(m_SpinRightShooter);
     robotOrchestra.addInstrument(m_ShooterArmRotateLeft);
     robotOrchestra.addInstrument(m_ShooterArmRotateRight);
-    robotOrchestra.addInstrument(m_ShooterIntakeSpin);
   }
 
 
