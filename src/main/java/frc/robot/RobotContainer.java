@@ -7,11 +7,9 @@ package frc.robot;
 import java.io.File;
 
 import com.ctre.phoenix6.Orchestra;
-import com.ctre.phoenix6.SignalLogger;
 import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
-import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.SteerRequestType;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
@@ -25,16 +23,17 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.PrintCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
+//import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.commands.LEDs.LightLEDOnNotePresent;
 import frc.robot.commands.CommandSwerveDrivetrain;
-import frc.robot.commands.DriveWhileFacingAngle;
+import frc.robot.commands.Drive;
 import frc.robot.commands.Operator.Home;
 import frc.robot.commands.Operator.PreClimb;
+import frc.robot.commands.Operator.ShooterLocationFar;
+import frc.robot.commands.Operator.ShooterLocationLeft;
+import frc.robot.commands.Operator.ShooterLocationRight;
 import frc.robot.commands.Operator.ShooterModeAmp;
 import frc.robot.commands.Operator.ShooterModeMiddleAuto;
 import frc.robot.commands.Operator.ShooterModePass;
@@ -54,8 +53,6 @@ import frc.robot.commands.General.SetMotorsToCoast;
 import frc.robot.commands.General.NotePosition;
 import frc.robot.commands.General.StowArmAndIntake;
 import frc.robot.generated.TunerConstants;
-import frc.robot.commands.CommandSwerveDrivetrain;
-
 //Subsystem Imports
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.BeamBreakSubsystem;
@@ -67,19 +64,21 @@ import frc.robot.subsystems.ShooterIntakeSubsystem;
 public class RobotContainer {
   private double MaxSpeed = TunerConstants.kSpeedAt12VoltsMps; // kSpeedAt12VoltsMps desired top speed
   private double MaxAngularRate = 2 * Math.PI; // 3/4 of a rotation per second max angular velocity
+  public double driveSign;
 
   //Attempting to create a selector object.
   File chirpFolder = new File(Filesystem.getDeployDirectory() + "/chirp");
   File autonFolder = new File(Filesystem.getDeployDirectory() + "/pathplanner/autos");
   Selector chirpSelect = new Selector(chirpFolder, ".chrp");
   Selector autonSelect = new Selector(autonFolder, ".auto");
-  double driveSign=1;
 
   public Rotation2d resetRotationBlue = new Rotation2d(0);
   public Rotation2d resetRotationRed = new Rotation2d (Math.PI);
   public Pose2d resetPoseBlue = new Pose2d(0,0,resetRotationBlue);
   public Pose2d resetPoseRed = new Pose2d(0,0,resetRotationRed);
   public Pose2d resetPose = new Pose2d();
+
+  public Translation2d m_TranslationTarget;
 
   public Command builtAutonomousCommand;
 
@@ -92,22 +91,17 @@ public class RobotContainer {
   /* Setting up bindings for necessary control of the swerve drive platform */
   //The drivetrain is public so the limelight pose can be added to it in Robot.java.
   public final CommandSwerveDrivetrain drivetrain = TunerConstants.DriveTrain; // My drivetrain
-
-  private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
-      .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
-      .withDriveRequestType(DriveRequestType.Velocity); // I want field-centric
-                                                               // driving in open loop
                                                                
   private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
-  private final SwerveRequest.RobotCentric forwardStraight = new SwerveRequest.RobotCentric().withDriveRequestType(DriveRequestType.Velocity);
-  private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
+  //private final SwerveRequest.RobotCentric forwardStraight = new SwerveRequest.RobotCentric().withDriveRequestType(DriveRequestType.Velocity);
+  //private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
   
   //Testing an idea: hold a button and always aim at the goal.
   //Copying a fair amount of this from the FieldCentric drive.
   private final SwerveRequest.FieldCentricFacingAngle rootyTootyPointAndShooty = new SwerveRequest.FieldCentricFacingAngle()
       .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1)
       .withDriveRequestType(DriveRequestType.Velocity); 
-  
+
   private final Telemetry logger = new Telemetry(MaxSpeed);
 
   //Open Subsystems
@@ -122,12 +116,7 @@ public class RobotContainer {
 
   private void configureBindings() {
     //Schedules drivertain
-    drivetrain.setDefaultCommand( // Drivetrain will execute this command periodically
-        drivetrain.applyRequest(() -> drive.withVelocityX(-driveController.getLeftY() * MaxSpeed * driveSign) // Drive forward with
-                                                                                           // negative Y (forward)
-            .withVelocityY(-driveController.getLeftX() * MaxSpeed * driveSign) // Drive left with negative X (left)
-            .withRotationalRate(-driveController.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
-        ).ignoringDisable(true));
+    drivetrain.setDefaultCommand(new Drive(drivetrain, driveController, shooter, climber, driveSign)); // Drivetrain will execute this command periodically
     
     //=============================================================================
     //======================Driver Controller Assignments==========================
@@ -192,9 +181,6 @@ public class RobotContainer {
     
     Trigger NoteLocationStatus = new Trigger(beamBreak::getNotePresent);
     NoteLocationStatus.onTrue(new LightLEDOnNotePresent(LED, beamBreak)).onFalse(new LightLEDOnNotePresent(LED, beamBreak));
-    
-    Trigger ShootingModePass = new Trigger(shooter::getShooterModeDoingSomething);
-    ShootingModePass.whileTrue(new DriveWhileFacingAngle(drivetrain, driveController, shooter));
 
     //======================================================================
     //=========================Operator Controller Assignments==============
@@ -205,14 +191,20 @@ public class RobotContainer {
     // A - Subwoofer
     // Right Top + Left Top Bumper Climb Mode - Hold Down Both at Once
     //
-    operatorController.y().onTrue(new ShooterModePodium(frontIntake, shooter));
-    operatorController.b().onTrue(new ShooterModeAmp(frontIntake, shooter));
+    operatorController.y().and(climber::getPreClimbNotActuated).onTrue(new ShooterModePodium(frontIntake, shooter));
+    operatorController.b().and(climber::getPreClimbNotActuated).onTrue(new ShooterModeAmp(frontIntake, shooter));
+    operatorController.x().and(climber::getPreClimbNotActuated).onTrue(new ShooterModePass(frontIntake, shooter));
+    //operatorController.y().and(climber::getPreClimbActuated).onTrue(new ShooterLocationFar(climber));
+    //operatorController.b().and(climber::getPreClimbActuated).onTrue(new ShooterLocationRight(climber));
+    //operatorController.x().and(climber::getPreClimbActuated).onTrue(new ShooterLocationLeft(climber));
+    //Above code is if we have auto turning to the various stage climb points
+
     //Line below cauases a crash because it's not ready
     //operatorController.x().onTrue(new ShooterModeShootWithPose(frontIntake, shooter, drivetrain));
     operatorController.a().onTrue(new ShooterModeSubwoofer(frontIntake, shooter));
     operatorController.leftBumper().and(operatorController.rightBumper()).debounce(0.5).onTrue(new PreClimb(climber,shooter,frontIntake, shooterIntake));
     operatorController.start().onTrue(new Home(climber, shooter, frontIntake, shooterIntake));
-    operatorController.x().onTrue(new ShooterModePass(frontIntake, shooter));
+    
     
     /* Setting up bindings for selecting a CHIRP file. */
     /* Up / Down on the D-Pad of the operator controller. */

@@ -27,6 +27,7 @@ import frc.robot.Constants;
 public class ClimberSubsystem extends SubsystemBase {
 
   boolean m_preClimbActuated = false;
+  String m_climbLocation;
   double m_desiredPosition = 0;
 
   //RightClimb Should be a follower of leftclimb
@@ -137,6 +138,13 @@ public class ClimberSubsystem extends SubsystemBase {
     m_preClimbActuated = preClimbActuated;
   }
 
+  public void setClimbLocation(String climbLocation) {
+    m_climbLocation = climbLocation;
+  }
+  // m_climbLocation should be either "RightClimb", "LeftClimb", or "FarClimb"
+  public String getClimbLocation() {
+    return m_climbLocation;
+  }
   /**
    * Checks if the climber is in the pre-climb position.
    * @return Whether the climber is in the pre-climb position.
@@ -145,6 +153,11 @@ public class ClimberSubsystem extends SubsystemBase {
   public boolean getPreClimbActuated(){
     //System.out.println("Subsystem: Climber - getPreClimbActuated");
     return m_preClimbActuated;
+  }
+
+  public boolean getPreClimbNotActuated(){
+    //System.out.println("Subsystem: Climber - getPreClimbActuated");
+    return !m_preClimbActuated;
   }
 
   /**

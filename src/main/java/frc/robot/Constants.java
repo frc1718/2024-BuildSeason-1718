@@ -339,8 +339,16 @@ public class Constants {
     //Used to be a pose, but only the X and Y are needed.  Changed to a translation to clean up the actual calculation.
     public static final Translation2d kBlueSpeakerLocation = new Translation2d(0.0, 5.55);
     public static final Translation2d kRedSpeakerLocation = new Translation2d(16.55, 5.55);
-    public static final Translation2d kBlueAmpLocation = new Translation2d(0.6, 7.5);
-    public static final Translation2d kRedAmpLocation = new Translation2d(15.95, 7.5);
+    public static final Translation2d kBluePassLocation = new Translation2d(0.6, 7.5);
+    public static final Translation2d kRedPassLocation = new Translation2d(15.95, 7.5);
+    public static final Rotation2d kRedAmpAngle = new Rotation2d(90.0);
+    public static final Rotation2d kBlueAmpAngle = new Rotation2d(90.0);
+    public static final Rotation2d kRedLeftClimbAngle = new Rotation2d(60.0);
+    public static final Rotation2d kBlueLeftClimbAngle = new Rotation2d(-60.0);
+    public static final Rotation2d kRedRightClimbAngle = new Rotation2d(-60.0);
+    public static final Rotation2d kBlueRightClimbAngle = new Rotation2d(60.0);
+    public static final Rotation2d kRedFarClimbAngle = new Rotation2d(180.0);
+    public static final Rotation2d kBlueFarClimbAngle = new Rotation2d(180.0);
 
     //Default pose for testing.
     //For correct swerve driving, seedFieldRelative needs to be called at least once.

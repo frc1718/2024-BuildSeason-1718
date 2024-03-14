@@ -90,6 +90,11 @@ public class Robot extends TimedRobot {
     //if (disabledTimer.get() > 5.0) {
     //  m_disabledSafetyCommand.schedule();
     //}
+    if (DriverStation.getAlliance().get() == Alliance.Blue) {
+      m_robotContainer.driveSign = 1;
+    } else {
+      m_robotContainer.driveSign = -1;
+    }
    }
 
   
