@@ -135,7 +135,7 @@ public class ShooterSubsystem extends SubsystemBase {
    * @param position The position of the shooter arm, in rotations.
    */
   public void setShooterArmPosition(double position) {
-    if (Constants.kMotorEnableShooterArmRotate ==1){
+    if (Constants.kMotorEnableShooterArmRotate == 1){
       if (Constants.kPrintSubsystemShooterSubsystem){System.out.println("ShooterSubsystem: setShooterArmPosition");}
       m_ShooterArmRotateLeft.setControl(ShooterArmPositionRequest.withPosition(position));
       m_ShooterArmRotateRight.setControl(ShooterArmPositionRequest.withPosition(position));
