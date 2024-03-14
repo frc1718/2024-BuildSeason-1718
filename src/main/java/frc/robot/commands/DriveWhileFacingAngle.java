@@ -63,9 +63,28 @@ public class DriveWhileFacingAngle extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    
+    //Get the new chassis angle continuously, place the get alliance command and getshootermode command here to pass in the values
+    newchassisangle = getDesired2DRotationSubsystem.getChassisAngle(getalliance, getshootermode)
+    
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    /*
     m_Drivetrain.applyRequest(() -> driveFacingAngle.withVelocityX(-m_Controller.getLeftY() * MaxSpeed).withVelocityY(-m_Controller.getLeftY() * MaxSpeed).withTargetDirection(m_RotationTarget));
     if (m_ShooterSubsystem.getShooterMode() == "DoNothing") {
       m_isFinished = true;
+      */
     }
   }
   

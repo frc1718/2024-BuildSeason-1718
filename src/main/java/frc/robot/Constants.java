@@ -63,7 +63,7 @@ public class Constants {
     public static final int kMotorEnableClimber = 1;
     // End Motor Enables
 
-    //Enable Print Statemens
+    //Enable Print Statements
     public static final boolean kPrintOperatorHome = false;
     public static final boolean kPrintOperatorPreClimb = false;
     public static final boolean kPrintOperatorShooterModeAmp = false;
@@ -92,7 +92,7 @@ public class Constants {
     public static final boolean kPrintSubsystemClimber = false;
     public static final boolean kPrintSubsystemFrontIntake = false;
     public static final boolean kPrintSubsystemLED = false;
-    public static final boolean kPrintSubsystemShooterIntakeSubsystem = false;
+    public static final boolean kPrintSubsystemShooterIntake = false;
     public static final boolean kPrintSubsystemShooterSubsystem = false;
 
     // Start Positions
@@ -123,7 +123,8 @@ public class Constants {
         /* Safeties - DO NOT CHANGE THIS LINE */ public static final double kFrontIntakeDownSafety = -0.01;
     
 
-    public static final int kShooterIntakePivotReleasedPos = 0;
+    public static final int kShooterIntakeHomePosition = 0;
+    public static final int kShooterIntakeTrapPosition = 0;
     // End Positions
 
     // Start Speeds
@@ -337,7 +338,10 @@ public class Constants {
 
     //Pose of the blue speaker.
     //Used to be a pose, but only the X and Y are needed.  Changed to a translation to clean up the actual calculation.
-    public static final Translation2d kBlueSpeakerLocation = new Translation2d(0.0, 5.5);
+    public static final Translation2d kBlueSpeakerLocation = new Translation2d(0.0, 5.55);
+    public static final Translation2d kRedSpeakerLocation = new Translation2d(16.55, 5.55);
+    public static final Translation2d kBlueAmpLocation = new Translation2d(0.6, 7.5);
+    public static final Translation2d kRedAmpLocation = new Translation2d(15.95, 7.5);
 
     //Default pose for testing.
     //For correct swerve driving, seedFieldRelative needs to be called at least once.

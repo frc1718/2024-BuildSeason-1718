@@ -9,6 +9,7 @@ import com.ctre.phoenix6.Orchestra;
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
@@ -27,9 +28,11 @@ public class ShooterIntakeSubsystem extends SubsystemBase {
   //Open Motors
   TalonFX m_ShooterIntakeSpin = new TalonFX(Constants.kShooterIntakeSpinCanID, "Canivore");
   TalonFX m_ShooterIntakeRotate = new TalonFX(Constants.kShooterIntakeRotateCanID, "Canivore");
+  TalonFX m_ShooterRightCornerSpin = new TalonFX(Constants.kShooterIntakeRotateCanID, "Canivore");
 
   private final VelocityVoltage ShooterIntakeVelocity = new VelocityVoltage(0, 0, true, 0, 0, false, false, false);
-
+  private final MotionMagicVoltage ShooterIntakeRotatePositionRequest = new MotionMagicVoltage(0, true, 0, 0, false, false, false).withSlot(0);
+  
   // Constructs an instance of the shooter intake subsystem.
 
   public ShooterIntakeSubsystem() {
@@ -38,26 +41,6 @@ public class ShooterIntakeSubsystem extends SubsystemBase {
   this.configureShooterIntakeRotate(m_ShooterIntakeRotate);
   }
   
-  // Start of sensor related methods
-  /**
-   * Check if a note is in front of the intake beam break.
-   * @return Whether the intake beam break detects a note.
-   * True or false.
-   */
-  
-  /**
-   * Check if a note is in front of the shooter beam break.
-   * @return Whether the shooter beam break detects a note.
-   * True or false.
-   */
-  // End of sensor related methods
-
-  /**
-   * Check if a note is in front of either the intake beam break or the shooter beam break.
-   * @return Whether either beam break detects a note.
-   * True or false.
-   */
-
   /**
    * Sets the speed of the shooter intake motor.
    * @param speed The desired speed of the shooter intake, in rotations per second.
@@ -69,7 +52,12 @@ public class ShooterIntakeSubsystem extends SubsystemBase {
     }
   }
 
-asdfasfadsadsfda To Do here
+    public void setShooterIntakeRotate(double position) {
+    if (Constants.kMotorEnableShooterIntakeSpin == 1){
+      if (Constants.kPrintSubsystemShooterIntake){System.out.println("ShooterIntakeSubsystem: setShooterIntakerotate");}
+      m_ShooterIntakeRotate.setControl(ShooterIntakeRotatePositionRequest.withPosition(position));
+    }
+  }
 
   public void SetShooterIntakeRotateNeutralMode(NeutralModeValue NeutralMode) {
     var shooterIntakeNeuMotOut = new MotorOutputConfigs();

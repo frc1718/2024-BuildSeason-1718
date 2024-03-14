@@ -95,7 +95,6 @@ public class RobotContainer {
   private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
       .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
       .withDriveRequestType(DriveRequestType.Velocity); // I want field-centric
-                                                               // driving in open loop
                                                                
   private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
   private final SwerveRequest.RobotCentric forwardStraight = new SwerveRequest.RobotCentric().withDriveRequestType(DriveRequestType.Velocity);
@@ -121,14 +120,22 @@ public class RobotContainer {
   public final Orchestra music = new Orchestra();
 
   private void configureBindings() {
+
+  Rotate joystick check and set not to angle if outside deadband
+
+  IF not to angle
     //Schedules drivertain
     drivetrain.setDefaultCommand( // Drivetrain will execute this command periodically
-        drivetrain.applyRequest(() -> drive.withVelocityX(-driveController.getLeftY() * MaxSpeed * driveSign) // Drive forward with
-                                                                                           // negative Y (forward)
+        drivetrain.applyRequest(() -> drive.withVelocityX(-driveController.getLeftY() * MaxSpeed * driveSign) // Drive forward with negative Y (forward)
             .withVelocityY(-driveController.getLeftX() * MaxSpeed * driveSign) // Drive left with negative X (left)
             .withRotationalRate(-driveController.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
         ).ignoringDisable(true));
-    
+  else if to angle
+
+
+
+
+
     //=============================================================================
     //======================Driver Controller Assignments==========================
     //=============================================================================
