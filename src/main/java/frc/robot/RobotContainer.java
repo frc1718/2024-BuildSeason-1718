@@ -26,7 +26,6 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.LEDs.LightLEDOnNotePresent;
-import frc.robot.commands.CommandSwerveDrivetrain;
 import frc.robot.commands.DriveWhileFacingAngle;
 import frc.robot.commands.Operator.Home;
 import frc.robot.commands.Operator.PreClimb;
@@ -55,6 +54,7 @@ import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.FrontIntakeSubsystem;
 import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.ShooterIntakeSubsystem;
+import frc.robot.subsystems.CommandSwerveDrivetrain;
 
 public class RobotContainer {
   private double MaxSpeed = TunerConstants.kSpeedAt12VoltsMps; // kSpeedAt12VoltsMps desired top speed
