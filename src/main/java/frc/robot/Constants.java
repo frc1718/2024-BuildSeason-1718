@@ -377,9 +377,12 @@ public class Constants {
     //Change the rotation to 0 radians if you want the default pose to be the blue alliance.
     public static final Rotation2d kDefaultRotation = new Rotation2d(Math.PI);
 
-    static {
-        
-    }
+    //Constants required for resetting the robot pose during the match.
+    public static final Rotation2d resetRotationBlue = new Rotation2d(0);
+    public static final Rotation2d resetRotationRed = new Rotation2d (Math.PI);
+    public static final Pose2d resetPoseBlue = new Pose2d(0, 0, resetRotationBlue);
+    public static final Pose2d resetPoseRed = new Pose2d(0, 0, resetRotationRed);
+
     public static final Pose2d kDefaultPose = new Pose2d(0, 0, kDefaultRotation);
 
     //Interpolation for the shoot with pose command.  The values that correspond to shooting from the subwoofer and podium can also be added.

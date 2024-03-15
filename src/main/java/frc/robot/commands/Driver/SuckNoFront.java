@@ -12,7 +12,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 
 /**
- * The suck command positions the front intake and shooter arm so a note can be picked up off the floor and moved into the shooter.
+ * The suck no front command positions the shooter arm so a note can be picked up off the floor and moved into the shooter.
+ * This command moves the front intake into the clear position, and does not use it to pick up the note.
  */
 public class SuckNoFront extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})

@@ -10,7 +10,7 @@ import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /**
- * The shooter mode amp command sets the shooter mode variable of the shooter subsystem to <i>ShootAmp</i>.
+ * The shooter mode amp command sets the shooter mode variable of the shooter subsystem to <i>ShooterModeRightAuto</i>.
  * In preparation, the speed and position of the shooter is set to fire a shot at the amp.
  */
 public class ShooterModeRightAuto extends Command {
@@ -22,7 +22,7 @@ public class ShooterModeRightAuto extends Command {
   private int m_stateMachine = 1;
 
   /**
-   * Constructs an instance of the shooter mode amp command.
+   * Constructs an instance of the shooter mode right auto command.
    * @param frontIntakeSubsystem An instance of the front intake subsystem.
    * Required.
    * @param shooterSubsystem An instance of the shooter subsystem.
