@@ -39,6 +39,7 @@ import frc.robot.commands.Operator.ShooterModeSubwoofer;
 import frc.robot.commands.Driver.Climb;
 import frc.robot.commands.Driver.Shoot;
 import frc.robot.commands.Driver.ShootTrap;
+import frc.robot.commands.Driver.ShooterModeShootWithLimelight;
 import frc.robot.commands.Driver.Spit;
 import frc.robot.commands.Driver.Suck;
 import frc.robot.commands.Driver.SuckNoFront;
@@ -136,6 +137,7 @@ public class RobotContainer {
     /*  Right Bumper - Suck                                             */
     /*  Left Trigger - Climb                                            */
     /*  Right Trigger - Spit                                            */
+    /*  Back - Enable 'ShootWithLimelight' Shooter mode                 */
     /*  Start + Back - Reset Robot Pose                                 */
     /*  D-Pad Up (While Disabled) - Increment & Select Autonomous       */
     /*  D-Pad Down (While Disabled) - Decrement & Select Autonomous     */
@@ -161,6 +163,8 @@ public class RobotContainer {
     driveController.leftTrigger(.5).onTrue(new Climb(climber,frontIntake,shooter));
     driveController.rightTrigger(.5).whileTrue(new Spit(frontIntake, shooter, shooterIntake, beamBreak)).onFalse(Commands.parallel(new StowArmAndIntake(frontIntake, shooter), new NotePosition(shooterIntake, beamBreak))); 
 
+    driveController.back().onTrue(new ShooterModeShootWithLimelight(frontIntake, shooter, drivetrain, shooterIntake, beamBreak));
+    
     // Schedules reset the field - Binds centric heading on back and start button push
     driveController.back().and(driveController.start()).onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative(resetPose)));
 
