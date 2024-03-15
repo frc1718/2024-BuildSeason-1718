@@ -3,50 +3,50 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 14.067120630674927,
-        "y": 6.75715268691593
+        "x": 8.14,
+        "y": 4.11
       },
       "prevControl": null,
       "nextControl": {
-        "x": 14.933722535062758,
-        "y": 6.335562571267796
+        "x": 5.793653895000099,
+        "y": 3.8283738105937757
       },
       "isLocked": false,
-      "linkedName": "RWN3"
+      "linkedName": "BMN3"
     },
     {
       "anchor": {
-        "x": 14.17,
-        "y": 5.55
+        "x": 4.1360075027842385,
+        "y": 5.061741661944863
       },
       "prevControl": {
-        "x": 15.247396962211901,
-        "y": 5.596843346183127
+        "x": 5.389109239756943,
+        "y": 4.065180438053185
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "RWN2"
+      "linkedName": "BSP2"
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 4.0,
-    "maxAcceleration": 4.0,
+    "maxVelocity": 2.5,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0,
+    "rotation": -7.490000000000009,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Red - From Wing Notes",
+  "folder": "Blue - From Mid Note",
   "previewStartingState": {
-    "rotation": 155.0,
+    "rotation": 0,
     "velocity": 0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

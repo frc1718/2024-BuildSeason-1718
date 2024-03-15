@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 14.067120630674927,
-        "y": 6.75715268691593
+        "x": 5.221371211973195,
+        "y": 6.778589711025576
       },
       "prevControl": null,
       "nextControl": {
-        "x": 14.933722535062758,
-        "y": 6.335562571267796
+        "x": 5.754186123756863,
+        "y": 6.877259139133662
       },
       "isLocked": false,
-      "linkedName": "RWN3"
+      "linkedName": "BSP3"
     },
     {
       "anchor": {
-        "x": 14.17,
-        "y": 5.55
+        "x": 7.8,
+        "y": 7.4
       },
       "prevControl": {
-        "x": 15.247396962211901,
-        "y": 5.596843346183127
+        "x": 6.494206834567516,
+        "y": 7.05486410972822
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "RWN2"
+      "linkedName": "BMN5"
     }
   ],
   "rotationTargets": [],
@@ -39,13 +39,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0,
+    "rotation": 0.0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Red - From Wing Notes",
+  "folder": "Blue - From Shooting Positions",
   "previewStartingState": {
-    "rotation": 155.0,
+    "rotation": 13.11,
     "velocity": 0
   },
   "useDefaultConstraints": true

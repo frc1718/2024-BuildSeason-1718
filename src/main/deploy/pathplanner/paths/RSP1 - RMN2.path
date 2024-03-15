@@ -16,11 +16,11 @@
     },
     {
       "anchor": {
-        "x": 8.820665858164812,
+        "x": 8.7,
         "y": 2.4241431649767726
       },
       "prevControl": {
-        "x": 10.682688868944071,
+        "x": 10.562023010779258,
         "y": 2.1547939244237972
       },
       "nextControl": null,
@@ -43,7 +43,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "RSWSide Auto Parts",
+  "folder": "Red - From Shooting Positions",
   "previewStartingState": {
     "rotation": -131.06,
     "velocity": 0

@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.8863445419198543,
-        "y": 1.5392430784861582
+        "x": 1.7580742853793416,
+        "y": 1.489908364432114
       },
       "isLocked": false,
       "linkedName": "BWN1"
     },
     {
       "anchor": {
-        "x": 8.14,
-        "y": 2.67
+        "x": 7.98411519899963,
+        "y": 2.34833238897247
       },
       "prevControl": {
-        "x": 5.156089798056914,
-        "y": 0.5855418272890752
+        "x": 5.112834841054299,
+        "y": 0.7794884820538868
       },
       "nextControl": null,
       "isLocked": false,
@@ -30,25 +30,7 @@
   ],
   "rotationTargets": [],
   "constraintZones": [],
-  "eventMarkers": [
-    {
-      "name": "New Event Marker",
-      "waypointRelativePos": 0.9,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "Suck"
-              }
-            }
-          ]
-        }
-      }
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 4.0,
     "maxAcceleration": 4.0,
@@ -57,11 +39,11 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0,
+    "rotation": 21.801409486351723,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Blue - From Wing Note",
+  "folder": "Blue - From Wing Notes",
   "previewStartingState": {
     "rotation": -30.0,
     "velocity": 0

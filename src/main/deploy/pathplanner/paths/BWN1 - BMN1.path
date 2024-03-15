@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.9948809128387501,
-        "y": 1.637912506594245
+        "x": 1.9159453703522806,
+        "y": 1.3813719935132178
       },
       "isLocked": false,
       "linkedName": "BWN1"
@@ -43,7 +43,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Blue - From Wing Note",
+  "folder": "Blue - From Wing Notes",
   "previewStartingState": {
     "rotation": -30.0,
     "velocity": 0

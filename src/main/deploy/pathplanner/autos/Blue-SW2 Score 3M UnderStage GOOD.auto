@@ -86,7 +86,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "BMN3 - BWN2"
+                  "pathName": "BMN3 - BSP2"
                 }
               },
               {
@@ -121,6 +121,57 @@
           "type": "named",
           "data": {
             "name": "Home"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "BSP2 - BMN2"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.5
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Suck"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "BMN2 - BSP2"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "NotePosition"
+                }
+              }
+            ]
           }
         }
       ]

@@ -3,12 +3,12 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.820665858164812,
+        "x": 8.7,
         "y": 2.4241431649767726
       },
       "prevControl": null,
       "nextControl": {
-        "x": 10.225966243658593,
+        "x": 10.10530038549378,
         "y": 1.182794491123932
       },
       "isLocked": false,
@@ -43,7 +43,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "RSWSide Auto Parts",
+  "folder": "Red - From Mid Note",
   "previewStartingState": {
     "rotation": 180.0,
     "velocity": 0

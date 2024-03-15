@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.7250346808385935,
-        "y": 3.019284500107463
+        "x": 3.5242570485140985,
+        "y": 3.0587522713506967
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.232570981547098,
-        "y": 0.05855418272890741
+        "x": 4.520818272405777,
+        "y": 0.5328149117836701
       },
       "isLocked": false,
       "linkedName": "BSP1"
     },
     {
       "anchor": {
-        "x": 7.74,
-        "y": 2.42
+        "x": 7.865711885269925,
+        "y": 2.2101951896211496
       },
       "prevControl": {
-        "x": 6.185727635363972,
-        "y": 2.295323962973175
+        "x": 7.668373029053751,
+        "y": 2.062191047459019
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "BMN2"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -39,11 +39,11 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0,
+    "rotation": 31.32869286780416,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "BSWSide Auto Parts",
+  "folder": "Blue - From Shooting Positions",
   "previewStartingState": {
     "rotation": -47.00999999999999,
     "velocity": 0

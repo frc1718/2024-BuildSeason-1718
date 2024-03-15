@@ -84,7 +84,7 @@ public class Suck extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (RobotState.isAutonomous() && (suckTimer.get() > 3.00)){
+    if (RobotState.isAutonomous() && (suckTimer.get() > 4.00)){
       m_isFinished=true;
     }
     
