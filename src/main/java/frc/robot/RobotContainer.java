@@ -163,7 +163,7 @@ public class RobotContainer {
     driveController.leftBumper().onTrue(new Shoot(frontIntake, shooter, climber, shooterIntake, beamBreak)).onFalse(Commands.parallel(new StowArmAndIntake(frontIntake, shooter), new NotePosition(shooterIntake, beamBreak)));
     driveController.rightBumper().onTrue(new Suck(frontIntake, shooter, shooterIntake, beamBreak, cornerRoller)).onFalse(Commands.parallel(new StowArmAndIntake(frontIntake, shooter), new NotePosition(shooterIntake, beamBreak)));
     driveController.leftTrigger(.5).onTrue(new Climb(climber,frontIntake,shooter));
-    driveController.rightTrigger(.5).whileTrue(new Spit(frontIntake, shooter, shooterIntake, beamBreak)).onFalse(Commands.parallel(new StowArmAndIntake(frontIntake, shooter), new NotePosition(shooterIntake, beamBreak))); 
+    driveController.rightTrigger(.5).whileTrue(new Spit(frontIntake, shooter, shooterIntake, beamBreak, cornerRoller)).onFalse(Commands.parallel(new StowArmAndIntake(frontIntake, shooter), new NotePosition(shooterIntake, beamBreak))); 
 
     driveController.back().onTrue(new ShooterModeShootWithLimelight(frontIntake, shooter, drivetrain, shooterIntake, beamBreak));
     
@@ -267,7 +267,7 @@ public class RobotContainer {
     //ALL COMMANDS THAT COULD BE USED IN AUTONOMOUS NEED TO BE REGISTERED HERE.
     NamedCommands.registerCommand("Shoot", new Shoot(frontIntake, shooter, climber, shooterIntake, beamBreak));
     NamedCommands.registerCommand("ShootTrap", new ShootTrap(climber, shooterIntake));
-    NamedCommands.registerCommand("Spit", new Spit(frontIntake, shooter, shooterIntake, beamBreak));
+    NamedCommands.registerCommand("Spit", new Spit(frontIntake, shooter, shooterIntake, beamBreak, cornerRoller));
     NamedCommands.registerCommand("Suck", new Suck(frontIntake, shooter, shooterIntake, beamBreak, cornerRoller));
     NamedCommands.registerCommand("NotePosition", new NotePosition(shooterIntake, beamBreak));
     NamedCommands.registerCommand("StowArmAndIntake", new StowArmAndIntake(frontIntake, shooter));
