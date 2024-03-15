@@ -28,6 +28,7 @@ public class Climb extends Command {
   private boolean m_isFinished = false;
 
   private int m_stateMachine = 1;
+  
   /**
    * Constructs an instance of the climb command.
    * @param climberSubsystem An instance of the climber subsystem.
