@@ -9,6 +9,7 @@
 package frc.robot.commands;
 
 import frc.robot.Constants;
+import frc.robot.LimelightHelpers;
 import frc.robot.commands.Driver.Shoot;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.ClimberSubsystem;
@@ -20,6 +21,7 @@ import frc.robot.subsystems.ShooterSubsystem;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -45,7 +47,12 @@ public class Drive extends Command {
   private double MaxAngularRate = 2 * Math.PI;
   public double driveSign;
   private String driveRequest = "";
+  private int m_LimelightStateMachine = 1;
   private boolean m_isFinished = false;
+  private double m_AngleToAprilTag = 0;
+  private double m_CurrentRobotHeading;
+  private double m_NewAngleHeading;
+  private PIDController aimPID = new PIDController(0.07, 0, 0.05);
 
   private final SwerveRequest.FieldCentricFacingAngle driveFacingAngle = new SwerveRequest.FieldCentricFacingAngle()
     .withDeadband(TunerConstants.kSpeedAt12VoltsMps * 0.1)
@@ -92,6 +99,7 @@ public class Drive extends Command {
     if ((m_ShooterSubsystem.getShooterModeDoingSomething()) && (Math.abs(m_Controller.getRightX()) < 0.1)) {
       
       driveRequest = "driveFacingAngle";
+      m_LimelightStateMachine = 1;
 
       m_Alliance = DriverStation.getAlliance().get();
     
@@ -127,19 +135,7 @@ public class Drive extends Command {
     } else if (m_ClimberSubsystem.getPreClimbActuated()) {
 
         driveRequest = "robotCentric";
-
-        switch(m_ShooterSubsystem.getShooterMode()) {
-          case "ShootAmp":
-            m_RotationTarget = Constants.kRedAmpAngle;
-          break;
-          case "ShootPodium":
-            m_RotationTarget = Constants.kRedSpeakerLocation.minus(m_Drivetrain.getState().Pose.getTranslation()).unaryMinus().getAngle();
-          break;
-          case "ShootPass":
-            m_RotationTarget = Constants.kRedPassLocation.minus(m_Drivetrain.getState().Pose.getTranslation()).unaryMinus().getAngle();
-          break;
-          default:
-            m_RotationTarget = new Rotation2d(0.0);
+        m_LimelightStateMachine = 1;
 
           /* switch(m_ClimberSubsystem.getClimbLocation()) {
             case "RightClimb":
@@ -153,9 +149,34 @@ public class Drive extends Command {
             break;
             default:
             m_RotationTarget = new Rotation2d(0.0); */
+
+    } else if ((!m_ShooterSubsystem.getShooterModeDoingSomething()) && LimelightHelpers.getTV(Constants.kLimelightName)) {
+        
+        driveRequest = "limelightAim";
+
+        switch (m_LimelightStateMachine) {
+          case 1: //Assume the AprilTag is already in view.
+            m_AngleToAprilTag = LimelightHelpers.getTX(Constants.kLimelightName);
+            m_CurrentRobotHeading = m_Drivetrain.getPigeon2().getAngle();
+            m_NewAngleHeading = m_AngleToAprilTag + m_CurrentRobotHeading;
+
+            m_LimelightStateMachine++;
+          break;
+          case 2: //Wait for the robot to turn within tolerance.
+            if (Math.abs(aimPID.getPositionError()) <= Constants.kTXTolerance) {
+              m_LimelightStateMachine++;
+            }
+          break;
+          case 3:
+          break;
+          case 4:
+          break;
+          default:
+
         }
-      } else {
+    } else {
         driveRequest = "";
+        m_LimelightStateMachine = 1;
     }
     
     switch (driveRequest) {
@@ -170,6 +191,12 @@ public class Drive extends Command {
           .withVelocityY(-m_Controller.getLeftX() * MaxSpeed * driveSign) // Drive left with negative X (left)
           .withRotationalRate(-m_Controller.getRightX() * MaxAngularRate));
       break;
+      case "limelightAim":  //Use the limelight to aim to an AprilTag
+        /* Psuedo-Code  */
+        m_Drivetrain.setControl(drive.withVelocityX(-m_Controller.getLeftY() * MaxSpeed * driveSign)
+          .withVelocityY(-m_Controller.getLeftX() * MaxSpeed * driveSign)                             
+          .withRotationalRate(aimPID.calculate(-aimPID.calculate(m_Drivetrain.getPigeon2().getAngle(), m_NewAngleHeading) * MaxAngularRate)));
+      break;                                                              
       default:  //Just drive normally
         m_Drivetrain.setControl(drive.withVelocityX(-m_Controller.getLeftY() * MaxSpeed * driveSign) // Drive forward with
                                                                                             // negative Y (forward)
