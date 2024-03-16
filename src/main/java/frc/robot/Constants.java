@@ -67,7 +67,13 @@ public class Constants {
     public static final int kMotorEnableRightRollerSpin = 1;
     // End Motor Enables
 
-    //Enable Print Statemens
+    //Enable Print Statements
+    public static final boolean kPrintAutoShootModePodium = false;
+    public static final boolean kPrintAutoShootModePos1 = false;
+    public static final boolean kPrintAutoShootModePos2 = false;
+    public static final boolean kPrintAutoShootModePos3 = false;
+    public static final boolean kPrintAutoShoot = false;
+
     public static final boolean kPrintOperatorHome = false;
     public static final boolean kPrintOperatorPreClimb = false;
     public static final boolean kPrintOperatorShooterModeAmp = false;
@@ -106,8 +112,10 @@ public class Constants {
     public static final double kShooterArmPodiumPos = -0.0473;  //-0.0388
     public static final double kShooterArmAmpPos = 0.135;   //0.135
     public static final double kShooterArmHomePos = -0.136; //-0.136
-    public static final double kShooterArmMiddleAutoPos = -0.0388;  //-0.0388
-    public static final double kShooterArmRightAutoPos = -0.388;    //-0.388
+    public static final double kShooterArmAutoPodiumPos = -0.0473;  //-0.0388
+    public static final double kShooterArmAutoPos1Pos = -0.0473;  //-0.0388
+    public static final double kShooterArmAutoPos2Pos = -0.0473;    //-0.0388
+    public static final double kShooterArmAutoPos3Pos = -0.0473;    //-0.0388
     public static final double kShooterArmPreClimbPos = 0.135;  //0.135
     public static final double kShooterArmTolerancePos = 0.01;  //0.01
     public static final double kShooterArmSpitPos = -0.06;  //-0.06
@@ -139,6 +147,12 @@ public class Constants {
     public static final int kShooterMaxSpeed = 80;
     public static final int kShooterStopSpeed = 0;
     public static final int kShooterPassSpeed = 40;
+    public static final int kShooterAutoPodiumSpeed = 70;
+    public static final int kShooterAutoPos1Speed = 70;
+    public static final int kShooterAutoPos2Speed = 70;
+    public static final int kShooterAutoPos3Speed = 70;
+
+
     
     public static final int kShooterIntakeTrapSpeed = 0;
     public static final int kShooterIntakeSuckSpeed = 80;

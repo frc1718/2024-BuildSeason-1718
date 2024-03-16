@@ -36,6 +36,7 @@ public class ShooterSubsystem extends SubsystemBase {
  
   //Make variables
   public String m_shooterMode = "DoNothing";
+  public String m_autoShooterMode = "DoNothing";
   public boolean m_readyToShoot = false;
   public double m_desiredPosition = 0;
   public double m_desiredSpeed = 0;
@@ -103,8 +104,21 @@ public class ShooterSubsystem extends SubsystemBase {
     if (Constants.kPrintSubsystemShooterSubsystem){System.out.println("ShooterSubsystem: setShooterMode");}
   }
 
+  public void setAutoShooterMode(String shooterMode){
+    m_autoShooterMode = shooterMode;
+    if (Constants.kPrintSubsystemShooterSubsystem){System.out.println("ShooterSubsystem: setAutoShooterMode");}
+  }
+
   public boolean getShooterModeDoingSomething() {
     if (m_shooterMode == "DoNothing") {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+    public boolean getAutoShooterModeDoingSomething() {
+    if (m_autoShooterMode == "DoNothing") {
       return false;
     } else {
       return true;
@@ -150,6 +164,16 @@ public class ShooterSubsystem extends SubsystemBase {
     if (Constants.kPrintSubsystemShooterSubsystem){System.out.println("ShooterSubsystem: getShooterMode");}
     return m_shooterMode;
   }
+
+  /**
+  * Get the current shooter mode.
+  * @return The currently active shooter mode, as a String.
+  */
+  public String getAutoShooterMode(){
+    if (Constants.kPrintSubsystemShooterSubsystem){System.out.println("ShooterSubsystem: getAutoShooterMode");}
+    return m_autoShooterMode;
+  }
+
 
   /**
    * Get the current speed of the left shooter motor.

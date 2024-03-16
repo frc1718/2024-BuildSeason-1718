@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.Driver;
+package frc.robot.commands.Auto;
 
 import frc.robot.Constants;
 import frc.robot.subsystems.BeamBreakSubsystem;
@@ -17,7 +17,7 @@ import frc.robot.subsystems.ShooterIntakeSubsystem;
  * The shoot command sets the shooter speed and arm position based on the current shooter mode.
  * It also performs the actual <i>shooting</i>.
  */
-public class Shoot extends Command {
+public class AutoShoot extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final ShooterSubsystem m_shooterSubsystem;
   private final ClimberSubsystem m_climberSubsystem;
@@ -48,7 +48,7 @@ public class Shoot extends Command {
    * @param shooterIntakeSubsystem An instance of the shooter intake subsystem.
    * Required.
    */
-  public Shoot(FrontIntakeSubsystem frontIntakeSubsystem, ShooterSubsystem shooterSubsystem, ClimberSubsystem climbSubsystem, ShooterIntakeSubsystem shooterIntakeSubsystem, BeamBreakSubsystem beamBreakSubsystem) {
+  public AutoShoot(FrontIntakeSubsystem frontIntakeSubsystem, ShooterSubsystem shooterSubsystem, ClimberSubsystem climbSubsystem, ShooterIntakeSubsystem shooterIntakeSubsystem, BeamBreakSubsystem beamBreakSubsystem) {
 
     m_frontIntakeSubsystem = frontIntakeSubsystem;
     m_shooterSubsystem = shooterSubsystem;
