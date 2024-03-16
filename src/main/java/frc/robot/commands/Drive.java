@@ -43,19 +43,23 @@ public class Drive extends Command {
   private double MaxSpeed = TunerConstants.kSpeedAt12VoltsMps; // kSpeedAt12VoltsMps desired top speed
   private double MaxAngularRate = 2 * Math.PI;
   public double driveSign;
+  private String driveRequest = "";
+  private boolean m_isFinished = false;
 
   private final SwerveRequest.FieldCentricFacingAngle driveFacingAngle = new SwerveRequest.FieldCentricFacingAngle()
-  .withDeadband(TunerConstants.kSpeedAt12VoltsMps * 0.1).withRotationalDeadband(2 * 0.1 * Math.PI)
-      .withDriveRequestType(DriveRequestType.Velocity);
+    .withDeadband(TunerConstants.kSpeedAt12VoltsMps * 0.1)
+    .withRotationalDeadband(MaxAngularRate * 0.1)
+    .withDriveRequestType(DriveRequestType.Velocity);
 
   private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
-      .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
-      .withDriveRequestType(DriveRequestType.Velocity);
+    .withDeadband(MaxSpeed * 0.1)
+    .withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
+    .withDriveRequestType(DriveRequestType.Velocity);
     
-  private final SwerveRequest.FieldCentric robotCentric = new SwerveRequest.FieldCentric()
-  .withDeadband(MaxSpeed*0.1).withRotationalDeadband(MaxAngularRate * 0.1).withDriveRequestType(DriveRequestType.Velocity);
-
-  private boolean m_isFinished = false;
+  private final SwerveRequest.RobotCentric robotCentric = new SwerveRequest.RobotCentric()
+    .withDeadband(MaxSpeed * 0.1)
+    .withRotationalDeadband(MaxAngularRate * 0.1)
+    .withDriveRequestType(DriveRequestType.Velocity);
 
   public Drive(CommandSwerveDrivetrain drivetrain, CommandXboxController controller, ShooterSubsystem shooter, ClimberSubsystem climber, double DriveSign) {
     m_Drivetrain = drivetrain;
@@ -63,6 +67,7 @@ public class Drive extends Command {
     m_ShooterSubsystem = shooter;
     m_ClimberSubsystem = climber;
     driveSign = DriveSign;
+
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_Drivetrain);
   }
@@ -73,84 +78,103 @@ public class Drive extends Command {
     System.out.println("==========================");
     System.out.println("Command Operator: Home");
 
+    //Configure the PID Controller for the 'driveFacingAngle' drive request.
+    driveFacingAngle.HeadingController.enableContinuousInput(-Math.PI, Math.PI);
+    driveFacingAngle.HeadingController.setPID(20, 0, 0.05);
+
     m_isFinished = false;
   }
-
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     if ((m_ShooterSubsystem.getShooterModeDoingSomething()) && (Math.abs(m_Controller.getRightX()) < 0.1)) {
-    m_Alliance = DriverStation.getAlliance().get();
-    
-    if (m_Alliance == Alliance.Blue) {
-        switch(m_ShooterSubsystem.getShooterMode()) {
-          case "ShootAmp":
-          m_RotationTarget = Constants.kBlueAmpAngle;
-          break;
-          case "ShootPodium":
-          m_RotationTarget = Constants.kBlueSpeakerLocation.minus(m_Drivetrain.getState().Pose.getTranslation()).unaryMinus().getAngle();
-          break;
-          case "ShootPass":
-          m_RotationTarget = Constants.kBluePassLocation.minus(m_Drivetrain.getState().Pose.getTranslation()).unaryMinus().getAngle();
-          break;
-          default:
-          m_RotationTarget = new Rotation2d(0.0);
-        }
-      } /*else {
-        switch(m_ClimberSubsystem.getClimbLocation()) {
-          case "RightClimb":
-          m_RotationTarget = Constants.kBlueRightClimbAngle;
-          break;
-          case "LeftClimb":
-          m_RotationTarget = Constants.kBlueLeftClimbAngle;
-          break;
-          case "FarClimb":
-          m_RotationTarget = Constants.kBlueFarClimbAngle;
-          break;
-          default:
-          m_RotationTarget = new Rotation2d(0.0);
-        } The above is the code for if we want to auto turn to the angles for climbing, 
-        this would need a little bit of syntax shenanigans to properly reintegrate*/
-     else {
-      if (m_ClimberSubsystem.getPreClimbActuated()) {
-        switch(m_ShooterSubsystem.getShooterMode()) {
-          case "ShootAmp":
-          m_RotationTarget = Constants.kRedAmpAngle;
-          break;
-          case "ShootPodium":
-          m_RotationTarget = Constants.kRedSpeakerLocation.minus(m_Drivetrain.getState().Pose.getTranslation()).unaryMinus().getAngle();
-          break;
-          case "ShootPass":
-          m_RotationTarget = Constants.kRedPassLocation.minus(m_Drivetrain.getState().Pose.getTranslation()).unaryMinus().getAngle();
-          break;
-          default:
-          m_RotationTarget = new Rotation2d(0.0);
-        }
-      }
-    }
       
-      driveFacingAngle.HeadingController.enableContinuousInput(-Math.PI, Math.PI);
-      driveFacingAngle.HeadingController.setPID(20, 0, 0.05);
+      driveRequest = "driveFacingAngle";
 
-      //Determine the target angle here
-
-      m_Drivetrain.applyRequest(() -> driveFacingAngle.withVelocityX(-m_Controller.getLeftY() * MaxSpeed * driveSign)
-      .withVelocityY(-m_Controller.getLeftY() * MaxSpeed * driveSign)
-      .withTargetDirection(m_RotationTarget));
-
+      m_Alliance = DriverStation.getAlliance().get();
+    
+      if (m_Alliance == Alliance.Blue) {
+        switch(m_ShooterSubsystem.getShooterMode()) {
+          case "ShootAmp":
+            m_RotationTarget = Constants.kBlueAmpAngle;
+          break;
+          case "ShootPodium":
+            m_RotationTarget = Constants.kBlueSpeakerLocation.minus(m_Drivetrain.getState().Pose.getTranslation()).unaryMinus().getAngle();
+          break;
+          case "ShootPass":
+            m_RotationTarget = Constants.kBluePassLocation.minus(m_Drivetrain.getState().Pose.getTranslation()).unaryMinus().getAngle();
+          break;
+          default:
+            m_RotationTarget = new Rotation2d(0.0);
+        }
+      } else if (m_Alliance == Alliance.Red) {
+          switch(m_ClimberSubsystem.getClimbLocation()) {
+            case "ShootAmp":
+              m_RotationTarget = Constants.kRedAmpAngle;
+            break;
+            case "ShootPodium":
+              m_RotationTarget = Constants.kRedSpeakerLocation.minus(m_Drivetrain.getState().Pose.getTranslation()).unaryMinus().getAngle();
+            break;
+            case "ShootPass":
+              m_RotationTarget = Constants.kRedPassLocation.minus(m_Drivetrain.getState().Pose.getTranslation()).unaryMinus().getAngle();
+            break;
+            default:
+              m_RotationTarget = new Rotation2d(0.0);
+          }
+        }
     } else if (m_ClimberSubsystem.getPreClimbActuated()) {
-      m_Drivetrain.applyRequest(() -> robotCentric.withVelocityX(-m_Controller.getLeftY() * MaxSpeed * driveSign) // Drive forward with
-                                                                                           // negative Y (forward)
-            .withVelocityY(-m_Controller.getLeftX() * MaxSpeed * driveSign) // Drive left with negative X (left)
-            .withRotationalRate(-m_Controller.getRightX() * MaxAngularRate)
-            );
-    } else {
-        m_Drivetrain.applyRequest(() -> drive.withVelocityX(-m_Controller.getLeftY() * MaxSpeed * driveSign) // Drive forward with
-                                                                                           // negative Y (forward)
-            .withVelocityY(-m_Controller.getLeftX() * MaxSpeed * driveSign) // Drive left with negative X (left)
-            .withRotationalRate(-m_Controller.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
-        );
+
+        driveRequest = "robotCentric";
+
+        switch(m_ShooterSubsystem.getShooterMode()) {
+          case "ShootAmp":
+            m_RotationTarget = Constants.kRedAmpAngle;
+          break;
+          case "ShootPodium":
+            m_RotationTarget = Constants.kRedSpeakerLocation.minus(m_Drivetrain.getState().Pose.getTranslation()).unaryMinus().getAngle();
+          break;
+          case "ShootPass":
+            m_RotationTarget = Constants.kRedPassLocation.minus(m_Drivetrain.getState().Pose.getTranslation()).unaryMinus().getAngle();
+          break;
+          default:
+            m_RotationTarget = new Rotation2d(0.0);
+
+          /* switch(m_ClimberSubsystem.getClimbLocation()) {
+            case "RightClimb":
+            m_RotationTarget = Constants.kBlueRightClimbAngle;
+            break;
+            case "LeftClimb":
+            m_RotationTarget = Constants.kBlueLeftClimbAngle;
+            break;
+            case "FarClimb":
+            m_RotationTarget = Constants.kBlueFarClimbAngle;
+            break;
+            default:
+            m_RotationTarget = new Rotation2d(0.0); */
+        }
+      } else {
+        driveRequest = "";
+    }
+    
+    switch (driveRequest) {
+      case "driveFacingAngle":  //Always face the rotation target
+        m_Drivetrain.setControl(driveFacingAngle.withVelocityX(-m_Controller.getLeftY() * MaxSpeed * driveSign)
+          .withVelocityY(-m_Controller.getLeftY() * MaxSpeed * driveSign)
+          .withTargetDirection(m_RotationTarget));
+      break;
+      case "robotCentric":  //Enter 'First-Person Mode'
+        m_Drivetrain.setControl(robotCentric.withVelocityX(-m_Controller.getLeftY() * MaxSpeed * driveSign) // Drive forward with
+                                                                                            // negative Y (forward)
+          .withVelocityY(-m_Controller.getLeftX() * MaxSpeed * driveSign) // Drive left with negative X (left)
+          .withRotationalRate(-m_Controller.getRightX() * MaxAngularRate));
+      break;
+      default:  //Just drive normally
+        m_Drivetrain.setControl(drive.withVelocityX(-m_Controller.getLeftY() * MaxSpeed * driveSign) // Drive forward with
+                                                                                            // negative Y (forward)
+          .withVelocityY(-m_Controller.getLeftX() * MaxSpeed * driveSign) // Drive left with negative X (left)
+          .withRotationalRate(-m_Controller.getRightX() * MaxAngularRate)); // Drive counterclockwise with negative X (left)      
+      break;
     }
   }
   
