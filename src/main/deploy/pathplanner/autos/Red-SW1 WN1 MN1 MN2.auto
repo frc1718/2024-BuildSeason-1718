@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 15.136171242648608,
-      "y": 7.297788852371967
+      "x": 15.2,
+      "y": 4.56
     },
     "rotation": 180.0
   },
@@ -18,7 +18,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "RSL3 - WN3"
+                  "pathName": "RSW1 - RWN1"
                 }
               },
               {
@@ -61,33 +61,26 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Home"
+          }
+        },
+        {
           "type": "parallel",
           "data": {
             "commands": [
               {
                 "type": "path",
                 "data": {
-                  "pathName": "RWN3 - RMN5"
+                  "pathName": "RWN1 - RMN2"
                 }
-              }
-            ]
-          }
-        },
-        {
-          "type": "race",
-          "data": {
-            "commands": [
+              },
               {
                 "type": "named",
                 "data": {
                   "name": "Suck"
                 }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 2.0
-                }
               }
             ]
           }
@@ -99,7 +92,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "RMN5 - RWN3"
+                  "pathName": "RMN2 - RSP1"
                 }
               },
               {
@@ -131,13 +124,19 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Home"
+          }
+        },
+        {
           "type": "parallel",
           "data": {
             "commands": [
               {
                 "type": "path",
                 "data": {
-                  "pathName": "RWN3 - RMN4"
+                  "pathName": "RSP1 - RMN1"
                 }
               },
               {
@@ -150,15 +149,47 @@
           }
         },
         {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "RMN1 - RSP1"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "NotePosition"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "ShooterModePodium"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
           "type": "named",
           "data": {
-            "name": "NotePosition"
+            "name": "Shoot"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "RMN4 - RWN3"
+            "pathName": "RSP1 - RMN1"
           }
         }
       ]

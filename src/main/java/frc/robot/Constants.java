@@ -377,8 +377,8 @@ public class Constants {
     public static final Translation2d kRedSpeakerLocation = new Translation2d(16.55, 5.55);
     public static final Translation2d kBluePassLocation = new Translation2d(0.6, 7.5);
     public static final Translation2d kRedPassLocation = new Translation2d(15.95, 7.5);
-    public static final Rotation2d kRedAmpAngle = new Rotation2d(90.0);
-    public static final Rotation2d kBlueAmpAngle = new Rotation2d(90.0);
+    public static final Rotation2d kRedAmpAngle = Rotation2d.fromDegrees(90.0);
+    public static final Rotation2d kBlueAmpAngle = Rotation2d.fromDegrees(-90.0);
     public static final Rotation2d kRedLeftClimbAngle = new Rotation2d(60.0);
     public static final Rotation2d kBlueLeftClimbAngle = new Rotation2d(-60.0);
     public static final Rotation2d kRedRightClimbAngle = new Rotation2d(-60.0);

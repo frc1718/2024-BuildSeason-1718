@@ -8,45 +8,45 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 10.10530038549378,
-        "y": 1.182794491123932
+        "x": 10.987170619134393,
+        "y": 4.871708003045107
       },
       "isLocked": false,
       "linkedName": "RMN2"
     },
     {
       "anchor": {
-        "x": 13.0,
-        "y": 3.06
+        "x": 12.379999999999999,
+        "y": 5.06
       },
       "prevControl": {
-        "x": 10.697314917511433,
-        "y": 1.0127149331924026
+        "x": 11.245272445564805,
+        "y": 3.5010442393915193
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "RSP1"
+      "linkedName": "RSP2"
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 4.0,
+    "maxVelocity": 2.5,
     "maxAcceleration": 4.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -139.67000000000002,
+    "rotation": -171.93,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "Red - From Mid Note",
   "previewStartingState": {
-    "rotation": 180.0,
+    "rotation": 164.6641346037088,
     "velocity": 0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }
