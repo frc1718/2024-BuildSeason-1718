@@ -115,10 +115,10 @@ public class Drive extends Command {
               m_RotationTarget = Constants.kRedAmpAngle;
             break;
             case "ShootPodium":
-              m_RotationTarget = Constants.kRedSpeakerLocation.minus(m_Drivetrain.getState().Pose.getTranslation()).unaryMinus().getAngle();
+              m_RotationTarget = Constants.kRedSpeakerLocation.minus(m_Drivetrain.getState().Pose.getTranslation()).getAngle();
             break;
             case "ShootPass":
-              m_RotationTarget = Constants.kRedPassLocation.minus(m_Drivetrain.getState().Pose.getTranslation()).unaryMinus().getAngle();
+              m_RotationTarget = Constants.kRedPassLocation.minus(m_Drivetrain.getState().Pose.getTranslation()).getAngle();
             break;
             default:
               m_RotationTarget = new Rotation2d(0.0);
