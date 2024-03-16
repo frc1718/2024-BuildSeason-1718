@@ -110,7 +110,7 @@ public class Drive extends Command {
             m_RotationTarget = new Rotation2d(0.0);
         }
       } else if (m_Alliance == Alliance.Red) {
-          switch(m_ClimberSubsystem.getClimbLocation()) {
+          switch(m_ShooterSubsystem.getShooterMode()) {
             case "ShootAmp":
               m_RotationTarget = Constants.kRedAmpAngle;
             break;
@@ -161,7 +161,7 @@ public class Drive extends Command {
     switch (driveRequest) {
       case "driveFacingAngle":  //Always face the rotation target
         m_Drivetrain.setControl(driveFacingAngle.withVelocityX(-m_Controller.getLeftY() * MaxSpeed * driveSign)
-          .withVelocityY(-m_Controller.getLeftY() * MaxSpeed * driveSign)
+          .withVelocityY(-m_Controller.getLeftX() * MaxSpeed * driveSign)
           .withTargetDirection(m_RotationTarget));
       break;
       case "robotCentric":  //Enter 'First-Person Mode'
