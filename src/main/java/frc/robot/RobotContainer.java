@@ -26,9 +26,12 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.LEDs.LightLEDOnNotePresent;
-import frc.robot.commands.DriveWhileFacingAngle;
+import frc.robot.commands.Drive;
 import frc.robot.commands.Operator.Home;
 import frc.robot.commands.Operator.PreClimb;
+import frc.robot.commands.Operator.ShooterLocationFar;
+import frc.robot.commands.Operator.ShooterLocationLeft;
+import frc.robot.commands.Operator.ShooterLocationRight;
 import frc.robot.commands.Operator.ShooterModeAmp;
 import frc.robot.commands.Operator.ShooterModeMiddleAuto;
 import frc.robot.commands.Operator.ShooterModePass;
@@ -79,26 +82,17 @@ public class RobotContainer {
   /* Setting up bindings for necessary control of the swerve drive platform */
   /* The drivetrain is public so the limelight pose can be added to it in Robot.java. */
   public final CommandSwerveDrivetrain drivetrain = TunerConstants.DriveTrain; // My drivetrain
-
-  private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
-      .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
-      .withDriveRequestType(DriveRequestType.Velocity); // I want field-centric
-                                                               // driving in open loop
-
+                                                               
+  private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
+  //private final SwerveRequest.RobotCentric forwardStraight = new SwerveRequest.RobotCentric().withDriveRequestType(DriveRequestType.Velocity);
+  //private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
+  
   //Testing an idea: hold a button and always aim at the goal.
   //Copying a fair amount of this from the FieldCentric drive.
   private final SwerveRequest.FieldCentricFacingAngle rootyTootyPointAndShooty = new SwerveRequest.FieldCentricFacingAngle()
       .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1)
-      .withDriveRequestType(DriveRequestType.Velocity);  
+      .withDriveRequestType(DriveRequestType.Velocity); 
 
-  //An example of the robot centric swerve request.
-  //Useful for helping the driver line up with the chain.
-  private final SwerveRequest.RobotCentric climbAlignment = new SwerveRequest.RobotCentric().withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1);                                                                   
-  
-  private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
-  private final SwerveRequest.RobotCentric forwardStraight = new SwerveRequest.RobotCentric().withDriveRequestType(DriveRequestType.Velocity);
-  private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
-  
   private final Telemetry logger = new Telemetry(MaxSpeed);
 
   //Open Subsystems
@@ -114,12 +108,7 @@ public class RobotContainer {
 
   private void configureBindings() {
     //Schedules drivertain
-    drivetrain.setDefaultCommand( // Drivetrain will execute this command periodically
-        drivetrain.applyRequest(() -> drive.withVelocityX(-driveController.getLeftY() * MaxSpeed * driveSign) // Drive forward with
-                                                                                           // negative Y (forward)
-            .withVelocityY(-driveController.getLeftX() * MaxSpeed * driveSign) // Drive left with negative X (left)
-            .withRotationalRate(-driveController.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
-        ).ignoringDisable(true));
+    drivetrain.setDefaultCommand(new Drive(drivetrain, driveController, shooter, climber, driveSign)); // Drivetrain will execute this command periodically
 
     //I bet there's a much better place to put this assignment, but I don't know where.
     //These gains are also completely made up.  Not terrible in simulation, but don't trust them.
@@ -199,7 +188,6 @@ public class RobotContainer {
     Trigger ShootingModePass = new Trigger(shooter::getShooterModeDoingSomething);
 
     NoteLocationStatus.onTrue(new LightLEDOnNotePresent(LED, beamBreak)).onFalse(new LightLEDOnNotePresent(LED, beamBreak));
-    ShootingModePass.whileTrue(new DriveWhileFacingAngle(drivetrain, driveController, shooter));
 
     /******************************************************************/
     /*                Operator Controller Assignments                 */
@@ -216,9 +204,14 @@ public class RobotContainer {
     /*  Back (While Disabled) - Play / Stop Current CHIRP Selection   */
     /******************************************************************/
 
-    operatorController.y().onTrue(new ShooterModePodium(frontIntake, shooter));
-    operatorController.b().onTrue(new ShooterModeAmp(frontIntake, shooter));
-    operatorController.x().onTrue(new ShooterModePass(frontIntake, shooter));
+    operatorController.y().and(climber::getPreClimbNotActuated).onTrue(new ShooterModePodium(frontIntake, shooter));
+    operatorController.b().and(climber::getPreClimbNotActuated).onTrue(new ShooterModeAmp(frontIntake, shooter));
+    operatorController.x().and(climber::getPreClimbNotActuated).onTrue(new ShooterModePass(frontIntake, shooter));
+    //operatorController.y().and(climber::getPreClimbActuated).onTrue(new ShooterLocationFar(climber));
+    //operatorController.b().and(climber::getPreClimbActuated).onTrue(new ShooterLocationRight(climber));
+    //operatorController.x().and(climber::getPreClimbActuated).onTrue(new ShooterLocationLeft(climber));
+    //Above code is if we have auto turning to the various stage climb points
+
     operatorController.a().onTrue(new ShooterModeSubwoofer(frontIntake, shooter));
     operatorController.leftBumper().and(operatorController.rightBumper()).debounce(0.5).onTrue(new PreClimb(climber,shooter,frontIntake, shooterIntake));
     operatorController.start().onTrue(new Home(climber, shooter, frontIntake, shooterIntake));

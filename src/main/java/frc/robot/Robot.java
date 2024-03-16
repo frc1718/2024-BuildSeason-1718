@@ -73,7 +73,15 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void disabledPeriodic() {}
+  public void disabledPeriodic() {
+    /* Colten added this with his branch.  This might have an unintended effect on our swerve drive.
+    if (DriverStation.getAlliance().get() == Alliance.Blue) {
+      m_robotContainer.driveSign = 1;
+    } else {
+      m_robotContainer.driveSign = -1;
+    }
+    */
+  }
 
   @Override
   public void disabledExit() {}
