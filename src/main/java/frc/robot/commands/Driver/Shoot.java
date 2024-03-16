@@ -111,9 +111,6 @@ public class Shoot extends Command {
           m_frontIntakePosition = Constants.kFrontIntakeClearPos;
           m_frontIntakeSpeed = Constants.kFrontIntakeStopSpeed;
           break;
-        case "ShootWithPose":
-          //We need to calculate the shooter arm position and shooter speed here for shoot with pose.
-          if (Constants.kPrintDriverShoot){System.out.println("Driver Command Shoot: We got ShootWithPose from the Operator!");}
         case "DoNothing":
           if (Constants.kPrintDriverShoot){System.out.println("Driver Command Shoot: We got DoNothing from the Operator!");}
           m_shooterArmPosition = Constants.kShooterArmHomePos;
@@ -177,8 +174,16 @@ public class Shoot extends Command {
           if (Constants.kPrintDriverShoot){System.out.println("Driver Command Shoot: Case " + m_stateMachine + " Complete!");}
           m_stateMachine = m_stateMachine + 1;
         }
-      break;  
-      case 2:  //Front intake in position
+      break;
+      case 2:  //Check Note Present
+        if (Constants.kPrintDriverShoot){System.out.println("Driver Command Shoot: Case " + m_stateMachine);}
+        if (!m_beamBreakSubsystem.getNotePresent()) {
+          m_isFinished = true;
+        } else {
+          m_stateMachine = m_stateMachine + 1;
+        }
+      break;
+      case 3:  //Front intake in position
         if (Constants.kPrintDriverShoot){System.out.println("Driver Command Shoot: Case " + m_stateMachine);}
         if (m_frontIntakeSubsystem.getFrontIntakeInPosition(Constants.kFrontIntakeClearPos)) {
           if (Constants.kPrintDriverShoot){System.out.println("Driver Command Shoot: Case " + m_stateMachine + " Complete!");}
@@ -187,7 +192,7 @@ public class Shoot extends Command {
           m_stateMachine = m_stateMachine + 1;
         }        
       break;
-      case 3:  // Shooter up to speed and arm is in position, run shooter intake to shoot
+      case 4:  // Shooter up to speed and arm is in position, run shooter intake to shoot
           if (Constants.kPrintDriverShoot){
             System.out.println("Driver Command Shoot: Case " + m_stateMachine);
             System.out.println("Driver Command Shooter Target:" + m_shooterSpeed);
@@ -200,7 +205,7 @@ public class Shoot extends Command {
           m_stateMachine = m_stateMachine + 1;
         }
       break;
-      case 4:  //Wait for the shooter speed to drop a certain amount for the shot to be complete.  Note should be gone, timeer
+      case 5:  //Wait for the shooter speed to drop a certain amount for the shot to be complete.  Note should be gone, timeer
       if (Constants.kPrintDriverShoot){System.out.println("Driver Command Shoot: Case" + m_stateMachine);}
         if (!m_beamBreakSubsystem.getNotePresent() && shootTimer.get() > 0.400) {
           m_shooterSubsystem.setShooterArmPosition(Constants.kShooterArmHomePos);
@@ -218,16 +223,16 @@ public class Shoot extends Command {
     //Always have to set ready to shoot back to false at the end of a shot.
     m_shooterSubsystem.setShooterSpeed(Constants.kShooterStopSpeed);
     m_shooterIntakeSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeStopSpeed);
-    if (m_shooterSubsystem.getShooterMode() == "ShootPass") {
-      m_shooterSubsystem.setShooterMode("DoNothing");
-    }
+
+    m_shooterSubsystem.setShooterMode("DoNothing");
+    
     if (m_isFinished==true) {
       if (Constants.kPrintDriverShoot){System.out.println("Driver Command Shoot: Was completed!");}
     } else {
       if (Constants.kPrintDriverShoot){System.out.println("Driver Command Shoot: Was intterupted!");} 
     }
     if (Constants.kPrintDriverShoot){System.out.println("=======================================");}
-    }
+  }
 
   // Returns true when the command should end.
   @Override

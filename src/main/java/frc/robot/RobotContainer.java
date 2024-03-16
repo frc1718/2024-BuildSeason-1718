@@ -36,7 +36,6 @@ import frc.robot.commands.Auto.AutoShooterModePos2;
 import frc.robot.commands.Auto.AutoShooterModePos3;
 import frc.robot.commands.Operator.ShooterModePass;
 import frc.robot.commands.Operator.ShooterModePodium;
-import frc.robot.commands.Operator.ShooterModeShootWithPose;
 import frc.robot.commands.Operator.ShooterModeSubwoofer;
 import frc.robot.commands.Driver.Climb;
 import frc.robot.commands.Driver.Shoot;
@@ -277,7 +276,6 @@ public class RobotContainer {
     NamedCommands.registerCommand("ShooterModeAmp", new ShooterModeAmp(frontIntake, shooter));
     NamedCommands.registerCommand("ShooterModePodium", new ShooterModePodium(frontIntake, shooter));
     NamedCommands.registerCommand("AutoShooterModePodium", new AutoShooterModePodium(frontIntake, shooter));
-    NamedCommands.registerCommand("ShooterModeShootWithPose", new ShooterModeShootWithPose(frontIntake, shooter, drivetrain));
     NamedCommands.registerCommand("ShooterModeSubwoofer", new ShooterModeSubwoofer(frontIntake, shooter));
     NamedCommands.registerCommand("Home", new Home(climber,shooter,frontIntake, shooterIntake));
     NamedCommands.registerCommand("ApplyBrake", drivetrain.applyRequest(() -> brake));
