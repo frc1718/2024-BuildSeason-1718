@@ -361,8 +361,16 @@ public class Constants {
     //Used to be a pose, but only the X and Y are needed.  Changed to a translation to clean up the actual calculation.
     public static final Translation2d kBlueSpeakerLocation = new Translation2d(0.0, 5.55);
     public static final Translation2d kRedSpeakerLocation = new Translation2d(16.55, 5.55);
-    public static final Translation2d kBlueAmpLocation = new Translation2d(0.6, 7.5);
-    public static final Translation2d kRedAmpLocation = new Translation2d(15.95, 7.5);
+    public static final Translation2d kBluePassLocation = new Translation2d(0.6, 7.5);
+    public static final Translation2d kRedPassLocation = new Translation2d(15.95, 7.5);
+    public static final Rotation2d kRedAmpAngle = Rotation2d.fromDegrees(90.0);
+    public static final Rotation2d kBlueAmpAngle = Rotation2d.fromDegrees(-90.0);
+    public static final Rotation2d kRedLeftClimbAngle = new Rotation2d(60.0);
+    public static final Rotation2d kBlueLeftClimbAngle = new Rotation2d(-60.0);
+    public static final Rotation2d kRedRightClimbAngle = new Rotation2d(-60.0);
+    public static final Rotation2d kBlueRightClimbAngle = new Rotation2d(60.0);
+    public static final Rotation2d kRedFarClimbAngle = new Rotation2d(180.0);
+    public static final Rotation2d kBlueFarClimbAngle = new Rotation2d(180.0);
 
     //Angles needed for aligning the front of the robot parallel to all six chains.
     //The angles are a visual estimate based on an overhead picture of the field.
