@@ -54,7 +54,7 @@ public class AutoShooterModePos2 extends Command {
     m_shooterSubsystem.setShooterSpeed(Constants.kShooterAutoPos2Speed);
 
     //Set Shooter Mode
-    m_shooterSubsystem.setAutoShooterMode("AutoShootModePos2");
+    m_shooterSubsystem.setShooterMode("AutoShootModePos2");
 
     m_isFinished = false;
   }

@@ -120,23 +120,36 @@ public class Shoot extends Command {
           m_shooterSpeed = Constants.kShooterStopSpeed;
           m_frontIntakePosition = Constants.kFrontIntakeHomePos;
           m_frontIntakeSpeed = Constants.kFrontIntakeStopSpeed;
-        case "ShootMiddleAuto":
-        if (Constants.kPrintDriverShoot){System.out.println("Driver Command Shoot: We got ShootMiddleAuto to shoot!");}
-          m_shooterArmPosition = Constants.kShooterArmMiddleAutoPos;
-          m_shooterSpeed = Constants.kShooterStopSpeed;
-          m_frontIntakePosition = Constants.kFrontIntakeHomePos;
-          m_frontIntakeSpeed = Constants.kFrontIntakeStopSpeed;
-        break;
-        case "ShootRightAuto":
-          m_shooterArmPosition = Constants.kShooterArmMiddleAutoPos;
-          m_shooterSpeed = Constants.kShooterStopSpeed;
-          m_frontIntakePosition = Constants.kFrontIntakeHomePos;
-          m_frontIntakeSpeed = Constants.kFrontIntakeStopSpeed;
-        break;
         case "ShootPass":
           m_shooterArmPosition = Constants.kShooterArmPodiumPos;
           m_shooterSpeed = Constants.kShooterPassSpeed;
           m_frontIntakePosition = Constants.kFrontIntakeClearPos;
+          m_frontIntakeSpeed = Constants.kFrontIntakeStopSpeed;
+        break;
+        case "AutoShootModePodium":
+          if (Constants.kPrintDriverShoot){System.out.println("Driver Command Shoot: We got ShootPodium from the Operator!");}
+          m_shooterArmPosition = Constants.kShooterArmPodiumPos;
+          m_shooterSpeed = Constants.kShooterPodiumSpeed;
+          m_frontIntakePosition = Constants.kFrontIntakeClearPos;
+          m_frontIntakeSpeed = Constants.kFrontIntakeStopSpeed;
+          break;
+        case "AutoShooterModePos1":
+          if (Constants.kPrintDriverShoot){System.out.println("Driver Command Shoot: We got ShootMiddleAuto to shoot!");}
+          m_shooterArmPosition = Constants.kShooterArmAutoPos1Pos;
+          m_shooterSpeed = Constants.kShooterStopSpeed;
+          m_frontIntakePosition = Constants.kFrontIntakeHomePos;
+          m_frontIntakeSpeed = Constants.kFrontIntakeStopSpeed;
+        break;
+        case "AutoShooterModePos2":
+          m_shooterArmPosition = Constants.kShooterArmAutoPos2Pos;
+          m_shooterSpeed = Constants.kShooterStopSpeed;
+          m_frontIntakePosition = Constants.kFrontIntakeHomePos;
+          m_frontIntakeSpeed = Constants.kFrontIntakeStopSpeed;
+        break;
+        case "AutoShooterModePos3":
+          m_shooterArmPosition = Constants.kShooterArmAutoPos3Pos;
+          m_shooterSpeed = Constants.kShooterStopSpeed;
+          m_frontIntakePosition = Constants.kFrontIntakeHomePos;
           m_frontIntakeSpeed = Constants.kFrontIntakeStopSpeed;
         break;
       }

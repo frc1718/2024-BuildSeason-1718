@@ -54,7 +54,7 @@ public class AutoShooterModePodium extends Command {
     m_shooterSubsystem.setShooterSpeed(Constants.kShooterPodiumSpeed);
 
     //Set Shooter Mode
-    m_shooterSubsystem.setAutoShooterMode("AutoShootModePodium");
+    m_shooterSubsystem.setShooterMode("AutoShootModePodium");
     m_isFinished = false;
   }
 

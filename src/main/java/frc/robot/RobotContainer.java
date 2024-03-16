@@ -30,10 +30,11 @@ import frc.robot.commands.DriveWhileFacingAngle;
 import frc.robot.commands.Operator.Home;
 import frc.robot.commands.Operator.PreClimb;
 import frc.robot.commands.Operator.ShooterModeAmp;
-import frc.robot.commands.Auto.AutoShoot;
+import frc.robot.commands.Auto.AutoShooterModePos1;
+import frc.robot.commands.Auto.AutoShooterModePos2;
+import frc.robot.commands.Auto.AutoShooterModePos3;
 import frc.robot.commands.Operator.ShooterModePass;
 import frc.robot.commands.Operator.ShooterModePodium;
-import frc.robot.commands.Auto.AutoShoot;
 import frc.robot.commands.Operator.ShooterModeShootWithPose;
 import frc.robot.commands.Operator.ShooterModeSubwoofer;
 import frc.robot.commands.Driver.Climb;
@@ -93,11 +94,11 @@ public class RobotContainer {
 
   //An example of the robot centric swerve request.
   //Useful for helping the driver line up with the chain.
-  private final SwerveRequest.RobotCentric climbAlignment = new SwerveRequest.RobotCentric().withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1);                                                                   
+  //private final SwerveRequest.RobotCentric climbAlignment = new SwerveRequest.RobotCentric().withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1);                                                                   
   
   private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
-  private final SwerveRequest.RobotCentric forwardStraight = new SwerveRequest.RobotCentric().withDriveRequestType(DriveRequestType.Velocity);
-  private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
+  //private final SwerveRequest.RobotCentric forwardStraight = new SwerveRequest.RobotCentric().withDriveRequestType(DriveRequestType.Velocity);
+  //private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
   
   private final Telemetry logger = new Telemetry(MaxSpeed);
 
@@ -278,7 +279,9 @@ public class RobotContainer {
     NamedCommands.registerCommand("ShooterModeSubwoofer", new ShooterModeSubwoofer(frontIntake, shooter));
     NamedCommands.registerCommand("Home", new Home(climber,shooter,frontIntake, shooterIntake));
     NamedCommands.registerCommand("ApplyBrake", drivetrain.applyRequest(() -> brake));
-    NamedCommands.registerCommand("AutoShoot", new AutoShoot(frontIntake, shooter, shooterIntake));
+    NamedCommands.registerCommand("ShooterModePos1", new AutoShooterModePos1(frontIntake, shooter));
+    NamedCommands.registerCommand("ShooterModePos2", new AutoShooterModePos2(frontIntake, shooter));
+    NamedCommands.registerCommand("ShooterModePos3", new AutoShooterModePos3(frontIntake, shooter));
   }
 
   /**

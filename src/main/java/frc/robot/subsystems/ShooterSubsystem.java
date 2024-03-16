@@ -7,12 +7,10 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.Orchestra;
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
-import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DutyCycleOut;
-import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 //import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
@@ -22,8 +20,6 @@ import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-import com.ctre.phoenix6.signals.SensorDirectionValue;
-
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -36,7 +32,6 @@ public class ShooterSubsystem extends SubsystemBase {
  
   //Make variables
   public String m_shooterMode = "DoNothing";
-  public String m_autoShooterMode = "DoNothing";
   public boolean m_readyToShoot = false;
   public double m_desiredPosition = 0;
   public double m_desiredSpeed = 0;
@@ -104,21 +99,8 @@ public class ShooterSubsystem extends SubsystemBase {
     if (Constants.kPrintSubsystemShooterSubsystem){System.out.println("ShooterSubsystem: setShooterMode");}
   }
 
-  public void setAutoShooterMode(String shooterMode){
-    m_autoShooterMode = shooterMode;
-    if (Constants.kPrintSubsystemShooterSubsystem){System.out.println("ShooterSubsystem: setAutoShooterMode");}
-  }
-
   public boolean getShooterModeDoingSomething() {
     if (m_shooterMode == "DoNothing") {
-      return false;
-    } else {
-      return true;
-    }
-  }
-
-    public boolean getAutoShooterModeDoingSomething() {
-    if (m_autoShooterMode == "DoNothing") {
       return false;
     } else {
       return true;
@@ -169,10 +151,6 @@ public class ShooterSubsystem extends SubsystemBase {
   * Get the current shooter mode.
   * @return The currently active shooter mode, as a String.
   */
-  public String getAutoShooterMode(){
-    if (Constants.kPrintSubsystemShooterSubsystem){System.out.println("ShooterSubsystem: getAutoShooterMode");}
-    return m_autoShooterMode;
-  }
 
 
   /**
