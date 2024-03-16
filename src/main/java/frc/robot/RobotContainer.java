@@ -123,7 +123,6 @@ public class RobotContainer {
     /*  B - Trap Shot                                                   */
     /*  X - Drivetrain Brake Mode                                       */
     /*  A (While Disabled) - Set Motors to Coast                        */
-    /*  Start - Enable 'RootyTootyPointAndShooty' Drivetrain mode       */
     /*  Left Bumper - Shoot                                             */
     /*  Right Bumper - Suck                                             */
     /*  Left Trigger - Climb                                            */
@@ -143,11 +142,6 @@ public class RobotContainer {
     // Schedules Brake Swerve Drivetrain Binds (x-lock wheels) Driver
     driveController.x().whileTrue(drivetrain.applyRequest(() -> brake));
     driveController.a().and(RobotState::isDisabled).whileTrue(new SetMotorsToCoast(climber, shooter, frontIntake, shooterIntake).ignoringDisable(true));    
-
-    driveController.start().whileTrue(drivetrain.applyRequest(() -> rootyTootyPointAndShooty.withVelocityX(-driveController.getLeftY() * MaxSpeed)
-            .withVelocityY(-driveController.getLeftX() * MaxSpeed)
-            .withTargetDirection(Constants.kBlueSpeakerLocation.minus(drivetrain.getState().Pose.getTranslation()).unaryMinus().getAngle())
-            ));
     
     driveController.leftBumper().onTrue(new Shoot(frontIntake, shooter, climber, shooterIntake, beamBreak)).onFalse(Commands.parallel(new StowArmAndIntake(frontIntake, shooter), new NotePosition(shooterIntake, beamBreak)));
     driveController.rightBumper().onTrue(new Suck(frontIntake, shooter, shooterIntake, beamBreak, cornerRoller)).onFalse(Commands.parallel(new StowArmAndIntake(frontIntake, shooter), new NotePosition(shooterIntake, beamBreak)));

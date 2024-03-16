@@ -150,7 +150,7 @@ public class Drive extends Command {
             default:
             m_RotationTarget = new Rotation2d(0.0); */
 
-    } else if ((!m_ShooterSubsystem.getShooterModeDoingSomething()) && LimelightHelpers.getTV(Constants.kLimelightName)) {
+    } else if ((!m_ShooterSubsystem.getShooterModeDoingSomething()) && m_Controller.leftBumper().getAsBoolean() && LimelightHelpers.getTV(Constants.kLimelightName)) {
         
         driveRequest = "limelightAim";
 
@@ -193,8 +193,8 @@ public class Drive extends Command {
       break;
       case "limelightAim":  //Use the limelight to aim to an AprilTag
         /* Psuedo-Code  */
-        m_Drivetrain.setControl(drive.withVelocityX(-m_Controller.getLeftY() * MaxSpeed * driveSign)
-          .withVelocityY(-m_Controller.getLeftX() * MaxSpeed * driveSign)                             
+        m_Drivetrain.setControl(drive.withVelocityX(0)
+          .withVelocityY(0)                             
           .withRotationalRate(aimPID.calculate(-aimPID.calculate(m_Drivetrain.getPigeon2().getAngle(), m_NewAngleHeading) * MaxAngularRate)));
       break;                                                              
       default:  //Just drive normally

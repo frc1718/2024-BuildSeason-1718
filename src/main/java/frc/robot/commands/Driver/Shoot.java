@@ -5,6 +5,7 @@
 package frc.robot.commands.Driver;
 
 import frc.robot.Constants;
+import frc.robot.LimelightHelpers;
 import frc.robot.subsystems.BeamBreakSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -26,12 +27,16 @@ public class Shoot extends Command {
   private final BeamBreakSubsystem m_beamBreakSubsystem;
 
   private boolean m_isFinished = false;
+  private boolean m_IgnoreLimelight = true;
 
   private double m_shooterArmPosition = 0;
   private double m_shooterSpeed = 0;
   private double m_frontIntakePosition = 0;
   private double m_frontIntakeSpeed = 0;
 
+  private double m_VerticalAngleToAprilTag;
+  private double m_DistanceToAprilTag;
+  private double m_DistanceBetweenAprilTagAndLimelight = Constants.kSpeakerAprilTagHeight - Constants.kLimelightHeight;
 
   private int m_stateMachine = 1;
 
@@ -89,6 +94,7 @@ public class Shoot extends Command {
           m_shooterSpeed = Constants.kShooterAmpSpeed;
           m_frontIntakePosition = Constants.kFrontIntakeClearPos;
           m_frontIntakeSpeed = Constants.kFrontIntakeStopSpeed;
+          m_IgnoreLimelight = true;
           break;
         case "ShootTrap":
           if (Constants.kPrintDriverShoot){System.out.println("Driver Command Shoot: We got ShootTrap from the Operator!");}
@@ -96,6 +102,7 @@ public class Shoot extends Command {
           m_shooterSpeed = Constants.kShooterStopSpeed;
           m_frontIntakePosition = Constants.kFrontIntakeDownPos;
           m_frontIntakeSpeed = Constants.kFrontIntakeStopSpeed;
+          m_IgnoreLimelight = true;
           break;
         case "ShootPodium":
           if (Constants.kPrintDriverShoot){System.out.println("Driver Command Shoot: We got ShootPodium from the Operator!");}
@@ -103,6 +110,7 @@ public class Shoot extends Command {
           m_shooterSpeed = Constants.kShooterPodiumSpeed;
           m_frontIntakePosition = Constants.kFrontIntakeClearPos;
           m_frontIntakeSpeed = Constants.kFrontIntakeStopSpeed;
+          m_IgnoreLimelight = true;
           break;
         case "ShootSubwoofer":
           if (Constants.kPrintDriverShoot){System.out.println("Driver Command Shoot: We got ShootSubwoofer from the Operator!");}
@@ -110,32 +118,49 @@ public class Shoot extends Command {
           m_shooterSpeed = Constants.kShooterSubwooferSpeed;
           m_frontIntakePosition = Constants.kFrontIntakeClearPos;
           m_frontIntakeSpeed = Constants.kFrontIntakeStopSpeed;
+          m_IgnoreLimelight = true;
           break;
         case "ShootWithPose":
           //We need to calculate the shooter arm position and shooter speed here for shoot with pose.
           if (Constants.kPrintDriverShoot){System.out.println("Driver Command Shoot: We got ShootWithPose from the Operator!");}
-        case "DoNothing":
-          m_shooterArmPosition = Constants.kShooterArmHomePos;
-          m_shooterSpeed = Constants.kShooterStopSpeed;
-          m_frontIntakePosition = Constants.kFrontIntakeHomePos;
-          m_frontIntakeSpeed = Constants.kFrontIntakeStopSpeed;
+        case "DoNothing": //In "DoNothing", we need to also check if there is a valid limelight target.
+          if (LimelightHelpers.getTV(Constants.kLimelightName)) {
+            m_VerticalAngleToAprilTag = Math.toRadians(LimelightHelpers.getTY(Constants.kLimelightName));
+            m_DistanceToAprilTag = m_DistanceBetweenAprilTagAndLimelight / Math.tan(m_VerticalAngleToAprilTag);
+
+            m_shooterArmPosition = Constants.kShooterArmTable.get(m_DistanceToAprilTag);
+            m_shooterSpeed = Constants.kShooterLimelightSpeed;
+            m_frontIntakePosition = Constants.kFrontIntakeClearPos;
+            m_frontIntakeSpeed = Constants.kFrontIntakeStopSpeed;
+            m_IgnoreLimelight = false;
+          } else {
+              m_shooterArmPosition = Constants.kShooterArmHomePos;
+              m_shooterSpeed = Constants.kShooterStopSpeed;
+              m_frontIntakePosition = Constants.kFrontIntakeHomePos;
+              m_frontIntakeSpeed = Constants.kFrontIntakeStopSpeed;
+              m_IgnoreLimelight = true;            
+          }
+
         case "ShootMiddleAuto":
           m_shooterArmPosition = Constants.kShooterArmMiddleAutoPos;
           m_shooterSpeed = Constants.kShooterStopSpeed;
           m_frontIntakePosition = Constants.kFrontIntakeHomePos;
           m_frontIntakeSpeed = Constants.kFrontIntakeStopSpeed;
+          m_IgnoreLimelight = true;
         break;
         case "ShootRightAuto":
           m_shooterArmPosition = Constants.kShooterArmMiddleAutoPos;
           m_shooterSpeed = Constants.kShooterStopSpeed;
           m_frontIntakePosition = Constants.kFrontIntakeHomePos;
           m_frontIntakeSpeed = Constants.kFrontIntakeStopSpeed;
+          m_IgnoreLimelight = true;
         break;
         case "ShootPass":
           m_shooterArmPosition = Constants.kShooterArmPodiumPos;
           m_shooterSpeed = Constants.kShooterPassSpeed;
           m_frontIntakePosition = Constants.kFrontIntakeClearPos;
           m_frontIntakeSpeed = Constants.kFrontIntakeStopSpeed;
+          m_IgnoreLimelight = true;
         break;
       }
 
@@ -178,7 +203,7 @@ public class Shoot extends Command {
             System.out.println("Driver Command Shooter Target:" + m_shooterSpeed);
             System.out.println("Driver Command Shooter Speed: " + m_shooterSubsystem.getShooterSpeed());
           }
-          if (m_shooterSubsystem.getShooterUpToSpeed(m_shooterSpeed) && m_shooterSubsystem.getShooterArmInPosition(m_shooterArmPosition)) {
+          if ((m_shooterSubsystem.getShooterUpToSpeed(m_shooterSpeed) && m_shooterSubsystem.getShooterArmInPosition(m_shooterArmPosition)) && (m_IgnoreLimelight || (Math.abs(LimelightHelpers.getTX(Constants.kLimelightName)) <= Constants.kTXTolerance))) {
           m_shooterIntakeSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeShootSpeed);
           if (Constants.kPrintDriverShoot){System.out.println("Driver Command Shoot: Case " + m_stateMachine + " Complete!");}
           shootTimer.start();
