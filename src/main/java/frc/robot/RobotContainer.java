@@ -30,6 +30,7 @@ import frc.robot.commands.DriveWhileFacingAngle;
 import frc.robot.commands.Operator.Home;
 import frc.robot.commands.Operator.PreClimb;
 import frc.robot.commands.Operator.ShooterModeAmp;
+import frc.robot.commands.Auto.AutoShooterModePodium;
 import frc.robot.commands.Auto.AutoShooterModePos1;
 import frc.robot.commands.Auto.AutoShooterModePos2;
 import frc.robot.commands.Auto.AutoShooterModePos3;
@@ -275,6 +276,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("LightLEDOnNotePresent", new LightLEDOnNotePresent(LED, beamBreak));
     NamedCommands.registerCommand("ShooterModeAmp", new ShooterModeAmp(frontIntake, shooter));
     NamedCommands.registerCommand("ShooterModePodium", new ShooterModePodium(frontIntake, shooter));
+    NamedCommands.registerCommand("AutoShooterModePodium", new AutoShooterModePodium(frontIntake, shooter));
     NamedCommands.registerCommand("ShooterModeShootWithPose", new ShooterModeShootWithPose(frontIntake, shooter, drivetrain));
     NamedCommands.registerCommand("ShooterModeSubwoofer", new ShooterModeSubwoofer(frontIntake, shooter));
     NamedCommands.registerCommand("Home", new Home(climber,shooter,frontIntake, shooterIntake));

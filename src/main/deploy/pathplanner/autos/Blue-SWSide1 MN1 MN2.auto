@@ -70,7 +70,7 @@
         {
           "type": "named",
           "data": {
-            "name": "ShooterModePodium"
+            "name": "ShooterModePos1"
           }
         },
         {
@@ -132,7 +132,7 @@
         {
           "type": "named",
           "data": {
-            "name": "ShooterModePodium"
+            "name": "ShooterModePos1"
           }
         },
         {
