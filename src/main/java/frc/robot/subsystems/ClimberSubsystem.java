@@ -192,19 +192,19 @@ public class ClimberSubsystem extends SubsystemBase {
   }
 
   public void SetLeftClimberNeutralMode(NeutralModeValue NeutralMode) {
-    var neuMotOut = new MotorOutputConfigs();
+    var neuMotOutLeft = new MotorOutputConfigs();
     var currentConfigurator = m_LeftClimb.getConfigurator();
-    currentConfigurator.refresh(neuMotOut);
-    neuMotOut.NeutralMode = NeutralMode;
-    currentConfigurator.apply(neuMotOut);
+    currentConfigurator.refresh(neuMotOutLeft);
+    neuMotOutLeft.NeutralMode = NeutralMode;
+    currentConfigurator.apply(neuMotOutLeft);
   }
 
   public void SetRightClimberNeutralMode(NeutralModeValue NeutralMode) {
-    var neuMotOut = new MotorOutputConfigs();
+    var neuMotOutRight = new MotorOutputConfigs();
     var currentConfigurator = m_RightClimb.getConfigurator();
-    currentConfigurator.refresh(neuMotOut);
-    neuMotOut.NeutralMode = NeutralMode;
-    currentConfigurator.apply(neuMotOut);
+    currentConfigurator.refresh(neuMotOutRight);
+    neuMotOutRight.NeutralMode = NeutralMode;
+    currentConfigurator.apply(neuMotOutRight);
   }
 
   /**

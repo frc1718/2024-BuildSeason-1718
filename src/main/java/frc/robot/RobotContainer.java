@@ -216,13 +216,12 @@ public class RobotContainer {
     /* While disabled, press the back button to load the selected file and play the song. */
     /* Press the back button again to stop the song.                                      */
     /**************************************************************************************/
-    operatorController.povUp().and(RobotState::isDisabled).onTrue(new InstantCommand(() -> {chirpSelect.incrementSelection();}).ignoringDisable(true));
-    operatorController.povDown().and(RobotState::isDisabled).onTrue(new InstantCommand(() -> {chirpSelect.decrementSelection();}).ignoringDisable(true));
+    operatorController.povUp().and(RobotState::isDisabled).onTrue(new InstantCommand(() -> {chirpSelect.incrementSelection();}).andThen(() -> {music.loadMusic(Filesystem.getDeployDirectory() + "/chirp/" + chirpSelect.getCurrentSelectionName() + ".chrp");}).ignoringDisable(true));
+    operatorController.povDown().and(RobotState::isDisabled).onTrue(new InstantCommand(() -> {chirpSelect.decrementSelection();}).andThen(() -> {music.loadMusic(Filesystem.getDeployDirectory() + "/chirp/" + chirpSelect.getCurrentSelectionName() + ".chrp");}).ignoringDisable(true));
     
     //Breaking this into multiple lines, because it's a lot to parse.
     operatorController.back().and(RobotState::isDisabled).onTrue(
-      new InstantCommand(() -> {music.loadMusic(Filesystem.getDeployDirectory() + "/chirp" + chirpSelect.getCurrentSelectionName() + ".chrp");})
-      .andThen(() -> {music.play();}).ignoringDisable(true))
+      new InstantCommand(() -> {music.play();}).ignoringDisable(true))
       .onFalse(new InstantCommand(() -> {music.stop();}).ignoringDisable(true));
     
 

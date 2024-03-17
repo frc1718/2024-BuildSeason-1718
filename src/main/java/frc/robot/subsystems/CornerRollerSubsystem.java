@@ -6,24 +6,10 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.Orchestra;
 import com.ctre.phoenix6.StatusCode;
-import com.ctre.phoenix6.configs.CANcoderConfiguration;
-import com.ctre.phoenix6.configs.MotionMagicConfigs;
-import com.ctre.phoenix6.configs.MotorOutputConfigs;
-import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.DutyCycleOut;
-import com.ctre.phoenix6.controls.Follower;
-import com.ctre.phoenix6.controls.MotionMagicVoltage;
 //import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
-import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
-import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
-import com.ctre.phoenix6.signals.GravityTypeValue;
-import com.ctre.phoenix6.signals.NeutralModeValue;
-import com.ctre.phoenix6.signals.SensorDirectionValue;
-
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -98,7 +84,7 @@ public class CornerRollerSubsystem extends SubsystemBase {
     RightRollerMotorsConfig.Slot0.kD = Constants.kRightRollerDerivative; // A change of 1 rotation per second squared results in 0.01 volts output
     RightRollerMotorsConfig.Slot0.kV = Constants.kRightRollerVelocityFeedFoward; // Falcon 500 is a 500kV motor, 500rpm per V = 8.333 rps per V, 1/8.33 = 0.12 volts / Rotation per second
   
-    RightRollerMotorsConfig.MotorOutput.Inverted = Constants.kRightShooterDirection;
+    RightRollerMotorsConfig.MotorOutput.Inverted = Constants.kRightRollerDirection;
 
     // Peak output of 8 volts
     RightRollerMotorsConfig.Voltage.PeakForwardVoltage = Constants.kRightShooterMaxForwardVoltage;
@@ -128,7 +114,7 @@ public class CornerRollerSubsystem extends SubsystemBase {
     LeftRollerMotorsConfig.Slot0.kD = Constants.kLeftRollerDerivative; // A change of 1 rotation per second squared results in 0.01 volts output
     LeftRollerMotorsConfig.Slot0.kV = Constants.kLeftRollerVelocityFeedFoward; // Falcon 500 is a 500kV motor, 500rpm per V = 8.333 rps per V, 1/8.33 = 0.12 volts / Rotation per second
   
-    LeftRollerMotorsConfig.MotorOutput.Inverted = Constants.kLeftShooterDirection;
+    LeftRollerMotorsConfig.MotorOutput.Inverted = Constants.kLeftRollerDirection;
 
     // Peak output of 8 volts
     LeftRollerMotorsConfig.Voltage.PeakForwardVoltage = Constants.kLeftShooterMaxForwardVoltage;

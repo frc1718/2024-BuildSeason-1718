@@ -10,6 +10,7 @@ import frc.robot.subsystems.BeamBreakSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.FrontIntakeSubsystem;
 import frc.robot.subsystems.ShooterIntakeSubsystem;
@@ -127,7 +128,7 @@ public class Shoot extends Command {
           if (LimelightHelpers.getTV(Constants.kLimelightName)) {
             m_VerticalAngleToAprilTag = Math.toRadians(LimelightHelpers.getTY(Constants.kLimelightName));
             m_DistanceToAprilTag = m_DistanceBetweenAprilTagAndLimelight / Math.tan(m_VerticalAngleToAprilTag);
-
+            SmartDashboard.putNumber("LIMELIGHT SHOOT", m_DistanceToAprilTag);
             m_shooterArmPosition = Constants.kShooterArmTable.get(m_DistanceToAprilTag);
             m_shooterSpeed = Constants.kShooterLimelightSpeed;
             m_frontIntakePosition = Constants.kFrontIntakeClearPos;
@@ -180,7 +181,7 @@ public class Shoot extends Command {
     switch(m_stateMachine){  
       case 1:  //Do Nothing
       if (Constants.kPrintDriverShoot){System.out.println("Driver Command Shoot: Case " + m_stateMachine);}
-        if(m_shooterSubsystem.getShooterMode()=="DoNothing"){
+        if((m_shooterSubsystem.getShooterMode()=="DoNothing") && (!LimelightHelpers.getTV(Constants.kLimelightName))){
           if (Constants.kPrintDriverShoot){System.out.println("Driver Command Shoot: Case " + m_stateMachine + " Nothing To Do! Exiting!");}
           m_isFinished=true;
         } else {

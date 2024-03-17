@@ -26,6 +26,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
@@ -88,7 +89,7 @@ public class Drive extends Command {
 
     //Configure the PID Controller for the 'driveFacingAngle' drive request.
     driveFacingAngle.HeadingController.enableContinuousInput(-Math.PI, Math.PI);
-    driveFacingAngle.HeadingController.setPID(20, 0, 0.05);
+    driveFacingAngle.HeadingController.setPID(75, 0, 1);
 
     m_isFinished = false;
   }
@@ -131,6 +132,8 @@ public class Drive extends Command {
             default:
               m_RotationTarget = new Rotation2d(0.0);
           }
+          SmartDashboard.putNumber("ROTATION TARGET", m_RotationTarget.getDegrees());
+          SmartDashboard.putNumber("PID Out", driveFacingAngle.HeadingController.getLastAppliedOutput());
         }
     } else if (m_ClimberSubsystem.getPreClimbActuated()) {
 
@@ -152,14 +155,17 @@ public class Drive extends Command {
 
     } else if ((!m_ShooterSubsystem.getShooterModeDoingSomething()) && m_Controller.leftBumper().getAsBoolean() && LimelightHelpers.getTV(Constants.kLimelightName)) {
         
-        driveRequest = "limelightAim";
+        driveRequest = "driveFacingAngle";
 
         switch (m_LimelightStateMachine) {
           case 1: //Assume the AprilTag is already in view.
             m_AngleToAprilTag = LimelightHelpers.getTX(Constants.kLimelightName);
             m_CurrentRobotHeading = m_Drivetrain.getPigeon2().getAngle();
             m_NewAngleHeading = m_AngleToAprilTag + m_CurrentRobotHeading;
-
+            m_RotationTarget = Rotation2d.fromDegrees(m_NewAngleHeading);
+            SmartDashboard.putNumber("LIMELIGHT TX", m_AngleToAprilTag);
+            SmartDashboard.putNumber("LIMELIGHT ROBOT HEADING", m_CurrentRobotHeading);
+            SmartDashboard.putNumber("LIMELIGHT ROTATION TARGET", m_RotationTarget.getDegrees());
             m_LimelightStateMachine++;
           break;
           case 2: //Wait for the robot to turn within tolerance.

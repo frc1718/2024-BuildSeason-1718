@@ -107,7 +107,7 @@ public class Constants {
     public static final double kShooterArmAmpPos = 0.135;   //0.135
     public static final double kShooterArmHomePos = -0.136; //-0.136
     public static final double kShooterArmMiddleAutoPos = -0.0388;  //-0.0388
-    public static final double kShooterArmRightAutoPos = -0.388;    //-0.388
+    public static final double kShooterArmRightAutoPos = -0.0388;    //-0.0388
     public static final double kShooterArmPreClimbPos = 0.135;  //0.135
     public static final double kShooterArmTolerancePos = 0.01;  //0.01
     public static final double kShooterArmSpitPos = -0.06;  //-0.06
@@ -233,20 +233,30 @@ public class Constants {
     public static final int kShooterArmRotateCancoderRotorToSensorRatio = 300;
     public static final SensorDirectionValue kShooterArmRotateCancoderDirection = SensorDirectionValue.CounterClockwise_Positive;
     public static final AbsoluteSensorRangeValue kShooterArmRotateCancoderRange = AbsoluteSensorRangeValue.Signed_PlusMinusHalf;
-    public static final double kShooterArmRotateCancoderOffset = 0.38159;
+    public static final double kShooterArmRotateCancoderOffset = 0.379638671875;
     public static final InvertedValue kRightShooterArmRotateDirection = InvertedValue.CounterClockwise_Positive;
     // ShooterArmRotateCancoder settings above /\     /\     /\
 
     // Start CornerRoller settings
-    public static final double kRightRollerProportional=0; // An error of 1 rotation per second results in 2V output
+    public static final double kRightRollerProportional=0.07; // An error of 1 rotation per second results in 2V output
     public static final double kRightRollerIntegral=0; // An error of 1 rotation per second increases output by 0.5V every second
     public static final double kRightRollerDerivative=0; // A change of 1 rotation per second squared results in 0.01 volts output
-    public static final double kRightRollerVelocityFeedFoward=0; // Falcon 500 is a 500kV motor, 500rpm per V = 8.333 rps per V, 1/8.33 = 0.12 volts / Rotation per second
+    public static final double kRightRollerVelocityFeedFoward=0.122; // Falcon 500 is a 500kV motor, 500rpm per V = 8.333 rps per V, 1/8.33 = 0.12 volts / Rotation per second
+    public static final InvertedValue kRightRollerDirection = InvertedValue.Clockwise_Positive;
+    public static final double kRightRollerMaxForwardVoltage = 11;
+    public static final double kRightRollerMaxReverseVoltage = -11;
+    public static final double kRightRollerSupplyCurrentLimit = 20;
+    public static final double kRightRollerClosedLoopRampPeriod = 0;
 
-    public static final double kLeftRollerProportional=0; // An error of 1 rotation per second results in 2V output
+    public static final double kLeftRollerProportional=0.07; // An error of 1 rotation per second results in 2V output
     public static final double kLeftRollerIntegral=0; // An error of 1 rotation per second increases output by 0.5V every second
     public static final double kLeftRollerDerivative=0; // A change of 1 rotation per second squared results in 0.01 volts output
-    public static final double kLeftRollerVelocityFeedFoward=0; // Falcon 500 is a 500kV motor, 500rpm per V = 8.333 rps per V, 1/8.33 = 0.12 volts / Rotation per second
+    public static final double kLeftRollerVelocityFeedFoward=0.122; // Falcon 500 is a 500kV motor, 500rpm per V = 8.333 rps per V, 1/8.33 = 0.12 volts / Rotation per second
+    public static final InvertedValue kLeftRollerDirection = InvertedValue.CounterClockwise_Positive;
+    public static final double kLeftRollerMaxForwardVoltage = 11;
+    public static final double kLeftRollerMaxReverseVoltage = -11;
+    public static final double kLeftRollerSupplyCurrentLimit = 20;
+    public static final double kLeftRollerClosedLoopRampPeriod = 0;
     // End Corner roller settings
 
 
@@ -270,7 +280,7 @@ public class Constants {
     public static final double kFrontIntakeRotateRotorToSensorRatio = 56.25;
     public static final SensorDirectionValue kFrontIntakeRotateCancoderDirection = SensorDirectionValue.CounterClockwise_Positive;
     public static final AbsoluteSensorRangeValue kFrontIntakeRotateCancoderRange = AbsoluteSensorRangeValue.Signed_PlusMinusHalf;
-    public static final double kFrontIntakeRotateCancoderOffset = -0.176514;
+    public static final double kFrontIntakeRotateCancoderOffset = 0.143310546875;
     // FrontIntakeRotateCancoder settings above /\     /\     /\
 
     // Start FrontIntakeSpin settings
