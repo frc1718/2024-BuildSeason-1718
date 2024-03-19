@@ -173,7 +173,6 @@ public class Drive extends Command {
             SmartDashboard.putNumber("LIMELIGHT TX", m_AngleToAprilTag);
             SmartDashboard.putNumber("ROBOT HEADING (Pigeon)", m_CurrentRobotHeading);
             SmartDashboard.putNumber("LIMELIGHT ROTATION TARGET", m_RotationTarget.getDegrees());
-            System.out.println("TESTING");
             
             m_LimelightStateMachine++;
           break;
@@ -216,9 +215,9 @@ public class Drive extends Command {
            } else if (limeLightController < -1) {
             limeLightController = -1;
            }
-           System.out.println("Pigeon Angle: "+ m_Drivetrain.getPigeon2().getAngle());
-           System.out.println("LimeLightControllerValue: "+ limeLightController);
-           System.out.println("Desired Angle: "+  m_NewAngleHeading);
+           //System.out.println("Pigeon Angle: "+ m_Drivetrain.getPigeon2().getAngle());
+           //System.out.println("LimeLightControllerValue: "+ limeLightController);
+           //System.out.println("Desired Angle: "+  m_NewAngleHeading);
 
             m_Drivetrain.setControl(drive.withVelocityX(-m_Controller.getLeftY() * MaxSpeed * driveSign) // Drive forward with                                                                    
           .withVelocityY(-m_Controller.getLeftX() * MaxSpeed * driveSign) // Drive left with negative X (left)

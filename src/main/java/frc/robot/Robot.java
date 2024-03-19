@@ -87,10 +87,11 @@ public class Robot extends TimedRobot {
     double m_DistanceBetweenAprilTagAndLimelight = Constants.kSpeakerAprilTagHeight - Constants.kLimelightHeight;
     SmartDashboard.putNumber("Pigeon", m_robotContainer.drivetrain.getPigeon2().getAngle());
     double m_VerticalAngleToAprilTag = Math.toRadians(LimelightHelpers.getTY(Constants.kLimelightName));
-    double m_DistanceToAprilTag = m_DistanceBetweenAprilTagAndLimelight / Math.tan(m_VerticalAngleToAprilTag);
-    System.out.println(m_DistanceToAprilTag);
+    double m_HorizontalAngleToAprilTag = Math.toRadians(LimelightHelpers.getTX(Constants.kLimelightName));
+    double m_DistanceToAprilTag = m_DistanceBetweenAprilTagAndLimelight / (Math.tan(m_VerticalAngleToAprilTag) * Math.cos(m_HorizontalAngleToAprilTag));
+    System.out.println(m_DistanceToAprilTag); 
   }
-
+  
   @Override
   public void disabledExit() {}
 

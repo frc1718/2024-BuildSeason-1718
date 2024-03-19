@@ -134,7 +134,7 @@ public class Constants {
     public static final double kShooterSubwooferSpeed = 70;  //Was 70, at 10 for testing in build room
     public static final int kShooterPodiumSpeed = 70;  //Was 70, at 10 for testing in build room
     public static final int kShooterAmpSpeed = 20;  //Was 20, at 7 for testing in build room
-    public static final int kShooterLimelightSpeed = 10;    //10 for testing in build room
+    public static final int kShooterLimelightSpeed = 70;    //10 for testing in build room
     public static final int kShooterIdleSpeed = 30; //Was 30, at 5 for testing in build room
     public static final int kShooterMaxSpeed = 80;
     public static final int kShooterStopSpeed = 0;
@@ -354,7 +354,7 @@ public class Constants {
     public static final String kLimelightName = "limelight";
 
     //Allowable TX tolerance for aiming at an AprilTag.
-    public static final double kTXTolerance = 1.5;    //A complete guess.
+    public static final double kTXTolerance = 4;    //A complete guess.
 
     //Distance between the center of the speaker AprilTag and the floor.
     //The bottom of the AprilTag is 4 ft. 3-7/8 in. from the ground.
@@ -428,13 +428,13 @@ public class Constants {
 
     static {
         //Populating the shooter arm position table.  Values are in rotations.
-        //(Distance in meters, Angle in rotations)
+        //(Distance in meters, Angle in rotations) // 4.36 was high, 
         kShooterArmTable.put(2.0066, -0.0473);
         kShooterArmTable.put(2.251, -0.0443);
-        kShooterArmTable.put(2.83, -0.0353);
+        kShooterArmTable.put(2.83, -0.034);
         kShooterArmTable.put(3.6, -0.025);
-        kShooterArmTable.put(4.25, -0.019);
-        kShooterArmTable.put(4.79, -0.016);
-        kShooterArmTable.put(5.28, -0.0189);
+        kShooterArmTable.put(4.25, -0.02);
+        kShooterArmTable.put(4.79, -0.017);
+        kShooterArmTable.put(5.28, -0.018);
     }
 }
