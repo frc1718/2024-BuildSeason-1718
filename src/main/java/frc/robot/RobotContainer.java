@@ -148,7 +148,7 @@ public class RobotContainer {
     driveController.leftTrigger(.5).onTrue(new Climb(climber,frontIntake,shooter));
     driveController.rightTrigger(.5).whileTrue(new Spit(frontIntake, shooter, shooterIntake, beamBreak, cornerRoller)).onFalse(Commands.parallel(new StowArmAndIntake(frontIntake, shooter), new NotePosition(shooterIntake, beamBreak))); 
 
-    driveController.back().onTrue(new ShooterModeShootWithLimelight(frontIntake, shooter, drivetrain, shooterIntake, beamBreak));
+    //driveController.back().onTrue(new ShooterModeShootWithLimelight(frontIntake, shooter, drivetrain, shooterIntake, beamBreak));
     
     // Schedules reset the field - Binds centric heading on back and start button push
     driveController.back().and(driveController.start()).onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative(resetPose)));

@@ -129,10 +129,10 @@ public class Shoot extends Command {
             m_VerticalAngleToAprilTag = Math.toRadians(LimelightHelpers.getTY(Constants.kLimelightName));
             m_DistanceToAprilTag = m_DistanceBetweenAprilTagAndLimelight / Math.tan(m_VerticalAngleToAprilTag);
             SmartDashboard.putNumber("LIMELIGHT SHOOT", m_DistanceToAprilTag);
-            m_shooterArmPosition = Constants.kShooterArmTable.get(m_DistanceToAprilTag);
-            m_shooterSpeed = Constants.kShooterLimelightSpeed;
-            m_frontIntakePosition = Constants.kFrontIntakeClearPos;
-            m_frontIntakeSpeed = Constants.kFrontIntakeStopSpeed;
+            //m_shooterArmPosition = Constants.kShooterArmTable.get(m_DistanceToAprilTag);
+            //m_shooterSpeed = Constants.kShooterLimelightSpeed;
+            //m_frontIntakePosition = Constants.kFrontIntakeClearPos;
+            //m_frontIntakeSpeed = Constants.kFrontIntakeStopSpeed;
             m_IgnoreLimelight = false;
           } else {
               m_shooterArmPosition = Constants.kShooterArmHomePos;

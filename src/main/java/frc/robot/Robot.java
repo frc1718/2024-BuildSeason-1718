@@ -12,6 +12,7 @@ import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -72,7 +73,6 @@ public class Robot extends TimedRobot {
     m_robotContainer.frontIntake.setFrontIntakeRotateZeroOutput();
     m_robotContainer.shooter.setShooterArmRotateZeroOutput();
     m_autonLoading.schedule();
-    
   }
 
   @Override
@@ -84,6 +84,11 @@ public class Robot extends TimedRobot {
       m_robotContainer.driveSign = -1;
     }
     */
+    double m_DistanceBetweenAprilTagAndLimelight = Constants.kSpeakerAprilTagHeight - Constants.kLimelightHeight;
+    SmartDashboard.putNumber("Pigeon", m_robotContainer.drivetrain.getPigeon2().getAngle());
+    double m_VerticalAngleToAprilTag = Math.toRadians(LimelightHelpers.getTY(Constants.kLimelightName));
+    double m_DistanceToAprilTag = m_DistanceBetweenAprilTagAndLimelight / Math.tan(m_VerticalAngleToAprilTag);
+    System.out.println(m_DistanceToAprilTag);
   }
 
   @Override

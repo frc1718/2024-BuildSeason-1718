@@ -103,7 +103,7 @@ public class Constants {
 
     // Start Positions
     public static final double kShooterArmSubwooferPos = -0.1; //-0.11
-    public static final double kShooterArmPodiumPos = -0.0473;  //-0.0388
+    public static final double kShooterArmPodiumPos = -0.0189;  //-0.0473
     public static final double kShooterArmAmpPos = 0.135;   //0.135
     public static final double kShooterArmHomePos = -0.136; //-0.136
     public static final double kShooterArmMiddleAutoPos = -0.0388;  //-0.0388
@@ -365,7 +365,7 @@ public class Constants {
     //Distance between the lens of the limelight and the floor.
     //Lens of the limelight is 16-9/10 in. from the ground.
     //16-9/10 in. is 0.429 meters.
-    public static final double kLimelightHeight = 0.435;
+    public static final double kLimelightHeight = 0.4445;
 
     //Pose of the blue speaker.
     //Used to be a pose, but only the X and Y are needed.  Changed to a translation to clean up the actual calculation.
@@ -429,11 +429,12 @@ public class Constants {
     static {
         //Populating the shooter arm position table.  Values are in rotations.
         //(Distance in meters, Angle in rotations)
-        kShooterArmTable.put(1.0033, -0.095);
-        kShooterArmTable.put(2.6289, -0.0388);
-        kShooterArmTable.put(4.97, -0.0035);
-        //kShooterArmTable.put(6.0, 55.0);
-        //kShooterArmTable.put(8.0, 45.0);
-        //kShooterArmTable.put(10.0, 35.0);       
+        kShooterArmTable.put(2.0066, -0.0473);
+        kShooterArmTable.put(2.251, -0.0443);
+        kShooterArmTable.put(2.83, -0.0353);
+        kShooterArmTable.put(3.6, -0.025);
+        kShooterArmTable.put(4.25, -0.019);
+        kShooterArmTable.put(4.79, -0.016);
+        kShooterArmTable.put(5.28, -0.0189);
     }
 }
