@@ -23,6 +23,7 @@ public class Robot extends TimedRobot {
   private RobotContainer m_robotContainer;
   private NotePosition m_notePositionCommand;
   private Command m_autonLoading;
+  public static boolean robotClimbed=false;
   
   //Use this to enable / disable reading data from the limelight.
   //The terminal gets clogged up if a limelight isn't actually connected.

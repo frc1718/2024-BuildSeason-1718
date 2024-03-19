@@ -60,10 +60,12 @@ public class ShootTrap extends Command {
     
   //Set values based on shooter mode the operator has selected
     if (m_climberSubsystem.getPreClimbActuated()) {
-      if (Constants.kPrintDriverShootTrap){System.out.println("Driver Command ShooTrap: Complete!");}
+      if (Constants.kPrintDriverShootTrap){System.out.println("Driver Command ShootTrap: Complete!");}
       m_shooterIntakeSubsystem.setShooterIntakeSpeed(-15);
     } 
   }
+
+  
 
   // Called once the command ends or is interrupted.
   @Override

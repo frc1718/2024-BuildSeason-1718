@@ -25,6 +25,7 @@ import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Robot;
 
 /**
  * The front intake subsystem sucks up notes from the floor and into the robot.
@@ -148,7 +149,7 @@ public class FrontIntakeSubsystem extends SubsystemBase {
 
   public void setFrontIntakePosition(double position) {
     //Check if motor safety is turned on or off
-    if (Constants.kMotorEnableFrontIntakeRotate==1){
+    if ((Constants.kMotorEnableFrontIntakeRotate==1)&& (Robot.robotClimbed == false)){
 
       //Check if motor is within soft stop range
       if ((position >= Constants.kFrontIntakeDownSafety) && (position <= Constants.kFrontIntakeUpSafety)) {

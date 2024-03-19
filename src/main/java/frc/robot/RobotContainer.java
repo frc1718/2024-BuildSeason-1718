@@ -135,7 +135,6 @@ public class RobotContainer {
     /*  B - Trap Shot                                                   */
     /*  X - Drivetrain Brake Mode                                       */
     /*  A (While Disabled) - Set Motors to Coast                        */
-    /*  Start - Enable 'RootyTootyPointAndShooty' Drivetrain mode       */
     /*  Left Bumper - Shoot                                             */
     /*  Right Bumper - Suck                                             */
     /*  Left Trigger - Climb                                            */
@@ -146,13 +145,8 @@ public class RobotContainer {
     /*  D-Pad Down (While Disabled) - Decrement & Select Autonomous     */
     /********************************************************************/
 
-    // Schedules Tilt modules without driving wheels?  Maybe?
-    //driveController.b().whileTrue(drivetrain.applyRequest(() -> point.withModuleDirection(new Rotation2d(-driveController.getLeftY(), -driveController.getLeftX()))));
-
     driveController.y().whileTrue(new SuckNoFront(frontIntake, shooter, shooterIntake, beamBreak)).onFalse(Commands.parallel(new StowArmAndIntake(frontIntake, shooter), new NotePosition(shooterIntake, beamBreak)));
     driveController.b().whileTrue(new ShootTrap(climber, shooterIntake));
-
-    // Schedules Brake Swerve Drivetrain Binds (x-lock wheels) Driver
     driveController.x().whileTrue(drivetrain.applyRequest(() -> brake));
     driveController.a().and(RobotState::isDisabled).whileTrue(new SetMotorsToCoast(climber, shooter, frontIntake, shooterIntake).ignoringDisable(true));    
 
@@ -165,10 +159,7 @@ public class RobotContainer {
     driveController.rightBumper().onTrue(new Suck(frontIntake, shooter, shooterIntake, beamBreak, cornerRoller)).onFalse(Commands.parallel(new StowArmAndIntake(frontIntake, shooter), new NotePosition(shooterIntake, beamBreak)));
     driveController.leftTrigger(.5).onTrue(new Climb(climber,frontIntake,shooter));
     driveController.rightTrigger(.5).whileTrue(new Spit(frontIntake, shooter, shooterIntake, beamBreak, cornerRoller)).onFalse(Commands.parallel(new StowArmAndIntake(frontIntake, shooter), new NotePosition(shooterIntake, beamBreak))); 
-
     driveController.back().onTrue(new ShooterModeShootWithLimelight(frontIntake, shooter, drivetrain, shooterIntake, beamBreak));
-    
-    // Schedules reset the field - Binds centric heading on back and start button push
     driveController.back().and(driveController.start()).onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative(resetPose)));
 
     /************************************************************/
