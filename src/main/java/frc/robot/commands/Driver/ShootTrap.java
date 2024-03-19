@@ -24,6 +24,8 @@ public class ShootTrap extends Command {
 
   private double m_shooterSpeed = 0;
 
+  private int m_stateMachine = 0;
+
   /**
    * Constructs an instance of the shoot trap command.
    * 
@@ -50,6 +52,7 @@ public class ShootTrap extends Command {
       System.out.println("Driver Command: ShootTrap");
     }
     m_isFinished = false;
+    m_stateMachine=1;
     
 
   }
@@ -57,12 +60,21 @@ public class ShootTrap extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
-  //Set values based on shooter mode the operator has selected
-    if (m_climberSubsystem.getPreClimbActuated()) {
-      if (Constants.kPrintDriverShootTrap){System.out.println("Driver Command ShootTrap: Complete!");}
-      m_shooterIntakeSubsystem.setShooterIntakeSpeed(-15);
-    } 
+    switch(m_stateMachine) {
+      case 1:
+        //Set values based on shooter mode the operator has selected
+        if (m_climberSubsystem.getPreClimbActuated()) {
+          if (Constants.kPrintDriverShootTrap){System.out.println("Driver Command ShootTrap: Complete!");}
+          m_shooterIntakeSubsystem.setShooterIntakeRotate(Constants.kShooterIntakeTrapRotations);
+          m_stateMachine = m_stateMachine++;
+        }
+      break;
+      case 2:
+        if (m_shooterIntakeSubsystem.getShooterIntakeInPosition(Constants.kShooterIntakeTrapRotations)){
+          m_shooterIntakeSubsystem.setShooterIntakeSpeed(-15);
+        }
+      break;
+    }
   }
 
   

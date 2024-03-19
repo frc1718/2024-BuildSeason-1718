@@ -65,6 +65,7 @@ public class Constants {
     public static final int kMotorEnableClimber = 1;
     public static final int kMotorEnableLeftRollerSpin = 1;
     public static final int kMotorEnableRightRollerSpin = 1;
+    public static final int kMotorEnableShooterIntakeRotate =1;
     // End Motor Enables
 
     //Enable Print Statements
@@ -120,6 +121,7 @@ public class Constants {
     public static final double kShooterArmTolerancePos = 0.01;  //0.01
     public static final double kShooterArmSpitPos = -0.06;  //-0.06
     public static final double kShooterArmTrapPos = 0.135;  //0.135
+    public static final double kShooterIntakeTrapRotations = 0;
         /* Safeties - DO NOT CHANGE THIS LINE */ public static final double kShooterArmUpSafety = 0.135;    //0.135
         /* Safeties - DO NOT CHANGE THIS LINE */ public static final double kShooterArmDownSafety = -0.136; //-0.136
 
