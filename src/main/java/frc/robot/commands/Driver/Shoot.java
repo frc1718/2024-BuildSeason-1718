@@ -147,8 +147,8 @@ public class Shoot extends Command {
               m_IgnoreLimelight = true;            
           }
         break;
-        case "ShootMiddleAuto":
-          m_shooterArmPosition = Constants.kShooterArmMiddleAutoPos;
+        case "AutoShooterModePos1":
+          m_shooterArmPosition = Constants.kShooterArmAutoPos1Pos;
           m_shooterSpeed = Constants.kShooterStopSpeed;
           m_frontIntakePosition = Constants.kFrontIntakeHomePos;
           m_frontIntakeSpeed = Constants.kFrontIntakeStopSpeed;
