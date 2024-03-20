@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.36,
+      "x": 15.2,
       "y": 4.56
     },
-    "rotation": 0
+    "rotation": 180.0
   },
   "command": {
     "type": "sequential",
@@ -18,13 +18,13 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "BSW1 - BWN1"
+                  "pathName": "RSW1 - RWN1"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "ShooterModePodium"
+                  "name": "AutoShooterModePodium"
                 }
               }
             ]
@@ -51,7 +51,7 @@
         {
           "type": "named",
           "data": {
-            "name": "ShooterModePodium"
+            "name": "AutoShooterModePodium"
           }
         },
         {
@@ -67,66 +67,54 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "Shoot"
-          }
-        },
-        {
           "type": "parallel",
           "data": {
             "commands": [
               {
                 "type": "path",
                 "data": {
-                  "pathName": "BWN1 - BMN3"
+                  "pathName": "RWN1 - RMN2"
                 }
               },
-              {
-                "type": "sequential",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 1.0
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Suck"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
               {
                 "type": "named",
                 "data": {
-                  "name": "NotePosition"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "BMN3 - BSP2"
+                  "name": "Suck"
                 }
               }
             ]
           }
         },
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "ShooterModePodium"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "RMN2 - RSP1"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "NotePosition"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "ShooterModePos1"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
           }
         },
         {
@@ -148,7 +136,26 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "BSP2 - BMN2"
+                  "pathName": "RSP1 - RMN1"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Suck"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "RMN1 - RSP1"
                 }
               },
               {
@@ -156,21 +163,33 @@
                 "data": {
                   "commands": [
                     {
-                      "type": "wait",
+                      "type": "named",
                       "data": {
-                        "waitTime": 0.5
+                        "name": "NotePosition"
                       }
                     },
                     {
                       "type": "named",
                       "data": {
-                        "name": "Suck"
+                        "name": "ShooterModePos1"
                       }
                     }
                   ]
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "RSP1 - RMN1"
           }
         }
       ]

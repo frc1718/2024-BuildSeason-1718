@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 13.77,
-        "y": 3.019284500107463
+        "x": 13.0,
+        "y": 3.06
       },
       "prevControl": null,
       "nextControl": {
-        "x": 10.50702632075735,
-        "y": 0.11710836545781482
+        "x": 10.003460349288744,
+        "y": 0.4450117887396975
       },
       "isLocked": false,
       "linkedName": "RSP1"
@@ -20,8 +20,8 @@
         "y": 2.4241431649767726
       },
       "prevControl": {
-        "x": 10.562023010779258,
-        "y": 2.1547939244237972
+        "x": 10.916905599859701,
+        "y": 2.2367697802442676
       },
       "nextControl": null,
       "isLocked": false,
@@ -45,7 +45,7 @@
   "reversed": false,
   "folder": "Red - From Shooting Positions",
   "previewStartingState": {
-    "rotation": -131.06,
+    "rotation": -139.91,
     "velocity": 0
   },
   "useDefaultConstraints": true

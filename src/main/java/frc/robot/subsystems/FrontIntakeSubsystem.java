@@ -14,7 +14,6 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
-import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
@@ -26,6 +25,7 @@ import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Robot;
 
 /**
  * The front intake subsystem sucks up notes from the floor and into the robot.
@@ -149,7 +149,7 @@ public class FrontIntakeSubsystem extends SubsystemBase {
 
   public void setFrontIntakePosition(double position) {
     //Check if motor safety is turned on or off
-    if (Constants.kMotorEnableFrontIntakeRotate==1){
+    if ((Constants.kMotorEnableFrontIntakeRotate==1)&& (Robot.robotClimbed == false)){
 
       //Check if motor is within soft stop range
       if ((position >= Constants.kFrontIntakeDownSafety) && (position <= Constants.kFrontIntakeUpSafety)) {

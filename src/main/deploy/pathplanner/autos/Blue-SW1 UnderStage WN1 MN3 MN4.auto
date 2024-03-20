@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 15.26,
-      "y": 6.63
+      "x": 1.36,
+      "y": 4.56
     },
-    "rotation": 180.0
+    "rotation": 0
   },
   "command": {
     "type": "sequential",
@@ -18,7 +18,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "RSW3 - RWN3"
+                  "pathName": "BSW1 - BWN1"
                 }
               },
               {
@@ -61,19 +61,37 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Home"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
+          }
+        },
+        {
           "type": "parallel",
           "data": {
             "commands": [
               {
                 "type": "path",
                 "data": {
-                  "pathName": "RWN3 - RMN5"
+                  "pathName": "BWN1 - BMN3"
                 }
               },
               {
                 "type": "sequential",
                 "data": {
                   "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 1.0
+                      }
+                    },
                     {
                       "type": "named",
                       "data": {
@@ -91,21 +109,15 @@
           "data": {
             "commands": [
               {
-                "type": "path",
-                "data": {
-                  "pathName": "RMN5 - RWN3"
-                }
-              },
-              {
                 "type": "named",
                 "data": {
                   "name": "NotePosition"
                 }
               },
               {
-                "type": "named",
+                "type": "path",
                 "data": {
-                  "name": "AutoShooterModePodium"
+                  "pathName": "BMN3 - BSP2"
                 }
               }
             ]
@@ -114,12 +126,56 @@
         {
           "type": "named",
           "data": {
+            "name": "ShooterModePos2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "Shoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Home"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "BSP2 - BMN2"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.5
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Suck"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
           }
         }
       ]
     }
   },
-  "folder": "Bad Ones",
+  "folder": null,
   "choreoAuto": false
 }

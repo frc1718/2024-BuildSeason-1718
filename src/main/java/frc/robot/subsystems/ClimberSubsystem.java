@@ -10,7 +10,6 @@ import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.GravityTypeValue;
@@ -20,6 +19,8 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Robot;
+import frc.robot.RobotContainer;
 
 /**
  * The climber subsystem utilizies cutting edge <i>Pi-Climb®</i> technology to lift the robot off the ground.
@@ -114,14 +115,18 @@ public class ClimberSubsystem extends SubsystemBase {
     }
     m_RightClimb.setPosition(0);
   }
-    
+  public void setClimbed(){
+
+    Robot.robotClimbed = true;
+
+  }
 
   /**
    * Sets the position to move the climber to.  
    * @param desiredPosition Desired climber position, in rotations.
    */
   public void setClimberDesiredPosition(double desiredPosition) {
-    if (Constants.kMotorEnableClimber == 1) {
+    if ((Constants.kMotorEnableClimber == 1) && (Robot.robotClimbed == false)) {
       // System.out.println("Subsystem: Climber - setClimberDesiredPosition");
       m_LeftClimb.setControl(climberMoveRequest.withPosition(desiredPosition));
       m_RightClimb.setControl(climberMoveRequest.withPosition(desiredPosition));

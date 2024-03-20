@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.36,
+      "x": 15.2,
       "y": 4.56
     },
-    "rotation": 0
+    "rotation": 180.0
   },
   "command": {
     "type": "sequential",
@@ -18,13 +18,13 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "BSW1 - BWN1"
+                  "pathName": "RSW1 - RWN1"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "ShooterModePodium"
+                  "name": "AutoShooterModePodium"
                 }
               }
             ]
@@ -51,7 +51,7 @@
         {
           "type": "named",
           "data": {
-            "name": "ShooterModePodium"
+            "name": "AutoShooterModePodium"
           }
         },
         {
@@ -73,13 +73,26 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "BWN1 - BMN2"
+                  "pathName": "RWN1 - RMN3"
                 }
               },
               {
-                "type": "named",
+                "type": "sequential",
                 "data": {
-                  "name": "Suck"
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 1.0
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Suck"
+                      }
+                    }
+                  ]
                 }
               }
             ]
@@ -92,29 +105,22 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "BMN2 - BSP1"
+                  "pathName": "RMN3 - RSP2"
                 }
               },
               {
-                "type": "sequential",
+                "type": "named",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "NotePosition"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "ShooterModePodium"
-                      }
-                    }
-                  ]
+                  "name": "NotePosition"
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShooterModePos2"
           }
         },
         {
@@ -136,13 +142,26 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "BSP1 - BMN1"
+                  "pathName": "RSP2 - RMN2"
                 }
               },
               {
-                "type": "named",
+                "type": "sequential",
                 "data": {
-                  "name": "Suck"
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.25
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Suck"
+                      }
+                    }
+                  ]
                 }
               }
             ]
@@ -155,29 +174,22 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "BMN1 - BSP1"
+                  "pathName": "RMN2 - RSP2"
                 }
               },
               {
-                "type": "sequential",
+                "type": "named",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "NotePosition"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "ShooterModePodium"
-                      }
-                    }
-                  ]
+                  "name": "NotePosition"
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShooterModePos2"
           }
         },
         {

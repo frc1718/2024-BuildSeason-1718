@@ -94,11 +94,12 @@ public class Climb extends Command {
         if (m_climberSubsystem.getClimberInPosition(Constants.kClimberClimbPos)){
           if (Constants.kPrintDriverClimb){System.out.println("Driver Command Climb: Case 2 Complete.");}
           m_climberSubsystem.setClimberDesiredPosition(Constants.kClimberClimbPos);
+          m_climberSubsystem.setClimbed();
+          m_isFinished = true;
         }
     }   
 
-    //Remove once climber is in place.  Here so the command finishes for debugging.
-    m_isFinished = true;
+
     
   }
 

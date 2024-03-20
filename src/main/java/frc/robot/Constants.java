@@ -65,9 +65,16 @@ public class Constants {
     public static final int kMotorEnableClimber = 1;
     public static final int kMotorEnableLeftRollerSpin = 1;
     public static final int kMotorEnableRightRollerSpin = 1;
+    public static final int kMotorEnableShooterIntakeRotate =1;
     // End Motor Enables
 
-    //Enable Print Statemens
+    //Enable Print Statements
+    public static final boolean kPrintAutoShootModePodium = false;
+    public static final boolean kPrintAutoShootModePos1 = false;
+    public static final boolean kPrintAutoShootModePos2 = false;
+    public static final boolean kPrintAutoShootModePos3 = false;
+    public static final boolean kPrintAutoShoot = false;
+
     public static final boolean kPrintOperatorHome = false;
     public static final boolean kPrintOperatorPreClimb = false;
     public static final boolean kPrintOperatorShooterModeAmp = false;
@@ -106,20 +113,24 @@ public class Constants {
     public static final double kShooterArmPodiumPos = -0.0189;  //-0.0473
     public static final double kShooterArmAmpPos = 0.135;   //0.135
     public static final double kShooterArmHomePos = -0.136; //-0.136
-    public static final double kShooterArmMiddleAutoPos = -0.0388;  //-0.0388
-    public static final double kShooterArmRightAutoPos = -0.0388;    //-0.0388
+    public static final double kShooterArmAutoPodiumPos = -0.0473;  //-0.0388
+    public static final double kShooterArmAutoPos1Pos = -0.0473;  //-0.0388
+    public static final double kShooterArmAutoPos2Pos = -0.0473;    //-0.0388
+    public static final double kShooterArmAutoPos3Pos = -0.0473;    //-0.0388
     public static final double kShooterArmPreClimbPos = 0.135;  //0.135
     public static final double kShooterArmTolerancePos = 0.01;  //0.01
     public static final double kShooterArmSpitPos = -0.06;  //-0.06
     public static final double kShooterArmTrapPos = 0.135;  //0.135
+    public static final double kShooterIntakeTrapRotations = 25;
+    public static final double kShooterIntakeRotateHomePos = -3;
         /* Safeties - DO NOT CHANGE THIS LINE */ public static final double kShooterArmUpSafety = 0.135;    //0.135
         /* Safeties - DO NOT CHANGE THIS LINE */ public static final double kShooterArmDownSafety = -0.136; //-0.136
 
 
     public static final int kClimberHomePos = 0;    
-    public static final double kClimberClimbPos = -38.5;
-    public static final double kClimberPreClimbPos = 17.5;
-    public static final int kClimberTolerancePos = 1;
+    public static final double kClimberClimbPos = -38.75;
+    public static final double kClimberPreClimbPos = 24.5;
+    public static final double kClimberTolerancePos = 0.1;
     
     public static final double kFrontIntakeDownPos = 0.00;  //Down so we can suck in
     public static final double kFrontIntakeHomePos = 0.3; //Starting position.  Used to be .38 all the way back.  Changed to speed up.
@@ -139,6 +150,12 @@ public class Constants {
     public static final int kShooterMaxSpeed = 80;
     public static final int kShooterStopSpeed = 0;
     public static final int kShooterPassSpeed = 40;
+    public static final int kShooterAutoPodiumSpeed = 70;
+    public static final int kShooterAutoPos1Speed = 70;
+    public static final int kShooterAutoPos2Speed = 70;
+    public static final int kShooterAutoPos3Speed = 70;
+
+
     
     public static final int kShooterIntakeTrapSpeed = 0;
     public static final int kShooterIntakeSuckSpeed = 80;
@@ -177,14 +194,14 @@ public class Constants {
     // Start Motor Setting Values
     
     //Start ShooterIntakeRotate settings
-    public static final double kShooterIntakeRotateProportional = 0; // An error of 1 rotation per second results in 2V output
+    public static final double kShooterIntakeRotateProportional = 3; // An error of 1 rotation per second results in 2V output
     public static final double kShooterIntakeRotateIntegral = 0; // An error of 1 rotation per second increases output by 0.5V every second
     public static final double kShooterIntakeRotateDerivative = 0; // A change of 1 rotation per second squared results in 0.01 volts output
     public static final double kShooterIntakeRotateFeedFoward = 0; // Falcon 500 is a 500kV motor, 500rpm per V = 8.333 rps per V, 1/8.33 = 0.12 volts / Rotation per second Peak output of 8 volts
     public static final double kShooterIntakeRotateMaxForwardVoltage = 11;
     public static final double kShooterIntakeRotateMaxReverseVoltage = -11;
     public static final double kShooterIntakeRotateSupplyCurrentLimit = 20;
-    public static final double kShooterIntakeRotateVoltageClosedLoopRampPeriod = 0;
+    public static final double kShooterIntakeRotateVoltageClosedLoopRampPeriod = 0.1;
     public static final InvertedValue kShooterIntakeRotateDirection = InvertedValue.Clockwise_Positive;
     public static final double kShooterIntakeRotateMotionMagicCruiseVelocity = 0;
     public static final double kShooterIntakeRotateMotionMagicAcceleration = 0;

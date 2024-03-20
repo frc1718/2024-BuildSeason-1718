@@ -9,12 +9,12 @@ import com.ctre.phoenix6.Orchestra;
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.util.sendable.SendableBuilder;
-import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -29,6 +29,8 @@ public class ShooterIntakeSubsystem extends SubsystemBase {
   TalonFX m_ShooterIntakeRotate = new TalonFX(Constants.kShooterIntakeRotateCanID, "Canivore");
 
   private final VelocityVoltage ShooterIntakeVelocity = new VelocityVoltage(0, 0, true, 0, 0, false, false, false);
+
+  private final PositionVoltage ShooterIntakeMoveRequest = new PositionVoltage(0).withSlot(0);
 
   // Constructs an instance of the shooter intake subsystem.
 
@@ -67,6 +69,24 @@ public class ShooterIntakeSubsystem extends SubsystemBase {
       //System.out.println("ShooterIntakeSubsystem: setShooterIntakeSpeed");
       m_ShooterIntakeSpin.setControl(ShooterIntakeVelocity.withVelocity(speed));
     }
+  }
+
+  public void setShooterIntakeRotate(double rotations){
+    if (Constants.kMotorEnableShooterIntakeRotate ==1) {
+      System.out.println("ShooterIntakeSubsystem: " + rotations);
+      //m_ShooterIntakeRotate.setControl(ShooterIntakeMoveRequest.withPosition(rotations));
+    }
+
+  }
+
+  public boolean getShooterIntakeInPosition(double rotations){
+
+    if ((m_ShooterIntakeRotate.getPosition().getValueAsDouble() < Constants.kShooterIntakeTrapRotations + 1 ) && (m_ShooterIntakeRotate.getPosition().getValueAsDouble() > Constants.kShooterIntakeTrapRotations-1)){
+      return true;
+    } else {
+      return false;
+    }
+
   }
 
   //Leaving this comment as the start of a to-do list.

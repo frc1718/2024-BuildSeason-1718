@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.Operator;
+package frc.robot.commands.Auto;
 
 import frc.robot.Constants;
 import frc.robot.subsystems.FrontIntakeSubsystem;
@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj2.command.Command;
  * The shooter mode amp command sets the shooter mode variable of the shooter subsystem to <i>ShootAmp</i>.
  * In preparation, the speed and position of the shooter is set to fire a shot at the amp.
  */
-public class ShooterModeMiddleAuto extends Command {
+public class AutoShooterModePos3 extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final ShooterSubsystem m_shooterSubsystem;
   private final FrontIntakeSubsystem m_frontIntakeSubsystem;
@@ -28,7 +28,7 @@ public class ShooterModeMiddleAuto extends Command {
    * @param shooterSubsystem An instance of the shooter subsystem.
    * Required.
    */
-  public ShooterModeMiddleAuto(FrontIntakeSubsystem frontIntakeSubsystem, ShooterSubsystem shooterSubsystem) {
+  public AutoShooterModePos3(FrontIntakeSubsystem frontIntakeSubsystem, ShooterSubsystem shooterSubsystem) {
     m_shooterSubsystem = shooterSubsystem;
     m_frontIntakeSubsystem = frontIntakeSubsystem;
 
@@ -42,20 +42,19 @@ public class ShooterModeMiddleAuto extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (Constants.kPrintOperatorShooterModeMiddleAuto){
+    if (Constants.kPrintAutoShootModePos3){
       System.out.println("==========================");
-      System.out.println("Command Operator: ShooterModeMiddleAuto");
+      System.out.println("Command Auto: AutoShootModePos3");
     }
-
     //Initialize State Machine
     m_stateMachine = 1;
 
     // Be careful to only command items here that can't interefere with eachother
     m_frontIntakeSubsystem.setFrontIntakePosition(Constants.kFrontIntakeClearPos);
-    m_shooterSubsystem.setShooterSpeed(Constants.kShooterAmpSpeed);
+    m_shooterSubsystem.setShooterSpeed(Constants.kShooterAutoPos3Speed);
 
     //Set Shooter Mode
-    m_shooterSubsystem.setShooterMode("ShootMiddleAuto");
+    m_shooterSubsystem.setShooterMode("AutoShootModePos3");
 
     m_isFinished = false;
   }
@@ -66,24 +65,24 @@ public class ShooterModeMiddleAuto extends Command {
 
     switch(m_stateMachine) {     
       case 1:  // Front intake in position
-      if (Constants.kPrintOperatorShooterModeMiddleAuto){System.out.println("Operator Command ShooterModeMiddleAuto: Case 1 Started");}
+      if (Constants.kPrintAutoShootModePos3){System.out.println("AutoShootModePos3: Case 1 Started");}
         if (m_frontIntakeSubsystem.getFrontIntakeInPosition(Constants.kFrontIntakeClearPos)) {
-          m_shooterSubsystem.setShooterArmPosition(Constants.kShooterArmMiddleAutoPos);
-          if (Constants.kPrintOperatorShooterModeMiddleAuto){System.out.println("Operator Command ShooterModeMiddleAuto: Case 1 Complete");}
+          m_shooterSubsystem.setShooterArmPosition(Constants.kShooterAutoPos3Speed);
+          if (Constants.kPrintAutoShootModePos3){System.out.println("AutoShootModePos3: Case 1 Complete");}
           m_stateMachine = m_stateMachine + 1;
         }        
         break;
       case 2:  // Arm in position
-      if (Constants.kPrintOperatorShooterModeMiddleAuto){System.out.println("Operator Command ShooterModeMiddleAuto: Case 2 Started");}
-        if (m_shooterSubsystem.getShooterArmInPosition(Constants.kShooterArmMiddleAutoPos)) {
-          if (Constants.kPrintOperatorShooterModeMiddleAuto){System.out.println("Operator Command ShooterModeMiddleAuto: Case 2 Complete");}
+        if (Constants.kPrintAutoShootModePos3){System.out.println("AutoShootModePos3: Case 2 Started");}
+        if (m_shooterSubsystem.getShooterArmInPosition(Constants.kShooterAutoPos3Speed)) {
+          if (Constants.kPrintAutoShootModePos3){System.out.println("AutoShootModePos3: Case 2 Complete");}
           m_stateMachine = m_stateMachine + 1;
         }
         break;
       case 3:  // Shooter up to speed
-      if (Constants.kPrintOperatorShooterModeMiddleAuto){System.out.println("Operator Command ShooterModeMiddleAuto: Case 3 Started");}
-        if (m_shooterSubsystem.getShooterUpToSpeed(Constants.kShooterAmpSpeed)) {
-          if (Constants.kPrintOperatorShooterModeMiddleAuto){System.out.println("Operator Command ShooterModeMiddleAuto: Case 3 Complete");}
+        if (Constants.kPrintAutoShootModePos3){System.out.println("AutoShootModePos3: Case 3 Started");}       
+        if (m_shooterSubsystem.getShooterUpToSpeed(Constants.kShooterAutoPos3Speed)) {
+          if (Constants.kPrintAutoShootModePos3){System.out.println("AutoShootModePos3: Case 3 Complete");}
           m_isFinished = true;
         }
         break;
@@ -94,8 +93,8 @@ public class ShooterModeMiddleAuto extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    if (Constants.kPrintOperatorShooterModeMiddleAuto){
-      System.out.println("Command Operator ShooterModeAmp: Command Complete");
+    if (Constants.kPrintAutoShootModePos3){
+      System.out.println("AutoShootModePos3: Command Complete");
       System.out.println("==========================");
     }
   }
