@@ -119,6 +119,7 @@ public class Robot extends TimedRobot {
       //System.out.println("Alliance Color is: " + DriverStation.getAlliance().get());
       m_robotContainer.resetPose = Constants.resetPoseRed;
     }
+    
   }
   
   public void teleopPeriodic() {}
