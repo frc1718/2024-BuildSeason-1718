@@ -67,6 +67,8 @@ public class Suck extends Command {
 
     m_isFinished = false;
 
+    m_shooterSubsystem.setShooterMode("DoNothing");
+
     //Set required positions
     if (m_beamBreakSubsystem.getNotePresent()){ //Check to see if we have a note present, and end command if we do.
       m_isFinished=true;
@@ -103,6 +105,7 @@ public class Suck extends Command {
           if (m_shooterSubsystem.getShooterArmInPosition(Constants.kShooterArmHomePos)) {
             if (Constants.kPrintDriverSuck){System.out.println("Driver Command Suck: Case 2 Complete!");}
             m_frontIntakeSubsystem.setFrontIntakeSpeed(Constants.kFrontIntakeSuckSpeed);
+            m_cornerRollerSubsystem.setSpinSpeed(Constants.kCornerRollerSpinWithFrontRollerSpeed);
             m_stateMachine = m_stateMachine + 1;
           }
         break;

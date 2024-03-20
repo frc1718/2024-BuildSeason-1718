@@ -110,7 +110,7 @@ public class Constants {
 
     // Start Positions
     public static final double kShooterArmSubwooferPos = -0.1; //-0.11
-    public static final double kShooterArmPodiumPos = -0.0473;  //-0.0388
+    public static final double kShooterArmPodiumPos = -0.0189;  //-0.0473
     public static final double kShooterArmAmpPos = 0.135;   //0.135
     public static final double kShooterArmHomePos = -0.136; //-0.136
     public static final double kShooterArmAutoPodiumPos = -0.0473;  //-0.0388
@@ -145,7 +145,7 @@ public class Constants {
     public static final double kShooterSubwooferSpeed = 70;  //Was 70, at 10 for testing in build room
     public static final int kShooterPodiumSpeed = 70;  //Was 70, at 10 for testing in build room
     public static final int kShooterAmpSpeed = 20;  //Was 20, at 7 for testing in build room
-    public static final int kShooterPoseSpeed = 0;
+    public static final int kShooterLimelightSpeed = 70;    //10 for testing in build room
     public static final int kShooterIdleSpeed = 30; //Was 30, at 5 for testing in build room
     public static final int kShooterMaxSpeed = 80;
     public static final int kShooterStopSpeed = 0;
@@ -250,20 +250,30 @@ public class Constants {
     public static final int kShooterArmRotateCancoderRotorToSensorRatio = 300;
     public static final SensorDirectionValue kShooterArmRotateCancoderDirection = SensorDirectionValue.CounterClockwise_Positive;
     public static final AbsoluteSensorRangeValue kShooterArmRotateCancoderRange = AbsoluteSensorRangeValue.Signed_PlusMinusHalf;
-    public static final double kShooterArmRotateCancoderOffset = 0.38159;
+    public static final double kShooterArmRotateCancoderOffset = 0.379638671875;
     public static final InvertedValue kRightShooterArmRotateDirection = InvertedValue.CounterClockwise_Positive;
     // ShooterArmRotateCancoder settings above /\     /\     /\
 
     // Start CornerRoller settings
-    public static final double kRightRollerProportional=0; // An error of 1 rotation per second results in 2V output
+    public static final double kRightRollerProportional=0.07; // An error of 1 rotation per second results in 2V output
     public static final double kRightRollerIntegral=0; // An error of 1 rotation per second increases output by 0.5V every second
     public static final double kRightRollerDerivative=0; // A change of 1 rotation per second squared results in 0.01 volts output
-    public static final double kRightRollerVelocityFeedFoward=0; // Falcon 500 is a 500kV motor, 500rpm per V = 8.333 rps per V, 1/8.33 = 0.12 volts / Rotation per second
+    public static final double kRightRollerVelocityFeedFoward=0.122; // Falcon 500 is a 500kV motor, 500rpm per V = 8.333 rps per V, 1/8.33 = 0.12 volts / Rotation per second
+    public static final InvertedValue kRightRollerDirection = InvertedValue.Clockwise_Positive;
+    public static final double kRightRollerMaxForwardVoltage = 11;
+    public static final double kRightRollerMaxReverseVoltage = -11;
+    public static final double kRightRollerSupplyCurrentLimit = 20;
+    public static final double kRightRollerClosedLoopRampPeriod = 0;
 
-    public static final double kLeftRollerProportional=0; // An error of 1 rotation per second results in 2V output
+    public static final double kLeftRollerProportional=0.07; // An error of 1 rotation per second results in 2V output
     public static final double kLeftRollerIntegral=0; // An error of 1 rotation per second increases output by 0.5V every second
     public static final double kLeftRollerDerivative=0; // A change of 1 rotation per second squared results in 0.01 volts output
-    public static final double kLeftRollerVelocityFeedFoward=0; // Falcon 500 is a 500kV motor, 500rpm per V = 8.333 rps per V, 1/8.33 = 0.12 volts / Rotation per second
+    public static final double kLeftRollerVelocityFeedFoward=0.122; // Falcon 500 is a 500kV motor, 500rpm per V = 8.333 rps per V, 1/8.33 = 0.12 volts / Rotation per second
+    public static final InvertedValue kLeftRollerDirection = InvertedValue.CounterClockwise_Positive;
+    public static final double kLeftRollerMaxForwardVoltage = 11;
+    public static final double kLeftRollerMaxReverseVoltage = -11;
+    public static final double kLeftRollerSupplyCurrentLimit = 20;
+    public static final double kLeftRollerClosedLoopRampPeriod = 0;
     // End Corner roller settings
 
 
@@ -287,7 +297,7 @@ public class Constants {
     public static final double kFrontIntakeRotateRotorToSensorRatio = 56.25;
     public static final SensorDirectionValue kFrontIntakeRotateCancoderDirection = SensorDirectionValue.CounterClockwise_Positive;
     public static final AbsoluteSensorRangeValue kFrontIntakeRotateCancoderRange = AbsoluteSensorRangeValue.Signed_PlusMinusHalf;
-    public static final double kFrontIntakeRotateCancoderOffset = -0.176514;
+    public static final double kFrontIntakeRotateCancoderOffset = 0.143310546875;
     // FrontIntakeRotateCancoder settings above /\     /\     /\
 
     // Start FrontIntakeSpin settings
@@ -361,7 +371,7 @@ public class Constants {
     public static final String kLimelightName = "limelight";
 
     //Allowable TX tolerance for aiming at an AprilTag.
-    public static final double kTXTolerance = 1.5;    //A complete guess.
+    public static final double kTXTolerance = 4;    //A complete guess.
 
     //Distance between the center of the speaker AprilTag and the floor.
     //The bottom of the AprilTag is 4 ft. 3-7/8 in. from the ground.
@@ -372,7 +382,7 @@ public class Constants {
     //Distance between the lens of the limelight and the floor.
     //Lens of the limelight is 16-9/10 in. from the ground.
     //16-9/10 in. is 0.429 meters.
-    public static final double kLimelightHeight = 0.435;
+    public static final double kLimelightHeight = 0.4445;
 
     //Pose of the blue speaker.
     //Used to be a pose, but only the X and Y are needed.  Changed to a translation to clean up the actual calculation.
@@ -435,12 +445,13 @@ public class Constants {
 
     static {
         //Populating the shooter arm position table.  Values are in rotations.
-        //(Distance in meters, Angle in rotations)
-        kShooterArmTable.put(1.0033, -0.095);
-        kShooterArmTable.put(2.6289, -0.0388);
-        kShooterArmTable.put(4.97, -0.0035);
-        //kShooterArmTable.put(6.0, 55.0);
-        //kShooterArmTable.put(8.0, 45.0);
-        //kShooterArmTable.put(10.0, 35.0);       
+        //(Distance in meters, Angle in rotations) // 4.36 was high, 
+        kShooterArmTable.put(2.0066, -0.0473);
+        kShooterArmTable.put(2.251, -0.0443);
+        kShooterArmTable.put(2.83, -0.034);
+        kShooterArmTable.put(3.6, -0.025);
+        kShooterArmTable.put(4.25, -0.02);
+        kShooterArmTable.put(4.79, -0.017);
+        kShooterArmTable.put(5.28, -0.018);
     }
 }

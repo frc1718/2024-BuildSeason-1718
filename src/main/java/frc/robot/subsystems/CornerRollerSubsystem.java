@@ -84,7 +84,7 @@ public class CornerRollerSubsystem extends SubsystemBase {
     RightRollerMotorsConfig.Slot0.kD = Constants.kRightRollerDerivative; // A change of 1 rotation per second squared results in 0.01 volts output
     RightRollerMotorsConfig.Slot0.kV = Constants.kRightRollerVelocityFeedFoward; // Falcon 500 is a 500kV motor, 500rpm per V = 8.333 rps per V, 1/8.33 = 0.12 volts / Rotation per second
   
-    RightRollerMotorsConfig.MotorOutput.Inverted = Constants.kRightShooterDirection;
+    RightRollerMotorsConfig.MotorOutput.Inverted = Constants.kRightRollerDirection;
 
     // Peak output of 8 volts
     RightRollerMotorsConfig.Voltage.PeakForwardVoltage = Constants.kRightShooterMaxForwardVoltage;
@@ -114,7 +114,7 @@ public class CornerRollerSubsystem extends SubsystemBase {
     LeftRollerMotorsConfig.Slot0.kD = Constants.kLeftRollerDerivative; // A change of 1 rotation per second squared results in 0.01 volts output
     LeftRollerMotorsConfig.Slot0.kV = Constants.kLeftRollerVelocityFeedFoward; // Falcon 500 is a 500kV motor, 500rpm per V = 8.333 rps per V, 1/8.33 = 0.12 volts / Rotation per second
   
-    LeftRollerMotorsConfig.MotorOutput.Inverted = Constants.kLeftShooterDirection;
+    LeftRollerMotorsConfig.MotorOutput.Inverted = Constants.kLeftRollerDirection;
 
     // Peak output of 8 volts
     LeftRollerMotorsConfig.Voltage.PeakForwardVoltage = Constants.kLeftShooterMaxForwardVoltage;
