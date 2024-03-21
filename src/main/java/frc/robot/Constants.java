@@ -117,12 +117,12 @@ public class Constants {
     public static final double kShooterArmAutoPos1Pos = -0.0473;  //-0.0388
     public static final double kShooterArmAutoPos2Pos = -0.0473;    //-0.0388
     public static final double kShooterArmAutoPos3Pos = -0.0473;    //-0.0388
-    public static final double kShooterArmPreClimbPos = 0.135;  //0.135
+    public static final double kShooterArmPreClimbPos = 0.120;  //0.135
     public static final double kShooterArmTolerancePos = 0.01;  //0.01
     public static final double kShooterArmSpitPos = -0.06;  //-0.06
     public static final double kShooterArmTrapPos = 0.135;  //0.135
-    public static final double kShooterIntakeTrapRotations = 25;
-    public static final double kShooterIntakeRotateHomePos = -3;
+    public static final double kShooterIntakeTrapRotations = 28;
+    public static final double kShooterIntakeRotateHomePos = -3.5;
         /* Safeties - DO NOT CHANGE THIS LINE */ public static final double kShooterArmUpSafety = 0.135;    //0.135
         /* Safeties - DO NOT CHANGE THIS LINE */ public static final double kShooterArmDownSafety = -0.136; //-0.136
 
@@ -202,7 +202,7 @@ public class Constants {
     public static final double kShooterIntakeRotateMaxReverseVoltage = -11;
     public static final double kShooterIntakeRotateSupplyCurrentLimit = 20;
     public static final double kShooterIntakeRotateVoltageClosedLoopRampPeriod = 0.1;
-    public static final InvertedValue kShooterIntakeRotateDirection = InvertedValue.Clockwise_Positive;
+    public static final InvertedValue kShooterIntakeRotateDirection = InvertedValue.CounterClockwise_Positive;
     public static final double kShooterIntakeRotateMotionMagicCruiseVelocity = 0;
     public static final double kShooterIntakeRotateMotionMagicAcceleration = 0;
     

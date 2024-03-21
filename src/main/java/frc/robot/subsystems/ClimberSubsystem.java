@@ -10,6 +10,7 @@ import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.GravityTypeValue;
@@ -37,6 +38,8 @@ public class ClimberSubsystem extends SubsystemBase {
 
   //private final MotionMagicVoltage climberMove = new MotionMagicVoltage(0.0, true, 0, 0, false, false, false);
   private final PositionVoltage climberMoveRequest = new PositionVoltage(0).withSlot(0);
+  
+  private final DutyCycleOut ClimberVoltageRequest = new DutyCycleOut(0, false, false, false, false);
   /**
    * Constructs an instance of the climber subsystem.
    * The motor configuration for the climber is done here.
@@ -163,6 +166,11 @@ public class ClimberSubsystem extends SubsystemBase {
   public boolean getPreClimbNotActuated(){
     //System.out.println("Subsystem: Climber - getPreClimbActuated");
     return !m_preClimbActuated;
+  }
+
+  public void setClimberZeroOutput() {
+    m_LeftClimb.setControl(ClimberVoltageRequest);
+    m_RightClimb.setControl(ClimberVoltageRequest);
   }
 
   /**

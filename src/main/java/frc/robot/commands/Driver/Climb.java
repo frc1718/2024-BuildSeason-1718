@@ -112,6 +112,7 @@ public class Climb extends Command {
       if (Constants.kPrintDriverClimb){System.out.println("Driver Command: Climb interrupted!");}
     }
       if (Constants.kPrintDriverClimb){System.out.println("================================");}
+      m_climberSubsystem.setClimberZeroOutput();
   }
 
   // Returns true when the command should end.

@@ -85,12 +85,12 @@ public class Robot extends TimedRobot {
       m_robotContainer.driveSign = -1;
     }
     */
-    double m_DistanceBetweenAprilTagAndLimelight = Constants.kSpeakerAprilTagHeight - Constants.kLimelightHeight;
+    //double m_DistanceBetweenAprilTagAndLimelight = Constants.kSpeakerAprilTagHeight - Constants.kLimelightHeight;
     SmartDashboard.putNumber("Pigeon", m_robotContainer.drivetrain.getPigeon2().getAngle());
-    double m_VerticalAngleToAprilTag = Math.toRadians(LimelightHelpers.getTY(Constants.kLimelightName));
+    /*double m_VerticalAngleToAprilTag = Math.toRadians(LimelightHelpers.getTY(Constants.kLimelightName));
     double m_HorizontalAngleToAprilTag = Math.toRadians(LimelightHelpers.getTX(Constants.kLimelightName));
     double m_DistanceToAprilTag = m_DistanceBetweenAprilTagAndLimelight / (Math.tan(m_VerticalAngleToAprilTag) * Math.cos(m_HorizontalAngleToAprilTag));
-    System.out.println(m_DistanceToAprilTag); 
+    System.out.println(m_DistanceToAprilTag); */
   }
   
   @Override
@@ -101,7 +101,7 @@ public class Robot extends TimedRobot {
     //Add a 10ms wait before returning the selected autonomous routine.
     //Should help reduce the delay between the official beginning of autonomous and the start of the PathPlanner autonomous.
     m_autonomousCommand = new WaitCommand(0.010).andThen(m_robotContainer.getAutonomousCommand());
-
+    m_robotContainer.shooterIntake.setShooterIntakeRotate(Constants.kShooterIntakeRotateHomePos);
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
@@ -118,7 +118,7 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-
+    m_robotContainer.shooterIntake.setShooterIntakeRotate(Constants.kShooterIntakeRotateHomePos);
     m_notePositionCommand.schedule();
     
     if (DriverStation.getAlliance().get() == Alliance.Blue) {

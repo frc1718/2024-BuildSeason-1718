@@ -9,11 +9,13 @@ import com.ctre.phoenix6.Orchestra;
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
+import edu.wpi.first.units.Voltage;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -31,6 +33,8 @@ public class ShooterIntakeSubsystem extends SubsystemBase {
   private final VelocityVoltage ShooterIntakeVelocity = new VelocityVoltage(0, 0, true, 0, 0, false, false, false);
 
   private final PositionVoltage ShooterIntakeMoveRequest = new PositionVoltage(0).withSlot(0);
+
+  private final DutyCycleOut ShooterIntakeRotateVoltageRequest = new DutyCycleOut(0, false, false, false, false);
 
   // Constructs an instance of the shooter intake subsystem.
 
@@ -74,19 +78,27 @@ public class ShooterIntakeSubsystem extends SubsystemBase {
   public void setShooterIntakeRotate(double rotations){
     if (Constants.kMotorEnableShooterIntakeRotate ==1) {
       System.out.println("ShooterIntakeSubsystem: " + rotations);
-      //m_ShooterIntakeRotate.setControl(ShooterIntakeMoveRequest.withPosition(rotations));
+      m_ShooterIntakeRotate.setControl(ShooterIntakeMoveRequest.withPosition(rotations));
     }
 
   }
 
   public boolean getShooterIntakeInPosition(double rotations){
 
-    if ((m_ShooterIntakeRotate.getPosition().getValueAsDouble() < Constants.kShooterIntakeTrapRotations + 1 ) && (m_ShooterIntakeRotate.getPosition().getValueAsDouble() > Constants.kShooterIntakeTrapRotations-1)){
+    if ((Math.abs(m_ShooterIntakeRotate.getPosition().getValueAsDouble()) < Constants.kShooterIntakeTrapRotations + 10)){
       return true;
     } else {
       return false;
     }
 
+  }
+
+  public double getShooterIntakePosition() {
+    return m_ShooterIntakeRotate.getPosition().getValueAsDouble();
+  }
+
+  public void setShooterIntakeRotateZeroOutput() {
+    m_ShooterIntakeRotate.setControl(ShooterIntakeRotateVoltageRequest);
   }
 
   //Leaving this comment as the start of a to-do list.

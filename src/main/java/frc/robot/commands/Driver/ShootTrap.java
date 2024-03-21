@@ -66,11 +66,13 @@ public class ShootTrap extends Command {
         if (m_climberSubsystem.getPreClimbActuated()) {
           if (Constants.kPrintDriverShootTrap){System.out.println("Driver Command ShootTrap: Complete!");}
           m_shooterIntakeSubsystem.setShooterIntakeRotate(Constants.kShooterIntakeTrapRotations);
-          m_stateMachine = m_stateMachine++;
+          m_stateMachine = m_stateMachine + 1;
         }
       break;
       case 2:
+        System.out.println(m_shooterIntakeSubsystem.getShooterIntakePosition());
         if (m_shooterIntakeSubsystem.getShooterIntakeInPosition(Constants.kShooterIntakeTrapRotations)){
+          System.out.println("Inside Set Shooter Intake Speed");
           m_shooterIntakeSubsystem.setShooterIntakeSpeed(-15);
         }
       break;
