@@ -26,10 +26,10 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.LEDs.LightLEDOnNotePresent;
-import frc.robot.commands.DriveWhileFacingAngle;
 import frc.robot.commands.Operator.Home;
 import frc.robot.commands.Operator.PreClimb;
 import frc.robot.commands.Operator.ShooterModeAmp;
+import frc.robot.commands.Drive;
 import frc.robot.commands.Auto.AutoShooterModePodium;
 import frc.robot.commands.Auto.AutoShooterModePos1;
 import frc.robot.commands.Auto.AutoShooterModePos2;
@@ -115,17 +115,7 @@ public class RobotContainer {
 
   private void configureBindings() {
     //Schedules drivertain
-    drivetrain.setDefaultCommand( // Drivetrain will execute this command periodically
-        drivetrain.applyRequest(() -> drive.withVelocityX(-driveController.getLeftY() * MaxSpeed * driveSign) // Drive forward with
-                                                                                           // negative Y (forward)
-            .withVelocityY(-driveController.getLeftX() * MaxSpeed * driveSign) // Drive left with negative X (left)
-            .withRotationalRate(-driveController.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
-        ).ignoringDisable(true));
-
-    //I bet there's a much better place to put this assignment, but I don't know where.
-    //These gains are also completely made up.  Not terrible in simulation, but don't trust them.
-    rootyTootyPointAndShooty.HeadingController.enableContinuousInput(-Math.PI, Math.PI);
-    rootyTootyPointAndShooty.HeadingController.setPID(20, 0, 0.05); 
+    drivetrain.setDefaultCommand(new Drive(drivetrain,driveController,shooter,climber,driveSign)); 
 
     /********************************************************************/
     /*                  Driver Controller Assignments                   */
@@ -191,7 +181,7 @@ public class RobotContainer {
     Trigger ShootingModePass = new Trigger(shooter::getShooterModeDoingSomething);
 
     NoteLocationStatus.onTrue(new LightLEDOnNotePresent(LED, beamBreak)).onFalse(new LightLEDOnNotePresent(LED, beamBreak));
-    ShootingModePass.whileTrue(new DriveWhileFacingAngle(drivetrain, driveController, shooter));
+    //ShootingModePass.whileTrue(new DriveWhileFacingAngle(drivetrain, driveController, shooter));
 
     /******************************************************************/
     /*                Operator Controller Assignments                 */
