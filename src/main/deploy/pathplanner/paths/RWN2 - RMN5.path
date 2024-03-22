@@ -3,12 +3,12 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 14.17,
+        "x": 14.1,
         "y": 5.55
       },
       "prevControl": null,
       "nextControl": {
-        "x": 11.476507594470254,
+        "x": 11.406507594470254,
         "y": 6.334626048567362
       },
       "isLocked": true,
@@ -43,7 +43,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Red - From Wing Note",
+  "folder": "Red - From Wing Notes",
   "previewStartingState": {
     "rotation": 180.0,
     "velocity": 0

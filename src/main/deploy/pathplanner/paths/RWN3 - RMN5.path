@@ -17,11 +17,11 @@
     {
       "anchor": {
         "x": 8.59,
-        "y": 7.5
+        "y": 7.0
       },
       "prevControl": {
         "x": 9.036655307627376,
-        "y": 7.423865572563516
+        "y": 6.923865572563516
       },
       "nextControl": null,
       "isLocked": false,
@@ -43,7 +43,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Red - From Wing Note",
+  "folder": "Red - From Wing Notes",
   "previewStartingState": {
     "rotation": 158.18,
     "velocity": 0

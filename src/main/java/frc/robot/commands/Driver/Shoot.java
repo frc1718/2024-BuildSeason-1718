@@ -147,26 +147,26 @@ public class Shoot extends Command {
               m_IgnoreLimelight = true;            
           }
         break;
-        case "AutoShooterModePose1":
+        case "AutoShooterModePos1":
           m_shooterArmPosition = Constants.kShooterArmAutoPos1Pos;
-          m_shooterSpeed = Constants.kShooterStopSpeed;
-          m_frontIntakePosition = Constants.kFrontIntakeHomePos;
+          m_shooterSpeed = Constants.kShooterAutoPos1Speed;
+          m_frontIntakePosition = Constants.kFrontIntakeClearPos;
           m_frontIntakeSpeed = Constants.kFrontIntakeStopSpeed;
           m_IgnoreLimelight = true;
           System.out.println("Inside ShootMiddleAuto");
         break;
         case "AutoShooterModePos2":
           m_shooterArmPosition = Constants.kShooterArmAutoPos2Pos;
-          m_shooterSpeed = Constants.kShooterStopSpeed;
-          m_frontIntakePosition = Constants.kFrontIntakeHomePos;
+          m_shooterSpeed = Constants.kShooterAutoPos2Speed;
+          m_frontIntakePosition = Constants.kFrontIntakeClearPos;
           m_frontIntakeSpeed = Constants.kFrontIntakeStopSpeed;
           m_IgnoreLimelight = true;
           System.out.println("Inside ShootRightAuto");
         break;
         case "AutoShooterModePos3":
           m_shooterArmPosition = Constants.kShooterArmAutoPos3Pos;
-          m_shooterSpeed = Constants.kShooterStopSpeed;
-          m_frontIntakePosition = Constants.kFrontIntakeHomePos;
+          m_shooterSpeed = Constants.kShooterAutoPos3Speed;
+          m_frontIntakePosition = Constants.kFrontIntakeClearPos;
           m_frontIntakeSpeed = Constants.kFrontIntakeStopSpeed;
           m_IgnoreLimelight = true;
           System.out.println("Inside ShootPass");

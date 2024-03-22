@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 14.17,
+        "x": 14.1,
         "y": 5.55
       },
       "prevControl": null,
       "nextControl": {
-        "x": 13.057470528150757,
-        "y": 5.948168442556572
+        "x": 11.821142639428137,
+        "y": 5.438658877317755
       },
       "isLocked": false,
       "linkedName": "RWN2"
@@ -17,15 +17,15 @@
     {
       "anchor": {
         "x": 8.42,
-        "y": 4.11050362756931
+        "y": 3.86
       },
       "prevControl": {
-        "x": 10.775989821137987,
-        "y": 3.361010088639293
+        "x": 12.756050654958454,
+        "y": 3.5756148818105666
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "RMN3"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -43,7 +43,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Red - From Wing Note",
+  "folder": "Red - From Wing Notes",
   "previewStartingState": {
     "rotation": 180.0,
     "velocity": 0

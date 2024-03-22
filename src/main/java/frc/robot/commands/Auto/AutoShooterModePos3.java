@@ -67,14 +67,14 @@ public class AutoShooterModePos3 extends Command {
       case 1:  // Front intake in position
       if (Constants.kPrintAutoShootModePos3){System.out.println("AutoShootModePos3: Case 1 Started");}
         if (m_frontIntakeSubsystem.getFrontIntakeInPosition(Constants.kFrontIntakeClearPos)) {
-          m_shooterSubsystem.setShooterArmPosition(Constants.kShooterAutoPos3Speed);
+          m_shooterSubsystem.setShooterArmPosition(Constants.kShooterArmAutoPos3Pos);
           if (Constants.kPrintAutoShootModePos3){System.out.println("AutoShootModePos3: Case 1 Complete");}
           m_stateMachine = m_stateMachine + 1;
         }        
         break;
       case 2:  // Arm in position
         if (Constants.kPrintAutoShootModePos3){System.out.println("AutoShootModePos3: Case 2 Started");}
-        if (m_shooterSubsystem.getShooterArmInPosition(Constants.kShooterAutoPos3Speed)) {
+        if (m_shooterSubsystem.getShooterArmInPosition(Constants.kShooterArmAutoPos3Pos)) {
           if (Constants.kPrintAutoShootModePos3){System.out.println("AutoShootModePos3: Case 2 Complete");}
           m_stateMachine = m_stateMachine + 1;
         }
@@ -93,6 +93,7 @@ public class AutoShooterModePos3 extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_stateMachine = 1;
     if (Constants.kPrintAutoShootModePos3){
       System.out.println("AutoShootModePos3: Command Complete");
       System.out.println("==========================");

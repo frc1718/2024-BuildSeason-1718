@@ -110,19 +110,19 @@ public class Constants {
 
     // Start Positions
     public static final double kShooterArmSubwooferPos = -0.1; //-0.11
-    public static final double kShooterArmPodiumPos = -0.0189;  //-0.0473
+    public static final double kShooterArmPodiumPos = -0.0473;  //-0.0473
     public static final double kShooterArmAmpPos = 0.135;   //0.135
     public static final double kShooterArmHomePos = -0.136; //-0.136
-    public static final double kShooterArmAutoPodiumPos = -0.0473;  //-0.0388
+    public static final double kShooterArmAutoPodiumPos = -0.0468;  //-0.0388
     public static final double kShooterArmAutoPos1Pos = -0.0473;  //-0.0388
     public static final double kShooterArmAutoPos2Pos = -0.0473;    //-0.0388
-    public static final double kShooterArmAutoPos3Pos = -0.0473;    //-0.0388
+    public static final double kShooterArmAutoPos3Pos = -0.0167;    //-0.0388
     public static final double kShooterArmPreClimbPos = 0.120;  //0.135
-    public static final double kShooterArmTolerancePos = 0.01;  //0.01
+    public static final double kShooterArmTolerancePos = 0.005;  //0.01
     public static final double kShooterArmSpitPos = -0.06;  //-0.06
     public static final double kShooterArmTrapPos = 0.135;  //0.135
     public static final double kShooterIntakeTrapRotations = 31;
-    public static final double kShooterIntakeRotateHomePos = -3.5;
+    public static final double kShooterIntakeRotateHomePos = -2;
         /* Safeties - DO NOT CHANGE THIS LINE */ public static final double kShooterArmUpSafety = 0.135;    //0.135
         /* Safeties - DO NOT CHANGE THIS LINE */ public static final double kShooterArmDownSafety = -0.136; //-0.136
 
@@ -132,7 +132,7 @@ public class Constants {
     public static final double kClimberPreClimbPos = 24.5;
     public static final double kClimberTolerancePos = 0.1;
     
-    public static final double kFrontIntakeDownPos = 0.00;  //Down so we can suck in
+    public static final double kFrontIntakeDownPos = 0.005;  //Down so we can suck in
     public static final double kFrontIntakeHomePos = 0.3; //Starting position.  Used to be .38 all the way back.  Changed to speed up.
     public static final double kFrontIntakeTolerancePos = 0.015;
     public static final double kFrontIntakeClearPos = 0.239; //was .239Clear is clear of the shooterarm motion
