@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 15.144517592886828,
-      "y": 7.29585116802188
+      "x": 15.2,
+      "y": 4.56
     },
     "rotation": 180.0
   },
@@ -12,22 +12,15 @@
     "data": {
       "commands": [
         {
-          "type": "parallel",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "RSL3 - WN3"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "AutoShooterModePodium"
-                }
-              }
-            ]
+            "pathName": "RSW1 - RWN1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShooterModePodium"
           }
         },
         {
@@ -51,7 +44,7 @@
         {
           "type": "named",
           "data": {
-            "name": "AutoShooterModePodium"
+            "name": "ShooterModePodium"
           }
         },
         {
@@ -61,53 +54,15 @@
           }
         },
         {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "RWN3 - RWN2"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Suck"
-                }
-              }
-            ]
-          }
-        },
-        {
           "type": "named",
           "data": {
-            "name": "NotePosition"
+            "name": "Home"
           }
         },
         {
-          "type": "parallel",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "RWN2 - RWN1"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "AutoShooterModePodium"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot"
+            "pathName": "RWN1 - RMN2"
           }
         },
         {
@@ -123,15 +78,40 @@
           }
         },
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "AutoShooterModePodium"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "RMN2 - RWN1"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ShooterModePodium"
+                }
+              }
+            ]
           }
         },
         {
           "type": "named",
           "data": {
             "name": "Shoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Home"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "RWN1 - RMN1"
           }
         }
       ]

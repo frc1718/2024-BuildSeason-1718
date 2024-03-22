@@ -2,19 +2,56 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 15.84,
-      "y": 4.4
+      "x": 15.144517592886828,
+      "y": 7.29585116802188
     },
-    "rotation": -120.0
+    "rotation": 180.0
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "RSL3 - WN3"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ShooterModePodium"
+                }
+              }
+            ]
+          }
+        },
+        {
           "type": "named",
           "data": {
-            "name": "ShooterModeSubwoofer"
+            "name": "Shoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Suck"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "NotePosition"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShooterModePodium"
           }
         },
         {
@@ -30,7 +67,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "RSWSide1 - RMN1"
+                  "pathName": "RWN3 - RWN2"
                 }
               },
               {
@@ -43,38 +80,25 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "NotePosition"
+          }
+        },
+        {
           "type": "parallel",
           "data": {
             "commands": [
               {
                 "type": "path",
                 "data": {
-                  "pathName": "RMN1 - RSP1"
+                  "pathName": "RWN2 - RWN1"
                 }
               },
               {
-                "type": "sequential",
+                "type": "named",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 10.0
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "NotePosition"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "ShooterModePos1"
-                      }
-                    }
-                  ]
+                  "name": "ShooterModePodium"
                 }
               }
             ]
@@ -89,69 +113,25 @@
         {
           "type": "named",
           "data": {
-            "name": "Home"
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "RSP1 - RMN2"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Suck"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "RMN2 - RSP1"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "NotePosition"
-                }
-              }
-            ]
+            "name": "Suck"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "ShooterModePos1"
+            "name": "NotePosition"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShooterModePodium"
           }
         },
         {
           "type": "named",
           "data": {
             "name": "Shoot"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Home"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "RSP1 - RMN1"
           }
         }
       ]

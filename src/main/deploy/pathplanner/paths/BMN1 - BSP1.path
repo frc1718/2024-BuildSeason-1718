@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.32990758289209,
-        "y": 0.9373595670268261
+        "x": 3.978136417811299,
+        "y": 1.6280455637834357
       },
       "isLocked": true,
       "linkedName": "BMN1"
     },
     {
       "anchor": {
-        "x": 3.5242570485140985,
-        "y": 3.0587522713506967
+        "x": 2.7250346808385935,
+        "y": 3.019284500107463
       },
       "prevControl": {
-        "x": 4.007737246243725,
-        "y": 2.6048729020534975
+        "x": 3.277583478243881,
+        "y": 2.6640745589183488
       },
       "nextControl": null,
       "isLocked": true,
@@ -39,11 +39,11 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -39.98000000000002,
+    "rotation": -47.00999999999999,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Blue - From Mid Note",
+  "folder": "BSWSide Auto Parts",
   "previewStartingState": {
     "rotation": 0.0,
     "velocity": 0

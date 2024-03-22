@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 15.26,
-      "y": 6.63
+      "x": 15.167939265978388,
+      "y": 5.574358195791997
     },
     "rotation": 180.0
   },
@@ -18,13 +18,13 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "RSW3 - RWN3"
+                  "pathName": "RSW2 - RWN2"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "AutoShooterModePodium"
+                  "name": "ShooterModePodium"
                 }
               }
             ]
@@ -51,7 +51,7 @@
         {
           "type": "named",
           "data": {
-            "name": "AutoShooterModePodium"
+            "name": "ShooterModePodium"
           }
         },
         {
@@ -61,29 +61,9 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "RWN3 - RMN5"
-                }
-              },
-              {
-                "type": "sequential",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Suck"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
+            "name": "Home"
           }
         },
         {
@@ -93,7 +73,26 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "RMN5 - RWN3"
+                  "pathName": "RWN2 - RMN3"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Suck"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "RMN3 - RWN2"
                 }
               },
               {
@@ -101,12 +100,6 @@
                 "data": {
                   "name": "NotePosition"
                 }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "AutoShooterModePodium"
-                }
               }
             ]
           }
@@ -114,12 +107,24 @@
         {
           "type": "named",
           "data": {
+            "name": "ShooterModePodium"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "Shoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Home"
           }
         }
       ]
     }
   },
-  "folder": "Bad Ones",
+  "folder": null,
   "choreoAuto": false
 }

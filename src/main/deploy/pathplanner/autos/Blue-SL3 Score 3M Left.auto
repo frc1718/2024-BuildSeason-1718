@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 15.2,
-      "y": 4.56
+      "x": 1.42,
+      "y": 7.3
     },
-    "rotation": 180.0
+    "rotation": 0
   },
   "command": {
     "type": "sequential",
@@ -18,13 +18,13 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "RSW1 - RWN1"
+                  "pathName": "BSL3 - BWN3"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "AutoShooterModePodium"
+                  "name": "ShooterModePodium"
                 }
               }
             ]
@@ -51,7 +51,7 @@
         {
           "type": "named",
           "data": {
-            "name": "AutoShooterModePodium"
+            "name": "ShooterModePodium"
           }
         },
         {
@@ -61,25 +61,32 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "Home"
-          }
-        },
-        {
           "type": "parallel",
           "data": {
             "commands": [
               {
                 "type": "path",
                 "data": {
-                  "pathName": "RWN1 - RMN2"
+                  "pathName": "BWN3 - BMN5"
                 }
-              },
+              }
+            ]
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
               {
                 "type": "named",
                 "data": {
                   "name": "Suck"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 2.0
                 }
               }
             ]
@@ -92,7 +99,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "RMN2 - RSP1"
+                  "pathName": "BMN5 - BWN3"
                 }
               },
               {
@@ -108,7 +115,7 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "ShooterModePos1"
+                        "name": "ShooterModePodium"
                       }
                     }
                   ]
@@ -120,13 +127,13 @@
         {
           "type": "named",
           "data": {
-            "name": "Shoot"
+            "name": "NotePosition"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Home"
+            "name": "Shoot"
           }
         },
         {
@@ -136,7 +143,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "RSP1 - RMN1"
+                  "pathName": "BWN3 - BMN4"
                 }
               },
               {
@@ -149,47 +156,15 @@
           }
         },
         {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "RMN1 - RSP1"
-                }
-              },
-              {
-                "type": "sequential",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "NotePosition"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "ShooterModePos1"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        },
-        {
           "type": "named",
           "data": {
-            "name": "Shoot"
+            "name": "NotePosition"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "RSP1 - RMN1"
+            "pathName": "BMN4 - BWN3"
           }
         }
       ]

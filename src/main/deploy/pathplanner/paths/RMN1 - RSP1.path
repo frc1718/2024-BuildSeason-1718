@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 13.0,
-        "y": 3.06
+        "x": 13.77,
+        "y": 3.019284500107463
       },
       "prevControl": {
-        "x": 11.774711879723332,
-        "y": 1.891027674126016
+        "x": 12.544711879723332,
+        "y": 1.8503121742334787
       },
       "nextControl": null,
       "isLocked": false,
@@ -39,11 +39,11 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -140.9,
+    "rotation": -131.11,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Red - From Mid Note",
+  "folder": "RSWSide Auto Parts",
   "previewStartingState": {
     "rotation": 180.0,
     "velocity": 0
