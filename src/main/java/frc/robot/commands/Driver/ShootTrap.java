@@ -61,16 +61,22 @@ public class ShootTrap extends Command {
   @Override
   public void execute() {
     switch(m_stateMachine) {
-      case 1:
-        //Set values based on shooter mode the operator has selected
+      case 1: //Extend Note Out from Shooter Intake
         if (m_climberSubsystem.getPreClimbActuated()) {
-          if (Constants.kPrintDriverShootTrap){System.out.println("Driver Command ShootTrap: Complete!");}
-          m_shooterIntakeSubsystem.setShooterIntakeRotate(Constants.kShooterIntakeTrapRotations);
+          if (Constants.kPrintDriverShootTrap){System.out.println("Driver Command ShootTrap: Case 1");}
+          m_shooterIntakeSubsystem.setShooterIntakeSpinPosition(Constants.kShooterIntakeSpinPositionNoteForward);  
           m_stateMachine = m_stateMachine + 1;
         }
       break;
-      case 2:
-        System.out.println(m_shooterIntakeSubsystem.getShooterIntakePosition());
+      case 2: //Extend Note Out from shooter intake
+        if (Constants.kPrintDriverShootTrap){System.out.println("Driver Command ShootTrap: Case 2");}
+        if (m_shooterIntakeSubsystem.getShooterIntakeSpinInPosition()){
+          m_shooterIntakeSubsystem.setShooterIntakeRotate(Constants.kShooterIntakeTrapRotations);
+        }    
+        m_stateMachine = m_stateMachine + 1;
+      break;
+      case 3: //Tip Intake Forward
+        if (Constants.kPrintDriverShootTrap){System.out.println("Driver Command ShootTrap: Case 3");}
         if (m_shooterIntakeSubsystem.getShooterIntakeInPosition(Constants.kShooterIntakeTrapRotations)){
           System.out.println("Inside Set Shooter Intake Speed");
           m_shooterIntakeSubsystem.setShooterIntakeSpeed(-15);

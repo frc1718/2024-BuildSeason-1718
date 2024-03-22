@@ -123,6 +123,8 @@ public class Constants {
     public static final double kShooterArmTrapPos = 0.135;  //0.135
     public static final double kShooterIntakeTrapRotations = 31;
     public static final double kShooterIntakeRotateHomePos = -2;
+    public static final double kShooterIntakeSpinPosition = 0;
+    public static final double kShooterIntakeSpinPositionNoteForward = 0;
         /* Safeties - DO NOT CHANGE THIS LINE */ public static final double kShooterArmUpSafety = 0.135;    //0.135
         /* Safeties - DO NOT CHANGE THIS LINE */ public static final double kShooterArmDownSafety = -0.136; //-0.136
 
