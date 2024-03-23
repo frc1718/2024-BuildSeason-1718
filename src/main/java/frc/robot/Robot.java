@@ -39,8 +39,6 @@ public class Robot extends TimedRobot {
     //Hopefully, this makes the auton load faster.
     m_autonLoading = new PathPlannerAuto("Blue - Score 0").ignoringDisable(true);
 
-    CameraServer.startAutomaticCapture();
-
     //Setting up port forwarding for all limelight related ports.
     //Only setting the port-forwarding once in the code.
     for (int port = 5800; port <= 5807; port++) {

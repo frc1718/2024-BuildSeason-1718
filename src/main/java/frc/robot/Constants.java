@@ -454,7 +454,7 @@ public class Constants {
         kShooterArmTable.put(2.83, -0.034);
         kShooterArmTable.put(3.6, -0.0225);
         kShooterArmTable.put(4.25, -0.0175);
-        kShooterArmTable.put(4.79, -0.0145);
-        kShooterArmTable.put(5.28, -0.0155);
+        kShooterArmTable.put(4.79, -0.0165);
+        kShooterArmTable.put(5.28, -0.0160);
     }
 }
