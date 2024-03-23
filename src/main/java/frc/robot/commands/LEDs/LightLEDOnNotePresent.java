@@ -18,7 +18,7 @@ public class LightLEDOnNotePresent extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final LEDSubsystem m_LEDSubsystem;
   private final BeamBreakSubsystem m_beamBreak;
-  Debouncer m_debouncer= new Debouncer(.1, Debouncer.DebounceType.kBoth);
+  Debouncer m_debouncer= new Debouncer(.15, Debouncer.DebounceType.kBoth);
 
   boolean m_isFinished = false;
 

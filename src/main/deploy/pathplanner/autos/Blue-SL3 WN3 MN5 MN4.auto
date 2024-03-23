@@ -69,24 +69,11 @@
                 "data": {
                   "pathName": "BWN3 - BMN5"
                 }
-              }
-            ]
-          }
-        },
-        {
-          "type": "race",
-          "data": {
-            "commands": [
+              },
               {
                 "type": "named",
                 "data": {
                   "name": "Suck"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 2.0
                 }
               }
             ]
@@ -109,6 +96,12 @@
                     {
                       "type": "named",
                       "data": {
+                        "name": "Suck"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
                         "name": "NotePosition"
                       }
                     },
@@ -122,12 +115,6 @@
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "NotePosition"
           }
         },
         {
@@ -156,15 +143,47 @@
           }
         },
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "NotePosition"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "BMN4 - BWN3"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Suck"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "NotePosition"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "ShooterModePodium"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
           }
         },
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "BMN4 - BWN3"
+            "name": "Shoot"
           }
         }
       ]

@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.240655712080656,
-        "y": 5.7721615443230885
+        "x": 8.25,
+        "y": 5.97
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.221003888161625,
-        "y": 6.67221488442977
+        "x": 7.230348176080969,
+        "y": 6.870053340106681
       },
       "isLocked": false,
-      "linkedName": "BMN4"
+      "linkedName": null
     },
     {
       "anchor": {
@@ -32,7 +32,7 @@
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 4.0,
+    "maxVelocity": 4.15,
     "maxAcceleration": 4.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0

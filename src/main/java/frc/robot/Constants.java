@@ -218,7 +218,7 @@ public class Constants {
     public static final double kLeftShooterVelocityFeedFoward = 0.135;
     public static final int kLeftShooterMaxForwardVoltage = 11;
     public static final int kLeftShooterMaxReverseVoltage = -11;
-    public static final int kLeftShooterSupplyCurrentLimit = 60;
+    public static final int kLeftShooterSupplyCurrentLimit = 55;
     public static final int kLeftShooterVoltageClosedLoopRampPeriod = 0;
     // End LeftShooter settings
     
@@ -230,7 +230,7 @@ public class Constants {
     public static final double kRightShooterVelocityFeedFoward = .135;
     public static final int kRightShooterMaxForwardVoltage = 11;
     public static final int kRightShooterMaxReverseVoltage = -11;
-    public static final int kRightShooterSupplyCurrentLimit = 60;
+    public static final int kRightShooterSupplyCurrentLimit = 55;
     public static final int kRightShooterVoltageClosedLoopRampPeriod = 0;
     // End RightShooter settings
 
@@ -247,7 +247,7 @@ public class Constants {
     public static final double kShooterArmRotateMotionMagicCruiseVelocity = 0.235;
     public static final double kShooterArmRotateMotionMagicAcceleration = 2;
     public static final int kShooterArmRotateMotionMagicJerk = 0;
-    public static final int kShooterArmRotateSupplyCurrentLimit = 40;
+    public static final int kShooterArmRotateSupplyCurrentLimit = 35;
     public static final int kShooterArmRotateVoltageClosedLoopRampPeriod = 0;
     // End ShooterArmRotate settings
     public static final int kShooterArmRotateCancoderRotorToSensorRatio = 300;
