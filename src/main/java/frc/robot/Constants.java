@@ -236,11 +236,11 @@ public class Constants {
 
     // Start ShooterArmRotate settings
     public static final InvertedValue kShooterArmRotateDirection = InvertedValue.Clockwise_Positive;
-    public static final double kShooterArmRotateProportional = 60;
+    public static final double kShooterArmRotateProportional = 180;
     public static final double kShooterArmRotateIntegral = 0;
     public static final double kShooterArmRotateDerivative = 0;
     public static final double kShooterArmRotateGravity = 0.3;
-    public static final double kShooterArmRotateVelocityFeedFoward = 41;
+    public static final double kShooterArmRotateVelocityFeedFoward = 38;
     //public static final int kShooterArmRotateStaticFeedFoward = 0;
     public static final int kShooterArmRotateMaxForwardVoltage = 11;
     public static final int kShooterArmRotateMaxReverseVoltage = -11;
