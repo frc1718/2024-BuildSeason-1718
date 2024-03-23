@@ -10,6 +10,7 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -44,6 +45,11 @@ public class Robot extends TimedRobot {
     for (int port = 5800; port <= 5807; port++) {
       PortForwarder.add(port, "limelight.local", port);
     }
+
+    //Set a custom brownout voltage for the RoboRIO.
+    //Only works with the RIO2.
+    RobotController.setBrownoutVoltage(Constants.kCustomBrownout);
+
   }
 
   @Override

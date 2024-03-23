@@ -428,6 +428,9 @@ public class Constants {
 
     public static final Pose2d kDefaultPose = new Pose2d(0, 0, kDefaultRotation);
 
+    //Custom Brownout voltage for the RIO2.
+    public static final double kCustomBrownout = 6.0;
+
     //Interpolation for the shoot with pose command.  The values that correspond to shooting from the subwoofer and podium can also be added.
     //Both tables use distance (in meters) as the key.
     public static final InterpolatingDoubleTreeMap kShooterSpeedTable = new InterpolatingDoubleTreeMap();
