@@ -118,11 +118,14 @@ public class Constants {
     public static final double kShooterArmAutoPos2Pos = -0.0473;    //-0.0388
     public static final double kShooterArmAutoPos3Pos = -0.0167;    //-0.0388
     public static final double kShooterArmPreClimbPos = 0.120;  //0.135
-    public static final double kShooterArmTolerancePos = 0.005;  //0.01
+    public static final double kShooterArmTolerancePos = 0.01;  //0.01
     public static final double kShooterArmSpitPos = -0.06;  //-0.06
     public static final double kShooterArmTrapPos = 0.135;  //0.135
     public static final double kShooterIntakeTrapRotations = 31;
     public static final double kShooterIntakeRotateHomePos = -2;
+    public static final double kShooterIntakeSpinPositionNote = 0;
+    public static final double kShooterIntakeSpinPositionTolerance = .2;
+
         /* Safeties - DO NOT CHANGE THIS LINE */ public static final double kShooterArmUpSafety = 0.135;    //0.135
         /* Safeties - DO NOT CHANGE THIS LINE */ public static final double kShooterArmDownSafety = -0.136; //-0.136
 
@@ -200,7 +203,7 @@ public class Constants {
     public static final double kShooterIntakeRotateFeedFoward = 0; // Falcon 500 is a 500kV motor, 500rpm per V = 8.333 rps per V, 1/8.33 = 0.12 volts / Rotation per second Peak output of 8 volts
     public static final double kShooterIntakeRotateMaxForwardVoltage = 11;
     public static final double kShooterIntakeRotateMaxReverseVoltage = -11;
-    public static final double kShooterIntakeRotateSupplyCurrentLimit = 20;
+    public static final double kShooterIntakeRotateSupplyCurrentLimit = 1; //was 20.  
     public static final double kShooterIntakeRotateVoltageClosedLoopRampPeriod = 0.1;
     public static final InvertedValue kShooterIntakeRotateDirection = InvertedValue.CounterClockwise_Positive;
     public static final double kShooterIntakeRotateMotionMagicCruiseVelocity = 0;
@@ -215,7 +218,7 @@ public class Constants {
     public static final double kLeftShooterVelocityFeedFoward = 0.135;
     public static final int kLeftShooterMaxForwardVoltage = 11;
     public static final int kLeftShooterMaxReverseVoltage = -11;
-    public static final int kLeftShooterSupplyCurrentLimit = 50;
+    public static final int kLeftShooterSupplyCurrentLimit = 60;
     public static final int kLeftShooterVoltageClosedLoopRampPeriod = 0;
     // End LeftShooter settings
     
@@ -227,7 +230,7 @@ public class Constants {
     public static final double kRightShooterVelocityFeedFoward = .135;
     public static final int kRightShooterMaxForwardVoltage = 11;
     public static final int kRightShooterMaxReverseVoltage = -11;
-    public static final int kRightShooterSupplyCurrentLimit = 50;
+    public static final int kRightShooterSupplyCurrentLimit = 60;
     public static final int kRightShooterVoltageClosedLoopRampPeriod = 0;
     // End RightShooter settings
 
@@ -244,7 +247,7 @@ public class Constants {
     public static final double kShooterArmRotateMotionMagicCruiseVelocity = 0.235;
     public static final double kShooterArmRotateMotionMagicAcceleration = 2;
     public static final int kShooterArmRotateMotionMagicJerk = 0;
-    public static final int kShooterArmRotateSupplyCurrentLimit = 60;
+    public static final int kShooterArmRotateSupplyCurrentLimit = 40;
     public static final int kShooterArmRotateVoltageClosedLoopRampPeriod = 0;
     // End ShooterArmRotate settings
     public static final int kShooterArmRotateCancoderRotorToSensorRatio = 300;
@@ -262,7 +265,7 @@ public class Constants {
     public static final InvertedValue kRightRollerDirection = InvertedValue.Clockwise_Positive;
     public static final double kRightRollerMaxForwardVoltage = 11;
     public static final double kRightRollerMaxReverseVoltage = -11;
-    public static final double kRightRollerSupplyCurrentLimit = 20;
+    public static final double kRightRollerSupplyCurrentLimit = 10;
     public static final double kRightRollerClosedLoopRampPeriod = 0;
 
     public static final double kLeftRollerProportional=0.07; // An error of 1 rotation per second results in 2V output
@@ -272,7 +275,7 @@ public class Constants {
     public static final InvertedValue kLeftRollerDirection = InvertedValue.CounterClockwise_Positive;
     public static final double kLeftRollerMaxForwardVoltage = 11;
     public static final double kLeftRollerMaxReverseVoltage = -11;
-    public static final double kLeftRollerSupplyCurrentLimit = 20;
+    public static final double kLeftRollerSupplyCurrentLimit = 10;
     public static final double kLeftRollerClosedLoopRampPeriod = 0;
     // End Corner roller settings
 
@@ -320,7 +323,7 @@ public class Constants {
     public static final double kShooterIntakeSpinVelocityFeedFoward = 0.14;
     public static final int kShooterIntakeSpinMaxForwardVoltage = 11;
     public static final int kShooterIntakeSpinMaxReverseVoltage = -11;
-    public static final int kShooterIntakeSpinSupplyCurrentLimit = 40;
+    public static final int kShooterIntakeSpinSupplyCurrentLimit = 20;
     public static final int kShooterIntakeSpinVoltageClosedLoopRampPeriod = 0;
     // End ShooterIntakeSpin settings
 
@@ -355,16 +358,16 @@ public class Constants {
     public static final int kSwerveDriveMaxReverseVoltage = -11;
     //A note of the current limiting: it only kicks in if the current is past the threshold for the threshold time.
     //So, with the values below, the supply current will be limited to 60 A if the motor draws 80 A or higher for 1 sec.
-    public static final int kSwerveDriveSupplyCurrentLimit = 60;
+    public static final int kSwerveDriveSupplyCurrentLimit = 40;
     public static final boolean kSwerveDriveSupplyCurrentLimitEnable = true;
-    public static final int kSwerveDriveSupplyCurrentThreshold = 80;
+    public static final int kSwerveDriveSupplyCurrentThreshold = 60;
     public static final int kSwerveDriveSupplyTimeThreshold = 1;
 
     public static final int kSwerveSteerMaxForwardVoltage = 11;
     public static final int kSwerveSteerMaxReverseVoltage = -11;
-    public static final int kSwerveSteerSupplyCurrentLimit = 60;
+    public static final int kSwerveSteerSupplyCurrentLimit = 30;
     public static final boolean kSwerveSteerSupplyCurrentLimitEnable = true;
-    public static final int kSwerveSteerSupplyCurrentThreshold = 80;
+    public static final int kSwerveSteerSupplyCurrentThreshold = 60;
     public static final int kSwerveSteerSupplyTimeThreshold = 1;
 
     //Name of the limelight camera.
@@ -377,7 +380,7 @@ public class Constants {
     //The bottom of the AprilTag is 4 ft. 3-7/8 in. from the ground.
     //Add 4-1/2 in. to the center of the AprilTag.
     //56-3/8 in. is 1.432 meters.
-    public static final double kSpeakerAprilTagHeight = 1.45;
+    public static final double kSpeakerAprilTagHeight = 1.41;
     
     //Distance between the lens of the limelight and the floor.
     //Lens of the limelight is 16-9/10 in. from the ground.
@@ -449,9 +452,9 @@ public class Constants {
         kShooterArmTable.put(2.0066, -0.0473);
         kShooterArmTable.put(2.251, -0.0443);
         kShooterArmTable.put(2.83, -0.034);
-        kShooterArmTable.put(3.6, -0.025);
-        kShooterArmTable.put(4.25, -0.02);
-        kShooterArmTable.put(4.79, -0.017);
-        kShooterArmTable.put(5.28, -0.018);
+        kShooterArmTable.put(3.6, -0.0225);
+        kShooterArmTable.put(4.25, -0.0175);
+        kShooterArmTable.put(4.79, -0.0145);
+        kShooterArmTable.put(5.28, -0.0155);
     }
 }

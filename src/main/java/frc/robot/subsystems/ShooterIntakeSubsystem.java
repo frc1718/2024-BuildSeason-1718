@@ -36,6 +36,9 @@ public class ShooterIntakeSubsystem extends SubsystemBase {
 
   private final DutyCycleOut ShooterIntakeRotateVoltageRequest = new DutyCycleOut(0, false, false, false, false);
 
+  private final PositionVoltage ShooterIntakePosition = new PositionVoltage(0).withSlot(1);
+
+
   // Constructs an instance of the shooter intake subsystem.
 
   public ShooterIntakeSubsystem() {
@@ -74,11 +77,28 @@ public class ShooterIntakeSubsystem extends SubsystemBase {
       m_ShooterIntakeSpin.setControl(ShooterIntakeVelocity.withVelocity(speed));
     }
   }
+/*
+  public void setShooterIntakeSpinPosition(double position){
+    m_ShooterIntakeSpin.setPosition(0);
+      if (Constants.kMotorEnableShooterIntakeSpin == 1){
+      //System.out.println("ShooterIntakeSubsystem: setShooterIntakeSpeed");
+      m_ShooterIntakeSpin.setControl(ShooterIntakePosition.withPosition(position));
+    }
+  }
+
+  public boolean getShooterIntakeSpinInPosition(double position){
+    if (Math.abs(position -  Constants.kShooterIntakeSpinPositionNote) < Constants.kShooterIntakeSpinPositionTolerance){
+      return true;
+    } else {
+      return false;
+    }
+  }
+*/
 
   public void setShooterIntakeRotate(double rotations){
     if (Constants.kMotorEnableShooterIntakeRotate ==1) {
       System.out.println("ShooterIntakeSubsystem: " + rotations);
-      m_ShooterIntakeRotate.setControl(ShooterIntakeMoveRequest.withPosition(rotations));
+     // m_ShooterIntakeRotate.setControl(ShooterIntakeMoveRequest.withPosition(rotations));
     }
 
   }
