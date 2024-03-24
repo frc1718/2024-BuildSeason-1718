@@ -202,7 +202,7 @@ public class RobotContainer {
     operatorController.b().onTrue(new ShooterModeAmp(frontIntake, shooter));
     operatorController.x().onTrue(new ShooterModePass(frontIntake, shooter));
     operatorController.a().onTrue(new ShooterModeSubwoofer(frontIntake, shooter));
-    operatorController.leftBumper().and(operatorController.rightBumper()).debounce(0.5).onTrue(new PreClimb(climber,shooter,frontIntake, shooterIntake));
+    operatorController.leftBumper().and(operatorController.rightBumper()).onTrue(new PreClimb(climber,shooter,frontIntake, shooterIntake));
     operatorController.start().onTrue(new Home(climber, shooter, frontIntake, shooterIntake));
 
     /**************************************************************************************/
