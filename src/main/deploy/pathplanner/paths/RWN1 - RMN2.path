@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 8.4,
-        "y": 2.39
+        "x": 8.25,
+        "y": 2.32
       },
       "prevControl": {
-        "x": 10.168336318413008,
-        "y": 1.1837838357845039
+        "x": 10.018336318413008,
+        "y": 1.1137838357845036
       },
       "nextControl": null,
       "isLocked": false,
@@ -39,13 +39,13 @@
   },
   "goalEndState": {
     "velocity": 0.0,
-    "rotation": 148.13402230639636,
+    "rotation": 163.5959823492703,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "Red - From Wing Notes",
   "previewStartingState": {
-    "rotation": -150.91,
+    "rotation": -155.17,
     "velocity": 0
   },
   "useDefaultConstraints": true

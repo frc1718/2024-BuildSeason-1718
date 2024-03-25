@@ -61,12 +61,6 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "Home"
-          }
-        },
-        {
           "type": "parallel",
           "data": {
             "commands": [
@@ -77,9 +71,22 @@
                 }
               },
               {
-                "type": "named",
+                "type": "sequential",
                 "data": {
-                  "name": "Suck"
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Home"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Suck"
+                      }
+                    }
+                  ]
                 }
               }
             ]
@@ -99,6 +106,12 @@
                 "type": "sequential",
                 "data": {
                   "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Suck"
+                      }
+                    },
                     {
                       "type": "named",
                       "data": {
@@ -124,12 +137,6 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "Home"
-          }
-        },
-        {
           "type": "parallel",
           "data": {
             "commands": [
@@ -140,9 +147,22 @@
                 }
               },
               {
-                "type": "named",
+                "type": "sequential",
                 "data": {
-                  "name": "Suck"
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Home"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Suck"
+                      }
+                    }
+                  ]
                 }
               }
             ]
@@ -156,6 +176,25 @@
                 "type": "path",
                 "data": {
                   "pathName": "BMN1 - BSP1"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Suck"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "NotePosition"
+                      }
+                    }
+                  ]
                 }
               }
             ]

@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.8,
-        "y": 2.42
+        "x": 8.14,
+        "y": 2.67
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.472281901486881,
-        "y": 0.3848107696215404
+        "x": 4.163875302411209,
+        "y": -0.3615725934281109
       },
       "isLocked": false,
-      "linkedName": "BMN2"
+      "linkedName": null
     },
     {
       "anchor": {
@@ -39,7 +39,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -30.0,
+    "rotation": -26.0,
     "rotateFast": false
   },
   "reversed": false,

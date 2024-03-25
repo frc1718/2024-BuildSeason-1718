@@ -110,7 +110,7 @@ public class Constants {
 
     // Start Positions
     public static final double kShooterArmSubwooferPos = -0.1; //-0.11
-    public static final double kShooterArmPodiumPos = -0.0473;  //-0.0473
+    public static final double kShooterArmPodiumPos = -0.0470;  //Blue -0.0473
     public static final double kShooterArmAmpPos = 0.135;   //0.135
     public static final double kShooterArmHomePos = -0.136; //-0.136
     public static final double kShooterArmAutoPodiumPos = -0.0468;  //-0.0388
@@ -236,10 +236,10 @@ public class Constants {
 
     // Start ShooterArmRotate settings
     public static final InvertedValue kShooterArmRotateDirection = InvertedValue.Clockwise_Positive;
-    public static final double kShooterArmRotateProportional = 180;
+    public static final double kShooterArmRotateProportional = 150; // 150
     public static final double kShooterArmRotateIntegral = 0;
-    public static final double kShooterArmRotateDerivative = 0;
-    public static final double kShooterArmRotateGravity = 0.3;
+    public static final double kShooterArmRotateDerivative = 0; // 0
+    public static final double kShooterArmRotateGravity = 0.25; // 0.3
     public static final double kShooterArmRotateVelocityFeedFoward = 38;
     //public static final int kShooterArmRotateStaticFeedFoward = 0;
     public static final int kShooterArmRotateMaxForwardVoltage = 11;
@@ -452,12 +452,12 @@ public class Constants {
     static {
         //Populating the shooter arm position table.  Values are in rotations.
         //(Distance in meters, Angle in rotations) // 4.36 was high, 
-        kShooterArmTable.put(2.0066, -0.0473);
-        kShooterArmTable.put(2.251, -0.0443);
-        kShooterArmTable.put(2.83, -0.034);
-        kShooterArmTable.put(3.6, -0.0225);
-        kShooterArmTable.put(4.25, -0.0175);
-        kShooterArmTable.put(4.79, -0.0165);
-        kShooterArmTable.put(5.28, -0.0160);
+        kShooterArmTable.put(2.0066, -0.0473); //Blue -0.0473
+        kShooterArmTable.put(2.251, -0.0443); //Blue -0.0443
+        kShooterArmTable.put(2.83, -0.037); //Blue -0.034
+        kShooterArmTable.put(3.6, -0.0295); //Blue -0.0225
+        kShooterArmTable.put(4.25, -0.0220); //Blue -0.0175
+        kShooterArmTable.put(4.79, -0.0165); //Blue -0.0165
+        kShooterArmTable.put(5.28, -0.0160); // Blue -0.0160
     }
 }

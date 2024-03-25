@@ -93,6 +93,12 @@
           }
         },
         {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
+          }
+        },
+        {
           "type": "parallel",
           "data": {
             "commands": [
@@ -106,6 +112,12 @@
                 "type": "sequential",
                 "data": {
                   "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Suck"
+                      }
+                    },
                     {
                       "type": "named",
                       "data": {
@@ -154,6 +166,38 @@
                       "type": "named",
                       "data": {
                         "name": "Suck"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "RMN1 - RWN1"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Suck"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "NotePosition"
                       }
                     }
                   ]
