@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 13.0,
-        "y": 3.06
+        "x": 13.77,
+        "y": 3.019284500107463
       },
       "prevControl": null,
       "nextControl": {
-        "x": 11.372077781882354,
-        "y": 1.3529012604198107
+        "x": 12.142077781882353,
+        "y": 1.3121857605272735
       },
       "isLocked": false,
       "linkedName": "RSP1"
@@ -32,7 +32,7 @@
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 4.0,
+    "maxVelocity": 4.15,
     "maxAcceleration": 4.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0

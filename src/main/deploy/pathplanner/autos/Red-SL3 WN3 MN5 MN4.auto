@@ -24,7 +24,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "AutoShooterModePodium"
+                  "name": "ShooterModePodium"
                 }
               }
             ]
@@ -51,7 +51,7 @@
         {
           "type": "named",
           "data": {
-            "name": "AutoShooterModePodium"
+            "name": "ShooterModePodium"
           }
         },
         {
@@ -69,11 +69,24 @@
                 "data": {
                   "pathName": "RWN3 - RMN5"
                 }
-              },
+              }
+            ]
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
               {
                 "type": "named",
                 "data": {
                   "name": "Suck"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 2.0
                 }
               }
             ]
@@ -86,7 +99,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "RMN5 - RSP3"
+                  "pathName": "RMN5 - RWN3"
                 }
               },
               {
@@ -102,7 +115,7 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "ShooterModePos3"
+                        "name": "ShooterModePodium"
                       }
                     }
                   ]
@@ -124,7 +137,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "RSP3 - RMN4"
+                  "pathName": "RWN3 - RMN4"
                 }
               },
               {
@@ -137,47 +150,15 @@
           }
         },
         {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "RMN4 - RSP3"
-                }
-              },
-              {
-                "type": "sequential",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "NotePosition"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "ShooterModePos3"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        },
-        {
           "type": "named",
           "data": {
-            "name": "Shoot"
+            "name": "NotePosition"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "RSP3 - RMN4"
+            "pathName": "RMN4 - RWN3"
           }
         }
       ]

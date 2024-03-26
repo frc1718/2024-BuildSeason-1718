@@ -57,10 +57,10 @@ public class Home extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (Constants.kPrintOperatorHome){
+    /*if (Constants.kPrintOperatorHome){
       System.out.println("==========================");
       System.out.println("Command Operator: Home");
-    }
+    } */
     //Initialize State Machine
     m_stateMachine = 1;
 

@@ -59,24 +59,33 @@ public class ShootTrap extends Command {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
+  public void execute() {/*
     switch(m_stateMachine) {
-      case 1:
-        //Set values based on shooter mode the operator has selected
+      case 1:  //Set values based on shooter mode the operator has selected
         if (m_climberSubsystem.getPreClimbActuated()) {
-          if (Constants.kPrintDriverShootTrap){System.out.println("Driver Command ShootTrap: Complete!");}
+          if (Constants.kPrintDriverShootTrap){System.out.println("Driver Command ShootTrap: Case 1!");}
           m_shooterIntakeSubsystem.setShooterIntakeRotate(Constants.kShooterIntakeTrapRotations);
           m_stateMachine = m_stateMachine + 1;
         }
       break;
       case 2:
-        System.out.println(m_shooterIntakeSubsystem.getShooterIntakePosition());
+          if (Constants.kPrintDriverShootTrap){System.out.println("Driver Command ShootTrap: Case 2!");}
+
+
+
+
+
+      break;
+      case 3:
+        if (Constants.kPrintDriverShootTrap){System.out.println("Driver Command ShootTrap: Case 3!");}
+        //System.out.println(m_shooterIntakeSubsystem.getShooterIntakePosition());
         if (m_shooterIntakeSubsystem.getShooterIntakeInPosition(Constants.kShooterIntakeTrapRotations)){
           System.out.println("Inside Set Shooter Intake Speed");
           m_shooterIntakeSubsystem.setShooterIntakeSpeed(-15);
         }
       break;
     }
+    */
   }
 
   

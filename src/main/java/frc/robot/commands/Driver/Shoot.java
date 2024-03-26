@@ -97,7 +97,6 @@ public class Shoot extends Command {
           m_frontIntakePosition = Constants.kFrontIntakeClearPos;
           m_frontIntakeSpeed = Constants.kFrontIntakeStopSpeed;
           m_IgnoreLimelight = true;
-          System.out.println("Inside ShootAmp");
           break;
         case "ShootTrap":
           if (Constants.kPrintDriverShoot){System.out.println("Driver Command Shoot: We got ShootTrap from the Operator!");}
@@ -106,7 +105,6 @@ public class Shoot extends Command {
           m_frontIntakePosition = Constants.kFrontIntakeDownPos;
           m_frontIntakeSpeed = Constants.kFrontIntakeStopSpeed;
           m_IgnoreLimelight = true;
-          System.out.println("Inside ShootTrap");
           break;
         case "ShootPodium":
           if (Constants.kPrintDriverShoot){System.out.println("Driver Command Shoot: We got ShootPodium from the Operator!");}
@@ -115,7 +113,6 @@ public class Shoot extends Command {
           m_frontIntakePosition = Constants.kFrontIntakeClearPos;
           m_frontIntakeSpeed = Constants.kFrontIntakeStopSpeed;
           m_IgnoreLimelight = true;
-          System.out.println("Inside ShootPodium");
           break;
         case "ShootSubwoofer":
           if (Constants.kPrintDriverShoot){System.out.println("Driver Command Shoot: We got ShootSubwoofer from the Operator!");}
@@ -124,7 +121,6 @@ public class Shoot extends Command {
           m_frontIntakePosition = Constants.kFrontIntakeClearPos;
           m_frontIntakeSpeed = Constants.kFrontIntakeStopSpeed;
           m_IgnoreLimelight = true;
-          System.out.println("Inside ShootSubwoofer");
           break;
         case "ShootWithPose":
           //We need to calculate the shooter arm position and shooter speed here for shoot with pose.
@@ -136,40 +132,35 @@ public class Shoot extends Command {
             m_frontIntakePosition = Constants.kFrontIntakeClearPos;
             m_frontIntakeSpeed = Constants.kFrontIntakeStopSpeed;
             m_IgnoreLimelight = false;
-            System.out.println(m_frontIntakePosition);
             m_stateMachine=0;
           } else {
               m_shooterArmPosition = Constants.kShooterArmHomePos;
               m_shooterSpeed = Constants.kShooterStopSpeed;
               m_frontIntakePosition = Constants.kFrontIntakeHomePos;
               m_frontIntakeSpeed = Constants.kFrontIntakeStopSpeed;
-              System.out.println("NOT Inside Limelight Shooting");
               m_IgnoreLimelight = true;            
           }
         break;
-        case "AutoShooterModePose1":
+        case "AutoShooterModePos1":
           m_shooterArmPosition = Constants.kShooterArmAutoPos1Pos;
-          m_shooterSpeed = Constants.kShooterStopSpeed;
-          m_frontIntakePosition = Constants.kFrontIntakeHomePos;
+          m_shooterSpeed = Constants.kShooterAutoPos1Speed;
+          m_frontIntakePosition = Constants.kFrontIntakeClearPos;
           m_frontIntakeSpeed = Constants.kFrontIntakeStopSpeed;
           m_IgnoreLimelight = true;
-          System.out.println("Inside ShootMiddleAuto");
         break;
         case "AutoShooterModePos2":
           m_shooterArmPosition = Constants.kShooterArmAutoPos2Pos;
-          m_shooterSpeed = Constants.kShooterStopSpeed;
-          m_frontIntakePosition = Constants.kFrontIntakeHomePos;
+          m_shooterSpeed = Constants.kShooterAutoPos2Speed;
+          m_frontIntakePosition = Constants.kFrontIntakeClearPos;
           m_frontIntakeSpeed = Constants.kFrontIntakeStopSpeed;
           m_IgnoreLimelight = true;
-          System.out.println("Inside ShootRightAuto");
         break;
         case "AutoShooterModePos3":
           m_shooterArmPosition = Constants.kShooterArmAutoPos3Pos;
-          m_shooterSpeed = Constants.kShooterStopSpeed;
-          m_frontIntakePosition = Constants.kFrontIntakeHomePos;
+          m_shooterSpeed = Constants.kShooterAutoPos3Speed;
+          m_frontIntakePosition = Constants.kFrontIntakeClearPos;
           m_frontIntakeSpeed = Constants.kFrontIntakeStopSpeed;
           m_IgnoreLimelight = true;
-          System.out.println("Inside ShootPass");
         break;
       }
 
@@ -177,7 +168,6 @@ public class Shoot extends Command {
       m_shooterSubsystem.setShooterSpeed(m_shooterSpeed);
       m_frontIntakeSubsystem.setFrontIntakePosition(m_frontIntakePosition);
       m_frontIntakeSubsystem.setFrontIntakeSpeed(m_frontIntakeSpeed);
-      System.out.println("Setting front intake position to: " + m_frontIntakePosition);
       m_shooterIntakeSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeStopSpeed);
     }
   }
@@ -193,7 +183,6 @@ public class Shoot extends Command {
             m_DistanceToAprilTag = m_DistanceBetweenAprilTagAndLimelight / (Math.tan(m_VerticalAngleToAprilTag) * Math.cos(m_HorizontalAngleToAprilTag));
             m_shooterArmPosition = Constants.kShooterArmTable.get(m_DistanceToAprilTag);
             m_stateMachine=1;
-            System.out.println("Setting DoNothing and Horizontal Angle < 2");
       }
 
 

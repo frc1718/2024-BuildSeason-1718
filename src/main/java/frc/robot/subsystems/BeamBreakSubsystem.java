@@ -21,8 +21,8 @@ public class BeamBreakSubsystem extends SubsystemBase {
   //Servo intakeHinge = new Servo(Constants.kShooterIntakePivotReleasePWM);
 
   public BeamBreakSubsystem() {
-  m_BeamBreakIntakeAnalog.setAverageBits(4);
-  m_BeamBreakShooterAnalog.setAverageBits(4);
+  m_BeamBreakIntakeAnalog.setAverageBits(6);
+  m_BeamBreakShooterAnalog.setAverageBits(6);
   }
   
   // Start of sensor related methods

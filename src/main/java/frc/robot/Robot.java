@@ -10,6 +10,7 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -39,13 +40,16 @@ public class Robot extends TimedRobot {
     //Hopefully, this makes the auton load faster.
     m_autonLoading = new PathPlannerAuto("Blue - Score 0").ignoringDisable(true);
 
-    CameraServer.startAutomaticCapture();
-
     //Setting up port forwarding for all limelight related ports.
     //Only setting the port-forwarding once in the code.
     for (int port = 5800; port <= 5807; port++) {
       PortForwarder.add(port, "limelight.local", port);
     }
+
+    //Set a custom brownout voltage for the RoboRIO.
+    //Only works with the RIO2.
+    RobotController.setBrownoutVoltage(Constants.kCustomBrownout);
+
   }
 
   @Override
@@ -89,7 +93,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Pigeon", m_robotContainer.drivetrain.getPigeon2().getAngle());
     /*double m_VerticalAngleToAprilTag = Math.toRadians(LimelightHelpers.getTY(Constants.kLimelightName));
     double m_HorizontalAngleToAprilTag = Math.toRadians(LimelightHelpers.getTX(Constants.kLimelightName));
-    double m_DistanceToAprilTag = m_DistanceBetweenAprilTagAndLimelight / (Math.tan(m_VerticalAngleToAprilTag) * Math.cos(m_HorizontalAngleToAprilTag));
+    double m_DistanceToAprilTag = m_DistanceBetweenAprilTagAndLimelight / (Math.tan(m_VerticalAngleToAprilTag));
     System.out.println(m_DistanceToAprilTag); */
   }
   
@@ -131,7 +135,14 @@ public class Robot extends TimedRobot {
     
   }
   
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    //double m_DistanceBetweenAprilTagAndLimelight = Constants.kSpeakerAprilTagHeight - Constants.kLimelightHeight;
+    SmartDashboard.putNumber("Pigeon", m_robotContainer.drivetrain.getPigeon2().getAngle());
+    /*double m_VerticalAngleToAprilTag = Math.toRadians(LimelightHelpers.getTY(Constants.kLimelightName));
+    double m_HorizontalAngleToAprilTag = Math.toRadians(LimelightHelpers.getTX(Constants.kLimelightName));
+    double m_DistanceToAprilTag = m_DistanceBetweenAprilTagAndLimelight / (Math.tan(m_VerticalAngleToAprilTag) * Math.cos(m_HorizontalAngleToAprilTag));
+    System.out.println(m_DistanceToAprilTag); */
+  }
 
   @Override
   public void teleopExit() {}

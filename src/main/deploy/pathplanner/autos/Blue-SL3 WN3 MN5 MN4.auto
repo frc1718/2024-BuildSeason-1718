@@ -24,7 +24,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "AutoShooterModePodium"
+                  "name": "ShooterModePodium"
                 }
               }
             ]
@@ -51,7 +51,7 @@
         {
           "type": "named",
           "data": {
-            "name": "AutoShooterModePodium"
+            "name": "ShooterModePodium"
           }
         },
         {
@@ -86,7 +86,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "BMN5 - BSP3"
+                  "pathName": "BMN5 - BWN3"
                 }
               },
               {
@@ -96,13 +96,19 @@
                     {
                       "type": "named",
                       "data": {
+                        "name": "Suck"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
                         "name": "NotePosition"
                       }
                     },
                     {
                       "type": "named",
                       "data": {
-                        "name": "ShooterModePos3"
+                        "name": "ShooterModePodium"
                       }
                     }
                   ]
@@ -124,7 +130,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "BSP3 - BMN4"
+                  "pathName": "BWN3 - BMN4"
                 }
               },
               {
@@ -143,7 +149,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "BMN4 - BSP3"
+                  "pathName": "BMN4 - BWN3"
                 }
               },
               {
@@ -153,13 +159,19 @@
                     {
                       "type": "named",
                       "data": {
+                        "name": "Suck"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
                         "name": "NotePosition"
                       }
                     },
                     {
                       "type": "named",
                       "data": {
-                        "name": "ShooterModePos3"
+                        "name": "ShooterModePodium"
                       }
                     }
                   ]
@@ -172,12 +184,6 @@
           "type": "named",
           "data": {
             "name": "Shoot"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "BSP3 - BMN4"
           }
         }
       ]

@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.36,
-      "y": 6.52
+      "x": 1.42,
+      "y": 7.3
     },
     "rotation": 0
   },
@@ -18,13 +18,13 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "BSW3 - BWN3"
+                  "pathName": "BSL3 - BWN3"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "AutoShooterModePodium"
+                  "name": "ShooterModePodium"
                 }
               }
             ]
@@ -51,7 +51,7 @@
         {
           "type": "named",
           "data": {
-            "name": "AutoShooterModePodium"
+            "name": "ShooterModePodium"
           }
         },
         {
@@ -71,16 +71,9 @@
                 }
               },
               {
-                "type": "sequential",
+                "type": "named",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Suck"
-                      }
-                    }
-                  ]
+                  "name": "Suck"
                 }
               }
             ]
@@ -93,19 +86,26 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "BMN5 - BWN3"
+                  "pathName": "BMN5 - BSP3"
                 }
               },
               {
-                "type": "named",
+                "type": "sequential",
                 "data": {
-                  "name": "NotePosition"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "AutoShooterModePodium"
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "NotePosition"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "ShooterModePodium"
+                      }
+                    }
+                  ]
                 }
               }
             ]
@@ -116,10 +116,73 @@
           "data": {
             "name": "Shoot"
           }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "BSP3 - BMN4"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Suck"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "BMN4 - BSP3"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "NotePosition"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "ShooterModePodium"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BSP3 - BMN4"
+          }
         }
       ]
     }
   },
-  "folder": "Bad Ones",
+  "folder": null,
   "choreoAuto": false
 }

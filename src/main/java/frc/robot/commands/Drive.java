@@ -55,7 +55,7 @@ public class Drive extends Command {
   private double m_AngleToAprilTag = 0;
   private double m_CurrentRobotHeading;
   private double m_NewAngleHeading;
-  private PIDController aimPID = new PIDController(0.049, 0, 0.0013); // 0.0013
+  private PIDController aimPID = new PIDController(0.055, 0, 0.0013); // 0.0013
   private double limeLightController = 0;
   Trigger m_DriverLeftTrigger;
   private boolean LimeLightShootingFlag = false;
@@ -104,7 +104,7 @@ public class Drive extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if ((m_ShooterSubsystem.getShooterModeDoingSomething()) && (Math.abs(m_Controller.getRightX()) < 0.1) && m_ShooterSubsystem.getShooterMode() != "ShootSubwoofer" && m_ShooterSubsystem.getShooterMode() != "ShootPodium") {
+    if ((m_ShooterSubsystem.getShooterModeDoingSomething()) && (Math.abs(m_Controller.getRightX()) < 0.1) && m_ShooterSubsystem.getShooterMode() != "ShootSubwoofer" && m_ShooterSubsystem.getShooterMode() != "ShootPodium" && m_ShooterSubsystem.getShooterMode() != "ShootAmp") {
       
       driveRequest = "driveFacingAngle";
       m_LimelightStateMachine = 1;
@@ -113,9 +113,11 @@ public class Drive extends Command {
       //Turn to Pose Stuff - Not Limelight Shoot
       if (m_Alliance == Alliance.Blue) {
         switch(m_ShooterSubsystem.getShooterMode()) {
+          /*
           case "ShootAmp":
             m_RotationTarget = Constants.kBlueAmpAngle;
           break;
+          */
           /*case "ShootPodium":
             m_RotationTarget = Constants.kBlueSpeakerLocation.minus(m_Drivetrain.getState().Pose.getTranslation()).unaryMinus().getAngle();
           break; */
@@ -127,9 +129,11 @@ public class Drive extends Command {
         }
       } else if (m_Alliance == Alliance.Red) {
           switch(m_ShooterSubsystem.getShooterMode()) {
+            /*
             case "ShootAmp":
               m_RotationTarget = Constants.kRedAmpAngle;
             break;
+            */
             /*case "ShootPodium":
               m_RotationTarget = Constants.kRedSpeakerLocation.minus(m_Drivetrain.getState().Pose.getTranslation()).getAngle();
             break; */
