@@ -131,7 +131,7 @@ public class Robot extends TimedRobot {
     } else {
       //System.out.println("Alliance Color is: " + DriverStation.getAlliance().get());
       m_robotContainer.resetPose = Constants.resetPoseRed;
-    }
+    } 
     
   }
   

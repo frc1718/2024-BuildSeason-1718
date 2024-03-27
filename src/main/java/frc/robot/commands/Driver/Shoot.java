@@ -245,7 +245,7 @@ public class Shoot extends Command {
   @Override
   public void end(boolean interrupted) {
     //Always have to set ready to shoot back to false at the end of a shot.
-    m_shooterSubsystem.setShooterSpeed(Constants.kShooterStopSpeed);
+    m_shooterSubsystem.setShooterSpeed(Constants.kShooterPodiumSpeed);
     m_shooterIntakeSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeStopSpeed);
 
     m_shooterSubsystem.setShooterMode("DoNothing");

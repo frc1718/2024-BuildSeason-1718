@@ -74,7 +74,7 @@ public class Suck extends Command {
       m_isFinished=true;
     } else{  //If we don't have a note,  set speeds and move to execute
       m_frontIntakeSubsystem.setFrontIntakePosition(Constants.kFrontIntakeDownPos);  
-      m_shooterSubsystem.setShooterSpeed(0);
+      //m_shooterSubsystem.setShooterSpeed(0); Temporarily disabling this for auto testing
       m_shooterIntakeSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeSuckSpeed);
      if (m_shooterSubsystem.getShooterArmInPosition(Constants.kShooterArmHomePos)) {
         m_frontIntakeSubsystem.setFrontIntakeSpeed(Constants.kFrontIntakeSuckSpeed);
