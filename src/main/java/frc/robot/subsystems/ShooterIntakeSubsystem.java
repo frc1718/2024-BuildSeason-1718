@@ -15,16 +15,12 @@ import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
-import edu.wpi.first.units.Voltage;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 // The shooter intake subsystem is the portion of the shooter that is NOT responsible for ejecting notes at high velocities.
 public class ShooterIntakeSubsystem extends SubsystemBase {
-
-  //Open Servo
-  //Servo intakeHinge = new Servo(Constants.kShooterIntakePivotReleasePWM);
 
   //Open Motors
   TalonFX m_ShooterIntakeSpin = new TalonFX(Constants.kShooterIntakeSpinCanID, "Canivore");

@@ -14,7 +14,6 @@ import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.BeamBreakSubsystem;
 import frc.robot.subsystems.FrontIntakeSubsystem;
@@ -65,7 +64,6 @@ public class ShooterModeShootWithLimelight extends Command {
   private double m_newAngleHeading = 0;
   private int m_debounceCounter = 0;
   private int m_debounceLimit = 0;
-  private Rotation2d m_limeLightRotation;
   private double m_limeLightToAprilTagVerticalDistance = (Constants.kSpeakerAprilTagHeight - Constants.kLimelightHeight);
   private double m_verticalAngleToAprilTag = 0;
   private double m_kP = 0.07;
@@ -95,10 +93,6 @@ public class ShooterModeShootWithLimelight extends Command {
     addRequirements(m_frontIntakeSubsystem);
     addRequirements(m_drivetrain);
     addRequirements(m_shooterIntakeSubsystem);
-  }
-
-  public Rotation2d helpMe(double degrees) {
-    return new Rotation2d(degrees);
   }
 
   // Called when the command is initially scheduled.
@@ -140,7 +134,6 @@ public class ShooterModeShootWithLimelight extends Command {
           System.out.println("AimWithLimelight - Case 1 - Current Robot Heading: " + m_currentRobotHeading);
           m_newAngleHeading = m_angleToAprilTag + m_currentRobotHeading;
           System.out.println("AimWithLimelight - Case 1 - New Angle Heading: " + m_newAngleHeading);
-          m_limeLightRotation = helpMe(m_newAngleHeading);
 
           m_verticalAngleToAprilTag = LimelightHelpers.getTY(Constants.kLimelightName);
           System.out.println("AimWithLimelight - Case 1 - Vertical Angle to AprilTag: " + m_verticalAngleToAprilTag);

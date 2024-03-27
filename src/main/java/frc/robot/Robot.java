@@ -27,6 +27,8 @@ public class Robot extends TimedRobot {
   private Command m_autonLoading;
   public static boolean robotClimbed=false;
   
+  public boolean hasFilteredAutonRoutines = false;
+
   //Use this to enable / disable reading data from the limelight.
   //The terminal gets clogged up if a limelight isn't actually connected.
   boolean enableLimelight = false;
@@ -65,9 +67,6 @@ public class Robot extends TimedRobot {
         m_robotContainer.drivetrain.addVisionMeasurement(limelightMeasurement.pose, limelightMeasurement.timestampSeconds);
       }
     }
-
-    
-
   }
 
   @Override
@@ -95,6 +94,23 @@ public class Robot extends TimedRobot {
     double m_HorizontalAngleToAprilTag = Math.toRadians(LimelightHelpers.getTX(Constants.kLimelightName));
     double m_DistanceToAprilTag = m_DistanceBetweenAprilTagAndLimelight / (Math.tan(m_VerticalAngleToAprilTag));
     System.out.println(m_DistanceToAprilTag); */
+
+    //Check if the robot is in communication with the Driver Station.
+    //If it is, attempt to filter the autonomous routines based on alliance color.
+    if (!hasFilteredAutonRoutines && DriverStation.isDSAttached()) {
+      switch (DriverStation.getAlliance().get()) {
+        case Blue:
+          m_robotContainer.autonSelect.filterSelections("Blue");
+        break;
+        case Red:
+          m_robotContainer.autonSelect.filterSelections("Red");
+        break;
+      }
+
+      //After filtering the auton list, set a flag so the filter is only applied once.
+      hasFilteredAutonRoutines = true;
+
+      };
   }
   
   @Override
