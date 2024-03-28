@@ -13,6 +13,7 @@ import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
+import com.ctre.phoenix6.controls.MusicTone;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -42,6 +43,8 @@ public class FrontIntakeSubsystem extends SubsystemBase {
   private final MotionMagicVoltage frontIntakeRotationRequest = new MotionMagicVoltage(0.0, true, 0.0, 0, false, false, false);
   private final DutyCycleOut frontIntakeVoltageRequest = new DutyCycleOut(0, false, false, false, false);
   
+  private final MusicTone frontIntakeMusicToneRequest = new MusicTone(0);
+
   public double m_desiredPosition = 0;
   public double m_desiredSpeed = 0;
 
@@ -274,6 +277,15 @@ public class FrontIntakeSubsystem extends SubsystemBase {
     robotOrchestra.addInstrument(m_frontIntakeRotate);
     robotOrchestra.addInstrument(m_frontIntakeSpin);
   }
+
+   /**
+   * Sets all motors in the front intake subsystem to play a tone at the requested frequency.
+   * @param toneInput A percentage, mapped to kMusicToneTable lookup table.
+   */
+  public void setMusicToneFrequency(double toneInput) {
+    m_frontIntakeRotate.setControl(frontIntakeMusicToneRequest.withAudioFrequency(Constants.kMusicToneTable.get(toneInput)));
+    m_frontIntakeSpin.setControl(frontIntakeMusicToneRequest.withAudioFrequency(Constants.kMusicToneTable.get(toneInput)));
+  }  
 
   @Override
   public void initSendable(SendableBuilder builder){

@@ -10,6 +10,7 @@ import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DutyCycleOut;
+import com.ctre.phoenix6.controls.MusicTone;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -34,6 +35,7 @@ public class ShooterIntakeSubsystem extends SubsystemBase {
 
   private final PositionVoltage ShooterIntakePosition = new PositionVoltage(0).withSlot(1);
 
+  private final MusicTone shooterIntakeMusicToneRequest = new MusicTone(0);
 
   // Constructs an instance of the shooter intake subsystem.
 
@@ -193,6 +195,14 @@ public class ShooterIntakeSubsystem extends SubsystemBase {
   public void addToOrchestra(Orchestra robotOrchestra) {
     robotOrchestra.addInstrument(m_ShooterIntakeSpin);
   }
+
+   /**
+   * Sets all motors in the shooter intake subsystem to play a tone at the requested frequency.
+   * @param toneInput A percentage, mapped to kMusicToneTable lookup table.
+   */
+  public void setMusicToneFrequency(double toneInput) {
+    m_ShooterIntakeSpin.setControl(shooterIntakeMusicToneRequest.withAudioFrequency(Constants.kMusicToneTable.get(toneInput)));
+  } 
 
   @Override
   public void initSendable(SendableBuilder builder){

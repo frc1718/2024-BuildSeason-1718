@@ -16,9 +16,6 @@ public class BeamBreakSubsystem extends SubsystemBase {
   //Open sensors
   AnalogInput m_BeamBreakIntakeAnalog = new AnalogInput(Constants.kBeamBreakIntakeAnalog);
   AnalogInput m_BeamBreakShooterAnalog = new AnalogInput(Constants.kBeamBreakShooterAnalog);
-  
-  //Open Servo
-  //Servo intakeHinge = new Servo(Constants.kShooterIntakePivotReleasePWM);
 
   public BeamBreakSubsystem() {
   m_BeamBreakIntakeAnalog.setAverageBits(6);

@@ -12,6 +12,7 @@ import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
+import com.ctre.phoenix6.controls.MusicTone;
 //import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.CANcoder;
@@ -51,6 +52,7 @@ public class ShooterSubsystem extends SubsystemBase {
   private final MotionMagicVoltage ShooterArmPositionRequest = new MotionMagicVoltage(0, true, 0, 0, false, false, false).withSlot(0);
   private final DutyCycleOut shooterArmVoltageRequest = new DutyCycleOut(0, false, false, false, false);
  
+  private final MusicTone shooterMusicToneRequest = new MusicTone(0);
 
   /**
    * Constructs an instance of the shooter subsystem.
@@ -411,6 +413,16 @@ public class ShooterSubsystem extends SubsystemBase {
     robotOrchestra.addInstrument(m_ShooterArmRotateRight);
   }
 
+   /**
+   * Sets all motors in the shooter subsystem to play a tone at the requested frequency.
+   * @param toneInput A percentage, mapped to kMusicToneTable lookup table.
+   */
+  public void setMusicToneFrequency(double toneInput) {
+    m_ShooterArmRotateLeft.setControl(shooterMusicToneRequest.withAudioFrequency(Constants.kMusicToneTable.get(toneInput)));
+    m_ShooterArmRotateRight.setControl(shooterMusicToneRequest.withAudioFrequency(Constants.kMusicToneTable.get(toneInput)));
+    m_SpinLeftShooter.setControl(shooterMusicToneRequest.withAudioFrequency(Constants.kMusicToneTable.get(toneInput)));
+    m_SpinRightShooter.setControl(shooterMusicToneRequest.withAudioFrequency(Constants.kMusicToneTable.get(toneInput)));
+  } 
 
   @Override
   public void initSendable(SendableBuilder builder){
