@@ -7,6 +7,7 @@ package frc.robot.commands.General;
 import frc.robot.Constants;
 import frc.robot.subsystems.BeamBreakSubsystem;
 import frc.robot.subsystems.ShooterIntakeSubsystem;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /**
@@ -21,6 +22,7 @@ public class NotePosition extends Command {
   private boolean m_isFinished = false;
 
   private int m_stateMachine = 1;
+  Timer reverseTimer = new Timer();
 
   /**
    * Constructs an instance of the note position command.
@@ -56,28 +58,70 @@ public class NotePosition extends Command {
 
     switch(m_stateMachine){
       case 1:  //If note isn't here, why are you here?
-          if (!m_beamBreakSubsystem.getNotePresent()){
-            m_isFinished = true;
-          }
-          else{
+        if (!m_beamBreakSubsystem.getNotePresent()){
+          m_isFinished = true;
+        }
+        else{
           m_stateMachine=m_stateMachine+1;
-          }
+        }
         break;
       case 2:  //If note is breaking shooter beam, back it up.
       if (Constants.kPrintGeneralNotePosition){System.out.println("General NotePosition: Case 1");}
         if (m_beamBreakSubsystem.getNotePresentShooter()){
           m_shooterIntakeSubsystem.setShooterIntakeSpeed(-Constants.kShooterIntakeIndexSpeed);  
         } else {
-          if (Constants.kPrintGeneralNotePosition){System.out.println("General NotePosition: Case 1 Complete");}
+          if (Constants.kPrintGeneralNotePosition){System.out.println("General NotePosition: Case 1 Complete");} 
           m_stateMachine = m_stateMachine + 1; 
         }    
         break; 
       case 3:  //If Note is breaking intake beam, stop indexing.
-        if (Constants.kPrintGeneralNotePosition){System.out.println("General NotePosition: Case 2");}
+        m_stateMachine = m_stateMachine + 1;
+        break;
+      case 4:  //If note is breaking shooter beam, back it up.
+      if (m_beamBreakSubsystem.getNotePresentShooter()){
+        reverseTimer.reset();
+        reverseTimer.start(); 
+        m_stateMachine = m_stateMachine + 1;
+      } else {
+        m_shooterIntakeSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeIndexSpeed);
+      }    
+        break; 
+      case 5:  //If note is breaking shooter beam, back it up.
+      if (reverseTimer.get() < 0.25){
+        m_shooterIntakeSubsystem.setShooterIntakeSpeed(-Constants.kShooterIntakeIndexSpeed);  
+      } else {
+        m_stateMachine = m_stateMachine + 1; 
+      }    
+        break; 
+      case 6:  //If note is breaking shooter beam, back it up.
+      if (m_beamBreakSubsystem.getNotePresentShooter()){
+        reverseTimer.reset();
+        reverseTimer.start(); 
+        m_stateMachine = m_stateMachine + 1;
+      } else {
+        m_shooterIntakeSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeIndexSpeed);
+      }    
+        break; 
+      case 7:  //If note is breaking shooter beam, back it up.
+      if (reverseTimer.get() < 0.25){
+        m_shooterIntakeSubsystem.setShooterIntakeSpeed(-Constants.kShooterIntakeIndexSpeed);  
+      } else {
+        m_stateMachine = m_stateMachine + 1; 
+      }    
+        break;
+      case 8:
+      if (m_beamBreakSubsystem.getNotePresentShooter()){
+        m_stateMachine = m_stateMachine + 1;
+      } else {
+        m_shooterIntakeSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeIndexSpeed);
+      }  
+        break;
+      case 9:
+      if (Constants.kPrintGeneralNotePosition){System.out.println("General NotePosition: Case 7");}
         if (m_beamBreakSubsystem.getNotePresentIntake()) {
-          if (Constants.kPrintGeneralNotePosition){System.out.println("General NotePosition: Case 2 Complete");}
+          if (Constants.kPrintGeneralNotePosition){System.out.println("General NotePosition: Case 7 Complete");}
           m_shooterIntakeSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeStopSpeed);  
-          m_isFinished = true;
+          m_isFinished = true; 
         } else {
           m_shooterIntakeSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeIndexSpeed);
         }

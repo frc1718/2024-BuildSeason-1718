@@ -220,7 +220,7 @@ public class Shoot extends Command {
           if (Constants.kPrintDriverShoot){
             System.out.println("Driver Command Shoot: Case " + m_stateMachine);
             System.out.println("Driver Command Shooter Target:" + m_shooterSpeed);
-            System.out.println("Driver Command Shooter Speed: " + m_shooterSubsystem.getShooterSpeed());
+            System.out.println("Driver Command Shooter Speed: " + m_shooterSubsystem.getLeftShooterSpeed());
           }
           if ((m_shooterSubsystem.getShooterUpToSpeed(m_shooterSpeed) && m_shooterSubsystem.getShooterArmInPosition(m_shooterArmPosition)) && (m_IgnoreLimelight || (Math.abs(LimelightHelpers.getTX(Constants.kLimelightName)) <= Constants.kTXTolerance))) {
           m_shooterIntakeSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeShootSpeed);

@@ -104,7 +104,7 @@ public class Drive extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if ((m_ShooterSubsystem.getShooterModeDoingSomething()) && (Math.abs(m_Controller.getRightX()) < 0.1) && m_ShooterSubsystem.getShooterMode() != "ShootSubwoofer" && m_ShooterSubsystem.getShooterMode() != "ShootPodium" && m_ShooterSubsystem.getShooterMode() != "ShootAmp") {
+    if ((m_ShooterSubsystem.getShooterModeDoingSomething()) && (Math.abs(m_Controller.getRightX()) < 0.1) && m_ShooterSubsystem.getShooterMode() == "ShootPass" && m_ShooterSubsystem.getShooterMode() != "ShootPodium" && m_ShooterSubsystem.getShooterMode() != "ShootAmp") {
       
       driveRequest = "driveFacingAngle";
       m_LimelightStateMachine = 1;

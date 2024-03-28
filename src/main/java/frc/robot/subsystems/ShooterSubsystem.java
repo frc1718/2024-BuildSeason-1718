@@ -117,10 +117,18 @@ public class ShooterSubsystem extends SubsystemBase {
   public void setShooterSpeed(double shootSpeed) {
     if (Constants.kPrintSubsystemShooterSubsystem){System.out.println("ShooterSubsystem: setShooterSpeed");}
     if (Constants.kMotorEnableLeftShooterSpin == 1){
-      m_SpinLeftShooter.setControl(ShooterVelocity.withVelocity(shootSpeed));
+      if (shootSpeed == 0) {
+        m_SpinLeftShooter.setControl(shooterArmVoltageRequest.withOutput(0));
+      } else {
+        m_SpinLeftShooter.setControl(ShooterVelocity.withVelocity((shootSpeed)));
+      }
     }
     if (Constants.kMotorEnableRightShooterSpin == 1){
-      m_SpinRightShooter.setControl(ShooterVelocity.withVelocity((shootSpeed)));
+      if (shootSpeed == 0) {
+        m_SpinRightShooter.setControl(shooterArmVoltageRequest.withOutput(0));
+      } else {
+        m_SpinRightShooter.setControl(ShooterVelocity.withVelocity((shootSpeed*0.6)));
+      }
     }
 
     m_desiredSpeed = shootSpeed;
@@ -158,11 +166,14 @@ public class ShooterSubsystem extends SubsystemBase {
    * Get the current speed of the left shooter motor.
    * @return The current speed of the left shooter motor, in rotations per second.
    */
-  public double getShooterSpeed() {
+  public double getLeftShooterSpeed() {
     if (Constants.kPrintSubsystemShooterSubsystem){System.out.println("ShooterSubsystem: getShooterSpeed");}
-    m_SpinLeftShooter.getVelocity().getValueAsDouble();
     return m_SpinLeftShooter.getVelocity().getValueAsDouble();
+  }
 
+  public double getRightShooterSpeed() {
+    if (Constants.kPrintSubsystemShooterSubsystem){System.out.println("ShooterSubsystem: getShooterSpeed");}
+    return m_SpinRightShooter.getVelocity().getValueAsDouble();
   }
 
   /**
@@ -182,7 +193,7 @@ public class ShooterSubsystem extends SubsystemBase {
    */
   public boolean getShooterUpToSpeed(double desiredSpeed) {
     if (Constants.kPrintSubsystemShooterSubsystem){System.out.println("ShooterSubsystem: getShooterUpToSpeed");}
-    return ((this.getShooterSpeed() >= (desiredSpeed - Constants.kShooterSpeedTolerance)) && (this.getShooterSpeed() <= (desiredSpeed + Constants.kShooterSpeedTolerance)));
+    return ((Math.abs(this.getLeftShooterSpeed()-desiredSpeed) <= Constants.kShooterSpeedTolerance)) && (Math.abs(this.getRightShooterSpeed()-desiredSpeed*0.6) <= Constants.kShooterSpeedTolerance);
   }
 
   /**
@@ -418,7 +429,7 @@ public class ShooterSubsystem extends SubsystemBase {
     builder.addStringProperty("Shooter Mode", this::getShooterMode, null);
     builder.addBooleanProperty("Ready to Shoot?", this::getShooterReadyToShoot, null);
     builder.addDoubleProperty("Shooter Arm Position", this::getShooterArmPosition, null);
-    builder.addDoubleProperty("Shooter Speed", this::getShooterSpeed, null);
+    builder.addDoubleProperty("Shooter Speed", this::getLeftShooterSpeed, null);
     builder.addBooleanProperty("Shooter Up to Speed?", this::getShooterUpToSpeed, null);
     builder.addBooleanProperty("Shooter Arm in Position?", this::getShooterArmInPosition, null);
   }
