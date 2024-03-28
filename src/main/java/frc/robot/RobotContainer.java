@@ -272,6 +272,8 @@ public class RobotContainer {
     frontIntake.addToOrchestra(music);
     climber.addToOrchestra(music);
     shooterIntake.addToOrchestra(music);
+    cornerRoller.addToOrchestra(music);
+    drivetrain.addToOrchestra(music);
   }
 
   public RobotContainer() {
