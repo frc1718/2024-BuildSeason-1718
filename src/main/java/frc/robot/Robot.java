@@ -9,6 +9,7 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.net.PortForwarder;
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -52,6 +53,11 @@ public class Robot extends TimedRobot {
     //Only works with the RIO2.
     RobotController.setBrownoutVoltage(Constants.kCustomBrownout);
 
+    //Start a simple recording to the data log.
+    //This should log the contents of the NetworkTables, which should be good for now.
+    DataLogManager.start();
+    //This should log the joysticks as well.
+    DriverStation.startDataLog(DataLogManager.getLog());
   }
 
   @Override
