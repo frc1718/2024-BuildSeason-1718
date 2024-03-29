@@ -46,6 +46,7 @@ import frc.robot.commands.Driver.Suck;
 import frc.robot.commands.Driver.SuckNoFront;
 import frc.robot.commands.General.SetMotorsToCoast;
 import frc.robot.commands.General.NotePosition;
+import frc.robot.commands.General.QuickNotePosition;
 import frc.robot.commands.General.StowArmAndIntake;
 import frc.robot.generated.TunerConstants;
 
@@ -136,7 +137,7 @@ public class RobotContainer {
     /********************************************************************/
 
     driveController.y().whileTrue(new SuckNoFront(frontIntake, shooter, shooterIntake, beamBreak)).onFalse(Commands.parallel(new StowArmAndIntake(frontIntake, shooter), new NotePosition(shooterIntake, beamBreak)));
-    driveController.b().whileTrue(new ShootTrap(climber, shooterIntake));
+    driveController.b().whileTrue(new ShootTrap(shooterIntake));
     driveController.x().whileTrue(drivetrain.applyRequest(() -> brake));
     driveController.a().and(RobotState::isDisabled).whileTrue(new SetMotorsToCoast(climber, shooter, frontIntake, shooterIntake).ignoringDisable(true));    
 
@@ -247,10 +248,11 @@ public class RobotContainer {
   private void registerAutonCommands(){
     //ALL COMMANDS THAT COULD BE USED IN AUTONOMOUS NEED TO BE REGISTERED HERE.
     NamedCommands.registerCommand("Shoot", new Shoot(frontIntake, shooter, climber, shooterIntake, beamBreak));
-    NamedCommands.registerCommand("ShootTrap", new ShootTrap(climber, shooterIntake));
+    NamedCommands.registerCommand("ShootTrap", new ShootTrap(shooterIntake));
     NamedCommands.registerCommand("Spit", new Spit(frontIntake, shooter, shooterIntake, beamBreak, cornerRoller));
     NamedCommands.registerCommand("Suck", new Suck(frontIntake, shooter, shooterIntake, beamBreak, cornerRoller));
     NamedCommands.registerCommand("NotePosition", new NotePosition(shooterIntake, beamBreak));
+    NamedCommands.registerCommand("QuickNotePosition", new QuickNotePosition(shooterIntake, beamBreak));
     NamedCommands.registerCommand("StowArmAndIntake", new StowArmAndIntake(frontIntake, shooter));
     NamedCommands.registerCommand("LightLEDOnNotePresent", new LightLEDOnNotePresent(LED, beamBreak));
     NamedCommands.registerCommand("ShooterModeAmp", new ShooterModeAmp(frontIntake, shooter));

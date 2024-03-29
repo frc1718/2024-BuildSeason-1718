@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 11.34,
-        "y": 6.78
+        "x": 12.34,
+        "y": 6.58
       },
       "prevControl": null,
       "nextControl": {
-        "x": 10.807182544820996,
-        "y": 6.87865569278447
+        "x": 11.807182544820996,
+        "y": 6.67865569278447
       },
       "isLocked": false,
       "linkedName": "RSP3"

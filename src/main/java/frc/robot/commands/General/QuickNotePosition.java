@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 /**
  * The note position command gets the note into the correct position in the shooter: fully in contact with the intake beam break, but barely in contact with the shooter beam break.
  */
-public class NotePosition extends Command {
+public class QuickNotePosition extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
   private final ShooterIntakeSubsystem m_shooterIntakeSubsystem;
@@ -29,7 +29,7 @@ public class NotePosition extends Command {
    * @param shooterIntakeSubsystem An instance of the shooter intake subsystem.
    * Required.
    */
-  public NotePosition(ShooterIntakeSubsystem shooterIntakeSubsystem, BeamBreakSubsystem beamBreakSubsystem) {
+  public QuickNotePosition(ShooterIntakeSubsystem shooterIntakeSubsystem, BeamBreakSubsystem beamBreakSubsystem) {
 
     m_shooterIntakeSubsystem = shooterIntakeSubsystem;
     m_beamBreakSubsystem = beamBreakSubsystem;
@@ -42,7 +42,7 @@ public class NotePosition extends Command {
   public void initialize() {
     if (Constants.kPrintGeneralNotePosition){
       System.out.println("========================");
-      System.out.println("General NotePosition Started");
+      System.out.println("Quick NotePosition Started");
     }
     
     //Initialize state machine
@@ -66,65 +66,23 @@ public class NotePosition extends Command {
         }
         break;
       case 2:  //If note is breaking shooter beam, back it up.
-          m_stateMachine = m_stateMachine + 1;
-        break; 
-      case 3:  //If Note is breaking intake beam, stop indexing.
         if (Constants.kPrintGeneralNotePosition){System.out.println("General NotePosition: Case 1");}
         if (m_beamBreakSubsystem.getNotePresentShooter()){
           m_shooterIntakeSubsystem.setShooterIntakeSpeed(-Constants.kShooterIntakeIndexSpeed);  
         } else {
           if (Constants.kPrintGeneralNotePosition){System.out.println("General NotePosition: Case 1 Complete");} 
           m_stateMachine = m_stateMachine + 1; 
-        }  
-        break;
-      case 4:  //If note is breaking shooter beam, back it up.
-      if (m_beamBreakSubsystem.getNotePresentShooter()){
-        reverseTimer.reset();
-        reverseTimer.start(); 
-        m_stateMachine = m_stateMachine + 1;
-      } else {
-        m_shooterIntakeSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeIndexSpeed);
-      }    
+        }
         break; 
-      case 5:  //If note is breaking shooter beam, back it up.
-      if (reverseTimer.get() < 0.25){
-        m_shooterIntakeSubsystem.setShooterIntakeSpeed(-Constants.kShooterIntakeIndexSpeed);  
-      } else {
-        m_stateMachine = m_stateMachine + 1; 
-      }    
-        break; 
-      case 6:  //If note is breaking shooter beam, back it up.
-      if (m_beamBreakSubsystem.getNotePresentShooter()){
-        reverseTimer.reset();
-        reverseTimer.start(); 
-        m_stateMachine = m_stateMachine + 1;
-      } else {
-        m_shooterIntakeSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeIndexSpeed);
-      }    
-        break; 
-      case 7:  //If note is breaking shooter beam, back it up.
-      if (reverseTimer.get() < 0.25){
-        m_shooterIntakeSubsystem.setShooterIntakeSpeed(-Constants.kShooterIntakeIndexSpeed);  
-      } else {
-        m_stateMachine = m_stateMachine + 1; 
-      }    
-        break;
-      case 8:
-      if (m_beamBreakSubsystem.getNotePresentShooter()){
-        m_stateMachine = m_stateMachine + 1;
-      } else {
-        m_shooterIntakeSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeIndexSpeed);
-      }  
-        break;
-      case 9:
-      if (Constants.kPrintGeneralNotePosition){System.out.println("General NotePosition: Case 7");}
+      case 3:  //If Note is breaking intake beam, stop indexing.
+        if (Constants.kPrintGeneralNotePosition){System.out.println("General NotePosition: Case 2");}
         if (m_beamBreakSubsystem.getNotePresentIntake()) {
-          if (Constants.kPrintGeneralNotePosition){System.out.println("General NotePosition: Case 7 Complete");}
+          if (Constants.kPrintGeneralNotePosition){System.out.println("General NotePosition: Case 2 Complete");}
           m_shooterIntakeSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeStopSpeed);  
           m_isFinished = true; 
         } else {
           m_shooterIntakeSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeIndexSpeed);
-        }
+        }  
         break;
     }   
 

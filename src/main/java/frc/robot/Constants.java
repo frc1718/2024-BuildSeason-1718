@@ -116,7 +116,7 @@ public class Constants {
     public static final double kShooterArmAutoPodiumPos = -0.0468;  //-0.0388
     public static final double kShooterArmAutoPos1Pos = -0.0473;  //-0.0388
     public static final double kShooterArmAutoPos2Pos = -0.0473;    //-0.0388
-    public static final double kShooterArmAutoPos3Pos = -0.0207;    //-0.0157
+    public static final double kShooterArmAutoPos3Pos = -0.0177;    //-0.0197
     public static final double kShooterArmPreClimbPos = 0.120;  //0.135
     public static final double kShooterArmTolerancePos = 0.005;  //0.01
     public static final double kShooterArmSpitPos = -0.06;  //-0.06
@@ -145,18 +145,18 @@ public class Constants {
     // End Positions
 
     // Start Speeds
-    public static final double kShooterSubwooferSpeed = 70;  //Was 70, at 10 for testing in build room
-    public static final int kShooterPodiumSpeed = 70;  //Was 70, at 10 for testing in build room
-    public static final int kShooterAmpSpeed = 20;  //Was 20, at 7 for testing in build room
+    public static final double kShooterSubwooferSpeed = 20;  //Was 70
+    public static final int kShooterPodiumSpeed = 28;  //Was 70
+    public static final int kShooterAmpSpeed = 10;  //Was 20, at 7 for testing in build room
     public static final int kShooterLimelightSpeed = 70;    //10 for testing in build room
     public static final int kShooterIdleSpeed = 30; //Was 30, at 5 for testing in build room
-    public static final int kShooterMaxSpeed = 80;
+    public static final int kShooterMaxSpeed = 45;
     public static final int kShooterStopSpeed = 0;
-    public static final int kShooterPassSpeed = 40;
-    public static final int kShooterAutoPodiumSpeed = 70;
-    public static final int kShooterAutoPos1Speed = 70;
-    public static final int kShooterAutoPos2Speed = 70;
-    public static final int kShooterAutoPos3Speed = 70;
+    public static final int kShooterPassSpeed = 15;
+    public static final int kShooterAutoPodiumSpeed = 28;
+    public static final int kShooterAutoPos1Speed = 35;
+    public static final int kShooterAutoPos2Speed = 35;
+    public static final int kShooterAutoPos3Speed = 40;
 
 
     
@@ -212,10 +212,10 @@ public class Constants {
 
     // Start LeftShooter settings
     public static final InvertedValue kLeftShooterDirection = InvertedValue.Clockwise_Positive;
-    public static final double kLeftShooterProportional = 0.5;
+    public static final double kLeftShooterProportional = 0.8; //0.5
     public static final double kLeftShooterIntegral = 0;
     public static final double kLeftShooterDerivative = 0;
-    public static final double kLeftShooterVelocityFeedFoward = 0.135;
+    public static final double kLeftShooterVelocityFeedFoward = 0.16;//0.135
     public static final int kLeftShooterMaxForwardVoltage = 11;
     public static final int kLeftShooterMaxReverseVoltage = -11;
     public static final int kLeftShooterSupplyCurrentLimit = 55;
@@ -224,10 +224,10 @@ public class Constants {
     
     // Start RightShooter settings
     public static final InvertedValue kRightShooterDirection = InvertedValue.CounterClockwise_Positive;
-    public static final double kRightShooterProportional = 0.5;
+    public static final double kRightShooterProportional = 0.8; //0.5
     public static final double kRightShooterIntegral = 0;
     public static final double kRightShooterDerivative = 0;
-    public static final double kRightShooterVelocityFeedFoward = .135;
+    public static final double kRightShooterVelocityFeedFoward = .16; //0.135
     public static final int kRightShooterMaxForwardVoltage = 11;
     public static final int kRightShooterMaxReverseVoltage = -11;
     public static final int kRightShooterSupplyCurrentLimit = 55;
@@ -391,16 +391,16 @@ public class Constants {
     //Used to be a pose, but only the X and Y are needed.  Changed to a translation to clean up the actual calculation.
     public static final Translation2d kBlueSpeakerLocation = new Translation2d(0.0, 5.55);
     public static final Translation2d kRedSpeakerLocation = new Translation2d(16.55, 5.55);
-    public static final Translation2d kBluePassLocation = new Translation2d(0.6, 7.5);
-    public static final Translation2d kRedPassLocation = new Translation2d(15.95, 7.5);
+    public static final Rotation2d kBluePassAngle = Rotation2d.fromDegrees(-31.5);
+    public static final Rotation2d kRedPassAngle = Rotation2d.fromDegrees(-148.5);
     public static final Rotation2d kRedAmpAngle = Rotation2d.fromDegrees(90.0);
     public static final Rotation2d kBlueAmpAngle = Rotation2d.fromDegrees(-90.0);
-    public static final Rotation2d kRedLeftClimbAngle = new Rotation2d(60.0);
-    public static final Rotation2d kBlueLeftClimbAngle = new Rotation2d(-60.0);
-    public static final Rotation2d kRedRightClimbAngle = new Rotation2d(-60.0);
-    public static final Rotation2d kBlueRightClimbAngle = new Rotation2d(60.0);
-    public static final Rotation2d kRedFarClimbAngle = new Rotation2d(180.0);
-    public static final Rotation2d kBlueFarClimbAngle = new Rotation2d(180.0);
+    public static final Rotation2d kRedLeftClimbAngle = Rotation2d.fromDegrees(60.0);
+    public static final Rotation2d kBlueLeftClimbAngle = Rotation2d.fromDegrees(-60.0);
+    public static final Rotation2d kRedRightClimbAngle = Rotation2d.fromDegrees(-60.0);
+    public static final Rotation2d kBlueRightClimbAngle = Rotation2d.fromDegrees(60.0);
+    public static final Rotation2d kRedFarClimbAngle = Rotation2d.fromDegrees(180.0);
+    public static final Rotation2d kBlueFarClimbAngle = Rotation2d.fromDegrees(180.0);
 
     //Angles needed for aligning the front of the robot parallel to all six chains.
     //The angles are a visual estimate based on an overhead picture of the field.

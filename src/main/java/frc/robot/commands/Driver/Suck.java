@@ -109,9 +109,9 @@ public class Suck extends Command {
             m_stateMachine = m_stateMachine + 1;
           }
         break;
-        case 3:  // Shooter Arm In Position
+        case 3:  // Note in intake
         if (Constants.kPrintDriverSuck){System.out.println("Driver Command Suck: Case 3");}
-          if (m_beamBreakSubsystem.getNotePresentShooter()) {
+          if (m_beamBreakSubsystem.getNotePresentIntake()) {
             m_shooterIntakeSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeStopSpeed);
             m_frontIntakeSubsystem.setFrontIntakeSpeed(Constants.kFrontIntakeStopSpeed);
             if (Constants.kPrintDriverSuck){System.out.println("Driver Command Suck: Case 3 Complete!");}

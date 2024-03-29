@@ -77,6 +77,7 @@ public class Robot extends TimedRobot {
     //Solution, briefly set them in a zero output mode when disabled, then allow Motion Magic to take control again in TeleOp.
     m_robotContainer.frontIntake.setFrontIntakeRotateZeroOutput();
     m_robotContainer.shooter.setShooterArmRotateZeroOutput();
+    m_robotContainer.shooter.setShooterSpeed(0);
     m_autonLoading.schedule();
   }
 

@@ -127,7 +127,7 @@ public class ShooterSubsystem extends SubsystemBase {
       if (shootSpeed == 0) {
         m_SpinRightShooter.setControl(shooterArmVoltageRequest.withOutput(0));
       } else {
-        m_SpinRightShooter.setControl(ShooterVelocity.withVelocity((shootSpeed*0.6)));
+        m_SpinRightShooter.setControl(ShooterVelocity.withVelocity((shootSpeed*1.0)));
       }
     }
 
@@ -193,7 +193,7 @@ public class ShooterSubsystem extends SubsystemBase {
    */
   public boolean getShooterUpToSpeed(double desiredSpeed) {
     if (Constants.kPrintSubsystemShooterSubsystem){System.out.println("ShooterSubsystem: getShooterUpToSpeed");}
-    return ((Math.abs(this.getLeftShooterSpeed()-desiredSpeed) <= Constants.kShooterSpeedTolerance)) && (Math.abs(this.getRightShooterSpeed()-desiredSpeed*0.6) <= Constants.kShooterSpeedTolerance);
+    return ((Math.abs(this.getLeftShooterSpeed()-desiredSpeed) <= Constants.kShooterSpeedTolerance)) && (Math.abs(this.getRightShooterSpeed()-desiredSpeed*1.0) <= Constants.kShooterSpeedTolerance);
   }
 
   /**

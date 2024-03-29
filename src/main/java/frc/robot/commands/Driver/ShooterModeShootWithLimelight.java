@@ -65,7 +65,6 @@ public class ShooterModeShootWithLimelight extends Command {
   private double m_newAngleHeading = 0;
   private int m_debounceCounter = 0;
   private int m_debounceLimit = 0;
-  private Rotation2d m_limeLightRotation;
   private double m_limeLightToAprilTagVerticalDistance = (Constants.kSpeakerAprilTagHeight - Constants.kLimelightHeight);
   private double m_verticalAngleToAprilTag = 0;
   private double m_kP = 0.07;
@@ -140,7 +139,6 @@ public class ShooterModeShootWithLimelight extends Command {
           System.out.println("AimWithLimelight - Case 1 - Current Robot Heading: " + m_currentRobotHeading);
           m_newAngleHeading = m_angleToAprilTag + m_currentRobotHeading;
           System.out.println("AimWithLimelight - Case 1 - New Angle Heading: " + m_newAngleHeading);
-          m_limeLightRotation = helpMe(m_newAngleHeading);
 
           m_verticalAngleToAprilTag = LimelightHelpers.getTY(Constants.kLimelightName);
           System.out.println("AimWithLimelight - Case 1 - Vertical Angle to AprilTag: " + m_verticalAngleToAprilTag);

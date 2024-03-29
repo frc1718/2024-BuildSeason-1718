@@ -53,7 +53,7 @@ public class AutoShooterModePos3 extends Command {
 
     //Set Initial Positions and Speeds
     m_frontIntakeSubsystem.setFrontIntakePosition(Constants.kFrontIntakeClearPos);
-    m_shooterSubsystem.setShooterSpeed(Constants.kShooterPodiumSpeed);
+    m_shooterSubsystem.setShooterSpeed(Constants.kShooterAutoPos3Speed);
 
     //Set Shooter Mode
     m_shooterSubsystem.setShooterMode("AutoShooterModePos3");
@@ -83,7 +83,7 @@ public class AutoShooterModePos3 extends Command {
         break;
       case 3:  // Shooter up to speed
       if (Constants.kPrintOperatorShooterModePodium){System.out.println("Operator Command ShooterModePodium: Case 3 Started");}
-        if (m_shooterSubsystem.getShooterUpToSpeed(Constants.kShooterPodiumSpeed)) {
+        if (m_shooterSubsystem.getShooterUpToSpeed(Constants.kShooterAutoPos3Speed)) {
           if (Constants.kPrintOperatorShooterModePodium){System.out.println("Operator Command ShooterModePodium: Case 3 Complete");}
           m_isFinished = true;
         }

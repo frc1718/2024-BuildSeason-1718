@@ -10,12 +10,9 @@ package frc.robot.commands;
 
 import frc.robot.Constants;
 import frc.robot.LimelightHelpers;
-import frc.robot.commands.Driver.Shoot;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
-import frc.robot.subsystems.FrontIntakeSubsystem;
-import frc.robot.subsystems.ShooterIntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
@@ -23,9 +20,7 @@ import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -122,7 +117,7 @@ public class Drive extends Command {
             m_RotationTarget = Constants.kBlueSpeakerLocation.minus(m_Drivetrain.getState().Pose.getTranslation()).unaryMinus().getAngle();
           break; */
           case "ShootPass":
-            m_RotationTarget = Constants.kBluePassLocation.minus(m_Drivetrain.getState().Pose.getTranslation()).unaryMinus().getAngle();
+            m_RotationTarget = Constants.kBluePassAngle;
           break;
           default:
             m_RotationTarget = new Rotation2d(0.0);
@@ -138,7 +133,7 @@ public class Drive extends Command {
               m_RotationTarget = Constants.kRedSpeakerLocation.minus(m_Drivetrain.getState().Pose.getTranslation()).getAngle();
             break; */
             case "ShootPass":
-              m_RotationTarget = Constants.kRedPassLocation.minus(m_Drivetrain.getState().Pose.getTranslation()).getAngle();
+              m_RotationTarget = Constants.kRedPassAngle;
             break;
             default:
               m_RotationTarget = new Rotation2d(0.0);

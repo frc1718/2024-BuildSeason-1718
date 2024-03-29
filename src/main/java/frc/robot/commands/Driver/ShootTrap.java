@@ -5,10 +5,7 @@
 package frc.robot.commands.Driver;
 
 import frc.robot.Constants;
-import frc.robot.subsystems.ClimberSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.FrontIntakeSubsystem;
 import frc.robot.subsystems.ShooterIntakeSubsystem;
 
 /**
@@ -17,12 +14,9 @@ import frc.robot.subsystems.ShooterIntakeSubsystem;
  */
 public class ShootTrap extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final ClimberSubsystem m_climberSubsystem;
   private final ShooterIntakeSubsystem m_shooterIntakeSubsystem;
 
   private boolean m_isFinished = false;
-
-  private double m_shooterSpeed = 0;
 
   private int m_stateMachine = 0;
 
@@ -34,9 +28,7 @@ public class ShootTrap extends Command {
    * @param shooterIntakeSubsystem An instance of the shooter intake subsystem.
    * Required.
    */
-  public ShootTrap(ClimberSubsystem climbSubsystem, ShooterIntakeSubsystem shooterIntakeSubsystem) {
-    
-    m_climberSubsystem = climbSubsystem;
+  public ShootTrap(ShooterIntakeSubsystem shooterIntakeSubsystem) {
     m_shooterIntakeSubsystem = shooterIntakeSubsystem;
 
     // Use addRequirements() here to declare subsystem dependencies
