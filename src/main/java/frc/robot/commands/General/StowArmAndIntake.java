@@ -55,7 +55,7 @@ public class StowArmAndIntake extends Command {
     //Set Positions and speeds
 
     m_frontIntakeSubsystem.setFrontIntakeSpeed(Constants.kFrontIntakeStopSpeed);
-    m_shooterSubsystem.setShooterSpeed(Constants.kShooterStopSpeed);
+    m_shooterSubsystem.setShooterSpeed(Constants.kShooterIdleSpeed);
 
     m_isFinished = false;
 

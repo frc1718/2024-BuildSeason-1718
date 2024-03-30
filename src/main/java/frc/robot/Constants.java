@@ -149,7 +149,7 @@ public class Constants {
     public static final double kShooterSubwooferSpeed = 20;  //Was 70
     public static final int kShooterPodiumSpeed = 28;  //Was 70
     public static final int kShooterAmpSpeed = 10;  //Was 20, at 7 for testing in build room
-    public static final int kShooterLimelightSpeed = 40;    //10 for testing in build room
+    public static final int kShooterLimelightSpeed = 30;    //10 for testing in build room
     public static final int kShooterIdleSpeed = 30; 
     public static final int kShooterMaxSpeed = 45;
     public static final int kShooterStopSpeed = 0;
@@ -385,6 +385,7 @@ public class Constants {
     //Lens of the limelight is 16-9/10 in. from the ground.
     //16-9/10 in. is 0.429 meters.
     public static final double kLimelightHeight = 0.4445;
+    public static final double kLimelightShotSkew = -4.00;
 
     //Pose of the blue speaker.
     //Used to be a pose, but only the X and Y are needed.  Changed to a translation to clean up the actual calculation.
@@ -451,12 +452,12 @@ public class Constants {
     static {
         //Populating the shooter arm position table.  Values are in rotations.
         //(Distance in meters, Angle in rotations) // 4.36 was high, 
-        kShooterArmTable.put(2.0066, -0.0473); //Blue -0.0473
-        kShooterArmTable.put(2.251, -0.0443); //Blue -0.0443
-        kShooterArmTable.put(2.83, -0.037); //Blue -0.034
-        kShooterArmTable.put(3.6, -0.0295); //Blue -0.0225
-        kShooterArmTable.put(4.25, -0.0220); //Blue -0.0175
-        kShooterArmTable.put(4.79, -0.0165); //Blue -0.0165
-        kShooterArmTable.put(5.28, -0.0160); // Blue -0.0160
+        kShooterArmTable.put(2.0066, -0.0473); //Blue -0.0473      Old tuning -0.0473
+        kShooterArmTable.put(2.251, -0.0443); //Blue -0.0443      Old tuning -0.0443
+        kShooterArmTable.put(2.83, -0.0330); //Blue -0.034      Old tuning -0.037
+        kShooterArmTable.put(3.6, -0.0255); //Blue -0.0225      Old tuning -0.0295
+        kShooterArmTable.put(4.25, -0.0190); //Blue -0.0175      Old tuning -0.0220
+        kShooterArmTable.put(4.79, -0.0165); //Blue -0.0165      Old tuning -0.0165
+        kShooterArmTable.put(5.28, -0.0160); // Blue -0.0160      Old tuning -0.0160
     }
 }

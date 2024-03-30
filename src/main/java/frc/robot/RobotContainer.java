@@ -53,6 +53,7 @@ import frc.robot.generated.TunerConstants;
 
 //Subsystem Imports
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.VariablePassSubsystem;
 import frc.robot.subsystems.BeamBreakSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.CornerRollerSubsystem;
@@ -112,12 +113,13 @@ public class RobotContainer {
   public final ShooterIntakeSubsystem shooterIntake = new ShooterIntakeSubsystem();
   public final BeamBreakSubsystem beamBreak = new BeamBreakSubsystem();
   public final CornerRollerSubsystem cornerRoller = new CornerRollerSubsystem();
+  public final VariablePassSubsystem variable = new VariablePassSubsystem();
 
   public final Orchestra music = new Orchestra();
 
   private void configureBindings() {
     //Schedules drivertain
-    drivetrain.setDefaultCommand(new Drive(drivetrain,driveController,shooter,climber,driveSign)); 
+    drivetrain.setDefaultCommand(new Drive(drivetrain,driveController,shooter,climber,driveSign,variable)); 
 
     /********************************************************************/
     /*                  Driver Controller Assignments                   */
@@ -142,7 +144,7 @@ public class RobotContainer {
     driveController.x().whileTrue(drivetrain.applyRequest(() -> brake));
     driveController.a().and(RobotState::isDisabled).whileTrue(new SetMotorsToCoast(climber, shooter, frontIntake, shooterIntake).ignoringDisable(true));    
 
-    driveController.leftBumper().onTrue(new Shoot(frontIntake, shooter, climber, shooterIntake, beamBreak)).onFalse(Commands.parallel(new StowArmAndIntake(frontIntake, shooter), new NotePosition(shooterIntake, beamBreak)));
+    driveController.leftBumper().onTrue(new Shoot(frontIntake, shooter, climber, shooterIntake, beamBreak, variable, drivetrain)).onFalse(Commands.parallel(new StowArmAndIntake(frontIntake, shooter), new NotePosition(shooterIntake, beamBreak)));
     driveController.rightBumper().onTrue(new Suck(frontIntake, shooter, shooterIntake, beamBreak, cornerRoller)).onFalse(Commands.parallel(new StowArmAndIntake(frontIntake, shooter), new NotePosition(shooterIntake, beamBreak)));
     driveController.leftTrigger(.5).onTrue(new Climb(climber,frontIntake,shooter));
     driveController.rightTrigger(.5).whileTrue(new Spit(frontIntake, shooter, shooterIntake, beamBreak, cornerRoller)).onFalse(Commands.parallel(new StowArmAndIntake(frontIntake, shooter), new NotePosition(shooterIntake, beamBreak))); 
@@ -248,7 +250,7 @@ public class RobotContainer {
    */
   private void registerAutonCommands(){
     //ALL COMMANDS THAT COULD BE USED IN AUTONOMOUS NEED TO BE REGISTERED HERE.
-    NamedCommands.registerCommand("Shoot", new Shoot(frontIntake, shooter, climber, shooterIntake, beamBreak));
+    NamedCommands.registerCommand("Shoot", new Shoot(frontIntake, shooter, climber, shooterIntake, beamBreak, variable, drivetrain));
     NamedCommands.registerCommand("ShootTrap", new ShootTrap(shooterIntake));
     NamedCommands.registerCommand("Spit", new Spit(frontIntake, shooter, shooterIntake, beamBreak, cornerRoller));
     NamedCommands.registerCommand("Suck", new Suck(frontIntake, shooter, shooterIntake, beamBreak, cornerRoller));

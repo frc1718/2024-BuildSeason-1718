@@ -8,7 +8,9 @@ import frc.robot.Constants;
 import frc.robot.LimelightHelpers;
 import frc.robot.subsystems.BeamBreakSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
+import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.VariablePassSubsystem;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.FrontIntakeSubsystem;
@@ -25,6 +27,8 @@ public class Shoot extends Command {
   private final FrontIntakeSubsystem m_frontIntakeSubsystem;
   private final ShooterIntakeSubsystem m_shooterIntakeSubsystem;
   private final BeamBreakSubsystem m_beamBreakSubsystem;
+  public final VariablePassSubsystem m_variableSubsystem;
+  private final CommandSwerveDrivetrain m_driveTrain;
 
   private boolean m_isFinished = false;
   private boolean m_IgnoreLimelight = true;
@@ -35,7 +39,7 @@ public class Shoot extends Command {
   private double m_frontIntakeSpeed = 0;
 
   private double m_VerticalAngleToAprilTag;
-  private double m_HorizontalAngleToAprilTag;
+  private double m_TargetRobotHeading;
   private double m_DistanceToAprilTag;
   private double m_DistanceBetweenAprilTagAndLimelight = Constants.kSpeakerAprilTagHeight - Constants.kLimelightHeight;
 
@@ -54,13 +58,16 @@ public class Shoot extends Command {
    * @param shooterIntakeSubsystem An instance of the shooter intake subsystem.
    * Required.
    */
-  public Shoot(FrontIntakeSubsystem frontIntakeSubsystem, ShooterSubsystem shooterSubsystem, ClimberSubsystem climbSubsystem, ShooterIntakeSubsystem shooterIntakeSubsystem, BeamBreakSubsystem beamBreakSubsystem) {
+  public Shoot(FrontIntakeSubsystem frontIntakeSubsystem, ShooterSubsystem shooterSubsystem, ClimberSubsystem climbSubsystem, ShooterIntakeSubsystem shooterIntakeSubsystem, BeamBreakSubsystem beamBreakSubsystem, VariablePassSubsystem variable, CommandSwerveDrivetrain drive) {
 
     m_frontIntakeSubsystem = frontIntakeSubsystem;
     m_shooterSubsystem = shooterSubsystem;
     m_climberSubsystem = climbSubsystem;
     m_shooterIntakeSubsystem = shooterIntakeSubsystem;
     m_beamBreakSubsystem = beamBreakSubsystem;
+    m_variableSubsystem = variable;
+    m_driveTrain = drive;
+    
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_shooterSubsystem);
@@ -182,15 +189,13 @@ public class Shoot extends Command {
   @Override
   public void execute() {
 
-       m_HorizontalAngleToAprilTag = Math.toRadians(LimelightHelpers.getTX(Constants.kLimelightName));
-
-      if ((m_shooterSubsystem.getShooterMode()=="DoNothing") && (Math.abs(m_HorizontalAngleToAprilTag) < 2) && (m_stateMachine==0)) { 
+       m_TargetRobotHeading = m_variableSubsystem.getLimelightTargetHeading();
+      if ((m_shooterSubsystem.getShooterMode()=="DoNothing") && (Math.abs(m_TargetRobotHeading - m_driveTrain.getPigeon2().getAngle()) < 2) && (m_stateMachine==0)) { 
             m_VerticalAngleToAprilTag = Math.toRadians(LimelightHelpers.getTY(Constants.kLimelightName));     
-            m_DistanceToAprilTag = m_DistanceBetweenAprilTagAndLimelight / (Math.tan(m_VerticalAngleToAprilTag) * Math.cos(m_HorizontalAngleToAprilTag));
+            m_DistanceToAprilTag = m_DistanceBetweenAprilTagAndLimelight / (Math.tan(m_VerticalAngleToAprilTag));
             m_shooterArmPosition = Constants.kShooterArmTable.get(m_DistanceToAprilTag);
             m_stateMachine=1;
       }
-
 
     //Statemachine woop woop
     switch(m_stateMachine){  
@@ -228,7 +233,7 @@ public class Shoot extends Command {
             System.out.println("Driver Command Shooter Target:" + m_shooterSpeed);
             System.out.println("Driver Command Shooter Speed: " + m_shooterSubsystem.getLeftShooterSpeed());
           }
-          if ((m_shooterSubsystem.getShooterUpToSpeed(m_shooterSpeed) && m_shooterSubsystem.getShooterArmInPosition(m_shooterArmPosition)) && (m_IgnoreLimelight || (Math.abs(LimelightHelpers.getTX(Constants.kLimelightName)) <= Constants.kTXTolerance))) {
+          if ((m_shooterSubsystem.getShooterUpToSpeed(m_shooterSpeed) && m_shooterSubsystem.getShooterArmInPosition(m_shooterArmPosition)) && (m_IgnoreLimelight || (Math.abs(m_TargetRobotHeading-m_driveTrain.getPigeon2().getAngle()) <= Constants.kTXTolerance))) {
           m_shooterIntakeSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeShootSpeed);
           if (Constants.kPrintDriverShoot){System.out.println("Driver Command Shoot: Case " + m_stateMachine + " Complete!");}
           shootTimer.start();

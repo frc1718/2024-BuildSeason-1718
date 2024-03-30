@@ -14,6 +14,7 @@ import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.VariablePassSubsystem;
 
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
@@ -38,6 +39,7 @@ public class Drive extends Command {
   private final CommandXboxController m_Controller;
   private final ShooterSubsystem m_ShooterSubsystem;
   private final ClimberSubsystem m_ClimberSubsystem;
+  private final VariablePassSubsystem m_VariableSubsystem;
   
   private Rotation2d m_RotationTarget = new Rotation2d(0.0);
   private Alliance m_Alliance;
@@ -70,12 +72,13 @@ public class Drive extends Command {
     .withRotationalDeadband(MaxAngularRate * 0.1)
     .withDriveRequestType(DriveRequestType.Velocity);
 
-  public Drive(CommandSwerveDrivetrain drivetrain, CommandXboxController controller, ShooterSubsystem shooter, ClimberSubsystem climber, double DriveSign) {
+  public Drive(CommandSwerveDrivetrain drivetrain, CommandXboxController controller, ShooterSubsystem shooter, ClimberSubsystem climber, double DriveSign, VariablePassSubsystem variable) {
     m_Drivetrain = drivetrain;
     m_Controller = controller;
     m_ShooterSubsystem = shooter;
     m_ClimberSubsystem = climber;
     driveSign = DriveSign;
+    m_VariableSubsystem = variable;
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_Drivetrain);
@@ -173,7 +176,8 @@ public class Drive extends Command {
           case 1: //Assume the AprilTag is already in view.
             m_AngleToAprilTag = LimelightHelpers.getTX(Constants.kLimelightName);
             m_CurrentRobotHeading = m_Drivetrain.getPigeon2().getAngle();
-            m_NewAngleHeading = m_AngleToAprilTag + m_CurrentRobotHeading;
+            m_NewAngleHeading = m_AngleToAprilTag + m_CurrentRobotHeading + Constants.kLimelightShotSkew;
+            m_VariableSubsystem.setLimelightTargetHeading(m_NewAngleHeading);
             //m_RotationTarget = Rotation2d.fromDegrees(m_NewAngleHeading);
             SmartDashboard.putNumber("LIMELIGHT TX", m_AngleToAprilTag);
             SmartDashboard.putNumber("ROBOT HEADING (Pigeon)", m_CurrentRobotHeading);
