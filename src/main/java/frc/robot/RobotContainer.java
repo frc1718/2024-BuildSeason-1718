@@ -34,6 +34,7 @@ import frc.robot.commands.Auto.AutoShooterModePodium;
 import frc.robot.commands.Auto.AutoShooterModePos1;
 import frc.robot.commands.Auto.AutoShooterModePos2;
 import frc.robot.commands.Auto.AutoShooterModePos3;
+import frc.robot.commands.Auto.SpeedUpShooterLongShot;
 import frc.robot.commands.Operator.ShooterModePass;
 import frc.robot.commands.Operator.ShooterModePodium;
 import frc.robot.commands.Operator.ShooterModeSubwoofer;
@@ -199,7 +200,7 @@ public class RobotContainer {
     /*  Back (While Disabled) - Play / Stop Current CHIRP Selection   */
     /******************************************************************/
 
-    operatorController.y().onTrue(new AutoShooterModePos3(frontIntake, shooter));
+    operatorController.y().onTrue(new ShooterModePodium(frontIntake, shooter));
     operatorController.b().onTrue(new ShooterModeAmp(frontIntake, shooter));
     operatorController.x().onTrue(new ShooterModePass(frontIntake, shooter));
     operatorController.a().onTrue(new ShooterModeSubwoofer(frontIntake, shooter));
@@ -264,6 +265,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("ShooterModePos1", new AutoShooterModePos1(frontIntake, shooter));
     NamedCommands.registerCommand("ShooterModePos2", new AutoShooterModePos2(frontIntake, shooter));
     NamedCommands.registerCommand("ShooterModePos3", new AutoShooterModePos3(frontIntake, shooter));
+    NamedCommands.registerCommand("SpinUpShooter", new SpeedUpShooterLongShot(shooter));
   }
 
   /**

@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 
+import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -16,7 +17,10 @@ public class BeamBreakSubsystem extends SubsystemBase {
   //Open sensors
   AnalogInput m_BeamBreakIntakeAnalog = new AnalogInput(Constants.kBeamBreakIntakeAnalog);
   AnalogInput m_BeamBreakShooterAnalog = new AnalogInput(Constants.kBeamBreakShooterAnalog);
-  
+
+  Debouncer m_IntakeDebounce = new Debouncer(0.05, Debouncer.DebounceType.kBoth);
+  Debouncer m_ShooterDebounce = new Debouncer(0.05, Debouncer.DebounceType.kBoth);
+
   //Open Servo
   //Servo intakeHinge = new Servo(Constants.kShooterIntakePivotReleasePWM);
 
@@ -33,8 +37,8 @@ public class BeamBreakSubsystem extends SubsystemBase {
    */
   public boolean getNotePresentIntake() {  
     if (Constants.kPrintSubsystemBeamBreak){System.out.println("Subsystem: Shooter - getNotePresentShooter Voltage " + m_BeamBreakShooterAnalog.getAverageVoltage());}
-    return (m_BeamBreakIntakeAnalog.getAverageVoltage() >= Constants.kIntakeBeamBreakCrossover);
     
+    return (m_IntakeDebounce.calculate(m_BeamBreakIntakeAnalog.getAverageVoltage() >= Constants.kIntakeBeamBreakCrossover));
   }
   
   /**
@@ -47,7 +51,7 @@ public class BeamBreakSubsystem extends SubsystemBase {
       System.out.println("Subsystem: Shooter - getNotePresentShooter Voltage " + m_BeamBreakShooterAnalog.getAverageVoltage());
       System.out.println("Subsystem: Shooter - getNotePresentShooter :" + (m_BeamBreakShooterAnalog.getAverageVoltage() >= Constants.kShooterBeamBreakCrossover));
     }
-    return (m_BeamBreakShooterAnalog.getAverageVoltage() >= Constants.kShooterBeamBreakCrossover);
+    return (m_ShooterDebounce.calculate(m_BeamBreakShooterAnalog.getAverageVoltage() >= Constants.kShooterBeamBreakCrossover));
     
   }
   // End of sensor related methods
@@ -79,8 +83,8 @@ public class BeamBreakSubsystem extends SubsystemBase {
     builder.setSmartDashboardType("BeamBreakSubsystem");
     builder.addBooleanProperty("Note Present in Intake?", this::getNotePresentIntake, null); 
     builder.addBooleanProperty("Note Present in Shooter?", this::getNotePresentShooter, null);
-    builder.addDoubleProperty("Intake Beam Break Voltage", () -> {return m_BeamBreakIntakeAnalog.getVoltage();}, null);
-    builder.addDoubleProperty("Shooter Beam Break Voltage", () -> {return m_BeamBreakShooterAnalog.getVoltage();}, null);
+    builder.addDoubleProperty("Intake Beam Break Voltage", () -> {return m_BeamBreakIntakeAnalog.getAverageVoltage();}, null);
+    builder.addDoubleProperty("Shooter Beam Break Voltage", () -> {return m_BeamBreakShooterAnalog.getAverageVoltage();}, null);
   }
 
   @Override

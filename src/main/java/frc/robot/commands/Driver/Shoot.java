@@ -161,6 +161,13 @@ public class Shoot extends Command {
           m_frontIntakeSpeed = Constants.kFrontIntakeStopSpeed;
           m_IgnoreLimelight = true;
         break;
+        case "ShootPass":
+          m_shooterArmPosition = Constants.kShooterArmPassPos;
+          m_shooterSpeed = Constants.kShooterPassSpeed;
+          m_frontIntakePosition = Constants.kFrontIntakeClearPos;
+          m_frontIntakeSpeed = Constants.kFrontIntakeStopSpeed;
+          m_IgnoreLimelight = true;
+        break;
       }
 
       // Set the values for the subsystems
@@ -230,7 +237,7 @@ public class Shoot extends Command {
       break;
       case 5:  //Wait for the shooter speed to drop a certain amount for the shot to be complete.  Note should be gone, timeer
       if (Constants.kPrintDriverShoot){System.out.println("Driver Command Shoot: Case" + m_stateMachine);}
-        if (!m_beamBreakSubsystem.getNotePresent() && shootTimer.get() > 0.400) {
+        if (!m_beamBreakSubsystem.getNotePresent() && shootTimer.get() > 0.250) {
           m_shooterSubsystem.setShooterArmPosition(Constants.kShooterArmHomePos);
           m_shooterSubsystem.setShooterMode("DoNothing");
           if (Constants.kPrintDriverShoot){System.out.println("Driver Command Shoot: Case 3 Complete!");}

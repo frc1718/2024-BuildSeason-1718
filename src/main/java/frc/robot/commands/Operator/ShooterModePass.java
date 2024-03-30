@@ -68,14 +68,14 @@ public class ShooterModePass extends Command {
       case 1:  // Front intake in position
         if (Constants.kPrintOperatorShooterModePass){System.out.println("Operator Command ShooterModePass: Case 1 Started");}
         if (m_frontIntakeSubsystem.getFrontIntakeInPosition(Constants.kFrontIntakeClearPos)) {
-          m_shooterSubsystem.setShooterArmPosition(Constants.kShooterArmPodiumPos);
+          m_shooterSubsystem.setShooterArmPosition(Constants.kShooterArmPassPos);
           if (Constants.kPrintOperatorShooterModePass){System.out.println("Operator Command ShooterModePass: Case 1 Complete");}
           m_stateMachine = m_stateMachine + 1;
         }        
         break;
       case 2:  // Arm in position
         if (Constants.kPrintOperatorShooterModePass){System.out.println("Operator Command ShooterModePass: Case 2 Started");}
-        if (m_shooterSubsystem.getShooterArmInPosition(Constants.kShooterArmPodiumPos)) {
+        if (m_shooterSubsystem.getShooterArmInPosition(Constants.kShooterArmPassPos)) {
           if (Constants.kPrintOperatorShooterModePass){System.out.println("Operator Command ShooterModePass: Case 2 Complete");}
           m_stateMachine = m_stateMachine + 1;
         }

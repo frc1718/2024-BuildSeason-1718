@@ -145,6 +145,7 @@ public class ShooterIntakeSubsystem extends SubsystemBase {
     shooterIntakeSpinVelocityConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.kShooterIntakeSpinVoltageClosedLoopRampPeriod;
     shooterIntakeSpinVelocityConfig.MotorOutput.Inverted = Constants.kShooterIntakeSpinDirection;
     shooterIntakeSpinVelocityConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
+    shooterIntakeSpinVelocityConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
     
     //Setting the config option that allows playing music on the motor during disabled.
     shooterIntakeSpinVelocityConfig.Audio.AllowMusicDurDisable = true;

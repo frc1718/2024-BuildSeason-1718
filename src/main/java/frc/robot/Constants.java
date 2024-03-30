@@ -121,6 +121,7 @@ public class Constants {
     public static final double kShooterArmTolerancePos = 0.005;  //0.01
     public static final double kShooterArmSpitPos = -0.06;  //-0.06
     public static final double kShooterArmTrapPos = 0.135;  //0.135
+    public static final double kShooterArmPassPos = -0.0670;  
     public static final double kShooterIntakeTrapRotations = 31;
     public static final double kShooterIntakeRotateHomePos = -2;
     public static final double kShooterIntakeSpinPositionNote = 0;
@@ -149,16 +150,14 @@ public class Constants {
     public static final int kShooterPodiumSpeed = 28;  //Was 70
     public static final int kShooterAmpSpeed = 10;  //Was 20, at 7 for testing in build room
     public static final int kShooterLimelightSpeed = 40;    //10 for testing in build room
-    public static final int kShooterIdleSpeed = 30; //Was 30, at 5 for testing in build room
+    public static final int kShooterIdleSpeed = 30; 
     public static final int kShooterMaxSpeed = 45;
     public static final int kShooterStopSpeed = 0;
-    public static final int kShooterPassSpeed = 15;
+    public static final int kShooterPassSpeed = 32;
     public static final int kShooterAutoPodiumSpeed = 28;
     public static final int kShooterAutoPos1Speed = 40;
     public static final int kShooterAutoPos2Speed = 40;
     public static final int kShooterAutoPos3Speed = 40;
-
-
     
     public static final int kShooterIntakeTrapSpeed = 0;
     public static final int kShooterIntakeSuckSpeed = 80;
@@ -391,8 +390,8 @@ public class Constants {
     //Used to be a pose, but only the X and Y are needed.  Changed to a translation to clean up the actual calculation.
     public static final Translation2d kBlueSpeakerLocation = new Translation2d(0.0, 5.55);
     public static final Translation2d kRedSpeakerLocation = new Translation2d(16.55, 5.55);
-    public static final Rotation2d kBluePassAngle = Rotation2d.fromDegrees(-31.5);
-    public static final Rotation2d kRedPassAngle = Rotation2d.fromDegrees(-148.5);
+    public static final Rotation2d kBluePassAngle = Rotation2d.fromDegrees(146.5);
+    public static final Rotation2d kRedPassAngle = Rotation2d.fromDegrees(33.5);
     public static final Rotation2d kRedAmpAngle = Rotation2d.fromDegrees(90.0);
     public static final Rotation2d kBlueAmpAngle = Rotation2d.fromDegrees(-90.0);
     public static final Rotation2d kRedLeftClimbAngle = Rotation2d.fromDegrees(60.0);

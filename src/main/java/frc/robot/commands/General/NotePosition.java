@@ -34,7 +34,7 @@ public class NotePosition extends Command {
     m_shooterIntakeSubsystem = shooterIntakeSubsystem;
     m_beamBreakSubsystem = beamBreakSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
-
+    addRequirements(m_shooterIntakeSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -57,75 +57,59 @@ public class NotePosition extends Command {
   public void execute() {
 
     switch(m_stateMachine){
-      case 1:  //If note isn't here, why are you here?
+      case 1:  //If note isn't here, why are you here?  If it is here but only in the front intake, move it into the shooter
         if (!m_beamBreakSubsystem.getNotePresent()){
           m_isFinished = true;
-        }
-        else{
+        } else if (m_beamBreakSubsystem.getNotePresentIntake() && !m_beamBreakSubsystem.getNotePresentShooter()){
+          m_shooterIntakeSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeIndexSpeed); 
+          m_stateMachine=m_stateMachine+1;
+        } else {  //We have a note at both intake and shooter
           m_stateMachine=m_stateMachine+1;
         }
-        break;
-      case 2:  //If note is breaking shooter beam, back it up.
-          m_stateMachine = m_stateMachine + 1;
-        break; 
-      case 3:  //If Note is breaking intake beam, stop indexing.
-        if (Constants.kPrintGeneralNotePosition){System.out.println("General NotePosition: Case 1");}
+      break;
+      case 2:  //If Note is breaking Shooter, then back up note and start timer
+        if (Constants.kPrintGeneralNotePosition){System.out.println("General NotePosition: Case 2");}
         if (m_beamBreakSubsystem.getNotePresentShooter()){
-          m_shooterIntakeSubsystem.setShooterIntakeSpeed(-Constants.kShooterIntakeIndexSpeed);  
-        } else {
-          if (Constants.kPrintGeneralNotePosition){System.out.println("General NotePosition: Case 1 Complete");} 
+          m_shooterIntakeSubsystem.setShooterIntakeSpeed(-Constants.kShooterIntakeIndexSpeed);
+          reverseTimer.reset();
+          reverseTimer.start();
           m_stateMachine = m_stateMachine + 1; 
-        }  
-        break;
-      case 4:  //If note is breaking shooter beam, back it up.
-      if (m_beamBreakSubsystem.getNotePresentShooter()){
-        reverseTimer.reset();
-        reverseTimer.start(); 
-        m_stateMachine = m_stateMachine + 1;
-      } else {
-        m_shooterIntakeSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeIndexSpeed);
-      }    
-        break; 
-      case 5:  //If note is breaking shooter beam, back it up.
-      if (reverseTimer.get() < 0.25){
-        m_shooterIntakeSubsystem.setShooterIntakeSpeed(-Constants.kShooterIntakeIndexSpeed);  
-      } else {
-        m_stateMachine = m_stateMachine + 1; 
-      }    
-        break; 
-      case 6:  //If note is breaking shooter beam, back it up.
-      if (m_beamBreakSubsystem.getNotePresentShooter()){
-        reverseTimer.reset();
-        reverseTimer.start(); 
-        m_stateMachine = m_stateMachine + 1;
-      } else {
-        m_shooterIntakeSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeIndexSpeed);
-      }    
-        break; 
-      case 7:  //If note is breaking shooter beam, back it up.
-      if (reverseTimer.get() < 0.25){
-        m_shooterIntakeSubsystem.setShooterIntakeSpeed(-Constants.kShooterIntakeIndexSpeed);  
-      } else {
-        m_stateMachine = m_stateMachine + 1; 
-      }    
-        break;
-      case 8:
-      if (m_beamBreakSubsystem.getNotePresentShooter()){
-        m_stateMachine = m_stateMachine + 1;
-      } else {
-        m_shooterIntakeSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeIndexSpeed);
-      }  
-        break;
-      case 9:
-      if (Constants.kPrintGeneralNotePosition){System.out.println("General NotePosition: Case 7");}
-        if (m_beamBreakSubsystem.getNotePresentIntake()) {
-          if (Constants.kPrintGeneralNotePosition){System.out.println("General NotePosition: Case 7 Complete");}
-          m_shooterIntakeSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeStopSpeed);  
-          m_isFinished = true; 
-        } else {
-          m_shooterIntakeSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeIndexSpeed);
         }
-        break;
+      break; 
+      case 3:  //If timer is complete, run note back forward
+       if (reverseTimer.get() > 0.25){
+          m_shooterIntakeSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeIndexSpeed);  
+           m_stateMachine = m_stateMachine + 1;
+        } 
+
+      break;
+      case 4:   //If Note is breaking Shooter, then back up note and start timer
+        if (Constants.kPrintGeneralNotePosition){System.out.println("General NotePosition: Case 2");}
+        if (m_beamBreakSubsystem.getNotePresentShooter()){
+          m_shooterIntakeSubsystem.setShooterIntakeSpeed(-Constants.kShooterIntakeIndexSpeed);
+          reverseTimer.reset();
+          reverseTimer.start();
+          m_stateMachine = m_stateMachine + 1; 
+        }
+      break; 
+      case 5:  //If timer is complete, run note back forward
+        if (reverseTimer.get() > 0.25){
+          m_shooterIntakeSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeIndexSpeed);  
+           m_stateMachine = m_stateMachine + 1;
+        } 
+      break;
+      case 6:  //Stop and back note up again
+        if (m_beamBreakSubsystem.getNotePresentShooter()){
+          m_shooterIntakeSubsystem.setShooterIntakeSpeed(-Constants.kShooterIntakeIndexSpeed);
+        }
+        m_stateMachine = m_stateMachine + 1;  
+      break; 
+      case 7:  //If note is clear of shooter beam, stop
+                if (!m_beamBreakSubsystem.getNotePresentShooter()){
+          m_shooterIntakeSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeStopSpeed);
+        }
+        m_isFinished = true;
+      break;
     }   
 
     
@@ -134,6 +118,7 @@ public class NotePosition extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_shooterIntakeSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeStopSpeed);
     if (Constants.kPrintGeneralNotePosition){
       System.out.println("General NotePosition Completed");
       System.out.println("================================");

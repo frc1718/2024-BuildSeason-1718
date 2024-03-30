@@ -45,7 +45,7 @@
         {
           "type": "named",
           "data": {
-            "name": "NotePosition"
+            "name": "QuickNotePosition"
           }
         },
         {
@@ -90,15 +90,9 @@
                 }
               },
               {
-                "type": "sequential",
+                "type": "parallel",
                 "data": {
                   "commands": [
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Suck"
-                      }
-                    },
                     {
                       "type": "named",
                       "data": {
@@ -153,15 +147,9 @@
                 }
               },
               {
-                "type": "sequential",
+                "type": "parallel",
                 "data": {
                   "commands": [
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Suck"
-                      }
-                    },
                     {
                       "type": "named",
                       "data": {

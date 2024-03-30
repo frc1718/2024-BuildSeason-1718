@@ -50,19 +50,19 @@ public class Drive extends Command {
   private double m_AngleToAprilTag = 0;
   private double m_CurrentRobotHeading;
   private double m_NewAngleHeading;
-  private PIDController aimPID = new PIDController(0.055, 0, 0.0013); // 0.0013
+  private PIDController aimPID = new PIDController(0.058, 0, 0.0013); // 0.055, 0, 0.0013
   private double limeLightController = 0;
   Trigger m_DriverLeftTrigger;
   private boolean LimeLightShootingFlag = false;
 
   private final SwerveRequest.FieldCentricFacingAngle driveFacingAngle = new SwerveRequest.FieldCentricFacingAngle()
     .withDeadband(TunerConstants.kSpeedAt12VoltsMps * 0.1)
-    .withRotationalDeadband(MaxAngularRate * 0.1)
+    .withRotationalDeadband(0.1)
     .withDriveRequestType(DriveRequestType.Velocity);
 
   private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
     .withDeadband(MaxSpeed * 0.1)
-    .withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
+    .withRotationalDeadband(MaxAngularRate * 0.05) // Add a 10% deadband
     .withDriveRequestType(DriveRequestType.Velocity);
     
   private final SwerveRequest.RobotCentric robotCentric = new SwerveRequest.RobotCentric()
@@ -89,7 +89,7 @@ public class Drive extends Command {
 
     //Configure the PID Controller for the 'driveFacingAngle' drive request.
     driveFacingAngle.HeadingController.enableContinuousInput(-Math.PI, Math.PI);
-    driveFacingAngle.HeadingController.setPID(50, 0, 1);
+    driveFacingAngle.HeadingController.setPID(2, 0, 0.1);
 
     m_DriverLeftTrigger = m_Controller.x();
 
@@ -99,7 +99,7 @@ public class Drive extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if ((m_ShooterSubsystem.getShooterModeDoingSomething()) && (Math.abs(m_Controller.getRightX()) < 0.1) && m_ShooterSubsystem.getShooterMode() == "ShootPass" && m_ShooterSubsystem.getShooterMode() != "ShootPodium" && m_ShooterSubsystem.getShooterMode() != "ShootAmp") {
+    if ((m_ShooterSubsystem.getShooterModeDoingSomething()) && (Math.abs(m_Controller.getRightX()) < 0.1) && m_ShooterSubsystem.getShooterMode() == "ShootPass" && m_ShooterSubsystem.getShooterMode() != "ShootPodium" && m_ShooterSubsystem.getShooterMode() != "ShootAmp" && m_ShooterSubsystem.getShooterMode() != "ShootSubwoofer") {
       
       driveRequest = "driveFacingAngle";
       m_LimelightStateMachine = 1;
