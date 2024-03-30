@@ -39,6 +39,7 @@ public class Robot extends TimedRobot {
     //Load a 'dummy' auton just to load the PathPlannerAuto class.
     //Hopefully, this makes the auton load faster.
     m_autonLoading = new PathPlannerAuto("Blue - Score 0").ignoringDisable(true);
+    m_autonLoading.schedule();
 
     //Setting up port forwarding for all limelight related ports.
     //Only setting the port-forwarding once in the code.
@@ -78,18 +79,10 @@ public class Robot extends TimedRobot {
     m_robotContainer.frontIntake.setFrontIntakeRotateZeroOutput();
     m_robotContainer.shooter.setShooterArmRotateZeroOutput();
     m_robotContainer.shooter.setShooterSpeed(0);
-    m_autonLoading.schedule();
   }
 
   @Override
   public void disabledPeriodic() {
-    /* Colten added this with his branch.  This might have an unintended effect on our swerve drive.
-    if (DriverStation.getAlliance().get() == Alliance.Blue) {
-      m_robotContainer.driveSign = 1;
-    } else {
-      m_robotContainer.driveSign = -1;
-    }
-    */
     //double m_DistanceBetweenAprilTagAndLimelight = Constants.kSpeakerAprilTagHeight - Constants.kLimelightHeight;
     SmartDashboard.putNumber("Pigeon", m_robotContainer.drivetrain.getPigeon2().getAngle());
     /*double m_VerticalAngleToAprilTag = Math.toRadians(LimelightHelpers.getTY(Constants.kLimelightName));

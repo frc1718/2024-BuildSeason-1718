@@ -98,7 +98,7 @@ public class Drive extends Command {
     if (DriverStation.getAlliance().get() == Alliance.Blue) {
       driveSign = 1;
     } else {
-      driveSign = -1;
+      driveSign = 1;
     }
   }
 
@@ -210,7 +210,6 @@ public class Drive extends Command {
                                                                                             // negative Y (forward)
           .withVelocityY(-m_Controller.getLeftX() * MaxSpeed * driveSign) // Drive left with negative X (left)
           .withRotationalRate(-m_Controller.getRightX() * MaxAngularRate));
-        SmartDashboard.putString("DEBUG", "SAMPO");
       break;
       case "limeLightAim":  //Use the limelight to aim to an AprilTag
 
