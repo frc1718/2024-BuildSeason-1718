@@ -136,7 +136,7 @@ public class Constants {
     public static final double kClimberPreClimbPos = 24.5;
     public static final double kClimberTolerancePos = 0.1;
     
-    public static final double kFrontIntakeDownPos = 0.005;  //Down so we can suck in
+    public static final double kFrontIntakeDownPos = 0.002;  //Was 0.005 //Down so we can suck in
     public static final double kFrontIntakeHomePos = 0.3; //Starting position.  Used to be .38 all the way back.  Changed to speed up.
     public static final double kFrontIntakeTolerancePos = 0.015;
     public static final double kFrontIntakeClearPos = 0.239; //was .239Clear is clear of the shooterarm motion

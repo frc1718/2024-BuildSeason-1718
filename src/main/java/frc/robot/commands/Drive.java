@@ -94,6 +94,12 @@ public class Drive extends Command {
     m_DriverLeftTrigger = m_Controller.x();
 
     m_isFinished = false;
+
+    if (DriverStation.getAlliance().get() == Alliance.Blue) {
+      driveSign = 1;
+    } else {
+      driveSign = -1;
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -204,6 +210,7 @@ public class Drive extends Command {
                                                                                             // negative Y (forward)
           .withVelocityY(-m_Controller.getLeftX() * MaxSpeed * driveSign) // Drive left with negative X (left)
           .withRotationalRate(-m_Controller.getRightX() * MaxAngularRate));
+        SmartDashboard.putString("DEBUG", "SAMPO");
       break;
       case "limeLightAim":  //Use the limelight to aim to an AprilTag
 
