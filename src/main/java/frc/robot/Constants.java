@@ -148,14 +148,14 @@ public class Constants {
     public static final double kShooterSubwooferSpeed = 20;  //Was 70
     public static final int kShooterPodiumSpeed = 28;  //Was 70
     public static final int kShooterAmpSpeed = 10;  //Was 20, at 7 for testing in build room
-    public static final int kShooterLimelightSpeed = 70;    //10 for testing in build room
+    public static final int kShooterLimelightSpeed = 40;    //10 for testing in build room
     public static final int kShooterIdleSpeed = 30; //Was 30, at 5 for testing in build room
     public static final int kShooterMaxSpeed = 45;
     public static final int kShooterStopSpeed = 0;
     public static final int kShooterPassSpeed = 15;
     public static final int kShooterAutoPodiumSpeed = 28;
-    public static final int kShooterAutoPos1Speed = 35;
-    public static final int kShooterAutoPos2Speed = 35;
+    public static final int kShooterAutoPos1Speed = 40;
+    public static final int kShooterAutoPos2Speed = 40;
     public static final int kShooterAutoPos3Speed = 40;
 
 

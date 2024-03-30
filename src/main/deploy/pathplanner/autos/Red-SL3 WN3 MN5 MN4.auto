@@ -45,7 +45,7 @@
         {
           "type": "named",
           "data": {
-            "name": "NotePosition"
+            "name": "QuickNotePosition"
           }
         },
         {
@@ -69,24 +69,11 @@
                 "data": {
                   "pathName": "RWN3 - RMN5"
                 }
-              }
-            ]
-          }
-        },
-        {
-          "type": "race",
-          "data": {
-            "commands": [
+              },
               {
                 "type": "named",
                 "data": {
                   "name": "Suck"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 2.0
                 }
               }
             ]
@@ -150,15 +137,22 @@
           }
         },
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "NotePosition"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "RMN4 - RWN3"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "RMN4 - RWN3"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "NotePosition"
+                }
+              }
+            ]
           }
         }
       ]
