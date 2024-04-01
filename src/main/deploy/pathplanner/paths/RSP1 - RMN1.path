@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 13.77,
-        "y": 3.019284500107463
+        "x": 13.105058517809343,
+        "y": 3.0587522713506967
       },
       "prevControl": null,
       "nextControl": {
-        "x": 12.142077781882353,
-        "y": 1.3121857605272735
+        "x": 10.776460014458491,
+        "y": 0.8978917957835928
       },
       "isLocked": false,
       "linkedName": "RSP1"
     },
     {
       "anchor": {
-        "x": 8.750400838890123,
-        "y": 0.7612043754757987
+        "x": 8.55,
+        "y": 0.76
       },
       "prevControl": {
-        "x": 10.786485080097528,
-        "y": 0.7117991229253752
+        "x": 8.948013611784933,
+        "y": 0.7486832781456632
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "RMN1"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -45,7 +45,7 @@
   "reversed": false,
   "folder": "Red - From Shooting Positions",
   "previewStartingState": {
-    "rotation": -139.76,
+    "rotation": -143.13010235415592,
     "velocity": 0
   },
   "useDefaultConstraints": true

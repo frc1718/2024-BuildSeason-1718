@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 15.167939265978388,
-      "y": 5.574358195791997
+      "x": 15.2,
+      "y": 4.56
     },
     "rotation": 180.0
   },
@@ -18,7 +18,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "RSW2 - RWN2"
+                  "pathName": "RSW1 - RWN1"
                 }
               },
               {
@@ -45,7 +45,7 @@
         {
           "type": "named",
           "data": {
-            "name": "NotePosition"
+            "name": "QuickNotePosition"
           }
         },
         {
@@ -61,25 +61,26 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "Home"
-          }
-        },
-        {
           "type": "parallel",
           "data": {
             "commands": [
               {
                 "type": "path",
                 "data": {
-                  "pathName": "RWN2 - RMN3"
+                  "pathName": "RWN1 - RMN2"
                 }
               },
               {
-                "type": "named",
+                "type": "sequential",
                 "data": {
-                  "name": "Suck"
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Suck"
+                      }
+                    }
+                  ]
                 }
               }
             ]
@@ -92,7 +93,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "RMN3 - RWN2"
+                  "pathName": "RMN2 - RSP1"
                 }
               },
               {
@@ -102,13 +103,19 @@
                     {
                       "type": "named",
                       "data": {
+                        "name": "Suck"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
                         "name": "NotePosition"
                       }
                     },
                     {
                       "type": "named",
                       "data": {
-                        "name": "ShooterModePodium"
+                        "name": "ShooterModePos1"
                       }
                     }
                   ]
@@ -124,9 +131,73 @@
           }
         },
         {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "RSP1 - RMN1"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Suck"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "RMN1 - RSP1"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Suck"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "NotePosition"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "ShooterModePos1"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
           "type": "named",
           "data": {
-            "name": "Home"
+            "name": "Shoot"
           }
         }
       ]

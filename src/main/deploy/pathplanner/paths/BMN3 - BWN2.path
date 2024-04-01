@@ -4,15 +4,15 @@
     {
       "anchor": {
         "x": 8.14,
-        "y": 4.11
+        "y": 4.25
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.675250581270395,
-        "y": 2.930482014810184
+        "x": 3.7215959047302727,
+        "y": 3.177687813837166
       },
       "isLocked": false,
-      "linkedName": "BMN3"
+      "linkedName": null
     },
     {
       "anchor": {
@@ -20,8 +20,8 @@
         "y": 5.57
       },
       "prevControl": {
-        "x": 3.9723795282112664,
-        "y": 5.9022616190738795
+        "x": 5.211504269162385,
+        "y": 5.584689630917723
       },
       "nextControl": null,
       "isLocked": false,
