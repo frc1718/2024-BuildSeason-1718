@@ -101,14 +101,14 @@ public class NotePosition extends Command {
       case 6:  //Stop and back note up again
         if (m_beamBreakSubsystem.getNotePresentShooter()){
           m_shooterIntakeSubsystem.setShooterIntakeSpeed(-Constants.kShooterIntakeIndexSpeed);
+          m_stateMachine = m_stateMachine + 1;  
         }
-        m_stateMachine = m_stateMachine + 1;  
       break; 
       case 7:  //If note is clear of shooter beam, stop
-                if (!m_beamBreakSubsystem.getNotePresentShooter()){
+        if (!m_beamBreakSubsystem.getNotePresentShooter()){
           m_shooterIntakeSubsystem.setShooterIntakeSpeed(Constants.kShooterIntakeStopSpeed);
+          m_isFinished = true;
         }
-        m_isFinished = true;
       break;
     }   
 

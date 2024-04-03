@@ -114,7 +114,7 @@ public class Constants {
     public static final double kShooterArmAmpPos = 0.135;   //0.135
     public static final double kShooterArmHomePos = -0.136; //-0.136
     public static final double kShooterArmAutoPodiumPos = -0.0468;  //-0.0388
-    public static final double kShooterArmAutoPos1Pos = -0.0473;  //-0.0388
+    public static final double kShooterArmAutoPos1Pos = -0.0240;  //-0.0388
     public static final double kShooterArmAutoPos2Pos = -0.0473;    //-0.0388
     public static final double kShooterArmAutoPos3Pos = -0.0177;    //-0.0197
     public static final double kShooterArmPreClimbPos = 0.120;  //0.135
@@ -132,8 +132,8 @@ public class Constants {
 
 
     public static final int kClimberHomePos = 0;    
-    public static final double kClimberClimbPos = -38.75;
-    public static final double kClimberPreClimbPos = 24.5;
+    public static final double kClimberClimbPos = -33;//-38.75
+    public static final double kClimberPreClimbPos = 30; //24.5
     public static final double kClimberTolerancePos = 0.1;
     
     public static final double kFrontIntakeDownPos = 0.002;  //Was 0.005 //Down so we can suck in
@@ -160,7 +160,7 @@ public class Constants {
     public static final int kShooterAutoPos3Speed = 40;
     
     public static final int kShooterIntakeTrapSpeed = 0;
-    public static final int kShooterIntakeSuckSpeed = 80;
+    public static final int kShooterIntakeSuckSpeed = 90;
     public static final int kShooterIntakeStopSpeed = 0;
     public static final int kShooterIntakeSpitSpeed = -60;
     public static final int kShooterIntakeShootSpeed = 75;

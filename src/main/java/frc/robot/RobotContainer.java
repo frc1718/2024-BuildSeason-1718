@@ -202,7 +202,7 @@ public class RobotContainer {
     /*  Back (While Disabled) - Play / Stop Current CHIRP Selection   */
     /******************************************************************/
 
-    operatorController.y().onTrue(new ShooterModePodium(frontIntake, shooter));
+    operatorController.y().onTrue(new AutoShooterModePos1(frontIntake, shooter));
     operatorController.b().onTrue(new ShooterModeAmp(frontIntake, shooter));
     operatorController.x().onTrue(new ShooterModePass(frontIntake, shooter));
     operatorController.a().onTrue(new ShooterModeSubwoofer(frontIntake, shooter));

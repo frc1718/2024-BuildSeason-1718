@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 10.776460014458491,
-        "y": 0.8978917957835928
+        "x": 10.764664724764542,
+        "y": 0.3161925867361
       },
       "isLocked": false,
       "linkedName": "RSP1"
@@ -17,11 +17,11 @@
     {
       "anchor": {
         "x": 8.55,
-        "y": 0.76
+        "y": 0.6
       },
       "prevControl": {
         "x": 8.948013611784933,
-        "y": 0.7486832781456632
+        "y": 0.5886832781456631
       },
       "nextControl": null,
       "isLocked": false,
