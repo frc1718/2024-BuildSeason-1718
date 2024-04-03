@@ -407,10 +407,10 @@ public class ShooterSubsystem extends SubsystemBase {
    * @param robotOrchestra The Orchestra to add the motors as instruments to.
    */
   public void addToOrchestra(Orchestra robotOrchestra) {
-    robotOrchestra.addInstrument(m_SpinLeftShooter);
-    robotOrchestra.addInstrument(m_SpinRightShooter);
-    robotOrchestra.addInstrument(m_ShooterArmRotateLeft);
-    robotOrchestra.addInstrument(m_ShooterArmRotateRight);
+    robotOrchestra.addInstrument(m_SpinLeftShooter, 6);
+    robotOrchestra.addInstrument(m_SpinRightShooter, 6);
+    robotOrchestra.addInstrument(m_ShooterArmRotateLeft, 6);
+    robotOrchestra.addInstrument(m_ShooterArmRotateRight, 6);
   }
 
    /**

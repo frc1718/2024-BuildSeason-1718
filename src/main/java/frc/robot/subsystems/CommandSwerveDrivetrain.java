@@ -367,8 +367,8 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
   public void addToOrchestra(Orchestra robotOrchestra) {
     //Iterate through each module.
     for (var module : Modules) {
-        robotOrchestra.addInstrument(module.getDriveMotor());
-        robotOrchestra.addInstrument(module.getSteerMotor());
+        robotOrchestra.addInstrument(module.getDriveMotor(), 6);
+        robotOrchestra.addInstrument(module.getSteerMotor(), 6);
     }
   }   
 

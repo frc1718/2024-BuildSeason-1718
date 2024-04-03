@@ -228,8 +228,8 @@ public class ClimberSubsystem extends SubsystemBase {
    * @param robotOrchestra The Orchestra to add the motors as instruments to.
    */
   public void addToOrchestra(Orchestra robotOrchestra) {
-    robotOrchestra.addInstrument(m_LeftClimb);
-    robotOrchestra.addInstrument(m_RightClimb);
+    robotOrchestra.addInstrument(m_LeftClimb, 6);
+    robotOrchestra.addInstrument(m_RightClimb, 6);
   }
 
   /**

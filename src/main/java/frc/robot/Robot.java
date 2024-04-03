@@ -108,9 +108,11 @@ public class Robot extends TimedRobot {
       switch (DriverStation.getAlliance().get()) {
         case Blue:
           m_robotContainer.autonSelect.filterSelections("Blue");
+          m_robotContainer.autonSelect.sortSelections();
         break;
         case Red:
           m_robotContainer.autonSelect.filterSelections("Red");
+          m_robotContainer.autonSelect.sortSelections();
         break;
       }
 

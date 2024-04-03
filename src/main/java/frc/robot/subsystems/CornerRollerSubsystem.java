@@ -145,8 +145,8 @@ public class CornerRollerSubsystem extends SubsystemBase {
    * @param robotOrchestra The Orchestra to add the motors as instruments to.
    */
   public void addToOrchestra(Orchestra robotOrchestra) {
-    robotOrchestra.addInstrument(m_SpinLeftRoller);
-    robotOrchestra.addInstrument(m_SpinRightRoller);
+    robotOrchestra.addInstrument(m_SpinLeftRoller, 6);
+    robotOrchestra.addInstrument(m_SpinRightRoller, 6);
   }
 
   /**

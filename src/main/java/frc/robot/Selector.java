@@ -2,6 +2,7 @@ package frc.robot;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Iterator;
 
 import edu.wpi.first.networktables.NTSendable;
@@ -146,6 +147,15 @@ public class Selector implements NTSendable{
         /*	j++;										                                */
         /* }											                                */
         /********************************************************************************/
+    }
+
+    /**
+     * Sorts the current selector list alphabetically.
+     * At least, I <i>think</i> alphabetically.
+     */
+    public void sortSelections() {
+        //I would assume that the naturalOrder is alphabetical.
+        this.selectionNames.sort(Comparator.naturalOrder());
     }
 
     @Override

@@ -274,8 +274,8 @@ public class FrontIntakeSubsystem extends SubsystemBase {
    * @param robotOrchestra The Orchestra to add the motors as instruments to.
    */
   public void addToOrchestra(Orchestra robotOrchestra) {
-    robotOrchestra.addInstrument(m_frontIntakeRotate);
-    robotOrchestra.addInstrument(m_frontIntakeSpin);
+    robotOrchestra.addInstrument(m_frontIntakeRotate, 6);
+    robotOrchestra.addInstrument(m_frontIntakeSpin, 6);
   }
 
    /**

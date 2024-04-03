@@ -224,8 +224,9 @@ public class RobotContainer {
     /* Turn the robot into a Theremin.                          */
     /* All motors are included.                                 */
     /* Use the right operator trigger to control the frequency. */
+    /* Currently not usable.                                    */
     /************************************************************/
-    operatorController.start().and(operatorController.rightTrigger(0.1)).and(RobotState::isDisabled).onTrue(
+    /*operatorController.start().and(operatorController.rightTrigger(0.1)).and(RobotState::isDisabled).whileTrue(
       new InstantCommand(() -> {
         shooter.setMusicToneFrequency(operatorController.getRightTriggerAxis());
         frontIntake.setMusicToneFrequency(operatorController.getRightTriggerAxis());
@@ -233,7 +234,15 @@ public class RobotContainer {
         shooterIntake.setMusicToneFrequency(operatorController.getRightTriggerAxis());
         cornerRoller.setMusicToneFrequency(operatorController.getRightTriggerAxis());
         drivetrain.setMusicToneFrequency(operatorController.getRightTriggerAxis());}
-    ));
+    ).ignoringDisable(true)).onFalse(
+      new InstantCommand(() -> {
+        shooter.setMusicToneFrequency(0);
+        frontIntake.setMusicToneFrequency(0);
+        climber.setMusicToneFrequency(0);
+        shooterIntake.setMusicToneFrequency(0);
+        cornerRoller.setMusicToneFrequency(0);
+        drivetrain.setMusicToneFrequency(0);}).ignoringDisable(true));
+    */
 
     if (Utils.isSimulation()) {
       drivetrain.seedFieldRelative(new Pose2d(new Translation2d(), Rotation2d.fromDegrees(90)));
