@@ -108,13 +108,15 @@ public class Robot extends TimedRobot {
       switch (DriverStation.getAlliance().get()) {
         case Blue:
           m_robotContainer.autonSelect.filterSelections("Blue");
-          m_robotContainer.autonSelect.sortSelections();
         break;
         case Red:
           m_robotContainer.autonSelect.filterSelections("Red");
-          m_robotContainer.autonSelect.sortSelections();
         break;
       }
+
+      //Sort the new list alphabetically.  Also sort the chirp file list.
+      m_robotContainer.autonSelect.sortSelections();
+      m_robotContainer.chirpSelect.sortSelections();
 
       //After filtering the auton list, set a flag so the filter is only applied once.
       hasFilteredAutonRoutines = true;
