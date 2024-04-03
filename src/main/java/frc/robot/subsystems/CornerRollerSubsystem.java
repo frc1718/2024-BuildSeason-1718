@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.Orchestra;
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.MusicTone;
 //import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -34,6 +35,8 @@ public class CornerRollerSubsystem extends SubsystemBase {
   private final VelocityVoltage LeftRollerVelocityRequest = new VelocityVoltage(0.0, 0.0, true, 0,0, false, false, false);
   private final VelocityVoltage RightRollerVelocityRequest = new VelocityVoltage(0.0, 0.0, true, 0,0, false, false, false);
   
+  private final MusicTone cornerRollerMusicToneRequest = new MusicTone(0);
+
   /**
    * Constructs an instance of the shooter subsystem.
    * The motor and sensor configuration is done here.
@@ -142,10 +145,18 @@ public class CornerRollerSubsystem extends SubsystemBase {
    * @param robotOrchestra The Orchestra to add the motors as instruments to.
    */
   public void addToOrchestra(Orchestra robotOrchestra) {
-    robotOrchestra.addInstrument(m_SpinLeftRoller);
-    robotOrchestra.addInstrument(m_SpinRightRoller);
+    robotOrchestra.addInstrument(m_SpinLeftRoller, 6);
+    robotOrchestra.addInstrument(m_SpinRightRoller, 6);
   }
 
+  /**
+   * Sets all motors in the corner roller subsystem to play a tone at the requested frequency.
+   * @param toneInput A percentage, mapped to kMusicToneTable lookup table.
+   */
+  public void setMusicToneFrequency(double toneInput) {
+    m_SpinLeftRoller.setControl(cornerRollerMusicToneRequest.withAudioFrequency(Constants.kMusicToneTable.get(toneInput)));
+    m_SpinRightRoller.setControl(cornerRollerMusicToneRequest.withAudioFrequency(Constants.kMusicToneTable.get(toneInput)));
+  }  
 
   @Override
   public void initSendable(SendableBuilder builder){

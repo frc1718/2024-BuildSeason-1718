@@ -9,6 +9,7 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.net.PortForwarder;
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -27,6 +28,8 @@ public class Robot extends TimedRobot {
   private Command m_autonLoading;
   public static boolean robotClimbed=false;
   
+  public boolean hasFilteredAutonRoutines = false;
+
   //Use this to enable / disable reading data from the limelight.
   //The terminal gets clogged up if a limelight isn't actually connected.
   boolean enableLimelight = false;
@@ -51,6 +54,11 @@ public class Robot extends TimedRobot {
     //Only works with the RIO2.
     RobotController.setBrownoutVoltage(Constants.kCustomBrownout);
 
+    //Start a simple recording to the data log.
+    //This should log the contents of the NetworkTables, which should be good for now.
+    DataLogManager.start();
+    //This should log the joysticks as well.
+    DriverStation.startDataLog(DataLogManager.getLog());
   }
 
   @Override
@@ -66,9 +74,6 @@ public class Robot extends TimedRobot {
         m_robotContainer.drivetrain.addVisionMeasurement(limelightMeasurement.pose, limelightMeasurement.timestampSeconds);
       }
     }
-
-    
-
   }
 
   @Override
@@ -89,6 +94,27 @@ public class Robot extends TimedRobot {
     double m_HorizontalAngleToAprilTag = Math.toRadians(LimelightHelpers.getTX(Constants.kLimelightName));
     double m_DistanceToAprilTag = m_DistanceBetweenAprilTagAndLimelight / (Math.tan(m_VerticalAngleToAprilTag));
     System.out.println(m_DistanceToAprilTag); */
+
+    //Check if the robot is in communication with the Driver Station.
+    //If it is, attempt to filter the autonomous routines based on alliance color.
+    if (!hasFilteredAutonRoutines && DriverStation.isDSAttached()) {
+      switch (DriverStation.getAlliance().get()) {
+        case Blue:
+          m_robotContainer.autonSelect.filterSelections("Blue");
+        break;
+        case Red:
+          m_robotContainer.autonSelect.filterSelections("Red");
+        break;
+      }
+
+      //Sort the new list alphabetically.  Also sort the chirp file list.
+      m_robotContainer.autonSelect.sortSelections();
+      m_robotContainer.chirpSelect.sortSelections();
+
+      //After filtering the auton list, set a flag so the filter is only applied once.
+      hasFilteredAutonRoutines = true;
+
+      };
   }
   
   @Override

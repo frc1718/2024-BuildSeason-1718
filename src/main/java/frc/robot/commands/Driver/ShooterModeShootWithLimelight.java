@@ -14,7 +14,6 @@ import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.BeamBreakSubsystem;
 import frc.robot.subsystems.FrontIntakeSubsystem;
@@ -94,10 +93,6 @@ public class ShooterModeShootWithLimelight extends Command {
     addRequirements(m_frontIntakeSubsystem);
     addRequirements(m_drivetrain);
     addRequirements(m_shooterIntakeSubsystem);
-  }
-
-  public Rotation2d helpMe(double degrees) {
-    return new Rotation2d(degrees);
   }
 
   // Called when the command is initially scheduled.

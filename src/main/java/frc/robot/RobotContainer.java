@@ -200,6 +200,7 @@ public class RobotContainer {
     /*  D-Pad Up (While Disabled) - Increment CHIRP File Selection    */
     /*  D-Pad Down (While Disabled) - Decrement CHIRP File Selection  */
     /*  Back (While Disabled) - Play / Stop Current CHIRP Selection   */
+    /*  Start + Right Trigger (While Disabled) - Theremin Mode        */
     /******************************************************************/
 
     operatorController.y().onTrue(new AutoShooterModePos1(frontIntake, shooter));
@@ -217,12 +218,35 @@ public class RobotContainer {
     /**************************************************************************************/
     operatorController.povUp().and(RobotState::isDisabled).onTrue(new InstantCommand(() -> {chirpSelect.incrementSelection();}).andThen(() -> {music.loadMusic(Filesystem.getDeployDirectory() + "/chirp/" + chirpSelect.getCurrentSelectionName() + ".chrp");}).ignoringDisable(true));
     operatorController.povDown().and(RobotState::isDisabled).onTrue(new InstantCommand(() -> {chirpSelect.decrementSelection();}).andThen(() -> {music.loadMusic(Filesystem.getDeployDirectory() + "/chirp/" + chirpSelect.getCurrentSelectionName() + ".chrp");}).ignoringDisable(true));
-    
+
     //Breaking this into multiple lines, because it's a lot to parse.
     operatorController.back().and(RobotState::isDisabled).onTrue(
       new InstantCommand(() -> {music.play();}).ignoringDisable(true))
       .onFalse(new InstantCommand(() -> {music.stop();}).ignoringDisable(true));
     
+    /************************************************************/
+    /* Turn the robot into a Theremin.                          */
+    /* All motors are included.                                 */
+    /* Use the right operator trigger to control the frequency. */
+    /* Currently not usable.                                    */
+    /************************************************************/
+    /*operatorController.start().and(operatorController.rightTrigger(0.1)).and(RobotState::isDisabled).whileTrue(
+      new InstantCommand(() -> {
+        shooter.setMusicToneFrequency(operatorController.getRightTriggerAxis());
+        frontIntake.setMusicToneFrequency(operatorController.getRightTriggerAxis());
+        climber.setMusicToneFrequency(operatorController.getRightTriggerAxis());
+        shooterIntake.setMusicToneFrequency(operatorController.getRightTriggerAxis());
+        cornerRoller.setMusicToneFrequency(operatorController.getRightTriggerAxis());
+        drivetrain.setMusicToneFrequency(operatorController.getRightTriggerAxis());}
+    ).ignoringDisable(true)).onFalse(
+      new InstantCommand(() -> {
+        shooter.setMusicToneFrequency(0);
+        frontIntake.setMusicToneFrequency(0);
+        climber.setMusicToneFrequency(0);
+        shooterIntake.setMusicToneFrequency(0);
+        cornerRoller.setMusicToneFrequency(0);
+        drivetrain.setMusicToneFrequency(0);}).ignoringDisable(true));
+    */
 
     if (Utils.isSimulation()) {
       drivetrain.seedFieldRelative(new Pose2d(new Translation2d(), Rotation2d.fromDegrees(90)));
@@ -278,6 +302,8 @@ public class RobotContainer {
     frontIntake.addToOrchestra(music);
     climber.addToOrchestra(music);
     shooterIntake.addToOrchestra(music);
+    cornerRoller.addToOrchestra(music);
+    drivetrain.addToOrchestra(music);
   }
 
   public RobotContainer() {
