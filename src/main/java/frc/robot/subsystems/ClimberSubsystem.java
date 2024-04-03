@@ -11,17 +11,16 @@ import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DutyCycleOut;
+import com.ctre.phoenix6.controls.MusicTone;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
-//import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Robot;
-import frc.robot.RobotContainer;
 
 /**
  * The climber subsystem utilizies cutting edge <i>Pi-Climb®</i> technology to lift the robot off the ground.
@@ -40,6 +39,9 @@ public class ClimberSubsystem extends SubsystemBase {
   private final PositionVoltage climberMoveRequest = new PositionVoltage(0).withSlot(0);
   
   private final DutyCycleOut ClimberVoltageRequest = new DutyCycleOut(0, false, false, false, false);
+  
+  private final MusicTone climberMusicToneRequest = new MusicTone(0);
+
   /**
    * Constructs an instance of the climber subsystem.
    * The motor configuration for the climber is done here.
@@ -226,8 +228,17 @@ public class ClimberSubsystem extends SubsystemBase {
    * @param robotOrchestra The Orchestra to add the motors as instruments to.
    */
   public void addToOrchestra(Orchestra robotOrchestra) {
-    robotOrchestra.addInstrument(m_LeftClimb);
-    robotOrchestra.addInstrument(m_RightClimb);
+    robotOrchestra.addInstrument(m_LeftClimb, 6);
+    robotOrchestra.addInstrument(m_RightClimb, 6);
+  }
+
+  /**
+   * Sets all motors in the climber subsystem to play a tone at the requested frequency.
+   * @param toneInput A percentage, mapped to kMusicToneTable lookup table.
+   */
+  public void setMusicToneFrequency(double toneInput) {
+    m_LeftClimb.setControl(climberMusicToneRequest.withAudioFrequency(Constants.kMusicToneTable.get(toneInput)));
+    m_RightClimb.setControl(climberMusicToneRequest.withAudioFrequency(Constants.kMusicToneTable.get(toneInput)));
   }
 
   @Override

@@ -436,6 +436,8 @@ public class Constants {
     public static final InterpolatingDoubleTreeMap kShooterSpeedTable = new InterpolatingDoubleTreeMap();
     public static final InterpolatingDoubleTreeMap kShooterArmTable = new InterpolatingDoubleTreeMap();
 
+    public static final InterpolatingDoubleTreeMap kMusicToneTable = new InterpolatingDoubleTreeMap();
+
     /*
     static {
         //Populating the shooter speed table.  Values are in rotations per second.
@@ -459,5 +461,32 @@ public class Constants {
         kShooterArmTable.put(4.25, -0.0190); //Blue -0.0175      Old tuning -0.0220
         kShooterArmTable.put(4.79, -0.0165); //Blue -0.0165      Old tuning -0.0165
         kShooterArmTable.put(5.28, -0.0160); // Blue -0.0160      Old tuning -0.0160
+    }
+
+    static {
+        //Populating the music tone frequency table.
+        //Keys are in percent (0 - 1).
+        //Values are in Hertz.
+        kMusicToneTable.put(0.0, 5.68);
+        kMusicToneTable.put(0.05, 10.0);
+        kMusicToneTable.put(0.1, 17.59);
+        kMusicToneTable.put(0.15, 30.95);
+        kMusicToneTable.put(0.2, 54.46);
+        kMusicToneTable.put(0.25, 95.81);
+        kMusicToneTable.put(0.3, 168.56);
+        kMusicToneTable.put(0.35, 296.56);
+        kMusicToneTable.put(0.4, 521.76);
+        kMusicToneTable.put(0.45, 917.96);
+        kMusicToneTable.put(0.5, 1615.02);
+        kMusicToneTable.put(0.55, 2841.40);
+        kMusicToneTable.put(0.6, 5000.00);
+        kMusicToneTable.put(0.65, 6875.00);
+        kMusicToneTable.put(0.7, 8750.00);
+        kMusicToneTable.put(0.75, 10625.00);
+        kMusicToneTable.put(0.8, 12500.00);
+        kMusicToneTable.put(0.85, 14375.00);
+        kMusicToneTable.put(0.9, 16250.00);
+        kMusicToneTable.put(0.95, 18125.00);
+        kMusicToneTable.put(1.00, 20000.00);
     }
 }

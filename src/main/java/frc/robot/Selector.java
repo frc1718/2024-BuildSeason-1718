@@ -2,6 +2,8 @@ package frc.robot;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Iterator;
 
 import edu.wpi.first.networktables.NTSendable;
 import edu.wpi.first.networktables.NTSendableBuilder;
@@ -34,13 +36,13 @@ public class Selector implements NTSendable{
      */
     public Selector(File folderPath, String extension) {
         for (var i : folderPath.listFiles()){
-            if(i.isFile() && i.getName().endsWith(extension)){
+            if(i.isFile() && i.getName().endsWith(extension)) {
                 //There may be an easier way to strip the extension from the file name.
                 this.selectionNames.add(i.getName().substring(0, i.getName().lastIndexOf('.')));
             }
         }
 
-        if (this.selectionNames.size() > 0){
+        if (this.selectionNames.size() > 0) {
             //Set the current selection name to index 0, if the array isn't empty.
             this.setCurrentSelectionName();
         }
@@ -60,11 +62,11 @@ public class Selector implements NTSendable{
      * The index cannot be less than 0, or greater than the size of the list.
      */
     public void decrementSelection() {
-        if (this.currentSelection > 0){
+        if (this.currentSelection > 0) {
             //If the current auton is not at zero, decrement the number.
             this.currentSelection--;
         }
-        else if (this.currentSelection < 0){
+        else if (this.currentSelection < 0) {
             //This shouldn't happen, but fix it if it did.
             this.currentSelection = 0;
         }
@@ -76,11 +78,11 @@ public class Selector implements NTSendable{
      * The index cannot be less than 0, or greater than the size of the list.
      */
     public void incrementSelection() {
-        if (this.currentSelection < this.selectionNames.size() - 1){
+        if (this.currentSelection < this.selectionNames.size() - 1) {
             //If the current auton is not at the maximum, increment the number.
             this.currentSelection++;
         }
-        else if (this.currentSelection > this.selectionNames.size() - 1){
+        else if (this.currentSelection > this.selectionNames.size() - 1) {
             //This shouldn't happen, but fix it if it did.
             this.currentSelection = this.selectionNames.size() - 1;
         }
@@ -107,6 +109,53 @@ public class Selector implements NTSendable{
      */
     public void setCurrentSelectionName() {
         this.currentSelectionName = this.selectionNames.get(this.currentSelection);
+    }
+
+    /**
+     * Filters the current selector list to those that include the String passed into this function.
+     * Currently, the String just needs to be included in the selection; position does not matter.
+     * This method does not return the filtered list, but changes it inside the class.
+     * @param filterCriteria Filter out all of the selections in the list that do not include this String.
+     */
+    public void filterSelections(String filterCriteria) {
+        //Creating an iterator to move through each selection in the selection list.
+        Iterator<String> filter = this.selectionNames.iterator();
+        
+        //It could be the lack of sleep, but I cannot figure out a good name for this variable.
+        //It's just a placeholder for the current iteration, but currentSelection is already used in the class.
+        String toCheck;
+
+        int j = 0;	
+
+        while(filter.hasNext()) {
+            toCheck = filter.next();
+            
+            //Delete the selection if it does not contain the filter criteria string.
+            if (!toCheck.contains(filterCriteria)) {
+                filter.remove();
+            }
+        }
+        
+        /********************************************************************************/
+        /* Alternate method, if the iterator doesn't work as expected.				    */
+        /* for (String i : this.selectionNames) { 						                */
+        /*	//Delete the selection if it does not contain the filter criteria string.   */
+        /*	if (!i.contains(filterCriteria)) {						                    */
+        /*		this.selectionNames.remove(j);						                    */
+        /*	}										                                    */
+        /*	//Increment the counter, to keep track of the element to remove.		    */
+        /*	j++;										                                */
+        /* }											                                */
+        /********************************************************************************/
+    }
+
+    /**
+     * Sorts the current selector list alphabetically.
+     * At least, I <i>think</i> alphabetically.
+     */
+    public void sortSelections() {
+        //I would assume that the naturalOrder is alphabetical.
+        this.selectionNames.sort(Comparator.naturalOrder());
     }
 
     @Override
