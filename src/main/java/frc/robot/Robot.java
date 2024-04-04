@@ -93,7 +93,7 @@ public class Robot extends TimedRobot {
     /*double m_VerticalAngleToAprilTag = Math.toRadians(LimelightHelpers.getTY(Constants.kLimelightName));
     double m_HorizontalAngleToAprilTag = Math.toRadians(LimelightHelpers.getTX(Constants.kLimelightName));
     double m_DistanceToAprilTag = m_DistanceBetweenAprilTagAndLimelight / (Math.tan(m_VerticalAngleToAprilTag));
-    System.out.println(m_DistanceToAprilTag); */
+    System.out.println(m_DistanceToAprilTag);*/
 
     //Check if the robot is in communication with the Driver Station.
     //If it is, attempt to filter the autonomous routines based on alliance color.
@@ -121,6 +121,7 @@ public class Robot extends TimedRobot {
   public void disabledExit() {}
 
   @Override
+
   public void autonomousInit() {
     //Add a 10ms wait before returning the selected autonomous routine.
     //Should help reduce the delay between the official beginning of autonomous and the start of the PathPlanner autonomous.

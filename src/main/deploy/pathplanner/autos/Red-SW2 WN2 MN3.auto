@@ -24,7 +24,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "ShooterModePodium"
+                  "name": "AutoShooterModePodium"
                 }
               }
             ]
@@ -45,13 +45,13 @@
         {
           "type": "named",
           "data": {
-            "name": "NotePosition"
+            "name": "QuickNotePosition"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "ShooterModePodium"
+            "name": "AutoShooterModePodium"
           }
         },
         {
@@ -114,7 +114,7 @@
         {
           "type": "named",
           "data": {
-            "name": "ShooterModePodium"
+            "name": "AutoShooterModePodium"
           }
         },
         {

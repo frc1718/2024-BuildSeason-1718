@@ -113,7 +113,7 @@ public class Constants {
     public static final double kShooterArmPodiumPos = -0.0470;  //Blue -0.0473
     public static final double kShooterArmAmpPos = 0.135;   //0.135
     public static final double kShooterArmHomePos = -0.136; //-0.136
-    public static final double kShooterArmAutoPodiumPos = -0.0468;  //-0.0388
+    public static final double kShooterArmAutoPodiumPos = -0.0508;  //-0.0388
     public static final double kShooterArmAutoPos1Pos = -0.0240;  //-0.0388
     public static final double kShooterArmAutoPos2Pos = -0.0473;    //-0.0388
     public static final double kShooterArmAutoPos3Pos = -0.0177;    //-0.0197
@@ -149,8 +149,8 @@ public class Constants {
     public static final double kShooterSubwooferSpeed = 20;  //Was 70
     public static final int kShooterPodiumSpeed = 28;  //Was 70
     public static final int kShooterAmpSpeed = 10;  //Was 20, at 7 for testing in build room
-    public static final int kShooterLimelightSpeed = 30;    //10 for testing in build room
-    public static final int kShooterIdleSpeed = 30; 
+    public static final int kShooterLimelightSpeed = 35;    //10 for testing in build room
+    public static final int kShooterIdleSpeed = 34; 
     public static final int kShooterMaxSpeed = 45;
     public static final int kShooterStopSpeed = 0;
     public static final int kShooterPassSpeed = 32;
@@ -391,7 +391,7 @@ public class Constants {
     //Used to be a pose, but only the X and Y are needed.  Changed to a translation to clean up the actual calculation.
     public static final Translation2d kBlueSpeakerLocation = new Translation2d(0.0, 5.55);
     public static final Translation2d kRedSpeakerLocation = new Translation2d(16.55, 5.55);
-    public static final Rotation2d kBluePassAngle = Rotation2d.fromDegrees(146.5);
+    public static final Rotation2d kBluePassAngle = Rotation2d.fromDegrees(-33.5);
     public static final Rotation2d kRedPassAngle = Rotation2d.fromDegrees(33.5);
     public static final Rotation2d kRedAmpAngle = Rotation2d.fromDegrees(90.0);
     public static final Rotation2d kBlueAmpAngle = Rotation2d.fromDegrees(-90.0);
@@ -454,13 +454,13 @@ public class Constants {
     static {
         //Populating the shooter arm position table.  Values are in rotations.
         //(Distance in meters, Angle in rotations) // 4.36 was high, 
-        kShooterArmTable.put(2.0066, -0.0473); //Blue -0.0473      Old tuning -0.0473
-        kShooterArmTable.put(2.251, -0.0443); //Blue -0.0443      Old tuning -0.0443
-        kShooterArmTable.put(2.83, -0.0330); //Blue -0.034      Old tuning -0.037
-        kShooterArmTable.put(3.6, -0.0255); //Blue -0.0225      Old tuning -0.0295
-        kShooterArmTable.put(4.25, -0.0190); //Blue -0.0175      Old tuning -0.0220
-        kShooterArmTable.put(4.79, -0.0165); //Blue -0.0165      Old tuning -0.0165
-        kShooterArmTable.put(5.28, -0.0160); // Blue -0.0160      Old tuning -0.0160
+        kShooterArmTable.put(2.0066, -0.0503); //Blue -0.0473      Old tuning -0.0473
+        kShooterArmTable.put(2.251, -0.0473); //Blue -0.0443      Old tuning -0.0443
+        kShooterArmTable.put(2.83, -0.0360); //Blue -0.034      Old tuning -0.037        -0.033
+        kShooterArmTable.put(3.6, -0.0285); //Blue -0.0225      Old tuning -0.0295      -0.0255
+        kShooterArmTable.put(4.25, -0.0220); //Blue -0.0175      Old tuning -0.0220      -0.019
+        kShooterArmTable.put(4.79, -0.0195); //Blue -0.0165      Old tuning -0.0165       
+        kShooterArmTable.put(5.28, -0.0190); // Blue -0.0160      Old tuning -0.0160
     }
 
     static {
