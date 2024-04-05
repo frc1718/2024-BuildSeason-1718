@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 8.25,
-        "y": 5.97
+        "x": 8.240655712080656,
+        "y": 5.7721615443230885
       },
       "prevControl": {
-        "x": 6.965564788272434,
-        "y": 6.005145324576365
+        "x": 6.95622050035309,
+        "y": 5.807306868899453
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "BMN4"
     }
   ],
   "rotationTargets": [],

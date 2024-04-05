@@ -52,7 +52,7 @@ public class Drive extends Command {
   private double m_AngleToAprilTag = 0;
   private double m_CurrentRobotHeading;
   private double m_NewAngleHeading;
-  private PIDController aimPID = new PIDController(0.058, 0, 0.0013); // 0.055, 0, 0.0013
+  private PIDController aimPID = new PIDController(0.056, 0, 0.0013); // 0.055, 0, 0.0013
   private double limeLightController = 0;
   Trigger m_DriverLeftTrigger;
   private boolean LimeLightShootingFlag = false;

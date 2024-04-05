@@ -116,7 +116,7 @@ public class Constants {
     public static final double kShooterArmAutoPodiumPos = -0.0508;  //-0.0388
     public static final double kShooterArmAutoPos1Pos = -0.0240;  //-0.0388
     public static final double kShooterArmAutoPos2Pos = -0.0473;    //-0.0388
-    public static final double kShooterArmAutoPos3Pos = -0.0177;    //-0.0197
+    public static final double kShooterArmAutoPos3Pos = -0.0157;    //-0.0197     -0.0177
     public static final double kShooterArmPreClimbPos = 0.120;  //0.135
     public static final double kShooterArmTolerancePos = 0.005;  //0.01
     public static final double kShooterArmSpitPos = -0.06;  //-0.06
