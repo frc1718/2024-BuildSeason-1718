@@ -150,7 +150,7 @@ public class Drive extends Command {
           SmartDashboard.putNumber("ROTATION TARGET", m_RotationTarget.getDegrees());
           SmartDashboard.putNumber("PID Out", driveFacingAngle.HeadingController.getLastAppliedOutput());
         }
-    } else if (m_ClimberSubsystem.getPreClimbActuated()) {
+    } /*else if (m_ClimberSubsystem.getPreClimbActuated()) {
 
         driveRequest = "robotCentric";
         m_LimelightStateMachine = 1;
@@ -166,9 +166,9 @@ public class Drive extends Command {
             m_RotationTarget = Constants.kBlueFarClimbAngle;
             break;
             default:
-            m_RotationTarget = new Rotation2d(0.0); */
+            m_RotationTarget = new Rotation2d(0.0); 
 
-    } else if ((!m_ShooterSubsystem.getShooterModeDoingSomething()) && m_Controller.leftBumper().getAsBoolean() && (LimelightHelpers.getTV(Constants.kLimelightName) || LimeLightShootingFlag)) {
+    }*/ else if ((!m_ShooterSubsystem.getShooterModeDoingSomething()) && m_Controller.leftBumper().getAsBoolean() && (LimelightHelpers.getTV(Constants.kLimelightName) || LimeLightShootingFlag)) {
         
         driveRequest = "limeLightAim";
         LimeLightShootingFlag = true;
@@ -209,12 +209,12 @@ public class Drive extends Command {
           .withVelocityY(-m_Controller.getLeftX() * MaxSpeed * driveSign)
           .withTargetDirection(m_RotationTarget));
       break;
-      case "robotCentric":  //Enter 'First-Person Mode'
+      /*case "robotCentric":  //Enter 'First-Person Mode'
         m_Drivetrain.setControl(robotCentric.withVelocityX(-m_Controller.getLeftY() * MaxSpeed * driveSign) // Drive forward with
                                                                                             // negative Y (forward)
           .withVelocityY(-m_Controller.getLeftX() * MaxSpeed * driveSign) // Drive left with negative X (left)
           .withRotationalRate(-m_Controller.getRightX() * MaxAngularRate));
-      break;
+      break;*/
       case "limeLightAim":  //Use the limelight to aim to an AprilTag
 
            limeLightController = aimPID.calculate(m_Drivetrain.getPigeon2().getAngle(), m_NewAngleHeading);
