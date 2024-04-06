@@ -8,10 +8,10 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 14.652662457964,
-        "y": 6.135541827289076
+        "x": 14.42722885445771,
+        "y": 5.937080445589463
       },
-      "isLocked": true,
+      "isLocked": false,
       "linkedName": "RSW2"
     },
     {
@@ -20,11 +20,11 @@
         "y": 6.75715268691593
       },
       "prevControl": {
-        "x": 14.441867400141765,
-        "y": 6.323851734717159
+        "x": 14.500526143909429,
+        "y": 6.318226350738416
       },
       "nextControl": null,
-      "isLocked": true,
+      "isLocked": false,
       "linkedName": "RWN3"
     }
   ],
