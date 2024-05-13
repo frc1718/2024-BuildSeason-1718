@@ -61,7 +61,7 @@ public class Constants {
     public static final int kMotorEnableLeftShooterSpin = 1;
     public static final int kMotorEnableRightShooterSpin = 1;
     public static final int kMotorEnableShooterIntakeSpin = 1;
-    public static final int kMotorEnableShooterArmRotate = 1;
+    public static final int kMotorEnableShooterArmRotate = 0;
     public static final int kMotorEnableClimber = 1;
     public static final int kMotorEnableLeftRollerSpin = 1;
     public static final int kMotorEnableRightRollerSpin = 1;
@@ -109,19 +109,19 @@ public class Constants {
 
 
     // Start Positions
-    public static final double kShooterArmSubwooferPos = -0.1; //-0.11
-    public static final double kShooterArmPodiumPos = -0.0470;  //Blue -0.0473
-    public static final double kShooterArmAmpPos = 0.135;   //0.135
+    public static final double kShooterArmSubwooferPos = -0.136; //-0.11
+    public static final double kShooterArmPodiumPos = -0.136;  //Blue -0.0473
+    public static final double kShooterArmAmpPos = -0.136;   //0.135
     public static final double kShooterArmHomePos = -0.136; //-0.136
-    public static final double kShooterArmAutoPodiumPos = -0.0508;  //-0.0388
-    public static final double kShooterArmAutoPos1Pos = -0.0240;  //-0.0388
-    public static final double kShooterArmAutoPos2Pos = -0.0473;    //-0.0388
-    public static final double kShooterArmAutoPos3Pos = -0.0157;    //-0.0197     -0.0177
-    public static final double kShooterArmPreClimbPos = 0.120;  //0.135
-    public static final double kShooterArmTolerancePos = 0.005;  //0.01
-    public static final double kShooterArmSpitPos = -0.06;  //-0.06
-    public static final double kShooterArmTrapPos = 0.135;  //0.135
-    public static final double kShooterArmPassPos = -0.0670;  
+    public static final double kShooterArmAutoPodiumPos = -0.136;  //-0.0388
+    public static final double kShooterArmAutoPos1Pos = -0.136;  //-0.0388
+    public static final double kShooterArmAutoPos2Pos = -0.136;    //-0.0388
+    public static final double kShooterArmAutoPos3Pos = -0.136;    //-0.0197     -0.0177
+    public static final double kShooterArmPreClimbPos = -0.136;  //0.135
+    public static final double kShooterArmTolerancePos = -0.136;  //0.01
+    public static final double kShooterArmSpitPos = -0.136;  //-0.06
+    public static final double kShooterArmTrapPos = -0.136;  //0.135
+    public static final double kShooterArmPassPos = -0.136;  
     public static final double kShooterIntakeTrapRotations = 31;
     public static final double kShooterIntakeRotateHomePos = -2;
     public static final double kShooterIntakeSpinPositionNote = 0;
@@ -148,16 +148,16 @@ public class Constants {
     // Start Speeds
     public static final double kShooterSubwooferSpeed = 20;  //Was 70
     public static final int kShooterPodiumSpeed = 28;  //Was 70
-    public static final int kShooterAmpSpeed = 10;  //Was 20, at 7 for testing in build room
+    public static final int kShooterAmpSpeed = 8;  //Was 20, at 7 for testing in build room
     public static final int kShooterLimelightSpeed = 35;    //10 for testing in build room
-    public static final int kShooterIdleSpeed = 34; 
+    public static final int kShooterIdleSpeed = 28; 
     public static final int kShooterMaxSpeed = 45;
     public static final int kShooterStopSpeed = 0;
-    public static final int kShooterPassSpeed = 32;
+    public static final int kShooterPassSpeed = 34;
     public static final int kShooterAutoPodiumSpeed = 28;
-    public static final int kShooterAutoPos1Speed = 40;
-    public static final int kShooterAutoPos2Speed = 40;
-    public static final int kShooterAutoPos3Speed = 40;
+    public static final int kShooterAutoPos1Speed = 20;
+    public static final int kShooterAutoPos2Speed = 20;
+    public static final int kShooterAutoPos3Speed = 20;
     
     public static final int kShooterIntakeTrapSpeed = 0;
     public static final int kShooterIntakeSuckSpeed = 90;

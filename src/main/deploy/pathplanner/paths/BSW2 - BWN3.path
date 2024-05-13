@@ -1,0 +1,52 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 1.39,
+        "y": 5.574358195791997
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.878732900322944,
+        "y": 6.010377735041184
+      },
+      "isLocked": false,
+      "linkedName": "BSW2"
+    },
+    {
+      "anchor": {
+        "x": 2.49,
+        "y": 6.76
+      },
+      "prevControl": {
+        "x": 2.230559889691208,
+        "y": 6.4355020138611705
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "BWN3"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 4.15,
+    "maxAcceleration": 4.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 26.32,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "Blue - From Subwoofer",
+  "previewStartingState": {
+    "rotation": 0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

@@ -204,7 +204,7 @@ public class Drive extends Command {
     }
     
     switch (driveRequest) {
-      case "driveFacingAngle":  //Always face the rotation target
+      /*case "driveFacingAngle":  //Always face the rotation target
         m_Drivetrain.setControl(driveFacingAngle.withVelocityX(-m_Controller.getLeftY() * MaxSpeed * driveSign)
           .withVelocityY(-m_Controller.getLeftX() * MaxSpeed * driveSign)
           .withTargetDirection(m_RotationTarget));
@@ -214,7 +214,7 @@ public class Drive extends Command {
                                                                                             // negative Y (forward)
           .withVelocityY(-m_Controller.getLeftX() * MaxSpeed * driveSign) // Drive left with negative X (left)
           .withRotationalRate(-m_Controller.getRightX() * MaxAngularRate));
-      break;*/
+      break;*
       case "limeLightAim":  //Use the limelight to aim to an AprilTag
 
            limeLightController = aimPID.calculate(m_Drivetrain.getPigeon2().getAngle(), m_NewAngleHeading);
@@ -233,7 +233,7 @@ public class Drive extends Command {
           .withRotationalRate(-limeLightController * MaxAngularRate)); // Drive counterclockwise with negative X (left) 
       
       
-       break;                                                              
+       break;*/                                                              
       default:  //Just drive normally
         m_Drivetrain.setControl(drive.withVelocityX(-m_Controller.getLeftY() * MaxSpeed * driveSign) // Drive forward with
                                                                                             // negative Y (forward)

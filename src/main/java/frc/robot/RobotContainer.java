@@ -139,17 +139,21 @@ public class RobotContainer {
     /*  D-Pad Down (While Disabled) - Decrement & Select Autonomous     */
     /********************************************************************/
 
-    driveController.y().whileTrue(new SuckNoFront(frontIntake, shooter, shooterIntake, beamBreak)).onFalse(Commands.parallel(new StowArmAndIntake(frontIntake, shooter), new NotePosition(shooterIntake, beamBreak)));
-    driveController.b().whileTrue(new ShootTrap(shooterIntake));
-    driveController.x().whileTrue(drivetrain.applyRequest(() -> brake));
+    //driveController.y().whileTrue(new SuckNoFront(frontIntake, shooter, shooterIntake, beamBreak)).onFalse(Commands.parallel(new StowArmAndIntake(frontIntake, shooter), new NotePosition(shooterIntake, beamBreak)));
+    //driveController.b().whileTrue(new ShootTrap(shooterIntake));
+    //driveController.x().whileTrue(drivetrain.applyRequest(() -> brake));
     driveController.a().and(RobotState::isDisabled).whileTrue(new SetMotorsToCoast(climber, shooter, frontIntake, shooterIntake).ignoringDisable(true));    
+    driveController.a().onTrue(new ShooterModeAmp(frontIntake, shooter));
+    driveController.b().onTrue(new ShooterModeSubwoofer(frontIntake, shooter));
+    driveController.y().onTrue(new ShooterModePass(frontIntake, shooter));
+    driveController.x().onTrue(new ShooterModePodium(frontIntake, shooter));
 
     driveController.leftBumper().onTrue(new Shoot(frontIntake, shooter, climber, shooterIntake, beamBreak, variable, drivetrain)).onFalse(Commands.parallel(new StowArmAndIntake(frontIntake, shooter), new NotePosition(shooterIntake, beamBreak)));
     driveController.rightBumper().onTrue(new Suck(frontIntake, shooter, shooterIntake, beamBreak, cornerRoller)).onFalse(Commands.parallel(new StowArmAndIntake(frontIntake, shooter), new NotePosition(shooterIntake, beamBreak)));
     driveController.leftTrigger(.5).onTrue(new Climb(climber,frontIntake,shooter));
     driveController.rightTrigger(.5).whileTrue(new Spit(frontIntake, shooter, shooterIntake, beamBreak, cornerRoller)).onFalse(Commands.parallel(new StowArmAndIntake(frontIntake, shooter), new NotePosition(shooterIntake, beamBreak))); 
 
-
+    driveController.start().onTrue(new Home(climber, shooter, frontIntake, shooterIntake));
     //driveController.back().onTrue(new ShooterModeShootWithLimelight(frontIntake, shooter, drivetrain, shooterIntake, beamBreak));
     
     // Schedules reset the field - Binds centric heading on back and start button push
