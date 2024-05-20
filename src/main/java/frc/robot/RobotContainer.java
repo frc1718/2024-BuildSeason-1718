@@ -78,7 +78,7 @@ public class RobotContainer {
   
   // Set up of the driver and operator controller
   private final CommandXboxController driveController = new CommandXboxController(Constants.kDriverControllerPort);
-  private final CommandXboxController operatorController = new CommandXboxController(Constants.kOperatorControllerPort);
+  //private final CommandXboxController operatorController = new CommandXboxController(Constants.kOperatorControllerPort);
 
   /* Setting up bindings for necessary control of the swerve drive platform */
   /* The drivetrain is public so the limelight pose can be added to it in Robot.java. */
@@ -207,12 +207,12 @@ public class RobotContainer {
     /*  Start + Right Trigger (While Disabled) - Theremin Mode        */
     /******************************************************************/
 
-    operatorController.y().onTrue(new AutoShooterModePos1(frontIntake, shooter));
+    /*operatorController.y().onTrue(new AutoShooterModePos1(frontIntake, shooter));
     operatorController.b().onTrue(new ShooterModeAmp(frontIntake, shooter));
     operatorController.x().onTrue(new ShooterModePass(frontIntake, shooter));
     operatorController.a().onTrue(new ShooterModeSubwoofer(frontIntake, shooter));
     operatorController.leftBumper().and(operatorController.rightBumper()).onTrue(new PreClimb(climber,shooter,frontIntake, shooterIntake));
-    operatorController.start().onTrue(new Home(climber, shooter, frontIntake, shooterIntake));
+    operatorController.start().onTrue(new Home(climber, shooter, frontIntake, shooterIntake));*/
 
     /**************************************************************************************/
     /* Setting up bindings for selecting a CHIRP file.                                    */
@@ -220,13 +220,13 @@ public class RobotContainer {
     /* While disabled, press the back button to load the selected file and play the song. */
     /* Press the back button again to stop the song.                                      */
     /**************************************************************************************/
-    operatorController.povUp().and(RobotState::isDisabled).onTrue(new InstantCommand(() -> {chirpSelect.incrementSelection();}).andThen(() -> {music.loadMusic(Filesystem.getDeployDirectory() + "/chirp/" + chirpSelect.getCurrentSelectionName() + ".chrp");}).ignoringDisable(true));
-    operatorController.povDown().and(RobotState::isDisabled).onTrue(new InstantCommand(() -> {chirpSelect.decrementSelection();}).andThen(() -> {music.loadMusic(Filesystem.getDeployDirectory() + "/chirp/" + chirpSelect.getCurrentSelectionName() + ".chrp");}).ignoringDisable(true));
+    //operatorController.povUp().and(RobotState::isDisabled).onTrue(new InstantCommand(() -> {chirpSelect.incrementSelection();}).andThen(() -> {music.loadMusic(Filesystem.getDeployDirectory() + "/chirp/" + chirpSelect.getCurrentSelectionName() + ".chrp");}).ignoringDisable(true));
+    //operatorController.povDown().and(RobotState::isDisabled).onTrue(new InstantCommand(() -> {chirpSelect.decrementSelection();}).andThen(() -> {music.loadMusic(Filesystem.getDeployDirectory() + "/chirp/" + chirpSelect.getCurrentSelectionName() + ".chrp");}).ignoringDisable(true));
 
     //Breaking this into multiple lines, because it's a lot to parse.
-    operatorController.back().and(RobotState::isDisabled).onTrue(
-      new InstantCommand(() -> {music.play();}).ignoringDisable(true))
-      .onFalse(new InstantCommand(() -> {music.stop();}).ignoringDisable(true));
+    //operatorController.back().and(RobotState::isDisabled).onTrue(
+      //new InstantCommand(() -> {music.play();}).ignoringDisable(true))
+      //.onFalse(new InstantCommand(() -> {music.stop();}).ignoringDisable(true));
     
     /************************************************************/
     /* Turn the robot into a Theremin.                          */

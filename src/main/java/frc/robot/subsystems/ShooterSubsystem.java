@@ -194,8 +194,9 @@ public class ShooterSubsystem extends SubsystemBase {
    * True or false.
    */
   public boolean getShooterUpToSpeed(double desiredSpeed) {
-    if (Constants.kPrintSubsystemShooterSubsystem){System.out.println("ShooterSubsystem: getShooterUpToSpeed");}
-    return ((Math.abs(this.getLeftShooterSpeed()-desiredSpeed) <= Constants.kShooterSpeedTolerance)) && (Math.abs(this.getRightShooterSpeed()-desiredSpeed*1.0) <= Constants.kShooterSpeedTolerance);
+    //if (Constants.kPrintSubsystemShooterSubsystem){System.out.println("ShooterSubsystem: getShooterUpToSpeed");}
+    //return ((Math.abs(this.getLeftShooterSpeed()-desiredSpeed) <= Constants.kShooterSpeedTolerance)) && (Math.abs(this.getRightShooterSpeed()-desiredSpeed*1.0) <= Constants.kShooterSpeedTolerance);
+    return true;
   }
 
   /**
@@ -216,9 +217,9 @@ public class ShooterSubsystem extends SubsystemBase {
    * True or false.
    */
   public Boolean getShooterArmInPosition(double desiredPosition) {
-      if (Constants.kPrintSubsystemShooterSubsystem){System.out.println("ShooterSubsystem: getShooterArmInPosition");}
-      return ((this.getShooterArmPosition() > (desiredPosition - Constants.kShooterArmTolerancePos)) && (this.getShooterArmPosition() < (desiredPosition + Constants.kShooterArmTolerancePos)));
-
+      //if (Constants.kPrintSubsystemShooterSubsystem){System.out.println("ShooterSubsystem: getShooterArmInPosition");}
+      //return ((this.getShooterArmPosition() > (desiredPosition - Constants.kShooterArmTolerancePos)) && (this.getShooterArmPosition() < (desiredPosition + Constants.kShooterArmTolerancePos)));
+      return true;
     }
 
   /**
